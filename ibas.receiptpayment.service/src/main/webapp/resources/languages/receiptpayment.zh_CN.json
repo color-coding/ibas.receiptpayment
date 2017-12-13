@@ -1,0 +1,15 @@
+{
+  "receiptpayment": "收款&付款",
+  "receiptpayment_icon": "sap-icon://loan",
+  "receiptpayment_func_payment": "付款",
+  "receiptpayment_app_payment_list": "付款列表",
+  "receiptpayment_app_payment_choose": "付款选择",
+  "receiptpayment_app_payment_view": "付款查看",
+  "receiptpayment_app_payment_edit": "付款编辑",
+  "receiptpayment_func_receipt": "收款",
+  "receiptpayment_app_receipt_list": "收款列表",
+  "receiptpayment_app_receipt_choose": "收款选择",
+  "receiptpayment_app_receipt_view": "收款查看",
+  "receiptpayment_app_receipt_edit": "收款编辑",
+  "receiptpayment_closing_delimiter": "----结束----"
+}
