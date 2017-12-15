@@ -30,6 +30,16 @@ export interface IBORepositoryBusinessPartner extends IBORepositoryApplication {
      */
     download(caller: DownloadFileCaller<Blob>);
     /**
+     * 查询 业务伙伴余额记录
+     * @param fetcher 查询者
+     */
+    fetchBusinessPartnerBalanceJournal(fetcher: FetchCaller<bo.IBusinessPartnerBalanceJournal>);
+    /**
+     * 保存 业务伙伴余额记录
+     * @param saver 保存者
+     */
+    saveBusinessPartnerBalanceJournal(saver: SaveCaller<bo.IBusinessPartnerBalanceJournal>);
+    /**
      * 查询 业务伙伴组
      * @param fetcher 查询者
      */

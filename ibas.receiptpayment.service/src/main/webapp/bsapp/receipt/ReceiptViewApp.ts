@@ -49,7 +49,7 @@ export class ReceiptViewApp extends ibas.BOViewService<IReceiptViewView> {
     run(): void;
     run(data: bo.Receipt): void;
     run(): void {
-        if (!(arguments[0] instanceof bo.Receipt)) {
+        if (ibas.objects.instanceOf(arguments[0], bo.Receipt)) {
             this.viewData = arguments[0];
             this.show();
         } else {
@@ -102,7 +102,7 @@ export class ReceiptLinkServiceMapping extends ibas.BOLinkServiceMapping {
         this.boCode = ReceiptViewApp.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
-    /** 创建服务并运行 */
+    /** 创建服务实例 */
     create(): ibas.IService<ibas.IBOLinkServiceCaller> {
         return new ReceiptViewApp();
     }

@@ -49,7 +49,7 @@ export class PaymentViewApp extends ibas.BOViewService<IPaymentViewView> {
     run(): void;
     run(data: bo.Payment): void;
     run(): void {
-        if (!(arguments[0] instanceof bo.Payment)) {
+        if (ibas.objects.instanceOf(arguments[0], bo.Payment)) {
             this.viewData = arguments[0];
             this.show();
         } else {
@@ -102,7 +102,7 @@ export class PaymentLinkServiceMapping extends ibas.BOLinkServiceMapping {
         this.boCode = PaymentViewApp.BUSINESS_OBJECT_CODE;
         this.description = ibas.i18n.prop(this.name);
     }
-    /** 创建服务并运行 */
+    /** 创建服务实例 */
     create(): ibas.IService<ibas.IBOLinkServiceCaller> {
         return new PaymentViewApp();
     }
