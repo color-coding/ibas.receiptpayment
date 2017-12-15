@@ -51,7 +51,9 @@ export class ReceiptEditApp extends ibas.BOEditApplication<IReceiptEditView, bo.
         this.view.showReceiptItems(this.editData.receiptItems.filterDeleted());
     }
     /** 运行,覆盖原方法 */
-    run(...args: any[]): void {
+    run(): void;
+    run(data: bo.Receipt): void;
+    run(): void {
         let that: this = this;
         if (ibas.objects.instanceOf(arguments[0], bo.Receipt)) {
             // 尝试重新查询编辑对象
@@ -86,7 +88,7 @@ export class ReceiptEditApp extends ibas.BOEditApplication<IReceiptEditView, bo.
                 return;
             }
         }
-        super.run.apply(this, args);
+        super.run.apply(this, arguments);
     }
     /** 待编辑的数据 */
     protected editData: bo.Receipt;
