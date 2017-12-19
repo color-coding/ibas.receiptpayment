@@ -21,14 +21,14 @@ import {
     IBOSimpleLine
 } from "ibas/index";
 import {
-    emBusinessPartnerType
-} from "3rdparty/businesspartner/index";
+    emItemType
+} from "3rdparty/materials/index";
 import {
 
 } from "../Datas";
 
-/** 付款 */
-export interface IPayment extends IBODocument {
+/** 采购订单 */
+export interface IPurchaseOrder extends IBODocument {
 
     /** 凭证编号 */
     docEntry: number;
@@ -120,14 +120,26 @@ export interface IPayment extends IBODocument {
     /** 已删除 */
     deleted: emYesNo;
 
-    /** 业务伙伴类型 */
-    businessPartnerType: emBusinessPartnerType;
+    /** 供应商代码 */
+    supplierCode: string;
 
-    /** 业务伙伴代码 */
-    businessPartnerCode: string;
+    /** 供应商名称 */
+    supplierName: string;
 
-    /** 业务伙伴名称 */
-    businessPartnerName: string;
+    /** 联系人 */
+    contactPerson: number;
+
+    /** 税率 */
+    taxRate: number;
+
+    /** 税总额 */
+    taxTotal: number;
+
+    /** 折扣 */
+    discount: number;
+
+    /** 折扣总计 */
+    discountTotal: number;
 
     /** 单据货币 */
     documentCurrency: string;
@@ -138,22 +150,37 @@ export interface IPayment extends IBODocument {
     /** 单据总计 */
     documentTotal: number;
 
+    /** 已付款总计 */
+    paidTotal: number;
 
-    /** 付款-项目集合 */
-    paymentItems: IPaymentItems;
+    /** 付款条款代码 */
+    paymentCode: string;
+
+    /** 舍入 */
+    rounding: emYesNo;
+
+    /** 舍入差额 */
+    diffAmount: number;
+
+    /** 项目代码 */
+    project: string;
+
+
+    /** 采购订单-行集合 */
+    purchaseOrderItems: IPurchaseOrderItems;
 
 
 }
 
-/** 付款-项目 集合 */
-export interface IPaymentItems extends IBusinessObjects<IPaymentItem, IPayment> {
+/** 采购订单-行 集合 */
+export interface IPurchaseOrderItems extends IBusinessObjects<IPurchaseOrderItem, IPurchaseOrder> {
 
     /** 创建并添加子项 */
-    create(): IPaymentItem;
+    create(): IPurchaseOrderItem;
 }
 
-/** 付款-项目 */
-export interface IPaymentItem extends IBODocumentLine {
+/** 采购订单-行 */
+export interface IPurchaseOrderItem extends IBODocumentLine {
 
     /** 编码 */
     docEntry: number;
@@ -236,23 +263,86 @@ export interface IPaymentItem extends IBODocumentLine {
     /** 原始行号 */
     originalDocumentLineId: number;
 
-    /** 方式 */
-    mode: string;
+    /** 物料编号 */
+    itemCode: string;
 
-    /** 金额 */
-    amount: number;
+    /** 物料/服务描述 */
+    itemDescription: string;
 
-    /** 币种 */
+    /** 物料类型 */
+    itemType: emItemType;
+
+    /** 序号管理 */
+    serialManagement: emYesNo;
+
+    /** 批号管理 */
+    batchManagement: emYesNo;
+
+    /** 数量 */
+    quantity: number;
+
+    /** 计量单位 */
+    uom: string;
+
+    /** 仓库 */
+    warehouse: string;
+
+    /** 价格 */
+    price: number;
+
+    /** 货币 */
     currency: string;
 
     /** 汇率 */
     rate: number;
 
-    /** 银行编码 */
-    bankCode: string;
+    /** 行总计 */
+    lineTotal: number;
 
-    /** 卡号 */
-    cardNumber: string;
+    /** 行交货日期 */
+    deliveryDate: Date;
+
+    /** 剩余未清数量 */
+    openQuantity: number;
+
+    /** 行折扣 */
+    discount: number;
+
+    /** 未清金额 */
+    openAmount: number;
+
+    /** 科目代码 */
+    accountCode: string;
+
+    /** 折扣前价格 */
+    unitPrice: number;
+
+    /** 税定义 */
+    tax: string;
+
+    /** 税率 */
+    taxRate: number;
+
+    /** 税总额 */
+    taxTotal: number;
+
+    /** 项目代码 */
+    project: string;
+
+    /** 分配规则1 */
+    distributionRule1: string;
+
+    /** 分配规则2 */
+    distributionRule2: string;
+
+    /** 分配规则3 */
+    distributionRule3: string;
+
+    /** 分配规则4 */
+    distributionRule4: string;
+
+    /** 分配规则5 */
+    distributionRule5: string;
 
 
 }

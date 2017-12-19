@@ -9,7 +9,7 @@
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryReceiptPayment } from "../../borep/BORepositories";
-import { BO_CODE_SUPPLIER, ISupplier} from "../../3rdparty/businesspartner/index";
+import { BO_CODE_SUPPLIER, ISupplier} from "3rdparty/businesspartner/index";
 import { emBusinessPartnerType } from "3rdparty/businesspartner/Datas";
 
 /** 编辑应用-收款 */

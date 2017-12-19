@@ -23,7 +23,7 @@ import {
 } from "ibas/index";
 import {
     emBusinessPartnerType
-} from "../../3rdparty/businesspartner/index";
+} from "3rdparty/businesspartner/index";
 import {
     IPayment,
     IPaymentItems,

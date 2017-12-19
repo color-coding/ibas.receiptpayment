@@ -21,14 +21,14 @@ import {
     IBOSimpleLine
 } from "ibas/index";
 import {
-    emBusinessPartnerType
-} from "3rdparty/businesspartner/index";
-import {
-
+    emItemType,
 } from "../Datas";
-
-/** 付款 */
-export interface IPayment extends IBODocument {
+import {
+    IMaterialBatchJournal,
+    IMaterialSerialJournal
+} from "./index";
+/** 库存收货 */
+export interface IGoodsReceipt extends IBODocument {
 
     /** 凭证编号 */
     docEntry: number;
@@ -111,23 +111,11 @@ export interface IPayment extends IBODocument {
     /** 参考2 */
     reference2: string;
 
-    /** 备注 */
-    remarks: string;
-
     /** 已引用 */
     referenced: emYesNo;
 
-    /** 已删除 */
-    deleted: emYesNo;
-
-    /** 业务伙伴类型 */
-    businessPartnerType: emBusinessPartnerType;
-
-    /** 业务伙伴代码 */
-    businessPartnerCode: string;
-
-    /** 业务伙伴名称 */
-    businessPartnerName: string;
+    /** 备注 */
+    remarks: string;
 
     /** 单据货币 */
     documentCurrency: string;
@@ -138,22 +126,40 @@ export interface IPayment extends IBODocument {
     /** 单据总计 */
     documentTotal: number;
 
+    /** 价格清单 */
+    priceList: number;
 
-    /** 付款-项目集合 */
-    paymentItems: IPaymentItems;
+    /** 项目代码 */
+    project: string;
+
+
+    /** 库存收货-行集合 */
+    goodsReceiptLines: IGoodsReceiptLines;
 
 
 }
 
-/** 付款-项目 集合 */
-export interface IPaymentItems extends IBusinessObjects<IPaymentItem, IPayment> {
+/** 库存收货-行 集合 */
+export interface IGoodsReceiptLines extends IBusinessObjects<IGoodsReceiptLine, IGoodsReceipt> {
 
     /** 创建并添加子项 */
-    create(): IPaymentItem;
+    create(): IGoodsReceiptLine;
 }
 
-/** 付款-项目 */
-export interface IPaymentItem extends IBODocumentLine {
+/** 库存收货-批次日记账 集合 */
+export interface IGoodsReceiptLineMaterialBatchJournals extends IBusinessObjects<IMaterialBatchJournal, IGoodsReceiptLine> {
+    /** 创建并添加子项 */
+    create(): IMaterialBatchJournal;
+}
+
+/** 库存收货-序列日记账 集合 */
+export interface IGoodsReceiptLineMaterialSerialJournals extends IBusinessObjects<IMaterialSerialJournal, IGoodsReceiptLine> {
+    /** 创建并添加子项 */
+    create(): IMaterialSerialJournal;
+}
+
+/** 库存收货-行 */
+export interface IGoodsReceiptLine extends IBODocumentLine {
 
     /** 编码 */
     docEntry: number;
@@ -164,15 +170,6 @@ export interface IPaymentItem extends IBODocumentLine {
     /** 显示顺序 */
     visOrder: number;
 
-    /** 类型 */
-    objectCode: string;
-
-    /** 实例号（版本） */
-    logInst: number;
-
-    /** 数据源 */
-    dataSource: string;
-
     /** 取消 */
     canceled: emYesNo;
 
@@ -181,6 +178,9 @@ export interface IPaymentItem extends IBODocumentLine {
 
     /** 单据状态 */
     lineStatus: emDocumentStatus;
+
+    /** 类型 */
+    objectCode: string;
 
     /** 创建日期 */
     createDate: Date;
@@ -193,6 +193,15 @@ export interface IPaymentItem extends IBODocumentLine {
 
     /** 修改时间 */
     updateTime: number;
+
+    /** 版本 */
+    logInst: number;
+
+    /** 服务系列 */
+    series: number;
+
+    /** 数据源 */
+    dataSource: string;
 
     /** 创建用户 */
     createUserSign: number;
@@ -215,9 +224,6 @@ export interface IPaymentItem extends IBODocumentLine {
     /** 已引用 */
     referenced: emYesNo;
 
-    /** 已删除 */
-    deleted: emYesNo;
-
     /** 基于类型 */
     baseDocumentType: string;
 
@@ -227,33 +233,49 @@ export interface IPaymentItem extends IBODocumentLine {
     /** 基于行号 */
     baseDocumentLineId: number;
 
-    /** 原始类型 */
-    originalDocumentType: string;
+    /** 物料编号 */
+    itemCode: string;
 
-    /** 原始标识 */
-    originalDocumentEntry: number;
+    /** 物料/服务描述 */
+    itemDescription: string;
 
-    /** 原始行号 */
-    originalDocumentLineId: number;
+    /** 物料类型 */
+    itemType: emItemType;
 
-    /** 方式 */
-    mode: string;
+    /** 序号管理 */
+    serialManagement: emYesNo;
 
-    /** 金额 */
-    amount: number;
+    /** 批号管理 */
+    batchManagement: emYesNo;
 
-    /** 币种 */
+    /** 数量 */
+    quantity: number;
+
+    /** 计量单位 */
+    uom: string;
+
+    /** 仓库 */
+    warehouse: string;
+
+    /** 价格 */
+    price: number;
+
+    /** 货币 */
     currency: string;
 
     /** 汇率 */
     rate: number;
 
-    /** 银行编码 */
-    bankCode: string;
+    /** 行总计 */
+    lineTotal: number;
 
-    /** 卡号 */
-    cardNumber: string;
+    /** 项目代码 */
+    project: string;
+    /** 库存发货-行-序列号集合 */
+    materialSerialJournals: IGoodsReceiptLineMaterialSerialJournals;
 
+    /** 库存发货-行-批次集合 */
+    materialBatchJournals: IGoodsReceiptLineMaterialBatchJournals
 
 }
 
