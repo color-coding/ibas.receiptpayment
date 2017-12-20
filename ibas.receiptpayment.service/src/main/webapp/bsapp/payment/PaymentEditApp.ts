@@ -9,8 +9,7 @@
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryReceiptPayment } from "../../borep/BORepositories";
-import { BO_CODE_CUSTOMER, ICustomer } from "3rdparty/businesspartner/index";
-import { emBusinessPartnerType } from "3rdparty/businesspartner/Datas";
+import { BO_CODE_CUSTOMER, BO_CODE_SUPPLIER, ICustomer, ISupplier } from "3rdparty/businesspartner/index";
 
 /** 编辑应用-付款 */
 export class PaymentEditApp extends ibas.BOEditApplication<IPaymentEditView, bo.Payment> {
@@ -37,7 +36,7 @@ export class PaymentEditApp extends ibas.BOEditApplication<IPaymentEditView, bo.
         this.view.createDataEvent = this.createData;
         this.view.addPaymentItemEvent = this.addPaymentItem;
         this.view.removePaymentItemEvent = this.removePaymentItem;
-        this.view.choosePaymentPartnerEvent = this.choosePaymentPartner;
+        this.view.chooseBusinessPartnerEvent = this.chooseBusinessPartner;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -205,20 +204,31 @@ export class PaymentEditApp extends ibas.BOEditApplication<IPaymentEditView, bo.
     }
 
     /** 选择付款客户事件 */
-    private choosePaymentPartner(): void {
+    private chooseBusinessPartner(): void {
         let that: this = this;
-        ibas.servicesManager.runChooseService<ICustomer>({
-            boCode: BO_CODE_CUSTOMER,
-            criteria: [
-                new ibas.Condition(BO_CODE_CUSTOMER,
-                    ibas.emConditionOperation.NOT_EQUAL, ibas.strings.valueOf(this.editData.businessPartnerCode)),
-            ],
-            onCompleted(selecteds: ibas.List<ICustomer>): void {
-                that.editData.businessPartnerCode = selecteds.firstOrDefault().code;
-                that.editData.businessPartnerName = selecteds.firstOrDefault().name;
-                that.editData.businessPartnerType = emBusinessPartnerType.CUSTOMER;
-            }
-        });
+        if (this.editData.businessPartnerType === bo.emBusinessPartnerType.CUSTOMER) {
+            ibas.servicesManager.runChooseService<ICustomer>({
+                boCode: BO_CODE_CUSTOMER,
+                criteria: [
+                ],
+                onCompleted(selecteds: ibas.List<ICustomer>): void {
+                    let selected: ICustomer = selecteds.firstOrDefault();
+                    that.editData.businessPartnerCode = selected.code;
+                    that.editData.businessPartnerName = selected.name;
+                }
+            });
+        } else if (this.editData.businessPartnerType === bo.emBusinessPartnerType.SUPPLIER) {
+            ibas.servicesManager.runChooseService<ISupplier>({
+                boCode: BO_CODE_SUPPLIER,
+                criteria: [
+                ],
+                onCompleted(selecteds: ibas.List<ISupplier>): void {
+                    let selected: ICustomer = selecteds.firstOrDefault();
+                    that.editData.businessPartnerCode = selected.code;
+                    that.editData.businessPartnerName = selected.name;
+                }
+            });
+        }
     }
 
 }
@@ -235,7 +245,7 @@ export interface IPaymentEditView extends ibas.IBOEditView {
     /** 删除付款-项目事件 */
     removePaymentItemEvent: Function;
     /** 选择付款客户事件 */
-    choosePaymentPartnerEvent: Function;
+    chooseBusinessPartnerEvent: Function;
     /** 显示数据 */
     showPaymentItems(datas: bo.PaymentItem[]): void;
 }

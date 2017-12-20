@@ -24,3 +24,5 @@ export const BO_REPOSITORY_RECEIPTPAYMENT: string = strings.format(MODULE_REPOSI
 export const BO_CODE_PAYMENT: string = "CC_RP_PAYMENT";
 /** 业务对象编码-收款 */
 export const BO_CODE_RECEIPT: string = "CC_RP_RECEIPT";
+
+export { emBusinessPartnerType } from "3rdparty/businesspartner/index";

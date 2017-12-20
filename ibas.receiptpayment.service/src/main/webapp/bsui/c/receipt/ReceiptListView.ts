@@ -54,6 +54,17 @@ export class ReceiptListView extends ibas.BOListView implements IReceiptListView
                     })
                 }),
                 new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_receipt_businesspartnertype"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "businessPartnerType",
+                        formatter(data: any): any {
+                            return ibas.enums.describe(bo.emBusinessPartnerType, data);
+                        }
+                    })
+                }),
+                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_receipt_businesspartnercode"),
                     template: new sap.m.Text("", {
                         wrapping: false
@@ -68,6 +79,18 @@ export class ReceiptListView extends ibas.BOListView implements IReceiptListView
                     }).bindProperty("text", {
                         path: "businessPartnerName",
                     })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_receipt_documentdate"),
+                    template: new sap.m.Text("", {
+                        wrapping: false,
+                    }).bindProperty("text", {
+                        path: "documentDate",
+                        type: "sap.ui.model.type.Date",
+                        formatOptions: {
+                            style: "short"
+                        }
+                    }),
                 }),
                 new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_receipt_documenttotal"),
@@ -85,18 +108,6 @@ export class ReceiptListView extends ibas.BOListView implements IReceiptListView
                         path: "documentCurrency",
                     })
                 }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_receipt_postingdate"),
-                    template: new sap.m.Text("", {
-                        wrapping: false,
-                    }).bindProperty("text", {
-                        path: "postingDate",
-                        type: "sap.ui.model.type.Date",
-                        formatOptions: {
-                            style: "short"
-                        }
-                    }),
-                }),
             ]
         });
         this.form.addContent(this.table);
@@ -112,6 +123,7 @@ export class ReceiptListView extends ibas.BOListView implements IReceiptListView
                             that.fireViewEvents(that.newDataEvent);
                         }
                     }),
+                    /*
                     new sap.m.Button("", {
                         text: ibas.i18n.prop("shell_data_view"),
                         type: sap.m.ButtonType.Transparent,
@@ -123,6 +135,7 @@ export class ReceiptListView extends ibas.BOListView implements IReceiptListView
                             );
                         }
                     }),
+                    */
                     new sap.m.Button("", {
                         text: ibas.i18n.prop("shell_data_edit"),
                         type: sap.m.ButtonType.Transparent,
