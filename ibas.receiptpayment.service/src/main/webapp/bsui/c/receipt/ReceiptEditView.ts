@@ -25,17 +25,14 @@ export class ReceiptEditView extends ibas.BOEditView implements IReceiptEditView
     removeReceiptItemEvent: Function;
     /** 选择收款客户事件 */
     chooseBusinessPartnerEvent: Function;
-    private mainLayout: sap.ui.layout.VerticalLayout;
-    private viewTopForm: sap.ui.layout.form.SimpleForm;
-    private viewBottomForm: sap.ui.layout.form.SimpleForm;
 
     /** 绘制视图 */
     darw(): any {
         let that: this = this;
-        this.viewTopForm = new sap.ui.layout.form.SimpleForm("", {
+        let formTop: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("receiptpayment_basis_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("receiptpayment_general_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_businesspartnertype") }),
                 new sap.m.Select("", {
                     items: openui5.utils.createComboBoxItems(bo.emBusinessPartnerType),
@@ -90,9 +87,14 @@ export class ReceiptEditView extends ibas.BOEditView implements IReceiptEditView
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_documentdate") }),
                 new sap.m.DatePicker("", {
-                    valueFormat: "yyyy-MM-dd",
                 }).bindProperty("dateValue", {
                     path: "documentDate",
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_dataowner") }),
+                new sap.m.Input("", {
+                    showValueHelp: true,
+                }).bindProperty("value", {
+                    path: "dataOwner",
                 }),
             ]
         });
@@ -122,7 +124,7 @@ export class ReceiptEditView extends ibas.BOEditView implements IReceiptEditView
             }),
             enableSelectAll: false,
             selectionBehavior: sap.ui.table.SelectionBehavior.Row,
-            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 10),
+            visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 8),
             rows: "{/rows}",
             columns: [
                 new sap.ui.table.Column("", {
@@ -213,35 +215,42 @@ export class ReceiptEditView extends ibas.BOEditView implements IReceiptEditView
                 }),
             ]
         });
-        this.viewBottomForm = new sap.ui.layout.form.SimpleForm("", {
+        let formMiddle: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
+            editable: true,
+            content: [
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_receiptitem") }),
+                this.tableReceiptItem,
+            ]
+        });
+        let formBottom: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
             content: [
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("receiptpayment_remarks_information") }),
                 new sap.m.TextArea("", {
                     rows: 5,
                 }).bindProperty("value", {
-                    path: "/remarks",
+                    path: "remarks",
                 }),
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("receiptpayment_total_information") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_documenttotal") }),
                 new sap.m.Input("", {
-                    type: sap.m.InputType.Number,
+                    editable: false,
                 }).bindProperty("value", {
-                    path: "/documentTotal",
+                    path: "documentTotal",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_documentcurrency") }),
                 new sap.m.Input("", {
-                    type: sap.m.InputType.Number,
+                    editable: false,
                 }).bindProperty("value", {
-                    path: "/documentCurrency",
+                    path: "documentCurrency",
                 }),
             ],
         });
-        this.mainLayout = new sap.ui.layout.VerticalLayout("", {
+        this.layoutMain = new sap.ui.layout.VerticalLayout("", {
             content: [
-                this.viewTopForm,
-                this.tableReceiptItem,
-                this.viewBottomForm,
+                formTop,
+                formMiddle,
+                formBottom,
             ],
         });
         this.page = new sap.m.Page("", {
@@ -301,12 +310,12 @@ export class ReceiptEditView extends ibas.BOEditView implements IReceiptEditView
                     }),
                 ]
             }),
-            content: [this.mainLayout]
+            content: [this.layoutMain]
         });
-        this.id = this.page.getId();
         return this.page;
     }
     private page: sap.m.Page;
+    private layoutMain: sap.ui.layout.VerticalLayout;
     /** 改变视图状态 */
     private changeViewStatus(data: bo.Receipt): void {
         if (ibas.objects.isNull(data)) {
@@ -324,17 +333,17 @@ export class ReceiptEditView extends ibas.BOEditView implements IReceiptEditView
                 openui5.utils.changeToolbarSavable(<sap.m.Toolbar>this.page.getSubHeader(), false);
                 openui5.utils.changeToolbarDeletable(<sap.m.Toolbar>this.page.getSubHeader(), false);
             }
-            openui5.utils.changeFormEditable(this.mainLayout, false);
+            openui5.utils.changeFormEditable(this.layoutMain, false);
         }
     }
     private tableReceiptItem: sap.ui.table.Table;
 
     /** 显示数据 */
     showReceipt(data: bo.Receipt): void {
-        this.mainLayout.setModel(new sap.ui.model.json.JSONModel(data));
-        this.mainLayout.bindObject("/");
+        this.layoutMain.setModel(new sap.ui.model.json.JSONModel(data));
+        this.layoutMain.bindObject("/");
         // 监听属性改变，并更新控件
-        openui5.utils.refreshModelChanged(this.mainLayout, data);
+        openui5.utils.refreshModelChanged(this.layoutMain, data);
         // 改变视图状态
         this.changeViewStatus(data);
     }

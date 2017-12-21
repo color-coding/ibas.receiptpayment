@@ -65,14 +65,6 @@ export class PaymentListView extends ibas.BOListView implements IPaymentListView
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_payment_businesspartnercode"),
-                    template: new sap.m.Text("", {
-                        wrapping: false
-                    }).bindProperty("text", {
-                        path: "businessPartnerCode",
-                    })
-                }),
-                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_payment_businesspartnername"),
                     template: new sap.m.Text("", {
                         wrapping: false
@@ -106,6 +98,22 @@ export class PaymentListView extends ibas.BOListView implements IPaymentListView
                         wrapping: false
                     }).bindProperty("text", {
                         path: "documentCurrency",
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_payment_reference1"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "reference1",
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_payment_reference2"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "reference2",
                     })
                 }),
             ]

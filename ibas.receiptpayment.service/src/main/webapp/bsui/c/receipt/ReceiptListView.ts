@@ -65,14 +65,6 @@ export class ReceiptListView extends ibas.BOListView implements IReceiptListView
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_receipt_businesspartnercode"),
-                    template: new sap.m.Text("", {
-                        wrapping: false
-                    }).bindProperty("text", {
-                        path: "businessPartnerCode",
-                    })
-                }),
-                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_receipt_businesspartnername"),
                     template: new sap.m.Text("", {
                         wrapping: false
@@ -106,6 +98,22 @@ export class ReceiptListView extends ibas.BOListView implements IReceiptListView
                         wrapping: false
                     }).bindProperty("text", {
                         path: "documentCurrency",
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_receipt_reference1"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "reference1",
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_receipt_reference2"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "reference2",
                     })
                 }),
             ]

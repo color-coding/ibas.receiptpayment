@@ -11,9 +11,9 @@
   "receiptpayment_app_receipt_choose": "收款选择",
   "receiptpayment_app_receipt_view": "收款查看",
   "receiptpayment_app_receipt_edit": "收款编辑",
-  "receiptpayment_basis_information": "基本信息",
+  "receiptpayment_general_information": "常规信息",
   "receiptpayment_status_information": "状态信息",
-  "receiptpayment_total_information": "单据总计",
+  "receiptpayment_total_information": "总计",
   "receiptpayment_remarks_information": "备注",
   "receiptpayment_closing_delimiter": "----结束----"
 }

@@ -93,14 +93,6 @@ export class PaymentChooseView extends ibas.BOChooseView implements IPaymentChoo
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_payment_businesspartnercode"),
-                    template: new sap.m.Text("", {
-                        wrapping: false
-                    }).bindProperty("text", {
-                        path: "businessPartnerCode",
-                    })
-                }),
-                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_payment_businesspartnername"),
                     template: new sap.m.Text("", {
                         wrapping: false
@@ -134,6 +126,22 @@ export class PaymentChooseView extends ibas.BOChooseView implements IPaymentChoo
                         wrapping: false
                     }).bindProperty("text", {
                         path: "documentCurrency",
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_payment_reference1"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "reference1",
+                    })
+                }),
+                new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_payment_reference2"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "reference2",
                     })
                 }),
             ]
@@ -183,7 +191,7 @@ export class PaymentChooseView extends ibas.BOChooseView implements IPaymentChoo
         }
         if (!done) {
             // 没有显示数据
-            this.table.setModel(new sap.ui.model.json.JSONModel({rows: datas}));
+            this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
         }
         this.table.setBusy(false);
     }
