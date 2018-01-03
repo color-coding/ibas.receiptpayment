@@ -116,7 +116,7 @@ export class ReceiptEditView extends ibas.BOEditView implements IReceiptEditView
                         press: function (): void {
                             that.fireViewEvents(that.removeReceiptItemEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.ReceiptItem>(that.tableReceiptItem)
+                                openui5.utils.getSelecteds<bo.ReceiptItem>(that.tableReceiptItem)
                             );
                         }
                     })

@@ -139,7 +139,7 @@ export class PaymentListView extends ibas.BOListView implements IPaymentListView
                         press: function (): void {
                             that.fireViewEvents(that.viewDataEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.Payment>(that.table).firstOrDefault()
+                                openui5.utils.getSelecteds<bo.Payment>(that.table).firstOrDefault()
                             );
                         }
                     }),
@@ -151,7 +151,7 @@ export class PaymentListView extends ibas.BOListView implements IPaymentListView
                         press: function (): void {
                             that.fireViewEvents(that.editDataEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.Payment>(that.table).firstOrDefault()
+                                openui5.utils.getSelecteds<bo.Payment>(that.table).firstOrDefault()
                             );
                         }
                     }),
@@ -163,7 +163,7 @@ export class PaymentListView extends ibas.BOListView implements IPaymentListView
                         press: function (): void {
                             that.fireViewEvents(that.deleteDataEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.Payment>(that.table)
+                                openui5.utils.getSelecteds<bo.Payment>(that.table)
                             );
                         }
                     }),
@@ -262,6 +262,6 @@ export class PaymentListView extends ibas.BOListView implements IPaymentListView
     }
     /** 获取选择的数据 */
     getSelecteds(): bo.Payment[] {
-        return openui5.utils.getTableSelecteds<bo.Payment>(this.table);
+        return openui5.utils.getSelecteds<bo.Payment>(this.table);
     }
 }

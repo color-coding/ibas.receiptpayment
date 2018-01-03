@@ -38,7 +38,7 @@ export class PaymentChooseView extends ibas.BOChooseView implements IPaymentChoo
                 press: function (): void {
                     that.fireViewEvents(that.chooseDataEvent,
                         // 获取表格选中的对象
-                        openui5.utils.getTableSelecteds<bo.Payment>(that.table)
+                        openui5.utils.getSelecteds<bo.Payment>(that.table)
                     );
                 }
             }),

@@ -38,7 +38,7 @@ export class ReceiptChooseView extends ibas.BOChooseView implements IReceiptChoo
                 press: function (): void {
                     that.fireViewEvents(that.chooseDataEvent,
                         // 获取表格选中的对象
-                        openui5.utils.getTableSelecteds<bo.Receipt>(that.table)
+                        openui5.utils.getSelecteds<bo.Receipt>(that.table)
                     );
                 }
             }),

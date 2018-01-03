@@ -139,7 +139,7 @@ export class ReceiptListView extends ibas.BOListView implements IReceiptListView
                         press: function (): void {
                             that.fireViewEvents(that.viewDataEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.Receipt>(that.table).firstOrDefault()
+                                openui5.utils.getSelecteds<bo.Receipt>(that.table).firstOrDefault()
                             );
                         }
                     }),
@@ -151,7 +151,7 @@ export class ReceiptListView extends ibas.BOListView implements IReceiptListView
                         press: function (): void {
                             that.fireViewEvents(that.editDataEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.Receipt>(that.table).firstOrDefault()
+                                openui5.utils.getSelecteds<bo.Receipt>(that.table).firstOrDefault()
                             );
                         }
                     }),
@@ -163,7 +163,7 @@ export class ReceiptListView extends ibas.BOListView implements IReceiptListView
                         press: function (): void {
                             that.fireViewEvents(that.deleteDataEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.Receipt>(that.table)
+                                openui5.utils.getSelecteds<bo.Receipt>(that.table)
                             );
                         }
                     }),
@@ -262,6 +262,6 @@ export class ReceiptListView extends ibas.BOListView implements IReceiptListView
     }
     /** 获取选择的数据 */
     getSelecteds(): bo.Receipt[] {
-        return openui5.utils.getTableSelecteds<bo.Receipt>(this.table);
+        return openui5.utils.getSelecteds<bo.Receipt>(this.table);
     }
 }

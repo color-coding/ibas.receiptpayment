@@ -116,7 +116,7 @@ export class PaymentEditView extends ibas.BOEditView implements IPaymentEditView
                         press: function (): void {
                             that.fireViewEvents(that.removePaymentItemEvent,
                                 // 获取表格选中的对象
-                                openui5.utils.getTableSelecteds<bo.PaymentItem>(that.tablePaymentItem)
+                                openui5.utils.getSelecteds<bo.PaymentItem>(that.tablePaymentItem)
                             );
                         }
                     })
