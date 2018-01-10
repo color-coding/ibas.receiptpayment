@@ -24,9 +24,11 @@ import {
     emItemType,
 } from "../Datas";
 import {
-    IMaterialBatchJournal,
-    IMaterialSerialJournal
-} from "./index";
+    IMaterialSerialJournalsParent,
+} from "./MaterialSerialJournal.d";
+import {
+    IMaterialBatchJournalsParent,
+} from "./MaterialBatchJournal.d";
 
 /** 库存转储 */
 export interface IInventoryTransfer extends IBODocument {
@@ -136,21 +138,9 @@ export interface IInventoryTransfer extends IBODocument {
     /** 从仓库 */
     fromWarehouse: string;
 
-
     /** 库存转储-行集合 */
     inventoryTransferLines: IInventoryTransferLines;
 
-
-}
-/** 库存转储-批次日记账 集合 */
-export interface IInventoryTransferLineMaterialBatchJournals extends IBusinessObjects<IMaterialBatchJournal, IInventoryTransferLine> {
-    /** 创建并添加子项 */
-    create(): IMaterialBatchJournal;
-}
-/**  库存转储-序列号日记账  */
-export interface IInventoryTransferLineMaterialSerialJournals extends IBusinessObjects<IMaterialSerialJournal, IInventoryTransferLine> {
-    /** 创建并添加子项 */
-    create(): IMaterialSerialJournal;
 }
 /** 库存转储-行 集合 */
 export interface IInventoryTransferLines extends IBusinessObjects<IInventoryTransferLine, IInventoryTransfer> {
@@ -160,7 +150,7 @@ export interface IInventoryTransferLines extends IBusinessObjects<IInventoryTran
 }
 
 /** 库存转储-行 */
-export interface IInventoryTransferLine extends IBODocumentLine {
+export interface IInventoryTransferLine extends IBODocumentLine, IMaterialSerialJournalsParent, IMaterialBatchJournalsParent {
 
     /** 编码 */
     docEntry: number;
@@ -273,11 +263,6 @@ export interface IInventoryTransferLine extends IBODocumentLine {
     /** 项目代码 */
     project: string;
 
-    /** 库存发货-行-序列号集合 */
-    materialSerialJournals: IInventoryTransferLineMaterialSerialJournals;
 
-    /** 库存发货-行-批次集合 */
-    materialBatchJournals: IInventoryTransferLineMaterialBatchJournals
 }
-
 

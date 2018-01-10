@@ -21,23 +21,29 @@ import {
     IBOSimpleLine
 } from "ibas/index";
 import {
-    emBusinessPartnerType
+    emShippingStatus
 } from "../Datas";
 
-/** 业务伙伴地址 */
-export interface IAddress extends IBOSimple {
+/** 送货地址 */
+export interface IShippingAddress extends IBOSimple {
 
-    /** 业务伙伴 */
-    businessPartner: string;
+    /** 基于类型 */
+    baseDocumentType: string;
 
-    /** 归属类型 */
-    ownerType: emBusinessPartnerType;
-
-    /** 有效的 */
-    activated: emYesNo;
+    /** 基于标识 */
+    baseDocumentEntry: number;
 
     /** 名称 */
     name: string;
+
+    /** 顺序 */
+    order: number;
+
+    /** 送货状态 */
+    shippingStatus: emShippingStatus;
+
+    /** 收货人 */
+    consignee: string;
 
     /** 街道 */
     street: string;
@@ -60,11 +66,8 @@ export interface IAddress extends IBOSimple {
     /** 联系电话 */
     mobilePhone: string;
 
-    /** 电话 1 */
-    telephone1: string;
-
-    /** 电话 2 */
-    telephone2: string;
+    /** 电话  */
+    telephone: string;
 
     /** 备注 1 */
     remark1: string;
@@ -115,3 +118,9 @@ export interface IAddress extends IBOSimple {
 }
 
 
+/** 送货地址 集合 */
+export interface IShippingAddresss extends IBusinessObjects<IShippingAddress, IBODocument> {
+
+    /** 创建并添加子项 */
+    create(): IShippingAddress;
+}

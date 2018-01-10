@@ -8,15 +8,15 @@
 
 // 共享的数据
 import {
+    IServiceContract,
     ServiceProxy,
     strings,
+    emDirection,
     MODULE_REPOSITORY_NAME_TEMPLATE,
 } from "ibas/index";
 import {
-    IMaterialIssueBatchContract,
-    IMaterialReceiptBatchContract,
-    IMaterialIssueSerialContract,
-    IMaterialReceiptSerialContract,
+    IMaterialBatchJournals,
+    IMaterialSerialJournals,
 } from "./bo/index";
 
 /** 模块-标识 */
@@ -41,14 +41,10 @@ export const BO_CODE_PRODUCT: string = "${Company}_MM_PRODUCT";
 export const BO_CODE_MATERIALBATCH: string = "${Company}_MM_BATCH";
 /** 业务对象编码-物料批次凭证 */
 export const BO_CODE_MATERIALBATCHJOURNAL: string = "${Company}_MM_BATCHJOURNAL";
-/**  业务对象编码-物料批次服务 */
-export const BO_CODE_MATERIALBATCHSERVICE: string = "${Company}_MM_BATCHJOURNAL";
 /** 业务对象编码-物料序列号 */
 export const BO_CODE_MATERIALSERIAL: string = "${Company}_MM_SERIAL";
 /** 业务对象编码-物料序列号凭证 */
 export const BO_CODE_MATERIALSERIALJOURNAL: string = "${Company}_MM_SERIALJOURNAL";
-/** 业务对象编码-物料序列凭证 */
-export const BO_CODE_MATERIALSERIALSERVICE: string = "${Company}_MM_SERIALJOURNAL";
 /** 业务对象编码-物料组 */
 export const BO_CODE_MATERIALGROUP: string = "${Company}_MM_MATERIALGROUP";
 /** 业务对象编码-物料库存 */
@@ -67,9 +63,8 @@ export enum emItemType {
     /** 服务 */
     SERVICES,
 }
-
-/** 排序规则 */
-export enum emAutoSelectBatchSerialRules {
+/** 物料发货规则 */
+export enum emMaterialIssueRules {
     /** 先进先出 */
     FIRST_IN_FIRST_OUT,
     /** 先进后出 */
@@ -77,20 +72,49 @@ export enum emAutoSelectBatchSerialRules {
     /** 编码排序 */
     ORDER_BY_CODE,
 }
+/** 批次服务契约 */
+export interface IMaterialBatchContract extends IServiceContract {
 
+    /** 物料编号 */
+    itemCode: string;
+
+    /** 仓库编码 */
+    warehouse: string;
+
+    /** 数量 */
+    quantity: number;
+
+    /** 物料批次 */
+    materialBatches: IMaterialBatchJournals;
+}
+/** 序列服务契约 */
+export interface IMaterialSerialContract extends IServiceContract {
+
+    /** 物料编号 */
+    itemCode: string;
+
+    /** 仓库编码 */
+    warehouse: string;
+
+    /** 数量 */
+    quantity: number;
+
+    /** 物料序列 */
+    materialSerials: IMaterialSerialJournals;
+}
 /** 物料批次创建服务代理 */
-export class MaterialBatchReceiptServiceProxy extends ServiceProxy<IMaterialReceiptBatchContract> {
+export class MaterialBatchReceiptServiceProxy extends ServiceProxy<IMaterialBatchContract[]> {
 
 }
 /** 物料批次选择服务代理 */
-export class MaterialBatchIssueServiceProxy extends ServiceProxy<IMaterialIssueBatchContract> {
+export class MaterialBatchIssueServiceProxy extends ServiceProxy<IMaterialBatchContract[]> {
 
 }
 /** 物料序列创建服务代理 */
-export class MaterialSerialReceiptServiceProxy extends ServiceProxy<IMaterialReceiptSerialContract> {
+export class MaterialSerialReceiptServiceProxy extends ServiceProxy<IMaterialSerialContract[]> {
 
 }
 /** 物料序列选择服务代理 */
-export class MaterialSerialIssueServiceProxy extends ServiceProxy<IMaterialIssueSerialContract> {
+export class MaterialSerialIssueServiceProxy extends ServiceProxy<IMaterialSerialContract[]> {
 
 }

@@ -21,13 +21,16 @@ import {
     IBOSimpleLine
 } from "ibas/index";
 import {
-    IMaterialBatchJournal,
-    IMaterialSerialJournal,
-    emItemType
+    IMaterialBatchJournalsParent,
+    IMaterialSerialJournalsParent,
+    emItemType,
 } from "3rdparty/materials/index";
 import {
     emProductTreeType
 } from "../Datas";
+import {
+    IShippingAddresss
+} from "../bo/index";
 
 /** 销售交货 */
 export interface ISalesDelivery extends IBODocument {
@@ -173,28 +176,11 @@ export interface ISalesDelivery extends IBODocument {
     /** 项目代码 */
     project: string;
 
-    /** 收货人 */
-    consignee: string;
-
-    /** 联系电话 */
-    phone: string;
-
-    /** 省 */
-    province: string;
-
-    /** 市 */
-    city: string;
-
-    /** 县/区 */
-    county: string;
-
-    /** 地址 */
-    address: string;
-
-
     /** 销售交货-行集合 */
     salesDeliveryItems: ISalesDeliveryItems;
 
+    /** 送货地址集合 */
+    shippingAddresss: IShippingAddresss;
 
 }
 
@@ -205,19 +191,8 @@ export interface ISalesDeliveryItems extends IBusinessObjects<ISalesDeliveryItem
     create(): ISalesDeliveryItem;
 }
 
-/** 销售交货-批次日记账 集合 */
-export interface ISalesDeliveryItemMaterialBatchJournals extends IBusinessObjects<IMaterialBatchJournal, ISalesDeliveryItem> {
-    /** 创建并添加子项 */
-    create(): IMaterialBatchJournal;
-}
-/**  销售交货-序列号日记账  */
-export interface ISalesDeliveryItemMaterialSerialJournals extends IBusinessObjects<IMaterialSerialJournal, ISalesDeliveryItem> {
-    /** 创建并添加子项 */
-    create(): IMaterialSerialJournal;
-}
-
 /** 销售交货-行 */
-export interface ISalesDeliveryItem extends IBODocumentLine {
+export interface ISalesDeliveryItem extends IBODocumentLine, IMaterialBatchJournalsParent, IMaterialBatchJournalsParent {
 
     /** 编码 */
     docEntry: number;

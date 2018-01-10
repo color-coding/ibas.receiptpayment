@@ -21,13 +21,16 @@ import {
     IBOSimpleLine
 } from "ibas/index";
 import {
-    IMaterialBatchJournal,
-    IMaterialSerialJournal,
-    emItemType
+    IMaterialBatchJournalsParent,
+    IMaterialSerialJournalsParent,
+    emItemType,
 } from "3rdparty/materials/index";
 import {
     emProductTreeType
 } from "../Datas";
+import {
+    IShippingAddresss
+} from "../bo/index";
 
 
 /** 销售退货 */
@@ -174,27 +177,11 @@ export interface ISalesReturn extends IBODocument {
     /** 项目代码 */
     project: string;
 
-    /** 收货人 */
-    consignee: string;
-
-    /** 联系电话 */
-    phone: string;
-
-    /** 省 */
-    province: string;
-
-    /** 市 */
-    city: string;
-
-    /** 县/区 */
-    county: string;
-
-    /** 地址 */
-    address: string;
-
-
     /** 销售退货-行集合 */
     salesReturnItems: ISalesReturnItems;
+
+    /** 送货地址集合 */
+    shippingAddresss: IShippingAddresss;
 
 
 }
@@ -206,19 +193,8 @@ export interface ISalesReturnItems extends IBusinessObjects<ISalesReturnItem, IS
     create(): ISalesReturnItem;
 }
 
-/** 销售退货-批次日记账 集合 */
-export interface ISalesReturnItemMaterialBatchJournals extends IBusinessObjects<IMaterialBatchJournal, ISalesReturnItem> {
-    /** 创建并添加子项 */
-    create(): IMaterialBatchJournal;
-}
-/**  销售退货-序列号日记账  */
-export interface ISalesReturnItemMaterialSerialJournals extends IBusinessObjects<IMaterialSerialJournal, ISalesReturnItem> {
-    /** 创建并添加子项 */
-    create(): IMaterialSerialJournal;
-}
-
 /** 销售退货-行 */
-export interface ISalesReturnItem extends IBODocumentLine {
+export interface ISalesReturnItem extends IBODocumentLine, IMaterialBatchJournalsParent, IMaterialBatchJournalsParent {
 
     /** 编码 */
     docEntry: number;
@@ -402,7 +378,6 @@ export interface ISalesReturnItem extends IBODocumentLine {
 
     /** 分配规则5 */
     distributionRule5: string;
-
 
 }
 

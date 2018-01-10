@@ -21,6 +21,8 @@ import {
     IBOSimpleLine
 } from "ibas/index";
 import {
+    IMaterialBatchJournalsParent,
+    IMaterialSerialJournalsParent,
     emItemType
 } from "3rdparty/materials/index";
 import {
