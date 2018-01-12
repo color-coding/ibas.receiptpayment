@@ -7,9 +7,9 @@
  */
 
 import * as ibas from "ibas/index";
+import * as bp from "3rdparty/businesspartner/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryReceiptPayment } from "../../borep/BORepositories";
-import { BO_CODE_SUPPLIER, BO_CODE_CUSTOMER, ISupplier, ICustomer } from "3rdparty/businesspartner/index";
 
 /** 编辑应用-收款 */
 export class ReceiptEditApp extends ibas.BOEditApplication<IReceiptEditView, bo.Receipt> {
@@ -214,23 +214,21 @@ export class ReceiptEditApp extends ibas.BOEditApplication<IReceiptEditView, bo.
     private chooseBusinessPartner(): void {
         let that: this = this;
         if (this.editData.businessPartnerType === bo.emBusinessPartnerType.CUSTOMER) {
-            ibas.servicesManager.runChooseService<ICustomer>({
-                boCode: BO_CODE_CUSTOMER,
-                criteria: [
-                ],
-                onCompleted(selecteds: ibas.List<ICustomer>): void {
-                    let selected: ICustomer = selecteds.firstOrDefault();
+            ibas.servicesManager.runChooseService<bp.ICustomer>({
+                boCode: bp.BO_CODE_CUSTOMER,
+                criteria: bp.conditions.customer.create(),
+                onCompleted(selecteds: ibas.List<bp.ICustomer>): void {
+                    let selected: bp.ICustomer = selecteds.firstOrDefault();
                     that.editData.businessPartnerCode = selected.code;
                     that.editData.businessPartnerName = selected.name;
                 }
             });
         } else if (this.editData.businessPartnerType === bo.emBusinessPartnerType.SUPPLIER) {
-            ibas.servicesManager.runChooseService<ISupplier>({
-                boCode: BO_CODE_SUPPLIER,
-                criteria: [
-                ],
-                onCompleted(selecteds: ibas.List<ISupplier>): void {
-                    let selected: ICustomer = selecteds.firstOrDefault();
+            ibas.servicesManager.runChooseService<bp.ISupplier>({
+                boCode: bp.BO_CODE_SUPPLIER,
+                criteria: bp.conditions.supplier.create(),
+                onCompleted(selecteds: ibas.List<bp.ISupplier>): void {
+                    let selected: bp.ICustomer = selecteds.firstOrDefault();
                     that.editData.businessPartnerCode = selected.code;
                     that.editData.businessPartnerName = selected.name;
                 }
