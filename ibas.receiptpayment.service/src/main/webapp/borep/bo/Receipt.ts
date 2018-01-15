@@ -454,6 +454,7 @@ export class Receipt extends BODocument<Receipt> implements IReceipt {
         this.receiptItems = new ReceiptItems(this);
         this.objectCode = config.applyVariables(Receipt.BUSINESS_OBJECT_CODE);
         this.businessPartnerType = emBusinessPartnerType.CUSTOMER;
+        this.documentStatus = emDocumentStatus.RELEASED;
     }
 }
 

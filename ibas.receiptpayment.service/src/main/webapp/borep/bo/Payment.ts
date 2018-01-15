@@ -454,6 +454,7 @@ export class Payment extends BODocument<Payment> implements IPayment {
         this.paymentItems = new PaymentItems(this);
         this.objectCode = config.applyVariables(Payment.BUSINESS_OBJECT_CODE);
         this.businessPartnerType = emBusinessPartnerType.SUPPLIER;
+        this.documentStatus = emDocumentStatus.RELEASED;
     }
 }
 
