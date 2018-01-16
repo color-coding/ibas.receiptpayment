@@ -64,13 +64,11 @@ public class ReceiptItems extends BusinessObjects<IReceiptItem, IReceipt> implem
 	@Override
 	protected void afterAddItem(IReceiptItem item) {
 		super.afterAddItem(item);
-		// TODO 设置关联值
 	}
 
 	@Override
 	public ICriteria getElementCriteria() {
 		ICriteria criteria = super.getElementCriteria();
-		// TODO 添加关联查询条件
 		return criteria;
 	}
 

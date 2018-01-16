@@ -21,8 +21,8 @@ import {
     IBOSimpleLine
 } from "ibas/index";
 import {
-    IMaterialBatchJournalsParent,
-    IMaterialSerialJournalsParent,
+    IMaterialBatchItemParent,
+    IMaterialSerialItemParent,
     emItemType
 } from "3rdparty/materials/index";
 import {
@@ -182,7 +182,7 @@ export interface IPurchaseDeliveryItems extends IBusinessObjects<IPurchaseDelive
 }
 
 /** 采购交货-行 */
-export interface IPurchaseDeliveryItem extends IBODocumentLine {
+export interface IPurchaseDeliveryItem extends IBODocumentLine, IMaterialBatchItemParent, IMaterialSerialItemParent {
 
     /** 编码 */
     docEntry: number;
