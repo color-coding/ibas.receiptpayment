@@ -216,6 +216,7 @@ export class PaymentEditApp extends ibas.BOEditApplication<IPaymentEditView, bo.
         if (this.editData.businessPartnerType === bo.emBusinessPartnerType.CUSTOMER) {
             ibas.servicesManager.runChooseService<bp.ICustomer>({
                 boCode: bp.BO_CODE_CUSTOMER,
+                chooseType: ibas.emChooseType.SINGLE,
                 criteria: bp.conditions.customer.create(),
                 onCompleted(selecteds: ibas.List<bp.ICustomer>): void {
                     let selected: bp.ICustomer = selecteds.firstOrDefault();
@@ -226,6 +227,7 @@ export class PaymentEditApp extends ibas.BOEditApplication<IPaymentEditView, bo.
         } else if (this.editData.businessPartnerType === bo.emBusinessPartnerType.SUPPLIER) {
             ibas.servicesManager.runChooseService<bp.ISupplier>({
                 boCode: bp.BO_CODE_SUPPLIER,
+                chooseType: ibas.emChooseType.SINGLE,
                 criteria: bp.conditions.supplier.create(),
                 onCompleted(selecteds: ibas.List<bp.ISupplier>): void {
                     let selected: bp.ICustomer = selecteds.firstOrDefault();
