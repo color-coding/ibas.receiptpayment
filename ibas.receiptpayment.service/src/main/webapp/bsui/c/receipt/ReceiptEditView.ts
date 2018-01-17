@@ -32,7 +32,7 @@ export class ReceiptEditView extends ibas.BOEditView implements IReceiptEditView
         let formTop: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("receiptpayment_general_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("receiptpayment_title_general") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_businesspartnertype") }),
                 new sap.m.Select("", {
                     items: openui5.utils.createComboBoxItems(bo.emBusinessPartnerType),
@@ -65,7 +65,7 @@ export class ReceiptEditView extends ibas.BOEditView implements IReceiptEditView
                 }).bindProperty("value", {
                     path: "reference2",
                 }),
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("receiptpayment_status_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("receiptpayment_title_status") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_docnum") }),
                 new sap.m.Input("", {
                 }).bindProperty("value", {
@@ -225,13 +225,13 @@ export class ReceiptEditView extends ibas.BOEditView implements IReceiptEditView
         let formBottom: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
             editable: true,
             content: [
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("receiptpayment_remarks_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("receiptpayment_title_remarks") }),
                 new sap.m.TextArea("", {
                     rows: 5,
                 }).bindProperty("value", {
                     path: "remarks",
                 }),
-                new sap.ui.core.Title("", { text: ibas.i18n.prop("receiptpayment_total_information") }),
+                new sap.ui.core.Title("", { text: ibas.i18n.prop("receiptpayment_title_total") }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_documenttotal") }),
                 new sap.m.Input("", {
                     editable: false,
