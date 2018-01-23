@@ -90,7 +90,7 @@ export class PaymentEditView extends ibas.BOEditView implements IPaymentEditView
                 }).bindProperty("dateValue", {
                     path: "documentDate",
                 }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_dataowner") }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_dataowner") }),
                 new sap.m.ex.DataOwnerInput("", {
                     bindingValue: {
                         path: "dataOwner"
