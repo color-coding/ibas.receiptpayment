@@ -155,6 +155,9 @@ export interface IPurchaseDelivery extends IBODocument {
     /** 已付款总计 */
     paidTotal: number;
 
+    /** 价格清单 */
+    priceList: number;
+
     /** 付款条款代码 */
     paymentCode: string;
 

@@ -91,10 +91,10 @@ export class ReceiptEditView extends ibas.BOEditView implements IReceiptEditView
                     path: "documentDate",
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_dataowner") }),
-                new sap.m.Input("", {
-                    showValueHelp: true,
-                }).bindProperty("value", {
-                    path: "dataOwner",
+                new sap.m.ex.DataOwnerInput("", {
+                    bindingValue: {
+                        path: "dataOwner"
+                    }
                 }),
             ]
         });
