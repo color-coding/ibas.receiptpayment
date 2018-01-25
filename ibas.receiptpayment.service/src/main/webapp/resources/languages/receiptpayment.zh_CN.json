@@ -6,11 +6,13 @@
   "receiptpayment_app_payment_choose": "付款选择",
   "receiptpayment_app_payment_view": "付款查看",
   "receiptpayment_app_payment_edit": "付款编辑",
+  "receiptpayment_service_payment": "付款服务",
   "receiptpayment_func_receipt": "收款",
   "receiptpayment_app_receipt_list": "收款列表",
   "receiptpayment_app_receipt_choose": "收款选择",
   "receiptpayment_app_receipt_view": "收款查看",
   "receiptpayment_app_receipt_edit": "收款编辑",
+  "receiptpayment_service_receipt": "收款服务",
   "receiptpayment_title_general": "常规信息",
   "receiptpayment_title_status": "状态信息",
   "receiptpayment_title_total": "总计",
@@ -21,5 +23,7 @@
   "receiptpayment_purchase_order": "采购订单",
   "receiptpayment_purchase_delivery": "采购交货",
   "receiptpayment_purchase_return": "采购退货",
+  "receiptpayment_no_work_datas_for_receipt": "没有需要收款的数据",
+  "receiptpayment_no_work_datas_for_payment": "没有需要付款的数据",
   "receiptpayment_closing_delimiter": "----结束----"
 }

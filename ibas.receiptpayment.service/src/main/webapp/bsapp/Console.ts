@@ -8,8 +8,12 @@
 
 import * as ibas from "ibas/index";
 import { CONSOLE_ID, CONSOLE_NAME, CONSOLE_VERSION } from "../api/index";
-import { PaymentFunc, PaymentChooseServiceMapping, PaymentLinkServiceMapping } from "./payment/index";
-import { ReceiptFunc, ReceiptChooseServiceMapping, ReceiptLinkServiceMapping } from "./receipt/index";
+import {
+    PaymentFunc, PaymentChooseServiceMapping, PaymentLinkServiceMapping, PaymentServiceMapping
+} from "./payment/index";
+import {
+    ReceiptFunc, ReceiptChooseServiceMapping, ReceiptLinkServiceMapping, ReceiptServiceMapping
+} from "./receipt/index";
 
 /** 模块控制台 */
 export class Console extends ibas.ModuleConsole {
@@ -36,6 +40,8 @@ export class Console extends ibas.ModuleConsole {
         this.register(new PaymentLinkServiceMapping());
         this.register(new ReceiptChooseServiceMapping());
         this.register(new ReceiptLinkServiceMapping());
+        this.register(new PaymentServiceMapping());
+        this.register(new ReceiptServiceMapping());
         // 注册常驻应用
 
     }

@@ -11,3 +11,4 @@ export * from "./PaymentListView";
 export * from "./PaymentChooseView";
 export * from "./PaymentViewView";
 export * from "./PaymentEditView";
+export * from "./PaymentServiceView";

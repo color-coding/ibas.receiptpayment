@@ -12,3 +12,4 @@ export * from "./ReceiptListApp";
 export * from "./ReceiptChooseApp";
 export * from "./ReceiptViewApp";
 export * from "./ReceiptEditApp";
+export * from "./ReceiptService";

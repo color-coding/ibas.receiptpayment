@@ -36,6 +36,9 @@ export default class Navigation extends ibas.ViewNavigation {
             case paymentApps.PaymentEditApp.APPLICATION_ID:
                 view = new paymentViews.PaymentEditView();
                 break;
+            case paymentApps.PaymentService.APPLICATION_ID:
+                view = new paymentViews.PaymentServiceView();
+                break;
             case receiptApps.ReceiptListApp.APPLICATION_ID:
                 view = new receiptViews.ReceiptListView();
                 break;
@@ -47,6 +50,9 @@ export default class Navigation extends ibas.ViewNavigation {
                 break;
             case receiptApps.ReceiptEditApp.APPLICATION_ID:
                 view = new receiptViews.ReceiptEditView();
+                break;
+            case receiptApps.ReceiptService.APPLICATION_ID:
+                view = new receiptViews.ReceiptServiceView();
                 break;
             default:
                 break;

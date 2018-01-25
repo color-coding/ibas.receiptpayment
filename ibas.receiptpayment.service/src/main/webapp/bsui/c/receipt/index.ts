@@ -11,3 +11,4 @@ export * from "./ReceiptListView";
 export * from "./ReceiptChooseView";
 export * from "./ReceiptViewView";
 export * from "./ReceiptEditView";
+export * from "./ReceiptServiceView";

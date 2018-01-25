@@ -12,3 +12,4 @@ export * from "./PaymentListApp";
 export * from "./PaymentChooseApp";
 export * from "./PaymentViewApp";
 export * from "./PaymentEditApp";
+export * from "./PaymentService";
