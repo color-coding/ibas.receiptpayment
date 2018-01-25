@@ -33,6 +33,7 @@
   "bo_payment_businesspartnertype": "业务伙伴类型",
   "bo_payment_businesspartnercode": "业务伙伴代码",
   "bo_payment_businesspartnername": "业务伙伴名称",
+  "bo_payment_contactperson": "联系人",
   "bo_payment_documentcurrency": "单据货币",
   "bo_payment_documentrate": "单据交换率",
   "bo_payment_documenttotal": "单据总计",

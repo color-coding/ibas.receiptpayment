@@ -511,6 +511,21 @@ public interface IPayment extends IBODocument {
 	void setBusinessPartnerName(String value);
 
 	/**
+	 * 获取-联系人
+	 * 
+	 * @return 值
+	 */
+	Integer getContactPerson();
+
+	/**
+	 * 设置-联系人
+	 * 
+	 * @param value
+	 *            值
+	 */
+	void setContactPerson(Integer value);
+
+	/**
 	 * 获取-单据货币
 	 * 
 	 * @return 值

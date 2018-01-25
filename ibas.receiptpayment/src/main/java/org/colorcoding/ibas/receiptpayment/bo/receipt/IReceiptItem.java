@@ -527,21 +527,6 @@ public interface IReceiptItem extends IBODocumentLine {
 	void setRate(double value);
 
 	/**
-	 * 获取-银行编码
-	 * 
-	 * @return 值
-	 */
-	String getBankCode();
-
-	/**
-	 * 设置-银行编码
-	 * 
-	 * @param value
-	 *            值
-	 */
-	void setBankCode(String value);
-
-	/**
 	 * 获取-卡号
 	 * 
 	 * @return 值

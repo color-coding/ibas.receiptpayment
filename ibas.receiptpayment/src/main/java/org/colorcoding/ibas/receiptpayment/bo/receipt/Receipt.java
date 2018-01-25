@@ -1117,6 +1117,38 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 	}
 
 	/**
+	 * 属性名称-联系人
+	 */
+	private static final String PROPERTY_CONTACTPERSON_NAME = "ContactPerson";
+
+	/**
+	 * 联系人 属性
+	 */
+	@DbField(name = "CntctCode", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<Integer> PROPERTY_CONTACTPERSON = registerProperty(PROPERTY_CONTACTPERSON_NAME,
+			Integer.class, MY_CLASS);
+
+	/**
+	 * 获取-联系人
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_CONTACTPERSON_NAME)
+	public final Integer getContactPerson() {
+		return this.getProperty(PROPERTY_CONTACTPERSON);
+	}
+
+	/**
+	 * 设置-联系人
+	 * 
+	 * @param value
+	 *            值
+	 */
+	public final void setContactPerson(Integer value) {
+		this.setProperty(PROPERTY_CONTACTPERSON, value);
+	}
+
+	/**
 	 * 属性名称-单据货币
 	 */
 	private static final String PROPERTY_DOCUMENTCURRENCY_NAME = "DocumentCurrency";

@@ -403,6 +403,17 @@ export class Payment extends BODocument<Payment> implements IPayment {
         this.setProperty(Payment.PROPERTY_BUSINESSPARTNERNAME_NAME, value);
     }
 
+    /** 映射的属性名称-联系人 */
+    static PROPERTY_CONTACTPERSON_NAME: string = "ContactPerson";
+    /** 获取-联系人 */
+    get contactPerson(): number {
+        return this.getProperty<number>(Payment.PROPERTY_CONTACTPERSON_NAME);
+    }
+    /** 设置-联系人 */
+    set contactPerson(value: number) {
+        this.setProperty(Payment.PROPERTY_CONTACTPERSON_NAME, value);
+    }
+
     /** 映射的属性名称-单据货币 */
     static PROPERTY_DOCUMENTCURRENCY_NAME: string = "DocumentCurrency";
     /** 获取-单据货币 */
@@ -825,17 +836,6 @@ export class PaymentItem extends BODocumentLine<PaymentItem> implements IPayment
     /** 设置-汇率 */
     set rate(value: number) {
         this.setProperty(PaymentItem.PROPERTY_RATE_NAME, value);
-    }
-
-    /** 映射的属性名称-银行编码 */
-    static PROPERTY_BANKCODE_NAME: string = "BankCode";
-    /** 获取-银行编码 */
-    get bankCode(): string {
-        return this.getProperty<string>(PaymentItem.PROPERTY_BANKCODE_NAME);
-    }
-    /** 设置-银行编码 */
-    set bankCode(value: string) {
-        this.setProperty(PaymentItem.PROPERTY_BANKCODE_NAME, value);
     }
 
     /** 映射的属性名称-卡号 */

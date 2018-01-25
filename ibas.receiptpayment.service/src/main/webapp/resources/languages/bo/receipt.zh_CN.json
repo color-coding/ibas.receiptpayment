@@ -33,6 +33,7 @@
   "bo_receipt_businesspartnertype": "业务伙伴类型",
   "bo_receipt_businesspartnercode": "业务伙伴代码",
   "bo_receipt_businesspartnername": "业务伙伴名称",
+  "bo_receipt_contactperson": "联系人",
   "bo_receipt_documentcurrency": "单据货币",
   "bo_receipt_documentrate": "单据交换率",
   "bo_receipt_documenttotal": "单据总计",

@@ -8,6 +8,8 @@
 
 import * as ibas from "ibas/index";
 import * as bp from "3rdparty/businesspartner/index";
+import * as sm from "3rdparty/sales/index";
+import * as pm from "3rdparty/purchase/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryReceiptPayment } from "../../borep/BORepositories";
 
@@ -36,7 +38,10 @@ export class PaymentEditApp extends ibas.BOEditApplication<IPaymentEditView, bo.
         this.view.createDataEvent = this.createData;
         this.view.addPaymentItemEvent = this.addPaymentItem;
         this.view.removePaymentItemEvent = this.removePaymentItem;
-        this.view.chooseBusinessPartnerEvent = this.chooseBusinessPartner;
+        this.view.choosePaymentBusinessPartnerEvent = this.choosePaymentBusinessPartner;
+        this.view.choosePaymentItemPurchaseOrderEvent = this.choosePaymentItemPurchaseOrder;
+        this.view.choosePaymentItemPurchaseDeliveryEvent = this.choosePaymentItemPurchaseDelivery;
+        this.view.choosePaymentItemSalesReturnEvent = this.choosePaymentItemSalesReturn;
     }
     /** 视图显示后 */
     protected viewShowed(): void {
@@ -180,13 +185,13 @@ export class PaymentEditApp extends ibas.BOEditApplication<IPaymentEditView, bo.
         }
     }
     /** 添加付款-项目事件 */
-    addPaymentItem(): void {
+    private addPaymentItem(): void {
         this.editData.paymentItems.create();
         // 仅显示没有标记删除的
         this.view.showPaymentItems(this.editData.paymentItems.filterDeleted());
     }
     /** 删除付款-项目事件 */
-    removePaymentItem(items: bo.PaymentItem[]): void {
+    private removePaymentItem(items: bo.PaymentItem[]): void {
         // 非数组，转为数组
         if (!(items instanceof Array)) {
             items = [items];
@@ -211,7 +216,7 @@ export class PaymentEditApp extends ibas.BOEditApplication<IPaymentEditView, bo.
     }
 
     /** 选择付款客户事件 */
-    private chooseBusinessPartner(): void {
+    private choosePaymentBusinessPartner(): void {
         let that: this = this;
         if (this.editData.businessPartnerType === bo.emBusinessPartnerType.CUSTOMER) {
             ibas.servicesManager.runChooseService<bp.ICustomer>({
@@ -222,6 +227,7 @@ export class PaymentEditApp extends ibas.BOEditApplication<IPaymentEditView, bo.
                     let selected: bp.ICustomer = selecteds.firstOrDefault();
                     that.editData.businessPartnerCode = selected.code;
                     that.editData.businessPartnerName = selected.name;
+                    that.editData.contactPerson = selected.contactPerson;
                 }
             });
         } else if (this.editData.businessPartnerType === bo.emBusinessPartnerType.SUPPLIER) {
@@ -233,11 +239,173 @@ export class PaymentEditApp extends ibas.BOEditApplication<IPaymentEditView, bo.
                     let selected: bp.ICustomer = selecteds.firstOrDefault();
                     that.editData.businessPartnerCode = selected.code;
                     that.editData.businessPartnerName = selected.name;
+                    that.editData.contactPerson = selected.contactPerson;
                 }
             });
         }
     }
-
+    /** 选择付款项目-采购订单 */
+    private choosePaymentItemPurchaseOrder(): void {
+        if (ibas.objects.isNull(this.editData) || ibas.strings.isEmpty(this.editData.businessPartnerCode)) {
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                ibas.i18n.prop("bo_payment_businesspartnercode")
+            ));
+            return;
+        }
+        let criteria: ibas.ICriteria = new ibas.Criteria();
+        // 不查子项
+        criteria.noChilds = true;
+        let condition: ibas.ICondition = criteria.conditions.create();
+        // 未取消的
+        condition.alias = ibas.BO_PROPERTY_NAME_CANCELED;
+        condition.operation = ibas.emConditionOperation.EQUAL;
+        condition.value = ibas.emYesNo.NO.toString();
+        // 未删除的
+        condition = criteria.conditions.create();
+        condition.alias = ibas.BO_PROPERTY_NAME_DELETED;
+        condition.operation = ibas.emConditionOperation.EQUAL;
+        condition.value = ibas.emYesNo.NO.toString();
+        // 未结算的
+        condition = criteria.conditions.create();
+        condition.alias = ibas.BO_PROPERTY_NAME_DOCUMENTSTATUS;
+        condition.operation = ibas.emConditionOperation.NOT_EQUAL;
+        condition.value = ibas.emDocumentStatus.CLOSED.toString();
+        // 当前供应商的
+        condition.alias = "SupplierCode";
+        condition.operation = ibas.emConditionOperation.EQUAL;
+        condition.value = this.editData.businessPartnerCode;
+        // 未收全款的
+        condition = criteria.conditions.create();
+        condition.alias = "DocumentTotal";
+        condition.operation = ibas.emConditionOperation.LESS_THAN;
+        condition.comparedAlias = "PaidTotal";
+        // 调用选择服务
+        let that: this = this;
+        ibas.servicesManager.runChooseService<pm.IPurchaseOrder>({
+            boCode: pm.BO_CODE_PURCHASEORDER,
+            chooseType: ibas.emChooseType.MULTIPLE,
+            criteria: criteria,
+            onCompleted(selecteds: ibas.List<pm.IPurchaseOrder>): void {
+                for (let selected of selecteds) {
+                    let item: bo.PaymentItem = that.editData.paymentItems.create();
+                    item.baseDocumentType = selected.objectCode;
+                    item.baseDocumentEntry = selected.docEntry;
+                    item.baseDocumentLineId = -1;
+                    item.amount = selected.documentTotal - selected.paidTotal;
+                    item.currency = selected.documentCurrency;
+                }
+                that.view.showPaymentItems(that.editData.paymentItems.filterDeleted());
+            }
+        });
+    }
+    /** 选择付款项目-采购交货 */
+    private choosePaymentItemPurchaseDelivery(): void {
+        if (ibas.objects.isNull(this.editData) || ibas.strings.isEmpty(this.editData.businessPartnerCode)) {
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                ibas.i18n.prop("bo_payment_businesspartnercode")
+            ));
+            return;
+        }
+        let criteria: ibas.ICriteria = new ibas.Criteria();
+        // 不查子项
+        criteria.noChilds = true;
+        let condition: ibas.ICondition = criteria.conditions.create();
+        // 未取消的
+        condition.alias = ibas.BO_PROPERTY_NAME_CANCELED;
+        condition.operation = ibas.emConditionOperation.EQUAL;
+        condition.value = ibas.emYesNo.NO.toString();
+        // 未删除的
+        condition = criteria.conditions.create();
+        condition.alias = ibas.BO_PROPERTY_NAME_DELETED;
+        condition.operation = ibas.emConditionOperation.EQUAL;
+        condition.value = ibas.emYesNo.NO.toString();
+        // 未结算的
+        condition = criteria.conditions.create();
+        condition.alias = ibas.BO_PROPERTY_NAME_DOCUMENTSTATUS;
+        condition.operation = ibas.emConditionOperation.NOT_EQUAL;
+        condition.value = ibas.emDocumentStatus.CLOSED.toString();
+        // 当前供应商的
+        condition.alias = "SupplierCode";
+        condition.operation = ibas.emConditionOperation.EQUAL;
+        condition.value = this.editData.businessPartnerCode;
+        // 未收全款的
+        condition = criteria.conditions.create();
+        condition.alias = "DocumentTotal";
+        condition.operation = ibas.emConditionOperation.LESS_THAN;
+        condition.comparedAlias = "PaidTotal";
+        // 调用选择服务
+        let that: this = this;
+        ibas.servicesManager.runChooseService<pm.IPurchaseDelivery>({
+            boCode: pm.BO_CODE_PURCHASEDELIVERY,
+            chooseType: ibas.emChooseType.MULTIPLE,
+            criteria: criteria,
+            onCompleted(selecteds: ibas.List<pm.IPurchaseDelivery>): void {
+                for (let selected of selecteds) {
+                    let item: bo.PaymentItem = that.editData.paymentItems.create();
+                    item.baseDocumentType = selected.objectCode;
+                    item.baseDocumentEntry = selected.docEntry;
+                    item.baseDocumentLineId = -1;
+                    item.amount = selected.documentTotal - selected.paidTotal;
+                    item.currency = selected.documentCurrency;
+                }
+                that.view.showPaymentItems(that.editData.paymentItems.filterDeleted());
+            }
+        });
+    }
+    /** 选择付款项目-销售退货 */
+    private choosePaymentItemSalesReturn(): void {
+        if (ibas.objects.isNull(this.editData) || ibas.strings.isEmpty(this.editData.businessPartnerCode)) {
+            this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                ibas.i18n.prop("bo_payment_businesspartnercode")
+            ));
+            return;
+        }
+        let criteria: ibas.ICriteria = new ibas.Criteria();
+        // 不查子项
+        criteria.noChilds = true;
+        let condition: ibas.ICondition = criteria.conditions.create();
+        // 未取消的
+        condition.alias = ibas.BO_PROPERTY_NAME_CANCELED;
+        condition.operation = ibas.emConditionOperation.EQUAL;
+        condition.value = ibas.emYesNo.NO.toString();
+        // 未删除的
+        condition = criteria.conditions.create();
+        condition.alias = ibas.BO_PROPERTY_NAME_DELETED;
+        condition.operation = ibas.emConditionOperation.EQUAL;
+        condition.value = ibas.emYesNo.NO.toString();
+        // 未结算的
+        condition = criteria.conditions.create();
+        condition.alias = ibas.BO_PROPERTY_NAME_DOCUMENTSTATUS;
+        condition.operation = ibas.emConditionOperation.NOT_EQUAL;
+        condition.value = ibas.emDocumentStatus.CLOSED.toString();
+        // 当前客户的
+        condition.alias = "CustomerCode";
+        condition.operation = ibas.emConditionOperation.EQUAL;
+        condition.value = this.editData.businessPartnerCode;
+        // 未收全款的
+        condition = criteria.conditions.create();
+        condition.alias = "DocumentTotal";
+        condition.operation = ibas.emConditionOperation.LESS_THAN;
+        condition.comparedAlias = "PaidTotal";
+        // 调用选择服务
+        let that: this = this;
+        ibas.servicesManager.runChooseService<sm.ISalesReturn>({
+            boCode: sm.BO_CODE_SALESRETURN,
+            chooseType: ibas.emChooseType.MULTIPLE,
+            criteria: criteria,
+            onCompleted(selecteds: ibas.List<sm.ISalesReturn>): void {
+                for (let selected of selecteds) {
+                    let item: bo.PaymentItem = that.editData.paymentItems.create();
+                    item.baseDocumentType = selected.objectCode;
+                    item.baseDocumentEntry = selected.docEntry;
+                    item.baseDocumentLineId = -1;
+                    item.amount = selected.documentTotal - selected.paidTotal;
+                    item.currency = selected.documentCurrency;
+                }
+                that.view.showPaymentItems(that.editData.paymentItems.filterDeleted());
+            }
+        });
+    }
 }
 /** 视图-付款 */
 export interface IPaymentEditView extends ibas.IBOEditView {
@@ -247,12 +415,18 @@ export interface IPaymentEditView extends ibas.IBOEditView {
     deleteDataEvent: Function;
     /** 新建数据事件，参数1：是否克隆 */
     createDataEvent: Function;
+    /** 选择付款客户事件 */
+    choosePaymentBusinessPartnerEvent: Function;
     /** 添加付款-项目事件 */
     addPaymentItemEvent: Function;
     /** 删除付款-项目事件 */
     removePaymentItemEvent: Function;
-    /** 选择付款客户事件 */
-    chooseBusinessPartnerEvent: Function;
     /** 显示数据 */
     showPaymentItems(datas: bo.PaymentItem[]): void;
+    /** 选择付款项目-采购订单 */
+    choosePaymentItemPurchaseOrderEvent: Function;
+    /** 选择付款项目-采购交货 */
+    choosePaymentItemPurchaseDeliveryEvent: Function;
+    /** 选择付款项目-销售退货 */
+    choosePaymentItemSalesReturnEvent: Function;
 }

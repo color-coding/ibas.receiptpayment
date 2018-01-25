@@ -8,6 +8,7 @@
 
 import * as ibas from "ibas/index";
 import * as openui5 from "openui5/index";
+import * as bp from "3rdparty/businesspartner/index";
 import * as bo from "../../../borep/bo/index";
 import { IPaymentEditView } from "../../../bsapp/payment/index";
 
@@ -24,7 +25,13 @@ export class PaymentEditView extends ibas.BOEditView implements IPaymentEditView
     /** 删除付款-项目事件 */
     removePaymentItemEvent: Function;
     /** 选择付款客户事件 */
-    chooseBusinessPartnerEvent: Function;
+    choosePaymentBusinessPartnerEvent: Function;
+    /** 选择付款项目-采购订单 */
+    choosePaymentItemPurchaseOrderEvent: Function;
+    /** 选择付款项目-采购交货 */
+    choosePaymentItemPurchaseDeliveryEvent: Function;
+    /** 选择付款项目-销售退货 */
+    choosePaymentItemSalesReturnEvent: Function;
 
     /** 绘制视图 */
     darw(): any {
@@ -44,7 +51,7 @@ export class PaymentEditView extends ibas.BOEditView implements IPaymentEditView
                 new sap.m.Input("", {
                     showValueHelp: true,
                     valueHelpRequest: function (): void {
-                        that.fireViewEvents(that.chooseBusinessPartnerEvent);
+                        that.fireViewEvents(that.choosePaymentBusinessPartnerEvent);
                     }
                 }).bindProperty("value", {
                     path: "businessPartnerCode",
@@ -54,6 +61,17 @@ export class PaymentEditView extends ibas.BOEditView implements IPaymentEditView
                     editable: false,
                 }).bindProperty("value", {
                     path: "businessPartnerName",
+                }),
+                new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_contactperson") }),
+                new sap.m.ex.BOChooseInput("", {
+                    boText: "name",
+                    boKey: "objectKey",
+                    boCode: ibas.config.applyVariables(bp.BO_CODE_CONTACTPERSON),
+                    repositoryName: bp.BO_REPOSITORY_BUSINESSPARTNER,
+                    criteria: bp.conditions.contactperson.create(<any>"{businessPartnerType}", "{businessPartnerCode}"),
+                    bindingValue: {
+                        path: "contactPerson"
+                    }
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_reference1") }),
                 new sap.m.Input("", {
@@ -66,11 +84,6 @@ export class PaymentEditView extends ibas.BOEditView implements IPaymentEditView
                     path: "reference2",
                 }),
                 new sap.ui.core.Title("", { text: ibas.i18n.prop("receiptpayment_title_status") }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_docnum") }),
-                new sap.m.Input("", {
-                }).bindProperty("value", {
-                    path: "docNum",
-                }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_documentstatus") }),
                 new sap.m.Select("", {
                     items: openui5.utils.createComboBoxItems(ibas.emDocumentStatus),
@@ -87,6 +100,8 @@ export class PaymentEditView extends ibas.BOEditView implements IPaymentEditView
                 }),
                 new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_documentdate") }),
                 new sap.m.DatePicker("", {
+                    valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
+                    displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
                 }).bindProperty("dateValue", {
                     path: "documentDate",
                 }),
@@ -101,13 +116,34 @@ export class PaymentEditView extends ibas.BOEditView implements IPaymentEditView
         this.tablePaymentItem = new sap.ui.table.Table("", {
             toolbar: new sap.m.Toolbar("", {
                 content: [
-                    new sap.m.Button("", {
-                        text: ibas.i18n.prop("shell_data_add"),
+                    new sap.m.MenuButton("", {
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://add",
-                        press: function (): void {
-                            that.fireViewEvents(that.addPaymentItemEvent);
-                        }
+                        text: ibas.i18n.prop("shell_data_add"),
+                        menu: [
+                            new sap.m.Menu("", {
+                                items: [
+                                    new sap.m.MenuItem("", {
+                                        text: ibas.i18n.prop("receiptpayment_purchase_order"),
+                                        press: function (): void {
+                                            that.fireViewEvents(that.choosePaymentItemPurchaseOrderEvent);
+                                        }
+                                    }),
+                                    new sap.m.MenuItem("", {
+                                        text: ibas.i18n.prop("receiptpayment_purchase_delivery"),
+                                        press: function (): void {
+                                            that.fireViewEvents(that.choosePaymentItemPurchaseDeliveryEvent);
+                                        }
+                                    }),
+                                    new sap.m.MenuItem("", {
+                                        text: ibas.i18n.prop("receiptpayment_sales_return"),
+                                        press: function (): void {
+                                            that.fireViewEvents(that.choosePaymentItemSalesReturnEvent);
+                                        }
+                                    }),
+                                ]
+                            })
+                        ]
                     }),
                     new sap.m.Button("", {
                         text: ibas.i18n.prop("shell_data_remove"),
@@ -119,7 +155,7 @@ export class PaymentEditView extends ibas.BOEditView implements IPaymentEditView
                                 openui5.utils.getSelecteds<bo.PaymentItem>(that.tablePaymentItem)
                             );
                         }
-                    })
+                    }),
                 ]
             }),
             enableSelectAll: false,
@@ -193,15 +229,6 @@ export class PaymentEditView extends ibas.BOEditView implements IPaymentEditView
                         type: sap.m.InputType.Text
                     }).bindProperty("value", {
                         path: "currency"
-                    })
-                }),
-                new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_paymentitem_bankcode"),
-                    template: new sap.m.Input("", {
-                        width: "100%",
-                        type: sap.m.InputType.Text
-                    }).bindProperty("value", {
-                        path: "bankCode"
                     })
                 }),
                 new sap.ui.table.Column("", {

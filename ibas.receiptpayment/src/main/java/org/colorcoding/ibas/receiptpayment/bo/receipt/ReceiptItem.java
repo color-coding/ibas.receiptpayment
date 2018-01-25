@@ -920,7 +920,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem> implements IReceipt
 	/**
 	 * 方式 属性
 	 */
-	@DbField(name = "${Property.getMapped()}", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Mode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
 	public static final IPropertyInfo<String> PROPERTY_MODE = registerProperty(PROPERTY_MODE_NAME, String.class,
 			MY_CLASS);
 
@@ -1098,38 +1098,6 @@ public class ReceiptItem extends BusinessObject<ReceiptItem> implements IReceipt
 	 */
 	public final void setRate(double value) {
 		this.setRate(new Decimal(value));
-	}
-
-	/**
-	 * 属性名称-银行编码
-	 */
-	private static final String PROPERTY_BANKCODE_NAME = "BankCode";
-
-	/**
-	 * 银行编码 属性
-	 */
-	@DbField(name = "BankCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<String> PROPERTY_BANKCODE = registerProperty(PROPERTY_BANKCODE_NAME, String.class,
-			MY_CLASS);
-
-	/**
-	 * 获取-银行编码
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_BANKCODE_NAME)
-	public final String getBankCode() {
-		return this.getProperty(PROPERTY_BANKCODE);
-	}
-
-	/**
-	 * 设置-银行编码
-	 * 
-	 * @param value
-	 *            值
-	 */
-	public final void setBankCode(String value) {
-		this.setProperty(PROPERTY_BANKCODE, value);
 	}
 
 	/**

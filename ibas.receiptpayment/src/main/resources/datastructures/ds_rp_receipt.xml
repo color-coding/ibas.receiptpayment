@@ -35,6 +35,7 @@
     <Property Name="BusinessPartnerType" Description="业务伙伴类型" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emBusinessPartnerType" Mapped="CardType"/>
     <Property Name="BusinessPartnerCode" Description="业务伙伴代码" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="CardCode"/>
     <Property Name="BusinessPartnerName" Description="业务伙伴名称" DataType="Alphanumeric" DataSubType="Default" EditSize="200" Mapped="CardName"/>
+    <Property Name="ContactPerson" Description="联系人" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="CntctCode"/>
     <Property Name="DocumentCurrency" Description="单据货币" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="DocCur"/>
     <Property Name="DocumentRate" Description="单据交换率" DataType="Decimal" DataSubType="Rate" EditSize="8" Mapped="DocRate"/>
     <Property Name="DocumentTotal" Description="单据总计" DataType="Decimal" DataSubType="Sum" EditSize="8" Mapped="DocTotal"/>
@@ -67,11 +68,10 @@
     <Property Name="OriginalDocumentType" Description="原始类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="OrgnlType"/>
     <Property Name="OriginalDocumentEntry" Description="原始标识" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="OrgnlEntry"/>
     <Property Name="OriginalDocumentLineId" Description="原始行号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="OrgnlLine"/>
-    <Property Name="Mode" Description="方式" DataType="Alphanumeric" DataSubType="Default" EditSize="8"/>
+    <Property Name="Mode" Description="方式" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Mode"/>
     <Property Name="Amount" Description="金额" DataType="Decimal" DataSubType="Sum" EditSize="8" Mapped="Amount"/>
     <Property Name="Currency" Description="币种" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Currency"/>
     <Property Name="Rate" Description="汇率" DataType="Decimal" DataSubType="Rate" EditSize="8" Mapped="Rate"/>
-    <Property Name="BankCode" Description="银行编码" DataType="Alphanumeric" DataSubType="Default" EditSize="20" Mapped="BankCode"/>
     <Property Name="CardNumber" Description="卡号" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="CardNumber"/>
   </Model>
   <BusinessObject MappedModel="Receipt" ShortName="${Company}_RP_RECEIPT">

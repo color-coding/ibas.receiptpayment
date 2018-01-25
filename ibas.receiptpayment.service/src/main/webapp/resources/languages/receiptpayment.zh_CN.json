@@ -15,5 +15,11 @@
   "receiptpayment_title_status": "状态信息",
   "receiptpayment_title_total": "总计",
   "receiptpayment_title_remarks": "备注",
+  "receiptpayment_sales_order": "销售订单",
+  "receiptpayment_sales_delivery": "销售交货",
+  "receiptpayment_sales_return": "销售退货",
+  "receiptpayment_purchase_order": "采购订单",
+  "receiptpayment_purchase_delivery": "采购交货",
+  "receiptpayment_purchase_return": "采购退货",
   "receiptpayment_closing_delimiter": "----结束----"
 }

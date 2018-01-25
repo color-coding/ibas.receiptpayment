@@ -129,6 +129,9 @@ export interface IPayment extends IBODocument {
     /** 业务伙伴名称 */
     businessPartnerName: string;
 
+    /** 联系人 */
+    contactPerson: number;
+
     /** 单据货币 */
     documentCurrency: string;
 
@@ -247,9 +250,6 @@ export interface IPaymentItem extends IBODocumentLine {
 
     /** 汇率 */
     rate: number;
-
-    /** 银行编码 */
-    bankCode: string;
 
     /** 卡号 */
     cardNumber: string;

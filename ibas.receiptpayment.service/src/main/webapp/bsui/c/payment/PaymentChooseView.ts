@@ -106,10 +106,10 @@ export class PaymentChooseView extends ibas.BOChooseView implements IPaymentChoo
                         wrapping: false,
                     }).bindProperty("text", {
                         path: "documentDate",
-                        type: "sap.ui.model.type.Date",
-                        formatOptions: {
-                            style: "short"
-                        }
+                        type: new sap.ui.model.type.Date({
+                            pattern: "yyyy-MM-dd",
+                            strictParsing: true,
+                        })
                     }),
                 }),
                 new sap.ui.table.Column("", {
