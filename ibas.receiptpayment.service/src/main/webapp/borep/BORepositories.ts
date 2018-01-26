@@ -9,14 +9,14 @@
 import * as ibas from "ibas/index";
 import * as bo from "./bo/index";
 import { IBORepositoryReceiptPayment, BO_REPOSITORY_RECEIPTPAYMENT } from "../api/index";
-import { DataConverter4rp } from "./DataConverters";
+import { DataConverter4RP } from "./DataConverters";
 
 /** 业务对象仓库 */
 export class BORepositoryReceiptPayment extends ibas.BORepositoryApplication implements IBORepositoryReceiptPayment {
 
     /** 创建此模块的后端与前端数据的转换者 */
     protected createConverter(): ibas.IDataConverter {
-        return new DataConverter4rp;
+        return new DataConverter4RP;
     }
     /**
      * 上传文件

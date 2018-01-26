@@ -17,7 +17,7 @@ import { IPaymentViewView } from "../../../bsapp/payment/index";
 export class PaymentViewView extends ibas.BOViewView implements IPaymentViewView {
 
     /** 绘制视图 */
-    darw(): any {
+    draw(): any {
         let that: this = this;
         this.form = new sap.ui.layout.form.SimpleForm("", {
             content: [

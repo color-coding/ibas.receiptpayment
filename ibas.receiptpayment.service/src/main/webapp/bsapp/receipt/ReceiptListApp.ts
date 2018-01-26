@@ -9,7 +9,7 @@
 import * as ibas from "ibas/index";
 import * as bo from "../../borep/bo/index";
 import { BORepositoryReceiptPayment } from "../../borep/BORepositories";
-import { DataConverter4rp } from "../../borep/DataConverters";
+import { DataConverter4RP } from "../../borep/DataConverters";
 import { ReceiptViewApp } from "./ReceiptViewApp";
 import { ReceiptEditApp } from "./ReceiptEditApp";
 
@@ -179,7 +179,7 @@ export class ReceiptListApp extends ibas.BOListApplication<IReceiptListView, bo.
         return [
             new ibas.BOListServiceProxy({
                 data: this.view.getSelecteds(),
-                converter: new DataConverter4rp()
+                converter: new DataConverter4RP()
             })
         ];
     }

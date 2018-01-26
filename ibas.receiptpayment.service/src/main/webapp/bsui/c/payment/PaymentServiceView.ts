@@ -16,7 +16,7 @@ import { IPaymentServiceView } from "../../../bsapp/payment/index";
  */
 export class PaymentServiceView extends ibas.BODialogView implements IPaymentServiceView {
     /** 绘制视图 */
-    darw(): any {
+    draw(): any {
         let that: this = this;
         return new sap.m.Dialog("", {
             title: this.title,

@@ -16,7 +16,7 @@ import { IReceiptServiceView } from "../../../bsapp/receipt/index";
  */
 export class ReceiptServiceView extends ibas.BODialogView implements IReceiptServiceView {
     /** 绘制视图 */
-    darw(): any {
+    draw(): any {
         let that: this = this;
         return new sap.m.Dialog("", {
             title: this.title,
