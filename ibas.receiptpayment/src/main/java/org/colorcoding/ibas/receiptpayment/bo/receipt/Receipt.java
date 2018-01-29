@@ -22,6 +22,7 @@ import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
 import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
 
@@ -1355,7 +1356,9 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 	@Override
 	protected IBusinessRule[] registerRules() {
 		return new IBusinessRule[] { // 注册的业务规则
+				new BusinessRuleRequired(PROPERTY_BUSINESSPARTNERTYPE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_BUSINESSPARTNERCODE), // 要求有值
+				new BusinessRuleRequiredElements(PROPERTY_RECEIPTITEMS), // 要求有元素
 		};
 	}
 }
