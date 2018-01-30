@@ -64,6 +64,11 @@ public class ReceiptItems extends BusinessObjects<IReceiptItem, IReceipt> implem
 	@Override
 	protected void afterAddItem(IReceiptItem item) {
 		super.afterAddItem(item);
+		if (item instanceof ReceiptItem) {
+			((ReceiptItem) item).parent = this.getParent();
+		}
+		// 记录父项的值
+		item.setRate(this.getParent().getDocumentRate());
 	}
 
 	@Override

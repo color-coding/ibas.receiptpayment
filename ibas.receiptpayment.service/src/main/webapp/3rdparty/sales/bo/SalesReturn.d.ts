@@ -148,7 +148,7 @@ export interface ISalesReturn extends IBODocument {
     /** 单据货币 */
     documentCurrency: string;
 
-    /** 单据交换率 */
+    /** 单据汇率 */
     documentRate: number;
 
     /** 单据总计 */

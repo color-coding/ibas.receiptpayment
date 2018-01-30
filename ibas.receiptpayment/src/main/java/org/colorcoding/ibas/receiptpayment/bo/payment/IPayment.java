@@ -541,14 +541,14 @@ public interface IPayment extends IBODocument {
 	void setDocumentCurrency(String value);
 
 	/**
-	 * 获取-单据交换率
+	 * 获取-单据汇率
 	 * 
 	 * @return 值
 	 */
 	Decimal getDocumentRate();
 
 	/**
-	 * 设置-单据交换率
+	 * 设置-单据汇率
 	 * 
 	 * @param value
 	 *            值
@@ -556,7 +556,7 @@ public interface IPayment extends IBODocument {
 	void setDocumentRate(Decimal value);
 
 	/**
-	 * 设置-单据交换率
+	 * 设置-单据汇率
 	 * 
 	 * @param value
 	 *            值
@@ -564,7 +564,7 @@ public interface IPayment extends IBODocument {
 	void setDocumentRate(String value);
 
 	/**
-	 * 设置-单据交换率
+	 * 设置-单据汇率
 	 * 
 	 * @param value
 	 *            值
@@ -572,7 +572,7 @@ public interface IPayment extends IBODocument {
 	void setDocumentRate(int value);
 
 	/**
-	 * 设置-单据交换率
+	 * 设置-单据汇率
 	 * 
 	 * @param value
 	 *            值

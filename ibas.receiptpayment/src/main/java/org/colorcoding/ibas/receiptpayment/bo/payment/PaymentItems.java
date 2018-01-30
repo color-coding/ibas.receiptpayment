@@ -66,6 +66,11 @@ public class PaymentItems extends BusinessObjects<IPaymentItem, IPayment> implem
 	@Override
 	protected void afterAddItem(IPaymentItem item) {
 		super.afterAddItem(item);
+		if (item instanceof PaymentItem) {
+			((PaymentItem) item).parent = this.getParent();
+		}
+		// 记录父项的值
+		item.setRate(this.getParent().getDocumentRate());
 	}
 
 	@Override

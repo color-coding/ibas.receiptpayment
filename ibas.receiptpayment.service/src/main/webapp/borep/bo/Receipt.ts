@@ -425,13 +425,13 @@ export class Receipt extends BODocument<Receipt> implements IReceipt {
         this.setProperty(Receipt.PROPERTY_DOCUMENTCURRENCY_NAME, value);
     }
 
-    /** 映射的属性名称-单据交换率 */
+    /** 映射的属性名称-单据汇率 */
     static PROPERTY_DOCUMENTRATE_NAME: string = "DocumentRate";
-    /** 获取-单据交换率 */
+    /** 获取-单据汇率 */
     get documentRate(): number {
         return this.getProperty<number>(Receipt.PROPERTY_DOCUMENTRATE_NAME);
     }
-    /** 设置-单据交换率 */
+    /** 设置-单据汇率 */
     set documentRate(value: number) {
         this.setProperty(Receipt.PROPERTY_DOCUMENTRATE_NAME, value);
     }
@@ -816,13 +816,13 @@ export class ReceiptItem extends BODocumentLine<ReceiptItem> implements IReceipt
         this.setProperty(ReceiptItem.PROPERTY_AMOUNT_NAME, value);
     }
 
-    /** 映射的属性名称-币种 */
+    /** 映射的属性名称-货币 */
     static PROPERTY_CURRENCY_NAME: string = "Currency";
-    /** 获取-币种 */
+    /** 获取-货币 */
     get currency(): string {
         return this.getProperty<string>(ReceiptItem.PROPERTY_CURRENCY_NAME);
     }
-    /** 设置-币种 */
+    /** 设置-货币 */
     set currency(value: string) {
         this.setProperty(ReceiptItem.PROPERTY_CURRENCY_NAME, value);
     }
