@@ -10,3 +10,4 @@
 export * from "./PurchaseDelivery.d";
 export * from "./PurchaseOrder.d";
 export * from "./PurchaseReturn.d";
+export * from "./ShippingAddress.d";

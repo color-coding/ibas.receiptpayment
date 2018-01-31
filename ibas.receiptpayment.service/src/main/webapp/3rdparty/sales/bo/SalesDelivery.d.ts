@@ -21,14 +21,15 @@ import {
     IBOSimpleLine
 } from "ibas/index";
 import {
-    emItemType, IMaterialBatchItemParent, IMaterialSerialItemParent
+    IMaterialBatchItemParent,
+    IMaterialSerialItemParent,
 } from "3rdparty/materials/index";
 import {
     emProductTreeType
 } from "../Datas";
 import {
     IShippingAddresss
-} from "../bo/index";
+} from "./ShippingAddress.d";
 
 /** 销售交货 */
 export interface ISalesDelivery extends IBODocument {
@@ -132,16 +133,10 @@ export interface ISalesDelivery extends IBODocument {
     /** 联系人 */
     contactPerson: number;
 
-    /** 税率 */
-    taxRate: number;
-
-    /** 税总额 */
-    taxTotal: number;
-
     /** 折扣 */
     discount: number;
 
-    /** 折扣总计 */
+    /** 折扣后总计 */
     discountTotal: number;
 
     /** 单据货币 */
@@ -278,9 +273,6 @@ export interface ISalesDeliveryItem extends IBODocumentLine, IMaterialBatchItemP
 
     /** 产品/服务描述 */
     itemDescription: string;
-
-    /** 产品类型 */
-    itemType: emItemType;
 
     /** 序号管理 */
     serialManagement: emYesNo;

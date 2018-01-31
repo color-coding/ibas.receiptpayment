@@ -29,22 +29,21 @@ export const BO_CODE_PURCHASEDELIVERY: string = "${Company}_PH_PURCHDELIVERY";
 export const BO_CODE_PURCHASEORDER: string = "${Company}_PH_PURCHORDER";
 /** 业务对象编码-采购退货 */
 export const BO_CODE_PURCHASERETURN: string = "${Company}_PH_PURCHRETURN";
+/** 业务对象编码-送货地址 */
+export const BO_CODE_SHIPPINGADDRESS: string = "${Company}_PH_SHIPADDRESS";
 
-/** 查询条件 */
-export namespace conditions {
-    export namespace material {
-        /** 采购物料的查询条件 */
-        export function create(): List<ICondition> {
-            let condition: ICondition;
-            let conditions: List<ICondition> = mm.conditions.material.create();
-            // 采购物料
-            condition = new Condition();
-            condition.relationship = emConditionRelationship.AND;
-            condition.alias = "purchaseItem";
-            condition.operation = emConditionOperation.EQUAL;
-            condition.value = emYesNo.YES.toString();
-            conditions.add(condition);
-            return conditions;
-        }
-    }
+/** 运输状态 */
+export enum emShippingStatus {
+	/**
+	 * 等待
+	 */
+    WAITING,
+	/**
+	 * 运输中
+	 */
+    SHIPPING,
+	/**
+	 * 已送达
+	 */
+    SHIPPED,
 }

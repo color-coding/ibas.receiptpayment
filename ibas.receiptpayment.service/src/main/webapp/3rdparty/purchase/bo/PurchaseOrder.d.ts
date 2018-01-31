@@ -21,11 +21,15 @@ import {
     IBOSimpleLine
 } from "ibas/index";
 import {
-    emItemType, IMaterialBatchItemParent, IMaterialSerialItemParent
+    IMaterialBatchItemParent,
+    IMaterialSerialItemParent,
 } from "3rdparty/materials/index";
 import {
 
 } from "../Datas";
+import {
+    IShippingAddresss
+} from "./ShippingAddress.d";
 
 /** 采购订单 */
 export interface IPurchaseOrder extends IBODocument {
@@ -129,16 +133,10 @@ export interface IPurchaseOrder extends IBODocument {
     /** 联系人 */
     contactPerson: number;
 
-    /** 税率 */
-    taxRate: number;
-
-    /** 税总额 */
-    taxTotal: number;
-
     /** 折扣 */
     discount: number;
 
-    /** 折扣总计 */
+    /** 折扣后总计 */
     discountTotal: number;
 
     /** 单据货币 */
@@ -171,6 +169,9 @@ export interface IPurchaseOrder extends IBODocument {
 
     /** 采购订单-行集合 */
     purchaseOrderItems: IPurchaseOrderItems;
+
+    /** 送货地址集合 */
+    shippingAddresss: IShippingAddresss;
 
 
 }
@@ -272,9 +273,6 @@ export interface IPurchaseOrderItem extends IBODocumentLine, IMaterialBatchItemP
     /** 物料/服务描述 */
     itemDescription: string;
 
-    /** 物料类型 */
-    itemType: emItemType;
-
     /** 序号管理 */
     serialManagement: emYesNo;
 
@@ -328,6 +326,12 @@ export interface IPurchaseOrderItem extends IBODocumentLine, IMaterialBatchItemP
 
     /** 税总额 */
     taxTotal: number;
+
+    /** 毛价 */
+    grossPrice: number;
+
+    /** 毛总额 */
+    grossTotal: number;
 
     /** 项目代码 */
     project: string;
