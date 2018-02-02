@@ -30,12 +30,12 @@ export interface IBORepositoryPurchase extends IBORepositoryApplication {
      */
     download(caller: DownloadFileCaller<Blob>);
     /**
-     * 查询 采购交货
+     * 查询 采购收货
      * @param fetcher 查询者
      */
     fetchPurchaseDelivery(fetcher: FetchCaller<bo.IPurchaseDelivery>);
     /**
-     * 保存 采购交货
+     * 保存 采购收货
      * @param saver 保存者
      */
     savePurchaseDelivery(saver: SaveCaller<bo.IPurchaseDelivery>);

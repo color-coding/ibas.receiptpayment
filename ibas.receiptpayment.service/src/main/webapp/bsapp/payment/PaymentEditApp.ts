@@ -298,7 +298,7 @@ export class PaymentEditApp extends ibas.BOEditApplication<IPaymentEditView, bo.
             }
         });
     }
-    /** 选择付款项目-采购交货 */
+    /** 选择付款项目-采购收货 */
     private choosePaymentItemPurchaseDelivery(): void {
         if (ibas.objects.isNull(this.editData) || ibas.strings.isEmpty(this.editData.businessPartnerCode)) {
             this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
@@ -425,7 +425,7 @@ export interface IPaymentEditView extends ibas.IBOEditView {
     showPaymentItems(datas: bo.PaymentItem[]): void;
     /** 选择付款项目-采购订单 */
     choosePaymentItemPurchaseOrderEvent: Function;
-    /** 选择付款项目-采购交货 */
+    /** 选择付款项目-采购收货 */
     choosePaymentItemPurchaseDeliveryEvent: Function;
     /** 选择付款项目-销售退货 */
     choosePaymentItemSalesReturnEvent: Function;

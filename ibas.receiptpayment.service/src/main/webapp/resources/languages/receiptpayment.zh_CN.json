@@ -21,7 +21,7 @@
   "receiptpayment_sales_delivery": "销售交货",
   "receiptpayment_sales_return": "销售退货",
   "receiptpayment_purchase_order": "采购订单",
-  "receiptpayment_purchase_delivery": "采购交货",
+  "receiptpayment_purchase_delivery": "采购收货",
   "receiptpayment_purchase_return": "采购退货",
   "receiptpayment_no_work_datas_for_receipt": "没有需要收款的数据",
   "receiptpayment_no_work_datas_for_payment": "没有需要付款的数据",

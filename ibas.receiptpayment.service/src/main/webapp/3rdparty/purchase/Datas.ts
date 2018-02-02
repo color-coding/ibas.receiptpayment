@@ -23,7 +23,7 @@ export const CONSOLE_NAME: string = "Purchase";
 export const CONSOLE_VERSION: string = "0.1.0";
 /** 业务仓库名称 */
 export const BO_REPOSITORY_PURCHASE: string = strings.format(MODULE_REPOSITORY_NAME_TEMPLATE, CONSOLE_NAME);
-/** 业务对象编码-采购交货 */
+/** 业务对象编码-采购收货 */
 export const BO_CODE_PURCHASEDELIVERY: string = "${Company}_PH_PURCHDELIVERY";
 /** 业务对象编码-采购订单 */
 export const BO_CODE_PURCHASEORDER: string = "${Company}_PH_PURCHORDER";

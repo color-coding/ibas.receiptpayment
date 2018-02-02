@@ -1360,10 +1360,10 @@ public class Payment extends BusinessObject<Payment> implements IPayment, IDataO
 		return new IBusinessRule[] { // 注册的业务规则
 				new BusinessRuleRequired(PROPERTY_BUSINESSPARTNERTYPE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_BUSINESSPARTNERCODE), // 要求有值
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_DOCUMENTTOTAL), // 不能低于0
 				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_DOCUMENTRATE), // 不能低于0
 				new BusinessRuleRequiredElements(PROPERTY_PAYMENTITEMS), // 要求有元素
 				new BusinessRuleSumElements(PROPERTY_DOCUMENTTOTAL, PROPERTY_PAYMENTITEMS, PaymentItem.PROPERTY_AMOUNT), // 计算单据总计
+				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_DOCUMENTTOTAL), // 不能低于0
 		};
 	}
 

@@ -28,7 +28,7 @@ export class PaymentEditView extends ibas.BOEditView implements IPaymentEditView
     choosePaymentBusinessPartnerEvent: Function;
     /** 选择付款项目-采购订单 */
     choosePaymentItemPurchaseOrderEvent: Function;
-    /** 选择付款项目-采购交货 */
+    /** 选择付款项目-采购收货 */
     choosePaymentItemPurchaseDeliveryEvent: Function;
     /** 选择付款项目-销售退货 */
     choosePaymentItemSalesReturnEvent: Function;

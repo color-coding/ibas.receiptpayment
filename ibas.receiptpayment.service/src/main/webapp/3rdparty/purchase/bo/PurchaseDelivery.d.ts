@@ -30,7 +30,7 @@ import {
     IShippingAddresss
 } from "./ShippingAddress.d";
 
-/** 采购交货 */
+/** 采购收货 */
 export interface IPurchaseDelivery extends IBODocument {
 
     /** 凭证编号 */
@@ -166,7 +166,7 @@ export interface IPurchaseDelivery extends IBODocument {
     project: string;
 
 
-    /** 采购交货-行集合 */
+    /** 采购收货-行集合 */
     purchaseDeliveryItems: IPurchaseDeliveryItems;
 
     /** 送货地址集合 */
@@ -175,14 +175,14 @@ export interface IPurchaseDelivery extends IBODocument {
 
 }
 
-/** 采购交货-行 集合 */
+/** 采购收货-行 集合 */
 export interface IPurchaseDeliveryItems extends IBusinessObjects<IPurchaseDeliveryItem, IPurchaseDelivery> {
 
     /** 创建并添加子项 */
     create(): IPurchaseDeliveryItem;
 }
 
-/** 采购交货-行 */
+/** 采购收货-行 */
 export interface IPurchaseDeliveryItem extends IBODocumentLine, IMaterialBatchItemParent, IMaterialSerialItemParent {
 
     /** 编码 */
