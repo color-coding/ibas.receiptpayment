@@ -16,6 +16,8 @@ import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.BOCode;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
@@ -26,7 +28,10 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSumElements;
 import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
+import org.colorcoding.ibas.purchase.logic.IPurchaseDeliveryPaymentContract;
+import org.colorcoding.ibas.purchase.logic.IPurchaseOrderPaymentContract;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
+import org.colorcoding.ibas.sales.logic.ISalesReturnPaymentContract;
 
 /**
  * 获取-付款
@@ -36,7 +41,8 @@ import org.colorcoding.ibas.receiptpayment.MyConfiguration;
 @XmlType(name = Payment.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = Payment.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BOCode(Payment.BUSINESS_OBJECT_CODE)
-public class Payment extends BusinessObject<Payment> implements IPayment, IDataOwnership, IApprovalData {
+public class Payment extends BusinessObject<Payment>
+		implements IPayment, IDataOwnership, IApprovalData, IBusinessLogicsHost {
 
 	/**
 	 * 序列化版本标记
@@ -1367,4 +1373,106 @@ public class Payment extends BusinessObject<Payment> implements IPayment, IDataO
 		};
 	}
 
+	@Override
+	public IBusinessLogicContract[] getContracts() {
+		return new IBusinessLogicContract[] {
+
+				new IPurchaseOrderPaymentContract() {
+
+					@Override
+					public String getIdentifiers() {
+						return Payment.this.getIdentifiers();
+					}
+
+					@Override
+					public String getDocumentType() {
+						return Payment.this.getObjectCode();
+					}
+
+					@Override
+					public Integer getDocumentEntry() {
+						return Payment.this.getDocEntry();
+					}
+
+					@Override
+					public Decimal getAmount() {
+						return Payment.this.getDocumentTotal();
+					}
+
+					@Override
+					public String getCurrency() {
+						return Payment.this.getDocumentCurrency();
+					}
+
+					@Override
+					public Decimal getRate() {
+						return Payment.this.getDocumentRate();
+					}
+
+				}, new IPurchaseDeliveryPaymentContract() {
+
+					@Override
+					public String getIdentifiers() {
+						return Payment.this.getIdentifiers();
+					}
+
+					@Override
+					public String getDocumentType() {
+						return Payment.this.getObjectCode();
+					}
+
+					@Override
+					public Integer getDocumentEntry() {
+						return Payment.this.getDocEntry();
+					}
+
+					@Override
+					public Decimal getAmount() {
+						return Payment.this.getDocumentTotal();
+					}
+
+					@Override
+					public String getCurrency() {
+						return Payment.this.getDocumentCurrency();
+					}
+
+					@Override
+					public Decimal getRate() {
+						return Payment.this.getDocumentRate();
+					}
+				}, new ISalesReturnPaymentContract() {
+
+					@Override
+					public String getIdentifiers() {
+						return Payment.this.getIdentifiers();
+					}
+
+					@Override
+					public String getDocumentType() {
+						return Payment.this.getObjectCode();
+					}
+
+					@Override
+					public Integer getDocumentEntry() {
+						return Payment.this.getDocEntry();
+					}
+
+					@Override
+					public Decimal getAmount() {
+						return Payment.this.getDocumentTotal();
+					}
+
+					@Override
+					public String getCurrency() {
+						return Payment.this.getDocumentCurrency();
+					}
+
+					@Override
+					public Decimal getRate() {
+						return Payment.this.getDocumentRate();
+					}
+				}
+
+		};
+	}
 }
