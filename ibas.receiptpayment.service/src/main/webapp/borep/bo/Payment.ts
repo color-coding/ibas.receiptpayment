@@ -838,15 +838,15 @@ export class PaymentItem extends BODocumentLine<PaymentItem> implements IPayment
         this.setProperty(PaymentItem.PROPERTY_RATE_NAME, value);
     }
 
-    /** 映射的属性名称-卡号 */
-    static PROPERTY_CARDNUMBER_NAME: string = "CardNumber";
-    /** 获取-卡号 */
-    get cardNumber(): string {
-        return this.getProperty<string>(PaymentItem.PROPERTY_CARDNUMBER_NAME);
+    /** 映射的属性名称-交易识别码 */
+    static PROPERTY_TRADEID_NAME: string = "TradeId";
+    /** 获取-交易识别码 */
+    get tradeId(): string {
+        return this.getProperty<string>(PaymentItem.PROPERTY_TRADEID_NAME);
     }
-    /** 设置-卡号 */
-    set cardNumber(value: string) {
-        this.setProperty(PaymentItem.PROPERTY_CARDNUMBER_NAME, value);
+    /** 设置-交易识别码 */
+    set tradeId(value: string) {
+        this.setProperty(PaymentItem.PROPERTY_TRADEID_NAME, value);
     }
 
 

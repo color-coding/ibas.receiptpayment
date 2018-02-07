@@ -43,6 +43,17 @@ export class ReceiptListView extends ibas.BOListView implements IReceiptListView
                     }),
                 }),
                 new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_receipt_approvalstatus"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "approvalStatus",
+                        formatter(data: any): any {
+                            return ibas.enums.describe(ibas.emApprovalStatus, data);
+                        }
+                    })
+                }),
+                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_receipt_documentstatus"),
                     template: new sap.m.Text("", {
                         wrapping: false

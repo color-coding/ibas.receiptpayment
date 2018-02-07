@@ -16,8 +16,6 @@ import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
-import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.BOCode;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
@@ -28,10 +26,7 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSumElements;
 import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
-import org.colorcoding.ibas.purchase.logic.IPurchaseReturnPaymentContract;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
-import org.colorcoding.ibas.sales.logic.ISalesDeliveryPaymentContract;
-import org.colorcoding.ibas.sales.logic.ISalesOrderPaymentContract;
 
 /**
  * 获取-收款
@@ -41,8 +36,7 @@ import org.colorcoding.ibas.sales.logic.ISalesOrderPaymentContract;
 @XmlType(name = Receipt.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = Receipt.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BOCode(Receipt.BUSINESS_OBJECT_CODE)
-public class Receipt extends BusinessObject<Receipt>
-		implements IReceipt, IDataOwnership, IApprovalData, IBusinessLogicsHost {
+public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataOwnership, IApprovalData {
 
 	/**
 	 * 序列化版本标记
@@ -1373,106 +1367,4 @@ public class Receipt extends BusinessObject<Receipt>
 		};
 	}
 
-	@Override
-	public IBusinessLogicContract[] getContracts() {
-		return new IBusinessLogicContract[] {
-
-				new ISalesOrderPaymentContract() {
-
-					@Override
-					public String getIdentifiers() {
-						return Receipt.this.getIdentifiers();
-					}
-
-					@Override
-					public String getDocumentType() {
-						return Receipt.this.getObjectCode();
-					}
-
-					@Override
-					public Integer getDocumentEntry() {
-						return Receipt.this.getDocEntry();
-					}
-
-					@Override
-					public Decimal getAmount() {
-						return Receipt.this.getDocumentTotal();
-					}
-
-					@Override
-					public String getCurrency() {
-						return Receipt.this.getDocumentCurrency();
-					}
-
-					@Override
-					public Decimal getRate() {
-						return Receipt.this.getDocumentRate();
-					}
-
-				}, new ISalesDeliveryPaymentContract() {
-
-					@Override
-					public String getIdentifiers() {
-						return Receipt.this.getIdentifiers();
-					}
-
-					@Override
-					public String getDocumentType() {
-						return Receipt.this.getObjectCode();
-					}
-
-					@Override
-					public Integer getDocumentEntry() {
-						return Receipt.this.getDocEntry();
-					}
-
-					@Override
-					public Decimal getAmount() {
-						return Receipt.this.getDocumentTotal();
-					}
-
-					@Override
-					public String getCurrency() {
-						return Receipt.this.getDocumentCurrency();
-					}
-
-					@Override
-					public Decimal getRate() {
-						return Receipt.this.getDocumentRate();
-					}
-				}, new IPurchaseReturnPaymentContract() {
-
-					@Override
-					public String getIdentifiers() {
-						return Receipt.this.getIdentifiers();
-					}
-
-					@Override
-					public String getDocumentType() {
-						return Receipt.this.getObjectCode();
-					}
-
-					@Override
-					public Integer getDocumentEntry() {
-						return Receipt.this.getDocEntry();
-					}
-
-					@Override
-					public Decimal getAmount() {
-						return Receipt.this.getDocumentTotal();
-					}
-
-					@Override
-					public String getCurrency() {
-						return Receipt.this.getDocumentCurrency();
-					}
-
-					@Override
-					public Decimal getRate() {
-						return Receipt.this.getDocumentRate();
-					}
-				}
-
-		};
-	}
 }

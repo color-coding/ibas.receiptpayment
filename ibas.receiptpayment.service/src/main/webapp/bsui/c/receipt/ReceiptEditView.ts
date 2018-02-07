@@ -120,30 +120,34 @@ export class ReceiptEditView extends ibas.BOEditView implements IReceiptEditView
                         type: sap.m.ButtonType.Transparent,
                         icon: "sap-icon://add",
                         text: ibas.i18n.prop("shell_data_add"),
-                        menu: [
-                            new sap.m.Menu("", {
-                                items: [
-                                    new sap.m.MenuItem("", {
-                                        text: ibas.i18n.prop("receiptpayment_sales_order"),
-                                        press: function (): void {
-                                            that.fireViewEvents(that.chooseReceiptItemSalesOrderEvent);
-                                        }
-                                    }),
-                                    new sap.m.MenuItem("", {
-                                        text: ibas.i18n.prop("receiptpayment_sales_delivery"),
-                                        press: function (): void {
-                                            that.fireViewEvents(that.chooseReceiptItemSalesDeliveryEvent);
-                                        }
-                                    }),
-                                    new sap.m.MenuItem("", {
-                                        text: ibas.i18n.prop("receiptpayment_purchase_return"),
-                                        press: function (): void {
-                                            that.fireViewEvents(that.chooseReceiptItemPurchaseReturnEvent);
-                                        }
-                                    }),
-                                ]
-                            })
-                        ]
+                        menu: new sap.m.Menu("", {
+                            items: [
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("shell_data_add_line"),
+                                    press: function (): void {
+                                        that.fireViewEvents(that.addReceiptItemEvent);
+                                    }
+                                }),
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("receiptpayment_sales_order"),
+                                    press: function (): void {
+                                        that.fireViewEvents(that.chooseReceiptItemSalesOrderEvent);
+                                    }
+                                }),
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("receiptpayment_sales_delivery"),
+                                    press: function (): void {
+                                        that.fireViewEvents(that.chooseReceiptItemSalesDeliveryEvent);
+                                    }
+                                }),
+                                new sap.m.MenuItem("", {
+                                    text: ibas.i18n.prop("receiptpayment_purchase_return"),
+                                    press: function (): void {
+                                        that.fireViewEvents(that.chooseReceiptItemPurchaseReturnEvent);
+                                    }
+                                }),
+                            ]
+                        })
                     }),
                     new sap.m.Button("", {
                         text: ibas.i18n.prop("shell_data_remove"),
@@ -232,12 +236,12 @@ export class ReceiptEditView extends ibas.BOEditView implements IReceiptEditView
                     })
                 }),
                 new sap.ui.table.Column("", {
-                    label: ibas.i18n.prop("bo_paymentitem_cardnumber"),
+                    label: ibas.i18n.prop("bo_paymentitem_tradeid"),
                     template: new sap.m.Input("", {
                         width: "100%",
                         type: sap.m.InputType.Text
                     }).bindProperty("value", {
-                        path: "cardNumber"
+                        path: "tradeId"
                     })
                 }),
             ]
@@ -265,7 +269,6 @@ export class ReceiptEditView extends ibas.BOEditView implements IReceiptEditView
                 }).bindProperty("value", {
                     path: "documentTotal",
                 }),
-                new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_documentcurrency") }),
                 new sap.m.Input("", {
                     editable: false,
                 }).bindProperty("value", {

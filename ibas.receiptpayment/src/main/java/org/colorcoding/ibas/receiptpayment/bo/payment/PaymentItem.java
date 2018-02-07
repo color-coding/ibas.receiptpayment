@@ -12,11 +12,16 @@ import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
+import org.colorcoding.ibas.purchase.logic.IPurchaseDeliveryPaymentContract;
+import org.colorcoding.ibas.purchase.logic.IPurchaseOrderPaymentContract;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
+import org.colorcoding.ibas.sales.logic.ISalesReturnPaymentContract;
 
 /**
  * 获取-付款-项目
@@ -24,7 +29,7 @@ import org.colorcoding.ibas.receiptpayment.MyConfiguration;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = PaymentItem.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-public class PaymentItem extends BusinessObject<PaymentItem> implements IPaymentItem {
+public class PaymentItem extends BusinessObject<PaymentItem> implements IPaymentItem, IBusinessLogicsHost {
 	/**
 	 * 序列化版本标记
 	 */
@@ -1103,35 +1108,35 @@ public class PaymentItem extends BusinessObject<PaymentItem> implements IPayment
 	}
 
 	/**
-	 * 属性名称-卡号
+	 * 属性名称-交易识别码
 	 */
-	private static final String PROPERTY_CARDNUMBER_NAME = "CardNumber";
+	private static final String PROPERTY_TRADEID_NAME = "TradeId";
 
 	/**
-	 * 卡号 属性
+	 * 交易识别码 属性
 	 */
-	@DbField(name = "CardNumber", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<String> PROPERTY_CARDNUMBER = registerProperty(PROPERTY_CARDNUMBER_NAME,
-			String.class, MY_CLASS);
+	@DbField(name = "TradeId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_TRADEID = registerProperty(PROPERTY_TRADEID_NAME, String.class,
+			MY_CLASS);
 
 	/**
-	 * 获取-卡号
+	 * 获取-交易识别码
 	 * 
 	 * @return 值
 	 */
-	@XmlElement(name = PROPERTY_CARDNUMBER_NAME)
-	public final String getCardNumber() {
-		return this.getProperty(PROPERTY_CARDNUMBER);
+	@XmlElement(name = PROPERTY_TRADEID_NAME)
+	public final String getTradeId() {
+		return this.getProperty(PROPERTY_TRADEID);
 	}
 
 	/**
-	 * 设置-卡号
+	 * 设置-交易识别码
 	 * 
 	 * @param value
 	 *            值
 	 */
-	public final void setCardNumber(String value) {
-		this.setProperty(PROPERTY_CARDNUMBER, value);
+	public final void setTradeId(String value) {
+		this.setProperty(PROPERTY_TRADEID, value);
 	}
 
 	/**
@@ -1153,4 +1158,107 @@ public class PaymentItem extends BusinessObject<PaymentItem> implements IPayment
 	}
 
 	IPayment parent;
+
+	@Override
+	public IBusinessLogicContract[] getContracts() {
+		return new IBusinessLogicContract[] {
+
+				new IPurchaseOrderPaymentContract() {
+
+					@Override
+					public String getIdentifiers() {
+						return PaymentItem.this.getIdentifiers();
+					}
+
+					@Override
+					public String getBaseDocumentType() {
+						return PaymentItem.this.getBaseDocumentType();
+					}
+
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return PaymentItem.this.getBaseDocumentEntry();
+					}
+
+					@Override
+					public Decimal getAmount() {
+						return PaymentItem.this.getAmount();
+					}
+
+					@Override
+					public String getCurrency() {
+						return PaymentItem.this.getCurrency();
+					}
+
+					@Override
+					public Decimal getRate() {
+						return PaymentItem.this.getRate();
+					}
+
+				}, new IPurchaseDeliveryPaymentContract() {
+
+					@Override
+					public String getIdentifiers() {
+						return PaymentItem.this.getIdentifiers();
+					}
+
+					@Override
+					public String getBaseDocumentType() {
+						return PaymentItem.this.getBaseDocumentType();
+					}
+
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return PaymentItem.this.getBaseDocumentEntry();
+					}
+
+					@Override
+					public Decimal getAmount() {
+						return PaymentItem.this.getAmount();
+					}
+
+					@Override
+					public String getCurrency() {
+						return PaymentItem.this.getCurrency();
+					}
+
+					@Override
+					public Decimal getRate() {
+						return PaymentItem.this.getRate();
+					}
+				}, new ISalesReturnPaymentContract() {
+
+					@Override
+					public String getIdentifiers() {
+						return PaymentItem.this.getIdentifiers();
+					}
+
+					@Override
+					public String getBaseDocumentType() {
+						return PaymentItem.this.getBaseDocumentType();
+					}
+
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return PaymentItem.this.getBaseDocumentEntry();
+					}
+
+					@Override
+					public Decimal getAmount() {
+						return PaymentItem.this.getAmount();
+					}
+
+					@Override
+					public String getCurrency() {
+						return PaymentItem.this.getCurrency();
+					}
+
+					@Override
+					public Decimal getRate() {
+						return PaymentItem.this.getRate();
+					}
+				}
+
+		};
+	}
 }

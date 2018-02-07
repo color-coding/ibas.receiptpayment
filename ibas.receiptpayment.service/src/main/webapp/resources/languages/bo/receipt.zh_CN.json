@@ -70,7 +70,6 @@
   "bo_receiptitem_amount": "金额",
   "bo_receiptitem_currency": "货币",
   "bo_receiptitem_rate": "汇率",
-  "bo_receiptitem_bankcode": "银行编码",
-  "bo_receiptitem_cardnumber": "卡号",
+  "bo_receiptitem_tradeid": "交易识别码",
   "bo_receipt_closing_delimiter": "----结束----"
 }

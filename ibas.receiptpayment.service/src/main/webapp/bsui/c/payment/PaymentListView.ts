@@ -43,6 +43,17 @@ export class PaymentListView extends ibas.BOListView implements IPaymentListView
                     }),
                 }),
                 new sap.ui.table.Column("", {
+                    label: ibas.i18n.prop("bo_payment_approvalstatus"),
+                    template: new sap.m.Text("", {
+                        wrapping: false
+                    }).bindProperty("text", {
+                        path: "approvalStatus",
+                        formatter(data: any): any {
+                            return ibas.enums.describe(ibas.emApprovalStatus, data);
+                        }
+                    })
+                }),
+                new sap.ui.table.Column("", {
                     label: ibas.i18n.prop("bo_payment_documentstatus"),
                     template: new sap.m.Text("", {
                         wrapping: false

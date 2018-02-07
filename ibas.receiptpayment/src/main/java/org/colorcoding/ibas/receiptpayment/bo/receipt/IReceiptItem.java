@@ -527,18 +527,18 @@ public interface IReceiptItem extends IBODocumentLine {
 	void setRate(double value);
 
 	/**
-	 * 获取-卡号
+	 * 获取-交易识别码
 	 * 
 	 * @return 值
 	 */
-	String getCardNumber();
+	String getTradeId();
 
 	/**
-	 * 设置-卡号
+	 * 设置-交易识别码
 	 * 
 	 * @param value
 	 *            值
 	 */
-	void setCardNumber(String value);
+	void setTradeId(String value);
 
 }

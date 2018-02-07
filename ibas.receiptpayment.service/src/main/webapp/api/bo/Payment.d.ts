@@ -251,8 +251,8 @@ export interface IPaymentItem extends IBODocumentLine {
     /** 汇率 */
     rate: number;
 
-    /** 卡号 */
-    cardNumber: string;
+    /** 交易识别码 */
+    tradeId: string;
 
 
 }

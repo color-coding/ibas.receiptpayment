@@ -275,7 +275,7 @@ export class ReceiptEditApp extends ibas.BOEditApplication<IReceiptEditView, bo.
         // 未收全款的
         condition = criteria.conditions.create();
         condition.alias = "DocumentTotal";
-        condition.operation = ibas.emConditionOperation.LESS_THAN;
+        condition.operation = ibas.emConditionOperation.GRATER_THAN;
         condition.comparedAlias = "PaidTotal";
         // 调用选择服务
         let that: this = this;
@@ -329,7 +329,7 @@ export class ReceiptEditApp extends ibas.BOEditApplication<IReceiptEditView, bo.
         // 未收全款的
         condition = criteria.conditions.create();
         condition.alias = "DocumentTotal";
-        condition.operation = ibas.emConditionOperation.LESS_THAN;
+        condition.operation = ibas.emConditionOperation.GRATER_THAN;
         condition.comparedAlias = "PaidTotal";
         // 调用选择服务
         let that: this = this;
@@ -377,13 +377,14 @@ export class ReceiptEditApp extends ibas.BOEditApplication<IReceiptEditView, bo.
         condition.operation = ibas.emConditionOperation.NOT_EQUAL;
         condition.value = ibas.emDocumentStatus.CLOSED.toString();
         // 当前供应商的
+        condition = criteria.conditions.create();
         condition.alias = "SupplierCode";
         condition.operation = ibas.emConditionOperation.EQUAL;
         condition.value = this.editData.businessPartnerCode;
         // 未收全款的
         condition = criteria.conditions.create();
         condition.alias = "DocumentTotal";
-        condition.operation = ibas.emConditionOperation.LESS_THAN;
+        condition.operation = ibas.emConditionOperation.GRATER_THAN;
         condition.comparedAlias = "PaidTotal";
         // 调用选择服务
         let that: this = this;
