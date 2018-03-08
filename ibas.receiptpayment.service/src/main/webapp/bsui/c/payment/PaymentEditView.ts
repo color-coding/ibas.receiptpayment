@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright color-coding studio. All Rights Reserved.
+ * Copyright Color-Coding Studio. All Rights Reserved.
  *
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
@@ -66,9 +66,9 @@ export class PaymentEditView extends ibas.BOEditView implements IPaymentEditView
                 new sap.m.ex.BOChooseInput("", {
                     boText: "name",
                     boKey: "objectKey",
-                    boCode: ibas.config.applyVariables(bp.BO_CODE_CONTACTPERSON),
+                    boCode: ibas.config.applyVariables(businesspartner.bo.BO_CODE_CONTACTPERSON),
                     repositoryName: bp.BO_REPOSITORY_BUSINESSPARTNER,
-                    criteria: bp.conditions.contactperson.create(<any>"{businessPartnerType}", "{businessPartnerCode}"),
+                    criteria: businesspartner.app.conditions.contactperson.create(<any>"{businessPartnerType}", "{businessPartnerCode}"),
                     bindingValue: {
                         path: "contactPerson"
                     }

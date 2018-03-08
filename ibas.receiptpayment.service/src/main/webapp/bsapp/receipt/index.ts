@@ -1,15 +1,13 @@
 /**
  * @license
- * Copyright color-coding studio. All Rights Reserved.
+ * Copyright Color-Coding Studio. All Rights Reserved.
  *
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
-
-// 模块索引文件，此文件集中导出类
-export * from "./ReceiptFunc";
-export * from "./ReceiptListApp";
-export * from "./ReceiptChooseApp";
-export * from "./ReceiptViewApp";
-export * from "./ReceiptEditApp";
-export * from "./ReceiptService";
+/// <reference path="./ReceiptChooseApp.ts" />
+/// <reference path="./ReceiptEditApp.ts" />
+/// <reference path="./ReceiptFunc.ts" />
+/// <reference path="./ReceiptListApp.ts" />
+/// <reference path="./ReceiptService.ts" />
+/// <reference path="./ReceiptViewApp.ts" />
