@@ -18,9 +18,9 @@
 namespace receiptpayment {
     export namespace bo {
         // 注册业务对象仓库到工厂
-        ibas.boFactory.register(BO_REPOSITORY_RECEIPTPAYMENT, BORepositoryReceiptPayment);
+        boFactory.register(BO_REPOSITORY_RECEIPTPAYMENT, BORepositoryReceiptPayment);
         // 注册业务对象到工厂
-        ibas.boFactory.register(Payment.BUSINESS_OBJECT_CODE, Payment);
-        ibas.boFactory.register(Receipt.BUSINESS_OBJECT_CODE, Receipt);
+        boFactory.register(Payment.BUSINESS_OBJECT_CODE, Payment);
+        boFactory.register(Receipt.BUSINESS_OBJECT_CODE, Receipt);
     }
 }
