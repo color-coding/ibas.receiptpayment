@@ -442,6 +442,7 @@ namespace receiptpayment {
                 this.objectCode = ibas.config.applyVariables(Receipt.BUSINESS_OBJECT_CODE);
                 this.businessPartnerType = businesspartner.bo.emBusinessPartnerType.CUSTOMER;
                 this.documentStatus = ibas.emDocumentStatus.RELEASED;
+                this.documentCurrency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
             }
         }
 
@@ -826,8 +827,8 @@ namespace receiptpayment {
             }
 
             /** 初始化数据 */
-            // tslint:disable-next-line:no-empty
             protected init(): void {
+                this.currency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
             }
         }
 

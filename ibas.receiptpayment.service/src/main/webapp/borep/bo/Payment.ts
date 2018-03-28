@@ -442,6 +442,7 @@ namespace receiptpayment {
                 this.objectCode = ibas.config.applyVariables(Payment.BUSINESS_OBJECT_CODE);
                 this.businessPartnerType = businesspartner.bo.emBusinessPartnerType.SUPPLIER;
                 this.documentStatus = ibas.emDocumentStatus.RELEASED;
+                this.documentCurrency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
             }
         }
 
@@ -825,10 +826,9 @@ namespace receiptpayment {
                 this.setProperty(PaymentItem.PROPERTY_TRADEID_NAME, value);
             }
 
-
-
             /** 初始化数据 */
             protected init(): void {
+                this.currency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
             }
         }
 
