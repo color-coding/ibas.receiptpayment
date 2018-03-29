@@ -209,6 +209,7 @@ namespace receiptpayment {
                                 label: ibas.i18n.prop("bo_paymentitem_mode"),
                                 template: new sap.m.Input("", {
                                     width: "100%",
+                                    showValueHelp: true,
                                 }).bindProperty("value", {
                                     path: "mode"
                                 })
@@ -217,17 +218,15 @@ namespace receiptpayment {
                                 label: ibas.i18n.prop("bo_paymentitem_amount"),
                                 template: new sap.m.Input("", {
                                     width: "100%",
-                                    type: sap.m.InputType.Number
                                 }).bindProperty("value", {
                                     path: "amount"
                                 })
                             }),
                             new sap.ui.table.Column("", {
                                 label: ibas.i18n.prop("bo_paymentitem_currency"),
-                                template: new sap.m.Input("", {
-                                    width: "100%",
-                                    type: sap.m.InputType.Text
-                                }).bindProperty("value", {
+                                template: new sap.m.Text("", {
+                                    wrapping: false,
+                                }).bindProperty("text", {
                                     path: "currency"
                                 })
                             }),
@@ -235,7 +234,6 @@ namespace receiptpayment {
                                 label: ibas.i18n.prop("bo_paymentitem_tradeid"),
                                 template: new sap.m.Input("", {
                                     width: "100%",
-                                    type: sap.m.InputType.Text
                                 }).bindProperty("value", {
                                     path: "tradeId"
                                 })

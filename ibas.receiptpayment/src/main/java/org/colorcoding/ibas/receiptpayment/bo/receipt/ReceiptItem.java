@@ -1,5 +1,8 @@
 package org.colorcoding.ibas.receiptpayment.bo.receipt;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -18,6 +21,8 @@ import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
+import org.colorcoding.ibas.businesspartner.logic.IBusinessPartnerAssetConsumptionContract;
 import org.colorcoding.ibas.purchase.logic.IPurchaseReturnPaymentContract;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
 import org.colorcoding.ibas.sales.logic.ISalesDeliveryPaymentContract;
@@ -1151,6 +1156,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem> implements IReceipt
 	@Override
 	protected IBusinessRule[] registerRules() {
 		return new IBusinessRule[] { // 注册的业务规则
+				new BusinessRuleRequired(PROPERTY_MODE), // 要求有值
 				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_AMOUNT), // 不能低于0
 				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_RATE), // 不能低于0
 
@@ -1161,103 +1167,143 @@ public class ReceiptItem extends BusinessObject<ReceiptItem> implements IReceipt
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-		return new IBusinessLogicContract[] {
+		List<IBusinessLogicContract> contracts = new ArrayList<>(4);
+		contracts.add(new ISalesOrderPaymentContract() {
 
-				new ISalesOrderPaymentContract() {
+			@Override
+			public String getIdentifiers() {
+				return ReceiptItem.this.getIdentifiers();
+			}
 
-					@Override
-					public String getIdentifiers() {
-						return ReceiptItem.this.getIdentifiers();
-					}
+			@Override
+			public String getBaseDocumentType() {
+				return ReceiptItem.this.getBaseDocumentType();
+			}
 
-					@Override
-					public String getBaseDocumentType() {
-						return ReceiptItem.this.getBaseDocumentType();
-					}
+			@Override
+			public Integer getBaseDocumentEntry() {
+				return ReceiptItem.this.getBaseDocumentEntry();
+			}
 
-					@Override
-					public Integer getBaseDocumentEntry() {
-						return ReceiptItem.this.getBaseDocumentEntry();
-					}
+			@Override
+			public Decimal getAmount() {
+				return ReceiptItem.this.getAmount();
+			}
 
-					@Override
-					public Decimal getAmount() {
-						return ReceiptItem.this.getAmount();
-					}
+			@Override
+			public String getCurrency() {
+				return ReceiptItem.this.getCurrency();
+			}
 
-					@Override
-					public String getCurrency() {
-						return ReceiptItem.this.getCurrency();
-					}
+			@Override
+			public Decimal getRate() {
+				return ReceiptItem.this.getRate();
+			}
+		});
+		contracts.add(new ISalesDeliveryPaymentContract() {
 
-					@Override
-					public Decimal getRate() {
-						return ReceiptItem.this.getRate();
-					}
-				}, new ISalesDeliveryPaymentContract() {
+			@Override
+			public String getIdentifiers() {
+				return ReceiptItem.this.getIdentifiers();
+			}
 
-					@Override
-					public String getIdentifiers() {
-						return ReceiptItem.this.getIdentifiers();
-					}
+			@Override
+			public String getBaseDocumentType() {
+				return ReceiptItem.this.getBaseDocumentType();
+			}
 
-					@Override
-					public String getBaseDocumentType() {
-						return ReceiptItem.this.getBaseDocumentType();
-					}
+			@Override
+			public Integer getBaseDocumentEntry() {
+				return ReceiptItem.this.getBaseDocumentEntry();
+			}
 
-					@Override
-					public Integer getBaseDocumentEntry() {
-						return ReceiptItem.this.getBaseDocumentEntry();
-					}
+			@Override
+			public Decimal getAmount() {
+				return ReceiptItem.this.getAmount();
+			}
 
-					@Override
-					public Decimal getAmount() {
-						return ReceiptItem.this.getAmount();
-					}
+			@Override
+			public String getCurrency() {
+				return ReceiptItem.this.getCurrency();
+			}
 
-					@Override
-					public String getCurrency() {
-						return ReceiptItem.this.getCurrency();
-					}
+			@Override
+			public Decimal getRate() {
+				return ReceiptItem.this.getRate();
+			}
+		});
+		contracts.add(new IPurchaseReturnPaymentContract() {
 
-					@Override
-					public Decimal getRate() {
-						return ReceiptItem.this.getRate();
-					}
-				}, new IPurchaseReturnPaymentContract() {
+			@Override
+			public String getIdentifiers() {
+				return ReceiptItem.this.getIdentifiers();
+			}
 
-					@Override
-					public String getIdentifiers() {
-						return ReceiptItem.this.getIdentifiers();
-					}
+			@Override
+			public String getBaseDocumentType() {
+				return ReceiptItem.this.getBaseDocumentType();
+			}
 
-					@Override
-					public String getBaseDocumentType() {
-						return ReceiptItem.this.getBaseDocumentType();
-					}
+			@Override
+			public Integer getBaseDocumentEntry() {
+				return ReceiptItem.this.getBaseDocumentEntry();
+			}
 
-					@Override
-					public Integer getBaseDocumentEntry() {
-						return ReceiptItem.this.getBaseDocumentEntry();
-					}
+			@Override
+			public Decimal getAmount() {
+				return ReceiptItem.this.getAmount();
+			}
 
-					@Override
-					public Decimal getAmount() {
-						return ReceiptItem.this.getAmount();
-					}
+			@Override
+			public String getCurrency() {
+				return ReceiptItem.this.getCurrency();
+			}
 
-					@Override
-					public String getCurrency() {
-						return ReceiptItem.this.getCurrency();
-					}
+			@Override
+			public Decimal getRate() {
+				return ReceiptItem.this.getRate();
+			}
+		});
+		if (IBusinessPartnerAssetConsumptionContract.ASSET_MODE_SIGN.equals(this.getMode())) {
+			contracts.add(new IBusinessPartnerAssetConsumptionContract() {
 
-					@Override
-					public Decimal getRate() {
-						return ReceiptItem.this.getRate();
-					}
+				@Override
+				public String getIdentifiers() {
+					return ReceiptItem.this.getIdentifiers();
 				}
 
-		};
+				@Override
+				public String getServiceCode() {
+					return ReceiptItem.this.getTradeId();
+				}
+
+				@Override
+				public Decimal getAmount() {
+					return ReceiptItem.this.getAmount();
+				}
+
+				@Override
+				public String getCurrency() {
+					return ReceiptItem.this.getCurrency();
+				}
+
+				@Override
+				public String getBaseDocumentType() {
+					return ReceiptItem.this.getObjectCode();
+				}
+
+				@Override
+				public Integer getBaseDocumentEntry() {
+					return ReceiptItem.this.getDocEntry();
+				}
+
+				@Override
+				public Integer getBaseDocumentLineId() {
+					return ReceiptItem.this.getLineId();
+				}
+
+			});
+		}
+		return contracts.toArray(new IBusinessLogicContract[] {});
 	}
 }
