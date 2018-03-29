@@ -17,9 +17,8 @@ namespace receiptpayment {
         /** 业务仓库名称 */
         export const BO_REPOSITORY_RECEIPTPAYMENT: string = ibas.strings.format(ibas.MODULE_REPOSITORY_NAME_TEMPLATE, CONSOLE_NAME);
         /** 业务对象编码-付款 */
-        export const BO_CODE_PAYMENT: string = "CC_RP_PAYMENT";
+        export const BO_CODE_PAYMENT: string = "${Company}_RP_PAYMENT";
         /** 业务对象编码-收款 */
-        export const BO_CODE_RECEIPT: string = "CC_RP_RECEIPT";
-
+        export const BO_CODE_RECEIPT: string = "${Company}_RP_RECEIPT";
     }
 }

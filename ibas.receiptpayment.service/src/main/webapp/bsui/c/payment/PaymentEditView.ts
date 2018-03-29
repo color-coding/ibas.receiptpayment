@@ -28,6 +28,8 @@ namespace receiptpayment {
                 choosePaymentItemPurchaseDeliveryEvent: Function;
                 /** 选择付款项目-销售退货 */
                 choosePaymentItemSalesReturnEvent: Function;
+                /** 选择付款方式项目 */
+                choosePaymentItemModeTradeIdEvent: Function;
 
                 /** 绘制视图 */
                 draw(): any {
@@ -207,10 +209,23 @@ namespace receiptpayment {
                             }),
                             new sap.ui.table.Column("", {
                                 label: ibas.i18n.prop("bo_paymentitem_mode"),
-                                template: new sap.m.Input("", {
+                                template: new sap.m.Select("", {
                                     width: "100%",
-                                    showValueHelp: true,
-                                }).bindProperty("value", {
+                                    items: [
+                                        new sap.ui.core.Item("", {
+                                            key: businesspartner.bo.ASSET_MODE_EXTERNAL_CASH,
+                                            text: ibas.i18n.prop("receiptpayment_cash"),
+                                        }),
+                                        new sap.ui.core.Item("", {
+                                            key: businesspartner.bo.ASSET_MODE_EXTERNAL_BANK,
+                                            text: ibas.i18n.prop("receiptpayment_bank"),
+                                        }),
+                                        new sap.ui.core.Item("", {
+                                            key: businesspartner.bo.ASSET_MODE_INTERNAL_BP_ASSET,
+                                            text: ibas.i18n.prop("receiptpayment_bp_asset"),
+                                        }),
+                                    ],
+                                }).bindProperty("selectedKey", {
                                     path: "mode"
                                 })
                             }),
@@ -234,6 +249,13 @@ namespace receiptpayment {
                                 label: ibas.i18n.prop("bo_paymentitem_tradeid"),
                                 template: new sap.m.Input("", {
                                     width: "100%",
+                                    showValueHelp: true,
+                                    valueHelpRequest: function (): void {
+                                        that.fireViewEvents(that.choosePaymentItemModeTradeIdEvent,
+                                            // 获取当前对象
+                                            this.getBindingContext().getObject()
+                                        );
+                                    }
                                 }).bindProperty("value", {
                                     path: "tradeId"
                                 })

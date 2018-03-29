@@ -37,6 +37,7 @@ namespace receiptpayment {
                 this.view.choosePaymentItemPurchaseOrderEvent = this.choosePaymentItemPurchaseOrder;
                 this.view.choosePaymentItemPurchaseDeliveryEvent = this.choosePaymentItemPurchaseDelivery;
                 this.view.choosePaymentItemSalesReturnEvent = this.choosePaymentItemSalesReturn;
+                this.view.choosePaymentItemModeTradeIdEvent = this.choosePaymentItemModeTradeId;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -402,6 +403,25 @@ namespace receiptpayment {
                     }
                 });
             }
+            /** 选择收款项目-销售交货 */
+            private choosePaymentItemModeTradeId(data: bo.PaymentItem): void {
+                if (ibas.objects.isNull(data) || ibas.objects.isNull(this.editData)) {
+                    return;
+                }
+                // 业务伙伴资产查询
+                if (data.mode === businesspartner.bo.ASSET_MODE_INTERNAL_BP_ASSET) {
+                    // 调用选择服务
+                    ibas.servicesManager.runChooseService<businesspartner.bo.IBusinessPartnerAsset>({
+                        boCode: businesspartner.bo.BO_CODE_BUSINESSPARTNERASSET,
+                        chooseType: ibas.emChooseType.SINGLE,
+                        criteria: businesspartner.app.conditions.businesspartnerasset.create(this.editData.businessPartnerType, this.editData.businessPartnerCode),
+                        onCompleted(selecteds: ibas.IList<businesspartner.bo.IBusinessPartnerAsset>): void {
+                            let selected: businesspartner.bo.IBusinessPartnerAsset = selecteds.firstOrDefault();
+                            data.tradeId = selected.code;
+                        }
+                    });
+                }
+            }
         }
         /** 视图-付款 */
         export interface IPaymentEditView extends ibas.IBOEditView {
@@ -425,6 +445,8 @@ namespace receiptpayment {
             choosePaymentItemPurchaseDeliveryEvent: Function;
             /** 选择付款项目-销售退货 */
             choosePaymentItemSalesReturnEvent: Function;
+            /** 选择付款方式项目 */
+            choosePaymentItemModeTradeIdEvent: Function;
         }
     }
 }

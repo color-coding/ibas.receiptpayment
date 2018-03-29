@@ -148,5 +148,6 @@
         "bo_receiptitem_rate": "汇率",
         "bo_receiptitem_tradeid": "交易识别码",
         "bo_receipt_closing_delimiter": "----结束----"
-    }
+    },
+    {}
 ]
