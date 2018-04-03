@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
+import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
@@ -34,7 +35,8 @@ import org.colorcoding.ibas.sales.logic.ISalesOrderPaymentContract;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = ReceiptItem.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-public class ReceiptItem extends BusinessObject<ReceiptItem> implements IReceiptItem, IBusinessLogicsHost {
+public class ReceiptItem extends BusinessObject<ReceiptItem>
+		implements IReceiptItem, IBusinessLogicsHost, IBOTagDeleted {
 	/**
 	 * 序列化版本标记
 	 */
