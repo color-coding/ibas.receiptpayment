@@ -15,7 +15,6 @@ import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
-import org.colorcoding.ibas.bobas.data.emDirection;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
@@ -30,7 +29,6 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
 import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
 import org.colorcoding.ibas.businesspartner.logic.IBusinessPartnerAssetIncreasesContract;
-import org.colorcoding.ibas.businesspartner.logic.IBusinessPartnerAssetTimesContract;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
 
 /**
@@ -1367,6 +1365,11 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 					}
 
 					@Override
+					public Integer getTimes() {
+						return AssetRecharge.this.getTimes();
+					}
+
+					@Override
 					public String getCurrency() {
 						return IBusinessPartnerAssetIncreasesContract.POWERFUL_CURRENCY_SIGN;
 					}
@@ -1385,28 +1388,6 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 					public Integer getBaseDocumentLineId() {
 						return -1;
 					}
-				}, new IBusinessPartnerAssetTimesContract() {
-
-					@Override
-					public String getIdentifiers() {
-						return AssetRecharge.this.getIdentifiers();
-					}
-
-					@Override
-					public emDirection getDirection() {
-						return emDirection.IN;
-					}
-
-					@Override
-					public String getServiceCode() {
-						return AssetRecharge.this.getServiceCode();
-					}
-
-					@Override
-					public Integer getTimes() {
-						return AssetRecharge.this.getTimes();
-					}
-
 				}
 
 		};

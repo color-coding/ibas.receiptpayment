@@ -102,6 +102,14 @@ namespace receiptpayment {
                                 })
                             }),
                             new sap.ui.table.Column("", {
+                                label: ibas.i18n.prop("bo_assetrecharge_times"),
+                                template: new sap.m.Text("", {
+                                    wrapping: false
+                                }).bindProperty("text", {
+                                    path: "times",
+                                })
+                            }),
+                            new sap.ui.table.Column("", {
                                 label: ibas.i18n.prop("bo_assetrecharge_reference1"),
                                 template: new sap.m.Text("", {
                                     wrapping: false

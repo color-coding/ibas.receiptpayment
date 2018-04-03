@@ -225,12 +225,25 @@ namespace receiptpayment {
                             this.tableAssetRechargeItem,
                         ]
                     });
+                    let formBottom: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
+                        editable: true,
+                        content: [
+                            new sap.ui.core.Title("", { text: ibas.i18n.prop("receiptpayment_title_remarks") }),
+                            new sap.m.TextArea("", {
+                                rows: 5,
+                            }).bindProperty("value", {
+                                path: "remarks",
+                            }),
+                            new sap.ui.core.Title("", {}),
+                        ],
+                    });
                     this.layoutMain = new sap.ui.layout.VerticalLayout("", {
                         width: "100%",
                         height: "100%",
                         content: [
                             formTop,
                             formAssetRechargeItem,
+                            formBottom
                         ]
                     });
                     this.page = new sap.m.Page("", {
