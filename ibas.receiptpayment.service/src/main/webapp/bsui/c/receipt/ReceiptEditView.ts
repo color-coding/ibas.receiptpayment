@@ -38,14 +38,13 @@ namespace receiptpayment {
                         editable: true,
                         content: [
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("receiptpayment_title_general") }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_businesspartnertype") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_businesspartnercode") }),
                             new sap.m.Select("", {
                                 items: openui5.utils.createComboBoxItems(businesspartner.bo.emBusinessPartnerType),
                             }).bindProperty("selectedKey", {
                                 path: "businessPartnerType",
                                 type: "sap.ui.model.type.Integer",
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_businesspartnercode") }),
                             new sap.m.Input("", {
                                 showValueHelp: true,
                                 valueHelpRequest: function (): void {

@@ -13,6 +13,7 @@
 /// <reference path="../borep/index.ts" />
 /// <reference path="./payment/index.ts" />
 /// <reference path="./receipt/index.ts" />
+/// <reference path="./assetrecharge/index.ts" />
 
 namespace receiptpayment {
     export namespace app {
@@ -37,6 +38,7 @@ namespace receiptpayment {
                 // 注册功能
                 this.register(new ReceiptFunc());
                 this.register(new PaymentFunc());
+                this.register(new AssetRechargeFunc());
                 // 注册服务应用
                 this.register(new PaymentChooseServiceMapping());
                 this.register(new PaymentLinkServiceMapping());
@@ -44,6 +46,8 @@ namespace receiptpayment {
                 this.register(new ReceiptLinkServiceMapping());
                 this.register(new PaymentServiceMapping());
                 this.register(new ReceiptServiceMapping());
+                this.register(new AssetRechargeChooseServiceMapping());
+                this.register(new AssetRechargeLinkServiceMapping());
                 // 注册常驻应用
 
             }

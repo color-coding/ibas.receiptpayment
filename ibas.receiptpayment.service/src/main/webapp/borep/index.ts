@@ -12,6 +12,7 @@
 /// <reference path="../api/index.ts" />
 /// <reference path="./bo/Payment.ts" />
 /// <reference path="./bo/Receipt.ts" />
+/// <reference path="./bo/AssetRecharge.ts" />
 /// <reference path="./DataConverter.ts" />
 /// <reference path="./BORepository.ts" />
 
@@ -22,5 +23,6 @@ namespace receiptpayment {
         // 注册业务对象到工厂
         boFactory.register(Payment.BUSINESS_OBJECT_CODE, Payment);
         boFactory.register(Receipt.BUSINESS_OBJECT_CODE, Receipt);
+        boFactory.register(AssetRecharge.BUSINESS_OBJECT_CODE, AssetRecharge);
     }
 }

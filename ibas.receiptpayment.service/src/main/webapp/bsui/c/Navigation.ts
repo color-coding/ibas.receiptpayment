@@ -10,6 +10,7 @@
 /// <reference path="../../index.d.ts" />
 /// <reference path="./receipt/index.ts" />
 /// <reference path="./payment/index.ts" />
+/// <reference path="./assetrecharge/index.ts" />
 namespace receiptpayment {
     export namespace ui {
         /**
@@ -53,6 +54,18 @@ namespace receiptpayment {
                         break;
                     case app.ReceiptService.APPLICATION_ID:
                         view = new c.ReceiptServiceView();
+                        break;
+                    case app.AssetRechargeListApp.APPLICATION_ID:
+                        view = new c.AssetRechargeListView();
+                        break;
+                    case app.AssetRechargeChooseApp.APPLICATION_ID:
+                        view = new c.AssetRechargeChooseView();
+                        break;
+                    case app.AssetRechargeViewApp.APPLICATION_ID:
+                        view = new c.AssetRechargeViewView();
+                        break;
+                    case app.AssetRechargeEditApp.APPLICATION_ID:
+                        view = new c.AssetRechargeEditView();
                         break;
                     default:
                         break;

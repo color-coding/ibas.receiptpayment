@@ -42,6 +42,17 @@ namespace receiptpayment {
              * @param saver 保存者
              */
             saveReceipt(saver: ibas.ISaveCaller<bo.IReceipt>): void;
+
+            /**
+             * 查询 资产充值
+             * @param fetcher 查询者
+             */
+            fetchAssetRecharge(fetcher: ibas.IFetchCaller<bo.IAssetRecharge>): void;
+            /**
+             * 保存 资产充值
+             * @param saver 保存者
+             */
+            saveAssetRecharge(saver: ibas.ISaveCaller<bo.IAssetRecharge>): void;
         }
     }
 

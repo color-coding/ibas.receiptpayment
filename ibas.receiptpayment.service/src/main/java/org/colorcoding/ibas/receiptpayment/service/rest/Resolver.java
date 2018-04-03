@@ -6,10 +6,12 @@ import javax.ws.rs.ext.Provider;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 
-import org.colorcoding.ibas.bobas.bo.*;
-import org.colorcoding.ibas.bobas.common.*;
-import org.colorcoding.ibas.receiptpayment.bo.payment.*;
-import org.colorcoding.ibas.receiptpayment.bo.receipt.*;
+import org.colorcoding.ibas.bobas.bo.UserFieldProxy;
+import org.colorcoding.ibas.bobas.common.Criteria;
+import org.colorcoding.ibas.bobas.common.OperationResult;
+import org.colorcoding.ibas.receiptpayment.bo.assetrecharge.AssetRecharge;
+import org.colorcoding.ibas.receiptpayment.bo.payment.Payment;
+import org.colorcoding.ibas.receiptpayment.bo.receipt.Receipt;
 
 /**
  * 序列化解释器
@@ -18,21 +20,18 @@ import org.colorcoding.ibas.receiptpayment.bo.receipt.*;
 @Produces({ "application/json" })
 public class Resolver implements ContextResolver<JAXBContext> {
 
-    private static JAXBContext jaxbContext = null;
+	private static JAXBContext jaxbContext = null;
 
-    public JAXBContext getContext(Class<?> type) {
-        try {
-            if (jaxbContext == null) {
-                jaxbContext = JAXBContext.newInstance(Criteria.class, OperationResult.class
-                    , UserFieldProxy.class
-                    , Payment.class
-                    , Receipt.class
-                );
-            }
-        } catch (JAXBException e) {
-            e.printStackTrace();
-        }
-        return jaxbContext;
-    }
+	public JAXBContext getContext(Class<?> type) {
+		try {
+			if (jaxbContext == null) {
+				jaxbContext = JAXBContext.newInstance(Criteria.class, OperationResult.class, UserFieldProxy.class,
+						Payment.class, Receipt.class, AssetRecharge.class);
+			}
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+		return jaxbContext;
+	}
 
 }

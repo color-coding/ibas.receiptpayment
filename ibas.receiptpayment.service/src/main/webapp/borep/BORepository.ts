@@ -68,6 +68,21 @@ namespace receiptpayment {
                 super.save(bo.Receipt.name, saver);
             }
 
+            /**
+             * 查询 资产充值
+             * @param fetcher 查询者
+             */
+            fetchAssetRecharge(fetcher: ibas.IFetchCaller<bo.AssetRecharge>): void {
+                super.fetch(bo.AssetRecharge.name, fetcher);
+            }
+            /**
+             * 保存 资产充值
+             * @param saver 保存者
+             */
+            saveAssetRecharge(saver: ibas.ISaveCaller<bo.AssetRecharge>): void {
+                super.save(bo.AssetRecharge.name, saver);
+            }
+
         }
     }
 }

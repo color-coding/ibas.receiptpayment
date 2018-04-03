@@ -8,4 +8,5 @@
 /// <reference path="./Data.ts" />
 /// <reference path="./bo/Payment.ts" />
 /// <reference path="./bo/Receipt.ts" />
+/// <reference path="./bo/AssetRecharge.ts" />
 /// <reference path="./BORepository.ts" />

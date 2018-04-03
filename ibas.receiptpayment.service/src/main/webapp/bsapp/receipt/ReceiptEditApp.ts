@@ -399,7 +399,7 @@ namespace receiptpayment {
                     }
                 });
             }
-            /** 选择收款项目-销售交货 */
+            /** 选择收款项目-交易标识 */
             private chooseReceiptItemModeTradeId(data: bo.ReceiptItem): void {
                 if (ibas.objects.isNull(data) || ibas.objects.isNull(this.editData)) {
                     return;

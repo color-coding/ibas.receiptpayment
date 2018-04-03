@@ -20,5 +20,7 @@ namespace receiptpayment {
         export const BO_CODE_PAYMENT: string = "${Company}_RP_PAYMENT";
         /** 业务对象编码-收款 */
         export const BO_CODE_RECEIPT: string = "${Company}_RP_RECEIPT";
+        /** 业务对象编码-资产充值 */
+        export const BO_CODE_ASSETRECHARGE: string = "${Company}_RP_ASRECHARGE";
     }
 }

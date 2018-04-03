@@ -8,28 +8,22 @@
 namespace receiptpayment {
     export namespace ui {
         export namespace c {
-            /**
-             * 编辑视图-付款
-             */
-            export class PaymentEditView extends ibas.BOEditView implements app.IPaymentEditView {
+            /** 编辑视图-资产充值 */
+            export class AssetRechargeEditView extends ibas.BOEditView implements app.IAssetRechargeEditView {
                 /** 删除数据事件 */
                 deleteDataEvent: Function;
                 /** 新建数据事件，参数1：是否克隆 */
                 createDataEvent: Function;
-                /** 添加付款-项目事件 */
-                addPaymentItemEvent: Function;
-                /** 删除付款-项目事件 */
-                removePaymentItemEvent: Function;
-                /** 选择付款客户事件 */
-                choosePaymentBusinessPartnerEvent: Function;
-                /** 选择付款项目-采购订单 */
-                choosePaymentItemPurchaseOrderEvent: Function;
-                /** 选择付款项目-采购收货 */
-                choosePaymentItemPurchaseDeliveryEvent: Function;
-                /** 选择付款项目-销售退货 */
-                choosePaymentItemSalesReturnEvent: Function;
-                /** 选择付款方式项目 */
-                choosePaymentItemModeTradeIdEvent: Function;
+                /** 添加资产充值-项目事件 */
+                addAssetRechargeItemEvent: Function;
+                /** 删除资产充值-项目事件 */
+                removeAssetRechargeItemEvent: Function;
+                /** 选择资产充值客户事件 */
+                chooseAssetRechargeBusinessPartnerEvent: Function;
+                /** 选择资产充值项目 */
+                chooseAssetRechargeBusinessPartnerAssetEvent: Function;
+                /** 选择资产充值方式项目 */
+                chooseAssetRechargeItemModeTradeIdEvent: Function;
 
                 /** 绘制视图 */
                 draw(): any {
@@ -38,7 +32,7 @@ namespace receiptpayment {
                         editable: true,
                         content: [
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("receiptpayment_title_general") }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_businesspartnercode") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrecharge_businesspartnercode") }),
                             new sap.m.Select("", {
                                 items: openui5.utils.createComboBoxItems(businesspartner.bo.emBusinessPartnerType),
                             }).bindProperty("selectedKey", {
@@ -48,61 +42,73 @@ namespace receiptpayment {
                             new sap.m.Input("", {
                                 showValueHelp: true,
                                 valueHelpRequest: function (): void {
-                                    that.fireViewEvents(that.choosePaymentBusinessPartnerEvent);
+                                    that.fireViewEvents(that.chooseAssetRechargeBusinessPartnerEvent);
                                 }
                             }).bindProperty("value", {
                                 path: "businessPartnerCode",
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_businesspartnername") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrecharge_businesspartnername") }),
                             new sap.m.Input("", {
                                 editable: false,
                             }).bindProperty("value", {
                                 path: "businessPartnerName",
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_contactperson") }),
-                            new sap.m.ex.BOChooseInput("", {
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrecharge_servicecode") }),
+                            new sap.m.ex.BOInput("", {
                                 boText: "name",
-                                boKey: "objectKey",
-                                boCode: ibas.config.applyVariables(businesspartner.bo.BO_CODE_CONTACTPERSON),
+                                boKey: "code",
+                                boCode: ibas.config.applyVariables(businesspartner.bo.BO_CODE_BUSINESSPARTNERASSET),
                                 repositoryName: businesspartner.bo.BO_REPOSITORY_BUSINESSPARTNER,
-                                criteria: businesspartner.app.conditions.contactperson.create(<any>"{businessPartnerType}", "{businessPartnerCode}"),
+                                valueHelpRequest: function (): void {
+                                    that.fireViewEvents(that.chooseAssetRechargeBusinessPartnerAssetEvent);
+                                },
                                 bindingValue: {
-                                    path: "contactPerson"
+                                    path: "serviceCode"
                                 }
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_reference1") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrecharge_amount") }),
+                            new sap.m.Input("", {
+                            }).bindProperty("value", {
+                                path: "amount",
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrecharge_times") }),
+                            new sap.m.Input("", {
+                            }).bindProperty("value", {
+                                path: "times",
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrecharge_reference1") }),
                             new sap.m.Input("", {
                             }).bindProperty("value", {
                                 path: "reference1",
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_reference2") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrecharge_reference2") }),
                             new sap.m.Input("", {
                             }).bindProperty("value", {
                                 path: "reference2",
                             }),
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("receiptpayment_title_status") }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_documentstatus") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrecharge_documentstatus") }),
                             new sap.m.Select("", {
                                 items: openui5.utils.createComboBoxItems(ibas.emDocumentStatus),
                             }).bindProperty("selectedKey", {
                                 path: "documentStatus",
                                 type: "sap.ui.model.type.Integer",
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_canceled") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrecharge_canceled") }),
                             new sap.m.Select("", {
                                 items: openui5.utils.createComboBoxItems(ibas.emYesNo),
                             }).bindProperty("selectedKey", {
                                 path: "canceled",
                                 type: "sap.ui.model.type.Integer",
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_documentdate") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrecharge_documentdate") }),
                             new sap.m.DatePicker("", {
                                 valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
                                 displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
                             }).bindProperty("dateValue", {
                                 path: "documentDate",
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_dataowner") }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrecharge_dataowner") }),
                             new sap.m.ex.DataOwnerInput("", {
                                 bindingValue: {
                                     path: "dataOwner"
@@ -110,53 +116,28 @@ namespace receiptpayment {
                             }),
                         ]
                     });
-                    this.tablePaymentItem = new sap.ui.table.Table("", {
+                    this.tableAssetRechargeItem = new sap.ui.table.Table("", {
                         toolbar: new sap.m.Toolbar("", {
                             content: [
-                                new sap.m.MenuButton("", {
+                                new sap.m.Button("", {
+                                    text: ibas.i18n.prop("shell_data_add"),
                                     type: sap.m.ButtonType.Transparent,
                                     icon: "sap-icon://add",
-                                    text: ibas.i18n.prop("shell_data_add"),
-                                    menu: new sap.m.Menu("", {
-                                        items: [
-                                            new sap.m.MenuItem("", {
-                                                text: ibas.i18n.prop("shell_data_add_line"),
-                                                press: function (): void {
-                                                    that.fireViewEvents(that.addPaymentItemEvent);
-                                                }
-                                            }),
-                                            new sap.m.MenuItem("", {
-                                                text: ibas.i18n.prop("receiptpayment_purchase_order"),
-                                                press: function (): void {
-                                                    that.fireViewEvents(that.choosePaymentItemPurchaseOrderEvent);
-                                                }
-                                            }),
-                                            new sap.m.MenuItem("", {
-                                                text: ibas.i18n.prop("receiptpayment_purchase_delivery"),
-                                                press: function (): void {
-                                                    that.fireViewEvents(that.choosePaymentItemPurchaseDeliveryEvent);
-                                                }
-                                            }),
-                                            new sap.m.MenuItem("", {
-                                                text: ibas.i18n.prop("receiptpayment_sales_return"),
-                                                press: function (): void {
-                                                    that.fireViewEvents(that.choosePaymentItemSalesReturnEvent);
-                                                }
-                                            }),
-                                        ]
-                                    })
+                                    press: function (): void {
+                                        that.fireViewEvents(that.addAssetRechargeItemEvent);
+                                    }
                                 }),
                                 new sap.m.Button("", {
                                     text: ibas.i18n.prop("shell_data_remove"),
                                     type: sap.m.ButtonType.Transparent,
                                     icon: "sap-icon://less",
                                     press: function (): void {
-                                        that.fireViewEvents(that.removePaymentItemEvent,
+                                        that.fireViewEvents(that.removeAssetRechargeItemEvent,
                                             // 获取表格选中的对象
-                                            openui5.utils.getSelecteds<bo.PaymentItem>(that.tablePaymentItem)
+                                            openui5.utils.getSelecteds<bo.AssetRechargeItem>(that.tableAssetRechargeItem)
                                         );
                                     }
-                                }),
+                                })
                             ]
                         }),
                         enableSelectAll: false,
@@ -165,7 +146,7 @@ namespace receiptpayment {
                         rows: "{/rows}",
                         columns: [
                             new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_paymentitem_lineid"),
+                                label: ibas.i18n.prop("bo_assetrechargeitem_lineid"),
                                 template: new sap.m.Text("", {
                                     wrapping: false,
                                 }).bindProperty("text", {
@@ -173,7 +154,7 @@ namespace receiptpayment {
                                 }),
                             }),
                             new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_paymentitem_linestatus"),
+                                label: ibas.i18n.prop("bo_assetrechargeitem_linestatus"),
                                 template: new sap.m.Select("", {
                                     width: "100%",
                                     items: openui5.utils.createComboBoxItems(ibas.emDocumentStatus),
@@ -183,31 +164,7 @@ namespace receiptpayment {
                                 })
                             }),
                             new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_paymentitem_basedocumenttype"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
-                                    path: "baseDocumentType",
-                                }),
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_paymentitem_basedocumententry"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
-                                    path: "baseDocumentEntry",
-                                }),
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_paymentitem_basedocumentlineid"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
-                                    path: "baseDocumentLineId",
-                                }),
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_paymentitem_mode"),
+                                label: ibas.i18n.prop("bo_assetrechargeitem_mode"),
                                 template: new sap.m.Select("", {
                                     width: "100%",
                                     items: [
@@ -229,7 +186,7 @@ namespace receiptpayment {
                                 })
                             }),
                             new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_paymentitem_amount"),
+                                label: ibas.i18n.prop("bo_assetrechargeitem_amount"),
                                 template: new sap.m.Input("", {
                                     width: "100%",
                                 }).bindProperty("value", {
@@ -237,7 +194,7 @@ namespace receiptpayment {
                                 })
                             }),
                             new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_paymentitem_currency"),
+                                label: ibas.i18n.prop("bo_assetrechargeitem_currency"),
                                 template: new sap.m.Text("", {
                                     wrapping: false,
                                 }).bindProperty("text", {
@@ -245,12 +202,12 @@ namespace receiptpayment {
                                 })
                             }),
                             new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_paymentitem_tradeid"),
+                                label: ibas.i18n.prop("bo_assetrechargeitem_tradeid"),
                                 template: new sap.m.Input("", {
                                     width: "100%",
                                     showValueHelp: true,
                                     valueHelpRequest: function (): void {
-                                        that.fireViewEvents(that.choosePaymentItemModeTradeIdEvent,
+                                        that.fireViewEvents(that.chooseAssetRechargeItemModeTradeIdEvent,
                                             // 获取当前对象
                                             this.getBindingContext().getObject()
                                         );
@@ -261,42 +218,20 @@ namespace receiptpayment {
                             }),
                         ]
                     });
-                    let formMiddle: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
+                    let formAssetRechargeItem: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
                         editable: true,
                         content: [
-                            new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_paymentitem") }),
-                            this.tablePaymentItem,
+                            new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_assetrechargeitem") }),
+                            this.tableAssetRechargeItem,
                         ]
                     });
-                    let formBottom: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
-                        editable: true,
-                        content: [
-                            new sap.ui.core.Title("", { text: ibas.i18n.prop("receiptpayment_title_remarks") }),
-                            new sap.m.TextArea("", {
-                                rows: 5,
-                            }).bindProperty("value", {
-                                path: "remarks",
-                            }),
-                            new sap.ui.core.Title("", { text: ibas.i18n.prop("receiptpayment_title_total") }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_documenttotal") }),
-                            new sap.m.Input("", {
-                                editable: false,
-                            }).bindProperty("value", {
-                                path: "documentTotal",
-                            }),
-                            new sap.m.Input("", {
-                                editable: false,
-                            }).bindProperty("value", {
-                                path: "documentCurrency",
-                            }),
-                        ],
-                    });
                     this.layoutMain = new sap.ui.layout.VerticalLayout("", {
+                        width: "100%",
+                        height: "100%",
                         content: [
                             formTop,
-                            formMiddle,
-                            formBottom,
-                        ],
+                            formAssetRechargeItem,
+                        ]
                     });
                     this.page = new sap.m.Page("", {
                         showHeader: false,
@@ -351,10 +286,13 @@ namespace receiptpayment {
                     });
                     return this.page;
                 }
+
                 private page: sap.m.Page;
                 private layoutMain: sap.ui.layout.VerticalLayout;
+                private tableAssetRechargeItem: sap.ui.table.Table;
+
                 /** 改变视图状态 */
-                private changeViewStatus(data: bo.Payment): void {
+                private changeViewStatus(data: bo.AssetRecharge): void {
                     if (ibas.objects.isNull(data)) {
                         return;
                     }
@@ -373,10 +311,9 @@ namespace receiptpayment {
                         openui5.utils.changeFormEditable(this.layoutMain, false);
                     }
                 }
-                private tablePaymentItem: sap.ui.table.Table;
 
                 /** 显示数据 */
-                showPayment(data: bo.Payment): void {
+                showAssetRecharge(data: bo.AssetRecharge): void {
                     this.layoutMain.setModel(new sap.ui.model.json.JSONModel(data));
                     this.layoutMain.bindObject("/");
                     // 监听属性改变，并更新控件
@@ -385,10 +322,10 @@ namespace receiptpayment {
                     this.changeViewStatus(data);
                 }
                 /** 显示数据 */
-                showPaymentItems(datas: bo.PaymentItem[]): void {
-                    this.tablePaymentItem.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+                showAssetRechargeItems(datas: bo.AssetRechargeItem[]): void {
+                    this.tableAssetRechargeItem.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
                     // 监听属性改变，并更新控件
-                    openui5.utils.refreshModelChanged(this.tablePaymentItem, datas);
+                    openui5.utils.refreshModelChanged(this.tableAssetRechargeItem, datas);
                 }
             }
         }

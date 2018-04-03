@@ -42,6 +42,19 @@ namespace receiptpayment {
              * @returns 转换的值
              */
             protected convertData(boName: string, property: string, value: any): any {
+                if (boName === bo.Receipt.name) {
+                    if (property === bo.Receipt.PROPERTY_BUSINESSPARTNERTYPE_NAME) {
+                        return ibas.enums.toString(businesspartner.bo.emBusinessPartnerType, value);
+                    }
+                } else if (boName === bo.Payment.name) {
+                    if (property === bo.Payment.PROPERTY_BUSINESSPARTNERTYPE_NAME) {
+                        return ibas.enums.toString(businesspartner.bo.emBusinessPartnerType, value);
+                    }
+                } else if (boName === bo.AssetRecharge.name) {
+                    if (property === bo.AssetRecharge.PROPERTY_BUSINESSPARTNERTYPE_NAME) {
+                        return ibas.enums.toString(businesspartner.bo.emBusinessPartnerType, value);
+                    }
+                }
                 return super.convertData(boName, property, value);
             }
 
@@ -53,6 +66,19 @@ namespace receiptpayment {
              * @returns 解析的值
              */
             protected parsingData(boName: string, property: string, value: any): any {
+                if (boName === bo.Receipt.name) {
+                    if (property === bo.Receipt.PROPERTY_BUSINESSPARTNERTYPE_NAME) {
+                        return ibas.enums.valueOf(businesspartner.bo.emBusinessPartnerType, value);
+                    }
+                } else if (boName === bo.Payment.name) {
+                    if (property === bo.Payment.PROPERTY_BUSINESSPARTNERTYPE_NAME) {
+                        return ibas.enums.valueOf(businesspartner.bo.emBusinessPartnerType, value);
+                    }
+                } else if (boName === bo.AssetRecharge.name) {
+                    if (property === bo.AssetRecharge.PROPERTY_BUSINESSPARTNERTYPE_NAME) {
+                        return ibas.enums.valueOf(businesspartner.bo.emBusinessPartnerType, value);
+                    }
+                }
                 return super.parsingData(boName, property, value);
             }
         }
