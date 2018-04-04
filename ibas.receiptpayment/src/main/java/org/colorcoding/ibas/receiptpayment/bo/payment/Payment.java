@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.receiptpayment.bo.payment;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -11,12 +13,15 @@ import org.colorcoding.ibas.bobas.approval.IApprovalData;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
+import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.mapping.BOCode;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
@@ -27,6 +32,8 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSumElements;
 import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
+import org.colorcoding.ibas.businesspartner.logic.ICustomerCheckContract;
+import org.colorcoding.ibas.businesspartner.logic.ISupplierCheckContract;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
 
 /**
@@ -37,7 +44,8 @@ import org.colorcoding.ibas.receiptpayment.MyConfiguration;
 @XmlType(name = Payment.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = Payment.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BOCode(Payment.BUSINESS_OBJECT_CODE)
-public class Payment extends BusinessObject<Payment> implements IPayment, IDataOwnership, IApprovalData, IBOTagDeleted {
+public class Payment extends BusinessObject<Payment>
+		implements IPayment, IDataOwnership, IApprovalData, IBOTagDeleted, IBusinessLogicsHost {
 
 	/**
 	 * 序列化版本标记
@@ -1368,4 +1376,34 @@ public class Payment extends BusinessObject<Payment> implements IPayment, IDataO
 		};
 	}
 
+	@Override
+	public IBusinessLogicContract[] getContracts() {
+		List<IBusinessLogicContract> contracts = new ArrayList<>(1);
+		if (this.getBusinessPartnerType() == emBusinessPartnerType.CUSTOMER) {
+			contracts.add(new ICustomerCheckContract() {
+				@Override
+				public String getIdentifiers() {
+					return Payment.this.getIdentifiers();
+				}
+
+				@Override
+				public String getCustomerCode() {
+					return Payment.this.getBusinessPartnerCode();
+				}
+			});
+		} else if (this.getBusinessPartnerType() == emBusinessPartnerType.SUPPLIER) {
+			contracts.add(new ISupplierCheckContract() {
+				@Override
+				public String getIdentifiers() {
+					return Payment.this.getIdentifiers();
+				}
+
+				@Override
+				public String getSupplierCode() {
+					return Payment.this.getBusinessPartnerCode();
+				}
+			});
+		}
+		return contracts.toArray(new IBusinessLogicContract[] {});
+	}
 }

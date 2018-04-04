@@ -16,8 +16,6 @@
     </organization>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <ibas.ph.version>0.1.0</ibas.ph.version>
-        <ibas.sm.version>0.1.0</ibas.sm.version>
     </properties>
     <dependencies>
         <dependency>
@@ -28,12 +26,12 @@
         <dependency>
             <groupId>org.colorcoding.apps</groupId>
             <artifactId>ibas.purchase</artifactId>
-            <version>${ibas.ph.version}</version>
+            <version>0.1.0</version>
         </dependency>
         <dependency>
             <groupId>org.colorcoding.apps</groupId>
             <artifactId>ibas.sales</artifactId>
-            <version>${ibas.sm.version}</version>
+            <version>0.1.0</version>
         </dependency>
     </dependencies>
 </project>

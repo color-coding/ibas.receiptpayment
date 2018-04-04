@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.receiptpayment.bo.assetrecharge;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -11,6 +13,7 @@ import org.colorcoding.ibas.bobas.approval.IApprovalData;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
+import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
@@ -29,6 +32,8 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
 import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
 import org.colorcoding.ibas.businesspartner.logic.IBusinessPartnerAssetIncreasesContract;
+import org.colorcoding.ibas.businesspartner.logic.ICustomerCheckContract;
+import org.colorcoding.ibas.businesspartner.logic.ISupplierCheckContract;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
 
 /**
@@ -1345,52 +1350,75 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-		return new IBusinessLogicContract[] {
-
-				new IBusinessPartnerAssetIncreasesContract() {
-
-					@Override
-					public String getIdentifiers() {
-						return AssetRecharge.this.getIdentifiers();
-					}
-
-					@Override
-					public String getServiceCode() {
-						return AssetRecharge.this.getServiceCode();
-					}
-
-					@Override
-					public Decimal getAmount() {
-						return AssetRecharge.this.getAmount();
-					}
-
-					@Override
-					public Integer getTimes() {
-						return AssetRecharge.this.getTimes();
-					}
-
-					@Override
-					public String getCurrency() {
-						return IBusinessPartnerAssetIncreasesContract.POWERFUL_CURRENCY_SIGN;
-					}
-
-					@Override
-					public String getBaseDocumentType() {
-						return AssetRecharge.this.getObjectCode();
-					}
-
-					@Override
-					public Integer getBaseDocumentEntry() {
-						return AssetRecharge.this.getDocEntry();
-					}
-
-					@Override
-					public Integer getBaseDocumentLineId() {
-						return -1;
-					}
+		List<IBusinessLogicContract> contracts = new ArrayList<>(2);
+		if (this.getBusinessPartnerType() == emBusinessPartnerType.CUSTOMER) {
+			contracts.add(new ICustomerCheckContract() {
+				@Override
+				public String getIdentifiers() {
+					return AssetRecharge.this.getIdentifiers();
 				}
 
-		};
+				@Override
+				public String getCustomerCode() {
+					return AssetRecharge.this.getBusinessPartnerCode();
+				}
+			});
+		} else if (this.getBusinessPartnerType() == emBusinessPartnerType.SUPPLIER) {
+			contracts.add(new ISupplierCheckContract() {
+				@Override
+				public String getIdentifiers() {
+					return AssetRecharge.this.getIdentifiers();
+				}
+
+				@Override
+				public String getSupplierCode() {
+					return AssetRecharge.this.getBusinessPartnerCode();
+				}
+			});
+		}
+		contracts.add(new IBusinessPartnerAssetIncreasesContract() {
+
+			@Override
+			public String getIdentifiers() {
+				return AssetRecharge.this.getIdentifiers();
+			}
+
+			@Override
+			public String getServiceCode() {
+				return AssetRecharge.this.getServiceCode();
+			}
+
+			@Override
+			public Decimal getAmount() {
+				return AssetRecharge.this.getAmount();
+			}
+
+			@Override
+			public Integer getTimes() {
+				return AssetRecharge.this.getTimes();
+			}
+
+			@Override
+			public String getCurrency() {
+				return IBusinessPartnerAssetIncreasesContract.POWERFUL_CURRENCY_SIGN;
+			}
+
+			@Override
+			public String getBaseDocumentType() {
+				return AssetRecharge.this.getObjectCode();
+			}
+
+			@Override
+			public Integer getBaseDocumentEntry() {
+				return AssetRecharge.this.getDocEntry();
+			}
+
+			@Override
+			public Integer getBaseDocumentLineId() {
+				return -1;
+			}
+		});
+		return contracts.toArray(new IBusinessLogicContract[] {});
 	}
 
 }
