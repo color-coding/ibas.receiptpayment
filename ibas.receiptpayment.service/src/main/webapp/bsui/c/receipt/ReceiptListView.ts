@@ -175,6 +175,15 @@ namespace receiptpayment {
                                         );
                                     }
                                 }),
+                                new sap.m.ToolbarSeparator(""),
+                                new sap.m.Button("", {
+                                    text: "Test",
+                                    type: sap.m.ButtonType.Transparent,
+                                    icon: "sap-icon://example",
+                                    press: function (): void {
+                                        test.testReceipt();
+                                    }
+                                }),
                                 new sap.m.ToolbarSpacer(""),
                                 new sap.m.Button("", {
                                     type: sap.m.ButtonType.Transparent,
@@ -267,6 +276,26 @@ namespace receiptpayment {
                 getSelecteds(): bo.Receipt[] {
                     return openui5.utils.getSelecteds<bo.Receipt>(this.table);
                 }
+            }
+        }
+        namespace test {
+            export function testReceipt(): void {
+                ibas.servicesManager.runApplicationService<app.IReceiptContract>({
+                    proxy: new app.ReceiptServiceProxy({
+                        // 业务伙伴类型
+                        businessPartnerType: businesspartner.bo.emBusinessPartnerType.CUSTOMER,
+                        // 业务伙伴编码
+                        businessPartnerCode: "C70000",
+                        // 单据类型
+                        documentType: "_TEST_",
+                        // 单据编号 */
+                        documentEntry: 0,
+                        // 单据行号
+                        documentTotal: 100,
+                        // 单据货币
+                        documentCurrency: ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY)
+                    })
+                });
             }
         }
     }

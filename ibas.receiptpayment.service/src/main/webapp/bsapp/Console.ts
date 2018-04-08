@@ -14,6 +14,7 @@
 /// <reference path="./payment/index.ts" />
 /// <reference path="./receipt/index.ts" />
 /// <reference path="./assetrecharge/index.ts" />
+/// <reference path="./trading/index.ts" />
 
 namespace receiptpayment {
     export namespace app {
@@ -44,12 +45,18 @@ namespace receiptpayment {
                 this.register(new PaymentLinkServiceMapping());
                 this.register(new ReceiptChooseServiceMapping());
                 this.register(new ReceiptLinkServiceMapping());
-                this.register(new PaymentServiceMapping());
                 this.register(new ReceiptServiceMapping());
                 this.register(new AssetRechargeChooseServiceMapping());
                 this.register(new AssetRechargeLinkServiceMapping());
                 // 注册常驻应用
 
+                // 注册收款方式
+                receiptMethodManager.register(new ReceiptMethodCash());
+                receiptMethodManager.register(new ReceiptMethodBank());
+                receiptMethodManager.register(new ReceiptMethodBPAsset());
+                // 注册付款方式
+                paymentMethodManager.register(new PaymentMethodCash());
+                paymentMethodManager.register(new PaymentMethodBank());
             }
             /** 运行 */
             run(): void {

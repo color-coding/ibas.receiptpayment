@@ -210,20 +210,7 @@ namespace receiptpayment {
                                 label: ibas.i18n.prop("bo_receiptitem_mode"),
                                 template: new sap.m.Select("", {
                                     width: "100%",
-                                    items: [
-                                        new sap.ui.core.Item("", {
-                                            key: businesspartner.bo.ASSET_MODE_EXTERNAL_CASH,
-                                            text: ibas.i18n.prop("receiptpayment_cash"),
-                                        }),
-                                        new sap.ui.core.Item("", {
-                                            key: businesspartner.bo.ASSET_MODE_EXTERNAL_BANK,
-                                            text: ibas.i18n.prop("receiptpayment_bank"),
-                                        }),
-                                        new sap.ui.core.Item("", {
-                                            key: businesspartner.bo.ASSET_MODE_INTERNAL_BP_ASSET,
-                                            text: ibas.i18n.prop("receiptpayment_bp_asset"),
-                                        }),
-                                    ],
+                                    items: receiptMethods(),
                                 }).bindProperty("selectedKey", {
                                     path: "mode"
                                 })

@@ -9,9 +9,9 @@ namespace receiptpayment {
     export namespace ui {
         export namespace c {
             /**
-             * 服务视图-付款
+             * 服务视图-收款
              */
-            export class PaymentServiceView extends ibas.BODialogView implements app.IPaymentServiceView {
+            export class ReceiptServiceView extends ibas.BODialogView implements app.IReceiptServiceView {
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
@@ -38,6 +38,17 @@ namespace receiptpayment {
                     });
                 }
                 private page: sap.m.Page;
+
+                /** 显示业务伙伴 */
+                showBusinessPartner(data: app.BusinessPartner): void { }
+                /** 显示收款目标 */
+                showTarget(target: app.ReceiptTarget): void { }
+                /** 显示收款方式 */
+                showMethods(methods: app.trading.IReceiptMethod[]): void { }
+                /** 显示收款交易方式 */
+                showTradingMethods(methods: app.trading.ITradingMethod[]): void { }
+                /** 显示收款交易 */
+                showReceiptTradings(methods: app.ReceiptTrading[]): void { }
             }
         }
     }

@@ -409,7 +409,7 @@ namespace receiptpayment {
                     return;
                 }
                 // 业务伙伴资产查询
-                if (data.mode === businesspartner.bo.ASSET_MODE_INTERNAL_BP_ASSET) {
+                if (data.mode === TRADING_MODE_BP_ASSSET) {
                     // 调用选择服务
                     ibas.servicesManager.runChooseService<businesspartner.bo.IBusinessPartnerAsset>({
                         boCode: businesspartner.bo.BO_CODE_BUSINESSPARTNERASSET,

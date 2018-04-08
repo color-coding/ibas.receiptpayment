@@ -30,8 +30,10 @@
   "receiptpayment_app_assetrecharge_edit": "资产充值编辑",
   "receiptpayment_no_work_datas_for_receipt": "没有需要收款的数据",
   "receiptpayment_no_work_datas_for_payment": "没有需要付款的数据",
-  "receiptpayment_cash": "现金",
-  "receiptpayment_bank": "银行转账",
-  "receiptpayment_bp_asset": "业务伙伴资产",
+  "receiptpayment_unknown_customer": "未知的客户[{0}]",
+  "receiptpayment_unknown_supplier": "未知的供应商[{0}]",
+  "receiptpayment_method_cash": "现金",
+  "receiptpayment_method_bank": "银行转账",
+  "receiptpayment_method_bp_asset": "业务伙伴资产",
   "receiptpayment_closing_delimiter": "----结束----"
 }

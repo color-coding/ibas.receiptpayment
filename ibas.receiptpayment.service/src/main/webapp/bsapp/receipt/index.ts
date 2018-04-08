@@ -9,5 +9,4 @@
 /// <reference path="./ReceiptEditApp.ts" />
 /// <reference path="./ReceiptFunc.ts" />
 /// <reference path="./ReceiptListApp.ts" />
-/// <reference path="./ReceiptService.ts" />
 /// <reference path="./ReceiptViewApp.ts" />
