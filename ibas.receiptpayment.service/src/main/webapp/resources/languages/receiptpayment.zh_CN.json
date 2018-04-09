@@ -33,7 +33,16 @@
   "receiptpayment_unknown_customer": "未知的客户[{0}]",
   "receiptpayment_unknown_supplier": "未知的供应商[{0}]",
   "receiptpayment_method_cash": "现金",
+  "receiptpayment_method_cash_icon": "sap-icon://money-bills",
   "receiptpayment_method_bank": "银行转账",
+  "receiptpayment_method_bank_icon": "sap-icon://credit-card",
   "receiptpayment_method_bp_asset": "业务伙伴资产",
+  "receiptpayment_method_bp_asset_icon": "sap-icon://lead",
+  "receiptpayment_payment": "支付：",
+  "receiptpaymentt_please_choose_paid_method": "请选择支付方式",
+  "receiptpaymentt_not_found_paid_method": "没有找到支付方式",
+  "receiptpaymentt_please_input_paid_amount": "请输入有效的支付金额",
+  "receiptpaymentt_please_paid": "请进行支付",
+  "receiptpaymentt_choosed_paid_method": "已选择支付方式",
   "receiptpayment_closing_delimiter": "----结束----"
 }

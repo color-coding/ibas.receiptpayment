@@ -65,5 +65,27 @@ namespace receiptpayment {
         }
         /** 付款方式管理员实例 */
         export const paymentMethodManager: trading.IPaymentMethodManager = new PaymentMethodManager();
+        /** 收款交易方式 */
+        export class ReceiptTradingMethod implements trading.IReceiptTradingMethod {
+            /** 组 */
+            mode: trading.IReceiptMethod;
+            /** 标记 */
+            id: string;
+            /** 描述 */
+            description: string;
+            /** 图标 */
+            icon?: string;
+        }
+        /** 付款交易方式 */
+        export class PaymentTradingMethod implements trading.IPaymentTradingMethod {
+            /** 组 */
+            mode: trading.IPaymentMethod;
+            /** 标记 */
+            id: string;
+            /** 描述 */
+            description: string;
+            /** 图标 */
+            icon?: string;
+        }
     }
 }

@@ -282,17 +282,12 @@ namespace receiptpayment {
             export function testReceipt(): void {
                 ibas.servicesManager.runApplicationService<app.IReceiptContract>({
                     proxy: new app.ReceiptServiceProxy({
-                        // 业务伙伴类型
                         businessPartnerType: businesspartner.bo.emBusinessPartnerType.CUSTOMER,
-                        // 业务伙伴编码
                         businessPartnerCode: "C70000",
-                        // 单据类型
                         documentType: "_TEST_",
-                        // 单据编号 */
-                        documentEntry: 0,
-                        // 单据行号
-                        documentTotal: 100,
-                        // 单据货币
+                        documentEntry: 199,
+                        documentLineId: 2,
+                        documentTotal: 129.99,
                         documentCurrency: ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY)
                     })
                 });

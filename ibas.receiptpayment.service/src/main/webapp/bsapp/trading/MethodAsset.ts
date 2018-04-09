@@ -23,9 +23,39 @@ namespace receiptpayment {
             /** 描述 */
             description: string;
             /** 获取可用交易类型 */
-            getTrading(caller: trading.ITradingMethodCaller): void {
-
+            getTrading(caller: trading.IReceiptTradingMethodCaller): void {
+                let that: this = this;
+                let boRepository: businesspartner.bo.IBORepositoryBusinessPartner = ibas.boFactory.create(businesspartner.bo.BO_REPOSITORY_BUSINESSPARTNER);
+                let criteria: ibas.ICriteria = new ibas.Criteria();
+                criteria.conditions.add(businesspartner.app.conditions.businesspartnerasset.create(caller.businessPartnerType, caller.businessPartnerCode));
+                let condition: ibas.ICondition = criteria.conditions.create();
+                condition.alias = "times";
+                condition.value = "0";
+                condition.operation = ibas.emConditionOperation.GRATER_EQUAL;
+                boRepository.fetchBusinessPartnerAsset({
+                    criteria: criteria,
+                    onCompleted(opRsltAsset: ibas.IOperationResult<businesspartner.bo.IBusinessPartnerAsset>): void {
+                        let opRslt: ibas.IOperationResult<trading.IReceiptTradingMethod> = new ibas.OperationResult<trading.IReceiptTradingMethod>();
+                        if (opRsltAsset.resultCode !== 0) {
+                            opRslt.resultCode = -1;
+                            opRslt.message = opRsltAsset.message;
+                        } else {
+                            for (let item of opRsltAsset.resultObjects) {
+                                let method: trading.IReceiptTradingMethod = new ReceiptTradingMethod();
+                                method.mode = that;
+                                method.id = item.code;
+                                method.description = item.name;
+                                method.icon = ibas.i18n.prop("receiptpayment_method_bp_asset_icon");
+                                opRslt.resultObjects.add(method);
+                            }
+                        }
+                        if (caller.onCompleted instanceof Function) {
+                            caller.onCompleted(opRslt);
+                        }
+                    }
+                });
             }
+
         }
     }
 }

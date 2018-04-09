@@ -48,30 +48,47 @@ namespace receiptpayment {
         }
 
         export namespace trading {
-            /** 交易的调用者 */
-            export interface ITradingCaller extends ibas.IMethodCaller<bo.IReceiptItem> {
-                /** 金额 */
-                amount: number;
-                /** 货币 */
-                currency: string;
-                /** 交易识别码 */
-                tradeId: string;
-            }
-            /** 交易方式 */
-            export interface ITradingMethod {
+            /** 收款交易方式 */
+            export interface IReceiptTradingMethod {
                 /** 组 */
-                group: string;
+                mode: IReceiptMethod;
                 /** 标记 */
                 id: string;
                 /** 描述 */
                 description: string;
                 /** 图标 */
                 icon?: string;
-                /** 收款 */
-                trading(caller: ITradingCaller): void;
             }
-            /** 交易方式的调用者 */
-            export interface ITradingMethodCaller extends ibas.IMethodCaller<ITradingMethod> {
+            /** 收款交易方式的调用者 */
+            export interface IReceiptTradingMethodCaller extends ibas.IMethodCaller<IReceiptTradingMethod> {
+                /** 业务伙伴类型 */
+                businessPartnerType: businesspartner.bo.emBusinessPartnerType;
+                /** 业务伙伴编码 */
+                businessPartnerCode: string;
+                /** 单据类型 */
+                documentType: string;
+                /** 单据编号 */
+                documentEntry: number;
+                /** 单据行号 */
+                documentLineId?: number;
+                /** 单据行号 */
+                documentTotal: number;
+                /** 单据货币 */
+                documentCurrency: string;
+            }
+            /** 付款交易方式 */
+            export interface IPaymentTradingMethod {
+                /** 组 */
+                mode: IPaymentMethod;
+                /** 标记 */
+                id: string;
+                /** 描述 */
+                description: string;
+                /** 图标 */
+                icon?: string;
+            }
+            /** 付款交易方式的调用者 */
+            export interface IPaymentTradingMethodCaller extends ibas.IMethodCaller<IPaymentTradingMethod> {
                 /** 业务伙伴类型 */
                 businessPartnerType: businesspartner.bo.emBusinessPartnerType;
                 /** 业务伙伴编码 */
@@ -94,7 +111,7 @@ namespace receiptpayment {
                 /** 描述 */
                 description: string;
                 /** 获取可用交易类型 */
-                getTrading(caller: ITradingMethodCaller): void;
+                getTrading(caller: IReceiptTradingMethodCaller): void;
             }
             /** 付款交易方式 */
             export interface IPaymentMethod {
@@ -103,7 +120,7 @@ namespace receiptpayment {
                 /** 描述 */
                 description: string;
                 /** 获取可用交易类型 */
-                getTrading(caller: ITradingMethodCaller): void;
+                getTrading(caller: IPaymentTradingMethodCaller): void;
             }
             /** 收款方式管理员 */
             export interface IReceiptMethodManager {

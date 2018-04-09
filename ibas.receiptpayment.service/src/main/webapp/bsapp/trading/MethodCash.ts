@@ -22,47 +22,42 @@ namespace receiptpayment {
             name: string;
             /** 描述 */
             description: string;
-            /** 获取可用交易类型 */
-            getTrading(caller: trading.ITradingMethodCaller): void {
-                this.onCompleted = caller.onCompleted;
-                this.fireOnCompleted();
-            }
-
-            private onCompleted: Function;
-            protected fireOnCompleted(): void {
-                if (this.onCompleted instanceof Function) {
-                    let method: trading.ITradingMethod = new TradingMethod();
-                    method.id = this.name;
-                    method.description = this.description;
-                    this.onCompleted(method);
-                }
-            }
-        }
-        class TradingMethod implements trading.ITradingMethod {
-            constructor() {
-                this.group = TRADING_MODE_CASH;
-            }
-            /** 组 */
-            group: string;
-            /** 标记 */
-            id: string;
-            /** 描述 */
-            description: string;
-            /** 图标 */
-            icon?: string;
-            /** 收款 */
-            trading(caller: trading.ITradingCaller): void {
-            }
         }
         /**
          * 收款方式-现金
          */
         export class ReceiptMethodCash extends TradingMethodCash implements trading.IReceiptMethod {
+            /** 获取可用交易类型 */
+            getTrading(caller: trading.IReceiptTradingMethodCaller): void {
+                if (caller.onCompleted instanceof Function) {
+                    let opRslt: ibas.IOperationResult<ReceiptTradingMethod> = new ibas.OperationResult<ReceiptTradingMethod>();
+                    let method: trading.IReceiptTradingMethod = new ReceiptTradingMethod();
+                    method.mode = this;
+                    method.id = this.name;
+                    method.description = this.description;
+                    method.icon = ibas.i18n.prop("receiptpayment_method_cash_icon");
+                    opRslt.resultObjects.add(method);
+                    caller.onCompleted(opRslt);
+                }
+            }
         }
         /**
          * 付款方式-现金
          */
         export class PaymentMethodCash extends TradingMethodCash implements trading.IPaymentMethod {
+            /** 获取可用交易类型 */
+            getTrading(caller: trading.IPaymentTradingMethodCaller): void {
+                if (caller.onCompleted instanceof Function) {
+                    let opRslt: ibas.IOperationResult<PaymentTradingMethod> = new ibas.OperationResult<PaymentTradingMethod>();
+                    let method: trading.IPaymentTradingMethod = new PaymentTradingMethod();
+                    method.mode = this;
+                    method.id = this.name;
+                    method.description = this.description;
+                    method.icon = ibas.i18n.prop("receiptpayment_method_cash_icon");
+                    opRslt.resultObjects.add(method);
+                    caller.onCompleted(opRslt);
+                }
+            }
         }
     }
 }

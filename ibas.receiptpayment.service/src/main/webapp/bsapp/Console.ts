@@ -51,9 +51,9 @@ namespace receiptpayment {
                 // 注册常驻应用
 
                 // 注册收款方式
-                receiptMethodManager.register(new ReceiptMethodCash());
-                receiptMethodManager.register(new ReceiptMethodBank());
                 receiptMethodManager.register(new ReceiptMethodBPAsset());
+                receiptMethodManager.register(new ReceiptMethodBank());
+                receiptMethodManager.register(new ReceiptMethodCash());
                 // 注册付款方式
                 paymentMethodManager.register(new PaymentMethodCash());
                 paymentMethodManager.register(new PaymentMethodBank());
