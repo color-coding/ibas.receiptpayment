@@ -74,7 +74,7 @@ namespace receiptpayment {
                             }),
                             new sap.m.Label("", {
                                 width: "auto",
-                                textAlign: sap.ui.core.TextAlign.Right,
+                                textAlign: sap.ui.core.TextAlign.Left,
                             }).bindProperty("text", {
                                 path: "documentLineId",
                             }),
@@ -101,6 +101,7 @@ namespace receiptpayment {
                     this.paid_input = new sap.m.Input("", {
                         width: "auto",
                         textAlign: sap.ui.core.TextAlign.Right,
+                        placeholder: ibas.i18n.prop("receiptpaymentt_please_input_paid_amount"),
                     });
                     this.paid_bar = new sap.m.Toolbar("", {
                         content: [
@@ -108,7 +109,7 @@ namespace receiptpayment {
                             new sap.m.Label("", {
                                 width: "auto",
                                 textAlign: sap.ui.core.TextAlign.Left,
-                                text: ibas.i18n.prop("receiptpayment_payment")
+                                text: ibas.i18n.prop("receiptpayment_paid")
                             }),
                             this.paid_input,
                             new sap.m.ToolbarSeparator(""),
@@ -129,6 +130,8 @@ namespace receiptpayment {
                                             }
                                         }
                                     }
+                                    // 错误参数调用，用于提示
+                                    that.fireViewEvents(that.applyReceiptTradingEvent);
                                 }
                             }),
                         ]
@@ -149,7 +152,7 @@ namespace receiptpayment {
                                     new sap.m.Toolbar("", {
                                         content: [
                                             new sap.m.Label("", {
-                                                text: ibas.i18n.prop("receiptpaymentt_please_choose_paid_method"),
+                                                text: ibas.i18n.prop("receiptpaymentt_choosable_paid_method"),
                                             })
                                         ]
                                     }),
@@ -250,9 +253,12 @@ namespace receiptpayment {
                     }
                 }
                 /** 显示收款交易 */
-                showReceiptTradings(tradings: app.ReceiptTrading[]): void {
+                showReceiptTradings(tradings: app.ReceiptTrading[], paid: number): void {
+                    this.paid_input.setValue(paid.toString());
                     this.trading_box.destroyItems();
-                    let that: this = this;
+                    if (tradings.length === 0) {
+                        return;
+                    }
                     this.trading_box.addItem(new sap.m.Toolbar("", {
                         content: [
                             new sap.m.Label("", {
@@ -260,6 +266,7 @@ namespace receiptpayment {
                             })
                         ]
                     }));
+                    let that: this = this;
                     for (let item of tradings) {
                         let bar: sap.m.Toolbar = new sap.m.Toolbar("", {
                             content: [

@@ -8,7 +8,7 @@
 namespace receiptpayment {
     export namespace app {
         /** 收款服务 */
-        export class ReceiptService extends ibas.ServiceApplication<IReceiptServiceView, app.IReceiptContract> {
+        export class ReceiptService extends ibas.ServiceWithResultApplication<IReceiptServiceView, app.IReceiptContract, bo.IReceipt> {
             /** 应用标识 */
             static APPLICATION_ID: string = "0d0f9266-5d7a-4e10-81be-4da982c15e1a";
             /** 应用名称 */
@@ -50,6 +50,7 @@ namespace receiptpayment {
                         }
                     });
                 }
+                this.showReceiptTradings();
             }
             protected target: ReceiptTarget;
             protected businesspartner: BusinessPartner;
@@ -126,14 +127,14 @@ namespace receiptpayment {
                     return;
                 }
                 this.receiptTradings.remove(trading);
-                this.view.showReceiptTradings(this.receiptTradings);
+                this.showReceiptTradings();
             }
             /** 使用收款交易 */
             private applyReceiptTrading(method: trading.IReceiptTradingMethod, amount: number): void {
                 if (ibas.objects.isNull(method)) {
                     throw new Error(ibas.i18n.prop("receiptpaymentt_please_choose_paid_method"));
                 }
-                if (typeof amount !== "number") {
+                if (typeof amount !== "number" || isNaN(amount) || amount <= 0) {
                     throw new Error(ibas.i18n.prop("receiptpaymentt_please_input_paid_amount"));
                 }
                 if (ibas.objects.isNull(this.receiptTradings)) {
@@ -144,13 +145,27 @@ namespace receiptpayment {
                 trading.amount = amount;
                 trading.currency = this.target.currency;
                 this.receiptTradings.add(trading);
-                this.view.showReceiptTradings(this.receiptTradings);
+                this.showReceiptTradings();
+            }
+            private showReceiptTradings(): void {
+                let paid: number = this.target.total;
+                if (ibas.objects.isNull(this.receiptTradings)) {
+                    this.receiptTradings = new ibas.ArrayList<ReceiptTrading>();
+                }
+                for (let item of this.receiptTradings) {
+                    paid -= item.amount;
+                }
+                if (paid < 0) {
+                    paid = 0;
+                }
+                this.view.showReceiptTradings(this.receiptTradings, paid);
             }
             /** 确定 */
             private confirm(): void {
                 if (ibas.objects.isNull(this.receiptTradings) || this.receiptTradings.length === 0) {
                     throw new Error(ibas.i18n.prop("receiptpaymentt_please_paid"));
                 }
+                let total: number = 0;
                 let receipt: bo.Receipt = new bo.Receipt();
                 receipt.businessPartnerType = this.businesspartner.type;
                 receipt.businessPartnerCode = this.businesspartner.code;
@@ -164,6 +179,10 @@ namespace receiptpayment {
                     receiptItem.tradeId = item.method.id;
                     receiptItem.amount = item.amount;
                     receiptItem.currency = item.currency;
+                    total += receiptItem.amount;
+                }
+                if (total !== this.target.total) {
+                    throw new Error(ibas.i18n.prop("receiptpayment_different_paid_amount", this.target.total - total));
                 }
                 let that: this = this;
                 let boRepository: bo.BORepositoryReceiptPayment = new bo.BORepositoryReceiptPayment();
@@ -179,6 +198,7 @@ namespace receiptpayment {
                             that.messages(ibas.emMessageType.SUCCESS,
                                 ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_sucessful"));
                             that.close();
+                            that.fireCompleted(receipt);
                         } catch (error) {
                             that.messages(error);
                         }
@@ -199,7 +219,7 @@ namespace receiptpayment {
             /** 显示收款交易方式 */
             showTradingMethods(methods: trading.IReceiptTradingMethod[]): void;
             /** 显示收款交易 */
-            showReceiptTradings(tradings: ReceiptTrading[]): void;
+            showReceiptTradings(tradings: ReceiptTrading[], paid: number): void;
             /** 移出收款交易 */
             removeReceiptTradingEvent: Function;
             /** 使用收款交易 */
@@ -228,14 +248,14 @@ namespace receiptpayment {
             documentLineId?: number;
         }
         export class ReceiptTrading {
-            /** 交易 */
+            /** 交易方式 */
             method: trading.IReceiptTradingMethod;
             /** 金额 */
             amount: number;
             /** 货币 */
             currency: string;
         }
-        /** 单据收款服务映射 */
+        /** 收款服务映射 */
         export class ReceiptServiceMapping extends ibas.ServiceMapping {
             /** 构造函数 */
             constructor() {

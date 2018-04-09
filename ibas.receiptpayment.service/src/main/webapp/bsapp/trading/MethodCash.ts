@@ -33,7 +33,7 @@ namespace receiptpayment {
                     let opRslt: ibas.IOperationResult<ReceiptTradingMethod> = new ibas.OperationResult<ReceiptTradingMethod>();
                     let method: trading.IReceiptTradingMethod = new ReceiptTradingMethod();
                     method.mode = this;
-                    method.id = this.name;
+                    method.id = "";
                     method.description = this.description;
                     method.icon = ibas.i18n.prop("receiptpayment_method_cash_icon");
                     opRslt.resultObjects.add(method);
@@ -51,7 +51,7 @@ namespace receiptpayment {
                     let opRslt: ibas.IOperationResult<PaymentTradingMethod> = new ibas.OperationResult<PaymentTradingMethod>();
                     let method: trading.IPaymentTradingMethod = new PaymentTradingMethod();
                     method.mode = this;
-                    method.id = this.name;
+                    method.id = "";
                     method.description = this.description;
                     method.icon = ibas.i18n.prop("receiptpayment_method_cash_icon");
                     opRslt.resultObjects.add(method);

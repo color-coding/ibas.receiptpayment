@@ -38,11 +38,13 @@
   "receiptpayment_method_bank_icon": "sap-icon://credit-card",
   "receiptpayment_method_bp_asset": "业务伙伴资产",
   "receiptpayment_method_bp_asset_icon": "sap-icon://lead",
-  "receiptpayment_payment": "支付：",
+  "receiptpayment_paid": "支付：",
   "receiptpaymentt_please_choose_paid_method": "请选择支付方式",
   "receiptpaymentt_not_found_paid_method": "没有找到支付方式",
-  "receiptpaymentt_please_input_paid_amount": "请输入有效的支付金额",
+  "receiptpaymentt_please_input_paid_amount": "请输入支付金额",
   "receiptpaymentt_please_paid": "请进行支付",
-  "receiptpaymentt_choosed_paid_method": "已选择支付方式",
+  "receiptpaymentt_choosable_paid_method": "可选择支付方式:",
+  "receiptpaymentt_choosed_paid_method": "已选择支付方式:",
+  "receiptpayment_different_paid_amount": "还差[{0}]未支付",
   "receiptpayment_closing_delimiter": "----结束----"
 }
