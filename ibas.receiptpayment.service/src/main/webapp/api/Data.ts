@@ -37,7 +37,7 @@ namespace receiptpayment {
             documentEntry: number;
             /** 单据行号 */
             documentLineId?: number;
-            /** 单据行号 */
+            /** 单据总计 */
             documentTotal: number;
             /** 单据货币 */
             documentCurrency: string;
@@ -77,7 +77,7 @@ namespace receiptpayment {
                 documentEntry: number;
                 /** 单据行号 */
                 documentLineId?: number;
-                /** 单据行号 */
+                /** 单据总计 */
                 documentTotal: number;
                 /** 单据货币 */
                 documentCurrency: string;
@@ -107,7 +107,7 @@ namespace receiptpayment {
                 documentEntry: number;
                 /** 单据行号 */
                 documentLineId?: number;
-                /** 单据行号 */
+                /** 单据总计 */
                 documentTotal: number;
                 /** 单据货币 */
                 documentCurrency: string;

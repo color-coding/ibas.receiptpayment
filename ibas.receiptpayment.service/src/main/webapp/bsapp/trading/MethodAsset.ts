@@ -29,14 +29,15 @@ namespace receiptpayment {
             getTradings(caller: trading.IReceiptTradingMethodCaller): void {
                 let that: this = this;
                 let boRepository: businesspartner.bo.IBORepositoryBusinessPartner = ibas.boFactory.create(businesspartner.bo.BO_REPOSITORY_BUSINESSPARTNER);
-                let criteria: ibas.ICriteria = new ibas.Criteria();
-                criteria.conditions.add(businesspartner.app.conditions.businesspartnerasset.create(caller.businessPartnerType, caller.businessPartnerCode));
-                let condition: ibas.ICondition = criteria.conditions.create();
-                condition.alias = "times";
-                condition.value = "0";
-                condition.operation = ibas.emConditionOperation.GRATER_EQUAL;
-                boRepository.fetchBusinessPartnerAsset({
-                    criteria: criteria,
+                boRepository.fetchCustomerAsset({
+                    request: {
+                        businessPartner: caller.businessPartnerCode,
+                        documentType: caller.documentType,
+                        documentEntry: caller.documentEntry,
+                        documentLineId: caller.documentLineId,
+                        total: caller.documentTotal,
+                        currency: caller.documentCurrency
+                    },
                     onCompleted(opRsltAsset: ibas.IOperationResult<businesspartner.bo.IBusinessPartnerAsset>): void {
                         let opRslt: ibas.IOperationResult<trading.IReceiptTradingMethod> = new ibas.OperationResult<trading.IReceiptTradingMethod>();
                         if (opRsltAsset.resultCode !== 0) {
