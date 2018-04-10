@@ -147,6 +147,7 @@ namespace receiptpayment {
                 // 最多使用可用金额
                 if (!isNaN(method.amount) && method.amount > 0 && method.amount < amount) {
                     amount = method.amount;
+                    this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("receiptpayment_bp_asset_amount_available", method.description, method.amount));
                 }
                 let trading: ReceiptTrading = new ReceiptTrading();
                 trading.trading = method;

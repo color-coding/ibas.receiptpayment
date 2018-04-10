@@ -47,5 +47,6 @@
   "receiptpaymentt_choosed_paid_method": "已选择支付方式:",
   "receiptpayment_different_paid_amount": "还差[{0}]未支付",
   "receiptpayment_exists_paid_method": "已存在支付方式[{0}]",
+  "receiptpayment_bp_asset_amount_available": "资产[{0}]仅[{1}]可用",
   "receiptpayment_closing_delimiter": "----结束----"
 }
