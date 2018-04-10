@@ -78,6 +78,13 @@ namespace receiptpayment {
                             }).bindProperty("text", {
                                 path: "documentLineId",
                             }),
+                            new sap.m.ToolbarSeparator(""),
+                            new sap.m.Label("", {
+                                width: "auto",
+                                textAlign: sap.ui.core.TextAlign.Right,
+                            }).bindProperty("text", {
+                                path: "documentSummary",
+                            }),
                             new sap.m.ToolbarSpacer(""),
                             new sap.m.ToolbarSeparator(""),
                             new sap.m.Label("", {
@@ -225,7 +232,7 @@ namespace receiptpayment {
                     let that: this = this;
                     let index: number = 2;
                     for (let item of methods) {
-                        let bar: sap.m.Toolbar = this.menthod_bars.get(item.mode.name);
+                        let bar: sap.m.Toolbar = this.menthod_bars.get(item.method.name);
                         if (ibas.objects.isNull(bar)) {
                             continue;
                         }
@@ -272,7 +279,7 @@ namespace receiptpayment {
                             content: [
                                 new sap.m.Label("", {
                                     width: "100%",
-                                    text: item.method.description,
+                                    text: item.trading.description,
                                     textAlign: sap.ui.core.TextAlign.Right,
                                 }),
                                 new sap.m.Label("", {

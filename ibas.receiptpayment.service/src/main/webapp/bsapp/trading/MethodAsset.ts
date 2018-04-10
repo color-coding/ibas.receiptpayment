@@ -17,13 +17,16 @@ namespace receiptpayment {
             constructor() {
                 this.name = TRADING_MODE_BP_ASSSET;
                 this.description = ibas.i18n.prop("receiptpayment_method_bp_asset");
+                this.enabled = !ibas.config.get(ibas.strings.format(trading.CONFIG_ITEM_TEMPLATE_TRADING_MODE_DISABLED, this.name), false);
             }
             /** 名称 */
             name: string;
             /** 描述 */
             description: string;
+            /** 启用 */
+            enabled: boolean;
             /** 获取可用交易类型 */
-            getTrading(caller: trading.IReceiptTradingMethodCaller): void {
+            getTradings(caller: trading.IReceiptTradingMethodCaller): void {
                 let that: this = this;
                 let boRepository: businesspartner.bo.IBORepositoryBusinessPartner = ibas.boFactory.create(businesspartner.bo.BO_REPOSITORY_BUSINESSPARTNER);
                 let criteria: ibas.ICriteria = new ibas.Criteria();
@@ -41,12 +44,13 @@ namespace receiptpayment {
                             opRslt.message = opRsltAsset.message;
                         } else {
                             for (let item of opRsltAsset.resultObjects) {
-                                let method: trading.IReceiptTradingMethod = new ReceiptTradingMethod();
-                                method.mode = that;
-                                method.id = item.code;
-                                method.description = item.name;
-                                method.icon = ibas.i18n.prop("receiptpayment_method_bp_asset_icon");
-                                opRslt.resultObjects.add(method);
+                                let trading: trading.IReceiptTradingMethod = new ReceiptTradingMethod();
+                                trading.method = that;
+                                trading.id = item.code;
+                                trading.description = item.name;
+                                trading.amount = item.amount;
+                                trading.icon = ibas.i18n.prop("receiptpayment_method_bp_asset_icon");
+                                opRslt.resultObjects.add(trading);
                             }
                         }
                         if (caller.onCompleted instanceof Function) {

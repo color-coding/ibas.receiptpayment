@@ -41,6 +41,8 @@ namespace receiptpayment {
             documentTotal: number;
             /** 单据货币 */
             documentCurrency: string;
+            /** 单据摘要 */
+            documentSummary?: string;
         }
         /** 收款服务代理 */
         export class ReceiptServiceProxy extends ibas.ServiceProxy<IReceiptContract> {
@@ -48,16 +50,20 @@ namespace receiptpayment {
         }
 
         export namespace trading {
+            /** 配置项目-远程仓库的默认地址模板 */
+            export const CONFIG_ITEM_TEMPLATE_TRADING_MODE_DISABLED: string = "disabledTradingMode|{0}";
             /** 收款交易方式 */
             export interface IReceiptTradingMethod {
-                /** 组 */
-                mode: IReceiptMethod;
+                /** 收款方式 */
+                method: IReceiptMethod;
                 /** 标记 */
                 id: string;
                 /** 描述 */
                 description: string;
                 /** 图标 */
                 icon?: string;
+                /** 可用金额 */
+                amount: number;
             }
             /** 收款交易方式的调用者 */
             export interface IReceiptTradingMethodCaller extends ibas.IMethodCaller<IReceiptTradingMethod> {
@@ -78,14 +84,16 @@ namespace receiptpayment {
             }
             /** 付款交易方式 */
             export interface IPaymentTradingMethod {
-                /** 组 */
-                mode: IPaymentMethod;
+                /** 付款方式 */
+                method: IPaymentMethod;
                 /** 标记 */
                 id: string;
                 /** 描述 */
                 description: string;
                 /** 图标 */
                 icon?: string;
+                /** 可用金额 */
+                amount: number;
             }
             /** 付款交易方式的调用者 */
             export interface IPaymentTradingMethodCaller extends ibas.IMethodCaller<IPaymentTradingMethod> {
@@ -104,23 +112,27 @@ namespace receiptpayment {
                 /** 单据货币 */
                 documentCurrency: string;
             }
-            /** 收款交易方式 */
+            /** 收款方式 */
             export interface IReceiptMethod {
                 /** 名称 */
                 name: string;
                 /** 描述 */
                 description: string;
-                /** 获取可用交易类型 */
-                getTrading(caller: IReceiptTradingMethodCaller): void;
+                /** 启用 */
+                enabled: boolean;
+                /** 获取可用交易方式 */
+                getTradings(caller: IReceiptTradingMethodCaller): void;
             }
-            /** 付款交易方式 */
+            /** 付款方式 */
             export interface IPaymentMethod {
                 /** 名称 */
                 name: string;
                 /** 描述 */
                 description: string;
-                /** 获取可用交易类型 */
-                getTrading(caller: IPaymentTradingMethodCaller): void;
+                /** 启用 */
+                enabled: boolean;
+                /** 获取可用交易方式 */
+                getTradings(caller: IPaymentTradingMethodCaller): void;
             }
             /** 收款方式管理员 */
             export interface IReceiptMethodManager {

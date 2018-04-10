@@ -37,7 +37,7 @@ namespace receiptpayment {
                 this.view.showMethods(methods);
                 let that: this = this;
                 for (let item of methods) {
-                    item.getTrading({
+                    item.getTradings({
                         businessPartnerType: this.businesspartner.type,
                         businessPartnerCode: this.businesspartner.code,
                         documentType: this.target.documentType,
@@ -61,6 +61,7 @@ namespace receiptpayment {
                 this.target.documentType = contract.documentType;
                 this.target.documentEntry = contract.documentEntry;
                 this.target.documentLineId = contract.documentLineId;
+                this.target.documentSummary = contract.documentSummary;
                 this.target.total = contract.documentTotal;
                 this.target.currency = contract.documentCurrency;
                 this.businesspartner = new BusinessPartner();
@@ -140,8 +141,15 @@ namespace receiptpayment {
                 if (ibas.objects.isNull(this.receiptTradings)) {
                     this.receiptTradings = new ibas.ArrayList<ReceiptTrading>();
                 }
+                if (!ibas.objects.isNull(this.receiptTradings.firstOrDefault(c => c.trading === method))) {
+                    throw new Error(ibas.i18n.prop("receiptpayment_exists_paid_method", method.description));
+                }
+                // 最多使用可用金额
+                if (!isNaN(method.amount) && method.amount > 0 && method.amount < amount) {
+                    amount = method.amount;
+                }
                 let trading: ReceiptTrading = new ReceiptTrading();
-                trading.method = method;
+                trading.trading = method;
                 trading.amount = amount;
                 trading.currency = this.target.currency;
                 this.receiptTradings.add(trading);
@@ -175,8 +183,8 @@ namespace receiptpayment {
                     receiptItem.baseDocumentType = this.target.documentType;
                     receiptItem.baseDocumentEntry = this.target.documentEntry;
                     receiptItem.baseDocumentLineId = this.target.documentLineId;
-                    receiptItem.mode = item.method.mode.name;
-                    receiptItem.tradeId = item.method.id;
+                    receiptItem.mode = item.trading.method.name;
+                    receiptItem.tradeId = item.trading.id;
                     receiptItem.amount = item.amount;
                     receiptItem.currency = item.currency;
                     total += receiptItem.amount;
@@ -246,10 +254,12 @@ namespace receiptpayment {
             documentEntry: number;
             /** 单据行号 */
             documentLineId?: number;
+            /** 单据摘要 */
+            documentSummary?: string;
         }
         export class ReceiptTrading {
             /** 交易方式 */
-            method: trading.IReceiptTradingMethod;
+            trading: trading.IReceiptTradingMethod;
             /** 金额 */
             amount: number;
             /** 货币 */

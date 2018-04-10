@@ -31,7 +31,14 @@ namespace receiptpayment {
                 if (ibas.objects.isNull(this.methods)) {
                     this.methods = new ibas.ArrayList<trading.IReceiptMethod>();
                 }
-                return this.methods;
+                let methods: trading.IReceiptMethod[] = [];
+                for (let item of this.methods) {
+                    if (!item.enabled) {
+                        continue;
+                    }
+                    methods.push(item);
+                }
+                return methods;
             }
         }
         /** 收款方式管理员实例 */
@@ -60,32 +67,43 @@ namespace receiptpayment {
                 if (ibas.objects.isNull(this.methods)) {
                     this.methods = new ibas.ArrayList<trading.IPaymentMethod>();
                 }
-                return this.methods;
+                let methods: trading.IPaymentMethod[] = [];
+                for (let item of this.methods) {
+                    if (!item.enabled) {
+                        continue;
+                    }
+                    methods.push(item);
+                }
+                return methods;
             }
         }
         /** 付款方式管理员实例 */
         export const paymentMethodManager: trading.IPaymentMethodManager = new PaymentMethodManager();
         /** 收款交易方式 */
         export class ReceiptTradingMethod implements trading.IReceiptTradingMethod {
-            /** 组 */
-            mode: trading.IReceiptMethod;
+            /** 收款方式 */
+            method: trading.IReceiptMethod;
             /** 标记 */
             id: string;
             /** 描述 */
             description: string;
             /** 图标 */
             icon?: string;
+            /** 可用金额 */
+            amount: number;
         }
         /** 付款交易方式 */
         export class PaymentTradingMethod implements trading.IPaymentTradingMethod {
-            /** 组 */
-            mode: trading.IPaymentMethod;
+            /** 付款方式 */
+            method: trading.IPaymentMethod;
             /** 标记 */
             id: string;
             /** 描述 */
             description: string;
             /** 图标 */
             icon?: string;
+            /** 可用金额 */
+            amount: number;
         }
     }
 }
