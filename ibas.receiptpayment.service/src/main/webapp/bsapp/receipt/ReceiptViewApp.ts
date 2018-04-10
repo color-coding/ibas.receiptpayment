@@ -78,10 +78,6 @@ namespace receiptpayment {
                 });
                 this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_fetching_data"));
             }
-            /** 获取服务的契约 */
-            protected getServiceProxies(): ibas.IServiceProxy<ibas.IServiceContract>[] {
-                return [];
-            }
         }
         /** 视图-收款 */
         export interface IReceiptViewView extends ibas.IBOViewView {

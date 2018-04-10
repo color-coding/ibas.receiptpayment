@@ -109,7 +109,7 @@ namespace receiptpayment {
                     return;
                 }
                 let beDeleteds: ibas.ArrayList<bo.AssetRecharge> = new ibas.ArrayList<bo.AssetRecharge>();
-                if (data instanceof Array ) {
+                if (data instanceof Array) {
                     for (let item of data) {
                         item.delete();
                         beDeleteds.add(item);
@@ -135,7 +135,7 @@ namespace receiptpayment {
                         if (action === ibas.emMessageAction.YES) {
                             try {
                                 let boRepository: bo.BORepositoryReceiptPayment = new bo.BORepositoryReceiptPayment();
-                                let saveMethod: Function = function(beSaved: bo.AssetRecharge):void {
+                                let saveMethod: Function = function (beSaved: bo.AssetRecharge): void {
                                     boRepository.saveAssetRecharge({
                                         beSaved: beSaved,
                                         onCompleted(opRslt: ibas.IOperationResult<bo.AssetRecharge>): void {
@@ -151,7 +151,7 @@ namespace receiptpayment {
                                                     // 处理完成
                                                     that.busy(false);
                                                     that.messages(ibas.emMessageType.SUCCESS,
-                                                    ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_sucessful"));
+                                                        ibas.i18n.prop("shell_data_delete") + ibas.i18n.prop("shell_sucessful"));
                                                 }
                                             } catch (error) {
                                                 that.messages(ibas.emMessageType.ERROR,
@@ -172,15 +172,6 @@ namespace receiptpayment {
                     }
                 });
             }
-            /** 获取服务的契约 */
-            protected getServiceProxies(): ibas.IServiceProxy<ibas.IServiceContract>[] {
-                return [
-                    new ibas.BOListServiceProxy({
-                        data: this.view.getSelecteds(),
-                        converter: new bo.DataConverter()
-                    })
-                ];
-            }
         }
         /** 视图-资产充值 */
         export interface IAssetRechargeListView extends ibas.IBOListView {
@@ -190,8 +181,6 @@ namespace receiptpayment {
             deleteDataEvent: Function;
             /** 显示数据 */
             showData(datas: bo.AssetRecharge[]): void;
-            /** 获取选择的数据 */
-            getSelecteds(): bo.AssetRecharge[];
         }
     }
 }
