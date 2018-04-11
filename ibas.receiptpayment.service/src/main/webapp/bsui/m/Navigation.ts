@@ -8,6 +8,7 @@
 /// <reference path="../../3rdparty/ibas/index.d.ts" />
 /// <reference path="../../3rdparty/openui5/index.d.ts" />
 /// <reference path="../../index.d.ts" />
+/// <reference path="../c/trading/index.ts" />
 namespace receiptpayment {
     export namespace ui {
         /**
@@ -22,6 +23,9 @@ namespace receiptpayment {
             protected newView(id: string): ibas.IView {
                 let view: ibas.IView = null;
                 switch (id) {
+                    case app.ReceiptService.APPLICATION_ID:
+                        view = new c.ReceiptServiceView();
+                        break;
                     default:
                         break;
                 }

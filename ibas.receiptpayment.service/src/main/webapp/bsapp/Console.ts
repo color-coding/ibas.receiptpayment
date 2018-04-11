@@ -90,5 +90,15 @@ namespace receiptpayment {
                 super.run();
             }
         }
+
+        /** 模块控制台，手机端 */
+        export class ConsolePhone extends Console {
+            /** 初始化 */
+            protected registers(): void {
+                // 注册收款方式
+                receiptMethodManager.register(new ReceiptMethodBPAsset());
+                receiptMethodManager.register(new ReceiptMethodCash());
+            }
+        }
     }
 }
