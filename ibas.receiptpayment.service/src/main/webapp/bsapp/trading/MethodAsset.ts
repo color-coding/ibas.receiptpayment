@@ -38,7 +38,7 @@ namespace receiptpayment {
                         total: caller.documentTotal,
                         currency: caller.documentCurrency
                     },
-                    onCompleted(opRsltAsset: ibas.IOperationResult<businesspartner.bo.IBusinessPartnerAsset>): void {
+                    onCompleted(opRsltAsset: ibas.IOperationResult<businesspartner.bo.ICustomerAsset>): void {
                         let opRslt: ibas.IOperationResult<trading.IReceiptTradingMethod> = new ibas.OperationResult<trading.IReceiptTradingMethod>();
                         if (opRsltAsset.resultCode !== 0) {
                             opRslt.resultCode = -1;
@@ -50,7 +50,10 @@ namespace receiptpayment {
                                 trading.id = item.code;
                                 trading.description = item.name;
                                 trading.amount = item.amount;
-                                trading.icon = ibas.i18n.prop("receiptpayment_method_bp_asset_icon");
+                                trading.icon = item.picture;
+                                if (ibas.strings.isEmpty(trading.icon)) {
+                                    trading.icon = ibas.i18n.prop("receiptpayment_method_bp_asset_icon");
+                                }
                                 opRslt.resultObjects.add(trading);
                             }
                         }
