@@ -206,7 +206,7 @@ namespace receiptpayment {
                     this.target_bar.bindObject("/");
                 }
                 /** 显示收款方式 */
-                showMethods(methods: app.trading.IReceiptMethod[]): void {
+                showMethods(methods: app.IReceiptMethod[]): void {
                     if (ibas.objects.isNull(this.menthod_bars)) {
                         this.menthod_bars = new Map<String, sap.m.Toolbar>();
                     }
@@ -225,7 +225,7 @@ namespace receiptpayment {
                     }
                 }
                 /** 显示收款交易方式 */
-                showTradingMethods(methods: app.trading.IReceiptTradingMethod[]): void {
+                showTradingMethods(methods: app.IReceiptTradingMethod[]): void {
                     if (ibas.objects.isNull(this.menthod_bars)) {
                         return;
                     }

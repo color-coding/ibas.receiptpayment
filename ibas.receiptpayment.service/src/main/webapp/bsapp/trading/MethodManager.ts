@@ -8,18 +8,18 @@
 namespace receiptpayment {
     export namespace app {
         /** 收款方式管理员 */
-        class ReceiptMethodManager implements trading.IReceiptMethodManager {
+        class ReceiptMethodManager implements IReceiptMethodManager {
             /** 方式列表 */
-            private methods: ibas.ArrayList<trading.IReceiptMethod>;
+            private methods: ibas.ArrayList<IReceiptMethod>;
             /** 注册收款方式 */
-            register(method: trading.IReceiptMethod): void {
+            register(method: IReceiptMethod): void {
                 if (ibas.objects.isNull(method)) {
                     return;
                 }
                 if (ibas.objects.isNull(this.methods)) {
-                    this.methods = new ibas.ArrayList<trading.IReceiptMethod>();
+                    this.methods = new ibas.ArrayList<IReceiptMethod>();
                 }
-                let exists: trading.IReceiptMethod = this.methods.firstOrDefault(c => c.name === method.name);
+                let exists: IReceiptMethod = this.methods.firstOrDefault(c => c.name === method.name);
                 if (ibas.objects.isNull(exists)) {
                     this.methods.add(method);
                 } else {
@@ -27,11 +27,11 @@ namespace receiptpayment {
                 }
             }
             /** 获取方式 */
-            getMethods(): trading.IReceiptMethod[] {
+            getMethods(): IReceiptMethod[] {
                 if (ibas.objects.isNull(this.methods)) {
-                    this.methods = new ibas.ArrayList<trading.IReceiptMethod>();
+                    this.methods = new ibas.ArrayList<IReceiptMethod>();
                 }
-                let methods: trading.IReceiptMethod[] = [];
+                let methods: IReceiptMethod[] = [];
                 for (let item of this.methods) {
                     if (!item.enabled) {
                         continue;
@@ -42,20 +42,20 @@ namespace receiptpayment {
             }
         }
         /** 收款方式管理员实例 */
-        export const receiptMethodManager: trading.IReceiptMethodManager = new ReceiptMethodManager();
+        export const receiptMethodManager: IReceiptMethodManager = new ReceiptMethodManager();
         /** 付款方式管理员 */
-        class PaymentMethodManager implements trading.IPaymentMethodManager {
+        class PaymentMethodManager implements IPaymentMethodManager {
             /** 方式列表 */
-            private methods: ibas.ArrayList<trading.IPaymentMethod>;
+            private methods: ibas.ArrayList<IPaymentMethod>;
             /** 注册付款方式 */
-            register(method: trading.IPaymentMethod): void {
+            register(method: IPaymentMethod): void {
                 if (ibas.objects.isNull(method)) {
                     return;
                 }
                 if (ibas.objects.isNull(this.methods)) {
-                    this.methods = new ibas.ArrayList<trading.IPaymentMethod>();
+                    this.methods = new ibas.ArrayList<IPaymentMethod>();
                 }
-                let exists: trading.IPaymentMethod = this.methods.firstOrDefault(c => c.name === method.name);
+                let exists: IPaymentMethod = this.methods.firstOrDefault(c => c.name === method.name);
                 if (ibas.objects.isNull(exists)) {
                     this.methods.add(method);
                 } else {
@@ -63,11 +63,11 @@ namespace receiptpayment {
                 }
             }
             /** 获取方式 */
-            getMethods(): trading.IPaymentMethod[] {
+            getMethods(): IPaymentMethod[] {
                 if (ibas.objects.isNull(this.methods)) {
-                    this.methods = new ibas.ArrayList<trading.IPaymentMethod>();
+                    this.methods = new ibas.ArrayList<IPaymentMethod>();
                 }
-                let methods: trading.IPaymentMethod[] = [];
+                let methods: IPaymentMethod[] = [];
                 for (let item of this.methods) {
                     if (!item.enabled) {
                         continue;
@@ -78,11 +78,11 @@ namespace receiptpayment {
             }
         }
         /** 付款方式管理员实例 */
-        export const paymentMethodManager: trading.IPaymentMethodManager = new PaymentMethodManager();
+        export const paymentMethodManager: IPaymentMethodManager = new PaymentMethodManager();
         /** 收款交易方式 */
-        export class ReceiptTradingMethod implements trading.IReceiptTradingMethod {
+        export class ReceiptTradingMethod implements IReceiptTradingMethod {
             /** 收款方式 */
-            method: trading.IReceiptMethod;
+            method: IReceiptMethod;
             /** 标记 */
             id: string;
             /** 描述 */
@@ -93,9 +93,9 @@ namespace receiptpayment {
             amount: number;
         }
         /** 付款交易方式 */
-        export class PaymentTradingMethod implements trading.IPaymentTradingMethod {
+        export class PaymentTradingMethod implements IPaymentTradingMethod {
             /** 付款方式 */
-            method: trading.IPaymentMethod;
+            method: IPaymentMethod;
             /** 标记 */
             id: string;
             /** 描述 */

@@ -8,7 +8,7 @@
 namespace receiptpayment {
     export namespace app {
         /** 收款服务 */
-        export class ReceiptService extends ibas.ServiceWithResultApplication<IReceiptServiceView, app.IReceiptContract, bo.IReceipt> {
+        export class ReceiptService extends ibas.ServiceWithResultApplication<IReceiptServiceView, businesspartner.app.IReceiptContract, bo.IReceipt> {
             /** 应用标识 */
             static APPLICATION_ID: string = "0d0f9266-5d7a-4e10-81be-4da982c15e1a";
             /** 应用名称 */
@@ -33,7 +33,7 @@ namespace receiptpayment {
                 // 视图加载完成
                 this.view.showBusinessPartner(this.businesspartner);
                 this.view.showTarget(this.target);
-                let methods: trading.IReceiptMethod[] = receiptMethodManager.getMethods();
+                let methods: IReceiptMethod[] = receiptMethodManager.getMethods();
                 this.view.showMethods(methods);
                 let that: this = this;
                 for (let item of methods) {
@@ -45,7 +45,7 @@ namespace receiptpayment {
                         documentLineId: this.target.documentLineId,
                         documentTotal: this.target.total,
                         documentCurrency: this.target.currency,
-                        onCompleted(opRslt: ibas.IOperationResult<trading.IReceiptTradingMethod>): void {
+                        onCompleted(opRslt: ibas.IOperationResult<IReceiptTradingMethod>): void {
                             that.view.showTradingMethods(opRslt.resultObjects);
                         }
                     });
@@ -56,7 +56,7 @@ namespace receiptpayment {
             protected businesspartner: BusinessPartner;
             protected receiptTradings: ibas.IList<ReceiptTrading>;
             /** 运行服务 */
-            runService(contract: app.IReceiptContract): void {
+            runService(contract: businesspartner.app.IReceiptContract): void {
                 this.target = new ReceiptTarget();
                 this.target.documentType = contract.documentType;
                 this.target.documentEntry = contract.documentEntry;
@@ -131,7 +131,7 @@ namespace receiptpayment {
                 this.showReceiptTradings();
             }
             /** 使用收款交易 */
-            private applyReceiptTrading(method: trading.IReceiptTradingMethod, amount: number): void {
+            private applyReceiptTrading(method: IReceiptTradingMethod, amount: number): void {
                 if (ibas.objects.isNull(method)) {
                     throw new Error(ibas.i18n.prop("receiptpaymentt_please_choose_paid_method"));
                 }
@@ -174,6 +174,7 @@ namespace receiptpayment {
                 if (ibas.objects.isNull(this.receiptTradings) || this.receiptTradings.length === 0) {
                     throw new Error(ibas.i18n.prop("receiptpaymentt_please_paid"));
                 }
+                this.busy(true);
                 let total: number = 0;
                 let receipt: bo.Receipt = new bo.Receipt();
                 receipt.businessPartnerType = this.businesspartner.type;
@@ -213,7 +214,6 @@ namespace receiptpayment {
                         }
                     }
                 });
-                this.busy(true);
                 this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_saving_data"));
             }
         }
@@ -224,9 +224,9 @@ namespace receiptpayment {
             /** 显示收款目标 */
             showTarget(data: ReceiptTarget): void;
             /** 显示收款方式 */
-            showMethods(methods: trading.IReceiptMethod[]): void;
+            showMethods(methods: IReceiptMethod[]): void;
             /** 显示收款交易方式 */
-            showTradingMethods(methods: trading.IReceiptTradingMethod[]): void;
+            showTradingMethods(methods: IReceiptTradingMethod[]): void;
             /** 显示收款交易 */
             showReceiptTradings(tradings: ReceiptTrading[], paid: number): void;
             /** 移出收款交易 */
@@ -260,7 +260,7 @@ namespace receiptpayment {
         }
         export class ReceiptTrading {
             /** 交易方式 */
-            trading: trading.IReceiptTradingMethod;
+            trading: IReceiptTradingMethod;
             /** 金额 */
             amount: number;
             /** 货币 */
@@ -274,7 +274,7 @@ namespace receiptpayment {
                 this.id = ReceiptService.APPLICATION_ID;
                 this.name = ReceiptService.APPLICATION_NAME;
                 this.description = ibas.i18n.prop(this.name);
-                this.proxy = app.ReceiptServiceProxy;
+                this.proxy = businesspartner.app.ReceiptServiceProxy;
             }
             /** 创建服务实例 */
             create(): ibas.IService<ibas.IServiceContract> {

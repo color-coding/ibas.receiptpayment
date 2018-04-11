@@ -175,15 +175,6 @@ namespace receiptpayment {
                                         );
                                     }
                                 }),
-                                new sap.m.Button("", {
-                                    text: "Test",
-                                    visible: ibas.config.get(ibas.CONFIG_ITEM_DEBUG_MODE, false),
-                                    type: sap.m.ButtonType.Transparent,
-                                    icon: "sap-icon://example",
-                                    press: function (): void {
-                                        test.testReceipt();
-                                    }
-                                }),
                                 new sap.m.ToolbarSpacer(""),
                                 new sap.m.Button("", {
                                     type: sap.m.ButtonType.Transparent,
@@ -276,25 +267,6 @@ namespace receiptpayment {
                         this.table.setModel(null);
                     }
                 }
-            }
-        }
-        namespace test {
-            export function testReceipt(): void {
-                ibas.servicesManager.runApplicationService<app.IReceiptContract, bo.IReceipt>({
-                    proxy: new app.ReceiptServiceProxy({
-                        businessPartnerType: businesspartner.bo.emBusinessPartnerType.CUSTOMER,
-                        businessPartnerCode: "C70000",
-                        documentType: "_TEST_",
-                        documentEntry: parseInt(ibas.dates.toString(ibas.dates.now(), "yyyyMMdd"), 0),
-                        documentLineId: parseInt(ibas.dates.toString(ibas.dates.now(), "HHmmss"), 0),
-                        documentTotal: Math.floor(Math.random() * (99999999 - 100 + 1) + 100) / 10000,
-                        documentCurrency: ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY),
-                        documentSummary: "坚果pro 3 256G 黑红",
-                    }),
-                    onCompleted(result: bo.IReceipt): void {
-                        ibas.logger.log(ibas.emMessageLevel.WARN, "bo: {0}", result.toString());
-                    }
-                });
             }
         }
     }

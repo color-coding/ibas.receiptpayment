@@ -17,7 +17,7 @@ namespace receiptpayment {
             constructor() {
                 this.name = TRADING_MODE_CASH;
                 this.description = ibas.i18n.prop("receiptpayment_method_cash");
-                this.enabled = !ibas.config.get(ibas.strings.format(trading.CONFIG_ITEM_TEMPLATE_TRADING_MODE_DISABLED, this.name), false);
+                this.enabled = !ibas.config.get(ibas.strings.format(CONFIG_ITEM_TEMPLATE_TRADING_MODE_DISABLED, this.name), false);
             }
             /** 名称 */
             name: string;
@@ -29,12 +29,12 @@ namespace receiptpayment {
         /**
          * 收款方式-现金
          */
-        export class ReceiptMethodCash extends TradingMethodCash implements trading.IReceiptMethod {
+        export class ReceiptMethodCash extends TradingMethodCash implements IReceiptMethod {
             /** 获取可用交易类型 */
-            getTradings(caller: trading.IReceiptTradingMethodCaller): void {
+            getTradings(caller: IReceiptTradingMethodCaller): void {
                 if (caller.onCompleted instanceof Function) {
                     let opRslt: ibas.IOperationResult<ReceiptTradingMethod> = new ibas.OperationResult<ReceiptTradingMethod>();
-                    let trading: trading.IReceiptTradingMethod = new ReceiptTradingMethod();
+                    let trading: IReceiptTradingMethod = new ReceiptTradingMethod();
                     trading.method = this;
                     trading.id = "";
                     trading.description = this.description;
@@ -47,12 +47,12 @@ namespace receiptpayment {
         /**
          * 付款方式-现金
          */
-        export class PaymentMethodCash extends TradingMethodCash implements trading.IPaymentMethod {
+        export class PaymentMethodCash extends TradingMethodCash implements IPaymentMethod {
             /** 获取可用交易类型 */
-            getTradings(caller: trading.IPaymentTradingMethodCaller): void {
+            getTradings(caller: IPaymentTradingMethodCaller): void {
                 if (caller.onCompleted instanceof Function) {
                     let opRslt: ibas.IOperationResult<PaymentTradingMethod> = new ibas.OperationResult<PaymentTradingMethod>();
-                    let trading: trading.IPaymentTradingMethod = new PaymentTradingMethod();
+                    let trading: IPaymentTradingMethod = new PaymentTradingMethod();
                     trading.method = this;
                     trading.id = "";
                     trading.description = this.description;
