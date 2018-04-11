@@ -91,6 +91,21 @@ namespace receiptpayment {
             icon?: string;
             /** 可用金额 */
             amount: number;
+            /** 交易 */
+            trade(amount: number): void | ibas.Waiter {
+                if (ibas.config.get(ibas.CONFIG_ITEM_DEBUG_MODE)) {
+                    // 测试等待
+                    return new Waiter();
+                }
+            }
+        }
+        class Waiter extends ibas.Waiter {
+            start(): void {
+                let that: this = this;
+                setTimeout(function (): void {
+                    that.fireCompleted();
+                }, 1000);
+            }
         }
         /** 付款交易方式 */
         export class PaymentTradingMethod implements IPaymentTradingMethod {

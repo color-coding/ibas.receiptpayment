@@ -26,7 +26,7 @@ namespace receiptpayment {
             /** 启用 */
             enabled: boolean;
             /** 获取可用交易类型 */
-            getTradings(caller: IReceiptTradingMethodCaller): void {
+            getTradings(caller: IReceiptTradingGetter): void {
                 let that: this = this;
                 let boRepository: businesspartner.bo.IBORepositoryBusinessPartner = ibas.boFactory.create(businesspartner.bo.BO_REPOSITORY_BUSINESSPARTNER);
                 boRepository.fetchCustomerAsset({

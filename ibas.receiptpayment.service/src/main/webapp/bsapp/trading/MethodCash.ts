@@ -31,7 +31,7 @@ namespace receiptpayment {
          */
         export class ReceiptMethodCash extends TradingMethodCash implements IReceiptMethod {
             /** 获取可用交易类型 */
-            getTradings(caller: IReceiptTradingMethodCaller): void {
+            getTradings(caller: IReceiptTradingGetter): void {
                 if (caller.onCompleted instanceof Function) {
                     let opRslt: ibas.IOperationResult<ReceiptTradingMethod> = new ibas.OperationResult<ReceiptTradingMethod>();
                     let trading: IReceiptTradingMethod = new ReceiptTradingMethod();
@@ -49,7 +49,7 @@ namespace receiptpayment {
          */
         export class PaymentMethodCash extends TradingMethodCash implements IPaymentMethod {
             /** 获取可用交易类型 */
-            getTradings(caller: IPaymentTradingMethodCaller): void {
+            getTradings(caller: IPaymentTradingGetter): void {
                 if (caller.onCompleted instanceof Function) {
                     let opRslt: ibas.IOperationResult<PaymentTradingMethod> = new ibas.OperationResult<PaymentTradingMethod>();
                     let trading: IPaymentTradingMethod = new PaymentTradingMethod();

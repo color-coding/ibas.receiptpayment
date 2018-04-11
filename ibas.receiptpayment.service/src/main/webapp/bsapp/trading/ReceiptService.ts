@@ -189,6 +189,10 @@ namespace receiptpayment {
                     receiptItem.tradeId = item.trading.id;
                     receiptItem.amount = item.amount;
                     receiptItem.currency = item.currency;
+                    if (!ibas.objects.isNull(item.trading.method.defaultStatus)) {
+                        // 设置收款行项目，状态
+                        receiptItem.lineStatus = item.trading.method.defaultStatus;
+                    }
                     total += receiptItem.amount;
                 }
                 if (total !== this.target.total) {
@@ -200,21 +204,45 @@ namespace receiptpayment {
                     beSaved: receipt,
                     onCompleted(opRslt: ibas.IOperationResult<bo.Receipt>): void {
                         try {
-                            that.busy(false);
                             if (opRslt.resultCode !== 0) {
                                 throw new Error(opRslt.message);
                             }
                             let receipt: bo.Receipt = opRslt.resultObjects.firstOrDefault();
-                            that.messages(ibas.emMessageType.SUCCESS,
-                                ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_sucessful"));
-                            that.close();
-                            that.fireCompleted(receipt);
+                            that.trade(receipt);
+                            that.busy(false);
                         } catch (error) {
                             that.messages(error);
                         }
                     }
                 });
                 this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_saving_data"));
+            }
+            /** 执行交易 */
+            private trade(receipt: bo.Receipt): void {
+                if (!ibas.objects.isNull(this.receiptTradings) && this.receiptTradings.length !== 0) {
+                    for (let item of this.receiptTradings) {
+                        let waiter: any = item.trading.trade(item.amount);
+                        if (waiter instanceof ibas.Waiter) {
+                            let waitting: Function = async function (): Promise<ibas.Waiter> {
+                                let promise: Promise<ibas.Waiter> = new Promise<ibas.Waiter>(resolve => {
+                                    waiter.register({
+                                        onCompleted(): void {
+                                            ibas.logger.log(ibas.emMessageLevel.DEBUG, "receipt trading: {0} - {1}", item.trading.description, item.amount);
+                                            resolve();
+                                        }
+                                    });
+                                    waiter.start();
+                                });
+                                return promise;
+                            };
+                            waitting();
+                        }
+                    }
+                }
+                this.close();
+                this.messages(ibas.emMessageType.SUCCESS,
+                    ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_sucessful"));
+                this.fireCompleted(receipt);
             }
         }
         /** 视图-收款 */
