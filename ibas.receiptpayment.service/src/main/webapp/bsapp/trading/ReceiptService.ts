@@ -207,9 +207,9 @@ namespace receiptpayment {
                             if (opRslt.resultCode !== 0) {
                                 throw new Error(opRslt.message);
                             }
-                            let receipt: bo.Receipt = opRslt.resultObjects.firstOrDefault();
-                            that.trade(receipt);
-                            that.busy(false);
+                            that.close();
+                            that.trade();
+                            that.fireCompleted(opRslt.resultObjects.firstOrDefault());
                         } catch (error) {
                             that.messages(error);
                         }
@@ -218,31 +218,35 @@ namespace receiptpayment {
                 this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_saving_data"));
             }
             /** 执行交易 */
-            private trade(receipt: bo.Receipt): void {
+            private trade(): void {
                 if (!ibas.objects.isNull(this.receiptTradings) && this.receiptTradings.length !== 0) {
-                    for (let item of this.receiptTradings) {
-                        let waiter: any = item.trading.trade(item.amount);
-                        if (waiter instanceof ibas.Waiter) {
-                            let waitting: Function = async function (): Promise<ibas.Waiter> {
-                                let promise: Promise<ibas.Waiter> = new Promise<ibas.Waiter>(resolve => {
-                                    waiter.register({
-                                        onCompleted(): void {
-                                            ibas.logger.log(ibas.emMessageLevel.DEBUG, "receipt trading: {0} - {1}", item.trading.description, item.amount);
-                                            resolve();
-                                        }
-                                    });
-                                    waiter.start();
+                    let that: this = this;
+                    let tradings: Array<ReceiptTrading> = this.receiptTradings.copyWithin(this.receiptTradings.length, 0);
+                    let trade: Function = function (): void {
+                        let trading: ReceiptTrading = tradings.pop();
+                        if (ibas.objects.isNull(trading)) {
+                            // 队列处理完成
+                            that.messages(ibas.emMessageType.SUCCESS,
+                                ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_sucessful"));
+                        } else {
+                            let waiter: any = trading.trading.trade(trading.amount);
+                            if (waiter instanceof ibas.Waiter) {
+                                waiter.register({
+                                    onCompleted(): void {
+                                        ibas.logger.log(ibas.emMessageLevel.DEBUG,
+                                            "receipt trading: {0} - {1}", trading.trading.description, trading.amount);
+                                        trade();
+                                    }
                                 });
-                                return promise;
-                            };
-                            waitting();
+                                waiter.start();
+                            }
                         }
-                    }
+                    };
+                    trade();
+                } else {
+                    this.messages(ibas.emMessageType.SUCCESS,
+                        ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_sucessful"));
                 }
-                this.close();
-                this.messages(ibas.emMessageType.SUCCESS,
-                    ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_sucessful"));
-                this.fireCompleted(receipt);
             }
         }
         /** 视图-收款 */
