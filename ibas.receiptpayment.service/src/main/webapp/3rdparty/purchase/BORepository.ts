@@ -54,6 +54,16 @@ namespace purchase {
              */
             savePurchaseReturn(saver: ibas.ISaveCaller<bo.IPurchaseReturn>): void;
 
+            /**
+             * 查询 采购报价
+             * @param fetcher 查询者
+             */
+            fetchPurchaseQuote(fetcher: ibas.IFetchCaller<bo.IPurchaseQuote>): void;
+            /**
+             * 保存 采购报价
+             * @param saver 保存者
+             */
+            savePurchaseQuote(saver: ibas.ISaveCaller<bo.IPurchaseQuote>): void;
         }
     }
 }

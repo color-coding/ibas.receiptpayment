@@ -24,6 +24,8 @@ namespace purchase {
         export const BO_CODE_PURCHASERETURN: string = "${Company}_PH_PURCHRETURN";
         /** 业务对象编码-送货地址 */
         export const BO_CODE_SHIPPINGADDRESS: string = "${Company}_PH_SHIPADDRESS";
+        /** 业务对象编码-采购报价 */
+        export const BO_CODE_PURCHASEQUOTE: string = "${Company}_PH_PURCHQUOTE";
 
         /** 运输状态 */
         export enum emShippingStatus {

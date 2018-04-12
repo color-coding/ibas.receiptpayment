@@ -9,5 +9,6 @@
 /// <reference path="./bo/PurchaseDelivery.ts" />
 /// <reference path="./bo/PurchaseOrder.ts" />
 /// <reference path="./bo/PurchaseReturn.ts" />
+/// <reference path="./bo/PurchaseQuote.ts" />
 /// <reference path="./bo/ShippingAddress.ts" />
 /// <reference path="./BORepository.ts" />
