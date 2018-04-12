@@ -229,12 +229,14 @@ namespace receiptpayment {
                             that.messages(ibas.emMessageType.SUCCESS,
                                 ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_sucessful"));
                         } else {
+                            that.proceeding(ibas.emMessageType.INFORMATION,
+                                ibas.i18n.prop("receiptpayment_receipt_trading", trading.trading.description, trading.amount));
                             let waiter: any = trading.trading.trade(trading.amount);
                             if (waiter instanceof ibas.Waiter) {
                                 waiter.register({
                                     onCompleted(): void {
-                                        ibas.logger.log(ibas.emMessageLevel.DEBUG,
-                                            "receipt trading: {0} - {1}", trading.trading.description, trading.amount);
+                                        that.proceeding(ibas.emMessageType.SUCCESS,
+                                            ibas.i18n.prop("receiptpayment_receipt_traded", trading.trading.description, trading.amount));
                                         trade();
                                     }
                                 });
