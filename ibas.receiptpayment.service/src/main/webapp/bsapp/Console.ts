@@ -95,9 +95,15 @@ namespace receiptpayment {
         export class ConsolePhone extends Console {
             /** 初始化 */
             protected registers(): void {
+                // 注册服务应用
+                this.register(new ReceiptServiceMapping());
                 // 注册收款方式
                 receiptMethodManager.register(new ReceiptMethodBPAsset());
                 receiptMethodManager.register(new ReceiptMethodCash());
+                // 注册测试应用
+                if (ibas.config.get(ibas.CONFIG_ITEM_DEBUG_MODE)) {
+                    // this.register(new ReceiptServiceTestApp());
+                }
             }
         }
     }
