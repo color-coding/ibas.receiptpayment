@@ -301,29 +301,6 @@ namespace receiptpayment {
                     }
                 }
             }
-
-            export class ReceiptServiceTestView extends ibas.BOResidentView implements app.IReceiptServiceTestView {
-                /** 绘制工具条视图 */
-                drawBar(): any {
-                    let that: this = this;
-                    // 不重复创建工具条钮
-                    if (ibas.objects.isNull(this.bar)) {
-                        this.bar = new sap.m.Button("", {
-                            tooltip: this.title,
-                            icon: "sap-icon://lead",
-                            type: sap.m.ButtonType.Transparent,
-                            press: function (): void {
-                                that.fireViewEvents(that.showFullViewEvent);
-                            }
-                        });
-                    }
-                    return this.bar;
-                }
-                private bar: sap.m.Button;
-                draw(): any {
-                    return null;
-                }
-            }
         }
     }
 }

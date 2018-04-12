@@ -46,6 +46,7 @@ namespace receiptpayment {
                 this.register(new ReceiptChooseServiceMapping());
                 this.register(new ReceiptLinkServiceMapping());
                 this.register(new ReceiptServiceMapping());
+                this.register(new ReceiptTradeServiceMapping());
                 this.register(new AssetRechargeChooseServiceMapping());
                 this.register(new AssetRechargeLinkServiceMapping());
                 // 注册常驻应用
@@ -97,6 +98,7 @@ namespace receiptpayment {
             protected registers(): void {
                 // 注册服务应用
                 this.register(new ReceiptServiceMapping());
+                this.register(new ReceiptTradeServiceMapping());
                 // 注册收款方式
                 receiptMethodManager.register(new ReceiptMethodBPAsset());
                 receiptMethodManager.register(new ReceiptMethodCash());

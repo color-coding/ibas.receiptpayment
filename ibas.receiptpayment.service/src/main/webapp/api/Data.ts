@@ -58,6 +58,8 @@ namespace receiptpayment {
             documentTotal: number;
             /** 单据货币 */
             documentCurrency: string;
+            /** 单据摘要 */
+            documentSummary?: string;
         }
         /** 收款方式 */
         export interface IReceiptMethod {
@@ -69,6 +71,8 @@ namespace receiptpayment {
             enabled: boolean;
             /** 默认收款项目状态 */
             defaultStatus?: ibas.emDocumentStatus;
+            /** 不需要进行交易 */
+            noTrade?: boolean;
             /** 获取可用交易方式 */
             getTradings(caller: IReceiptTradingGetter): void;
         }
@@ -101,6 +105,8 @@ namespace receiptpayment {
             documentTotal: number;
             /** 单据货币 */
             documentCurrency: string;
+            /** 单据摘要 */
+            documentSummary?: string;
         }
         /** 付款方式 */
         export interface IPaymentMethod {
@@ -112,6 +118,8 @@ namespace receiptpayment {
             enabled: boolean;
             /** 默认付款项目状态 */
             defaultStatus?: ibas.emDocumentStatus;
+            /** 不需要进行交易 */
+            noTrade?: boolean;
             /** 获取可用交易方式 */
             getTradings(caller: IPaymentTradingGetter): void;
         }
@@ -120,15 +128,15 @@ namespace receiptpayment {
             /** 注册收款方式 */
             register(method: IReceiptMethod): void;
             /** 获取方式 */
-            getMethods(): IReceiptMethod[];
+            getMethods(): ibas.IList<IReceiptMethod>;
         }
         /** 注册收款方式 */
         export function registerReceipt(method: IReceiptMethod): void {
             let module: any = receiptpayment;
-            if (ibas.objects.isNull(module)) {
+            if (ibas.objects.isNull(module) || ibas.objects.isNull(module.app)) {
                 return;
             }
-            let manager: IReceiptMethodManager = module.receiptMethodManager;
+            let manager: IReceiptMethodManager = module.app.receiptMethodManager;
             if (ibas.objects.isNull(manager)) {
                 return;
             }
@@ -141,15 +149,15 @@ namespace receiptpayment {
             /** 注册付款方式 */
             register(method: IPaymentMethod): void;
             /** 获取方式 */
-            getMethods(): IPaymentMethod[];
+            getMethods(): ibas.IList<IPaymentMethod>;
         }
         /** 注册付款方式 */
         export function registerPayment(method: IPaymentMethod): void {
             let module: any = receiptpayment;
-            if (ibas.objects.isNull(module)) {
+            if (ibas.objects.isNull(module) || ibas.objects.isNull(module.app)) {
                 return;
             }
-            let manager: IPaymentMethodManager = module.paymentMethodManager;
+            let manager: IPaymentMethodManager = module.app.paymentMethodManager;
             if (ibas.objects.isNull(manager)) {
                 return;
             }
@@ -157,5 +165,16 @@ namespace receiptpayment {
                 manager.register(method);
             }
         }
+
+        /** 收款交易契约 */
+        export interface IReceiptTradeContract extends ibas.IServiceContract {
+            /** 收款单据 */
+            document?: bo.IReceipt | number;
+        }
+        /** 收款交易服务代理 */
+        export class ReceiptTradingServiceProxy extends ibas.ServiceProxy<IReceiptTradeContract> {
+
+        }
+
     }
 }

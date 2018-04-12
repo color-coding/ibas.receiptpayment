@@ -27,11 +27,11 @@ namespace receiptpayment {
                 }
             }
             /** 获取方式 */
-            getMethods(): IReceiptMethod[] {
+            getMethods(): ibas.IList<IReceiptMethod> {
                 if (ibas.objects.isNull(this.methods)) {
                     this.methods = new ibas.ArrayList<IReceiptMethod>();
                 }
-                let methods: IReceiptMethod[] = [];
+                let methods: ibas.IList<IReceiptMethod> = new ibas.ArrayList<IReceiptMethod>();
                 for (let item of this.methods) {
                     if (!item.enabled) {
                         continue;
@@ -63,11 +63,11 @@ namespace receiptpayment {
                 }
             }
             /** 获取方式 */
-            getMethods(): IPaymentMethod[] {
+            getMethods(): ibas.IList<IPaymentMethod> {
                 if (ibas.objects.isNull(this.methods)) {
                     this.methods = new ibas.ArrayList<IPaymentMethod>();
                 }
-                let methods: IPaymentMethod[] = [];
+                let methods: ibas.IList<IPaymentMethod> = new ibas.ArrayList<IPaymentMethod>();
                 for (let item of this.methods) {
                     if (!item.enabled) {
                         continue;

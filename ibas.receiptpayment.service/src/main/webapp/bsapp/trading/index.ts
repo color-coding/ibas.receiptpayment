@@ -10,3 +10,5 @@
 /// <reference path="./MethodBank.ts" />
 /// <reference path="./MethodCash.ts" />
 /// <reference path="./ReceiptService.ts" />
+/// <reference path="./ReceiptTradeService.ts" />
+/// <reference path="./ReceiptServiceTestApp.ts" />
