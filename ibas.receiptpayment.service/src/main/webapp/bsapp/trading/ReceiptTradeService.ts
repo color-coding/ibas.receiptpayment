@@ -78,6 +78,7 @@ namespace receiptpayment {
                             documentLineId: item.lineId,
                             documentTotal: item.amount,
                             documentCurrency: item.currency,
+                            documentSummary: this.receipt.remarks,
                             onCompleted(opRslt: ibas.IOperationResult<IReceiptTradingMethod>): void {
                                 let trade: IReceiptTradingMethod = opRslt.resultObjects.firstOrDefault(c => c.id === item.tradeId);
                                 let trading: ReceiptTrading = new ReceiptTrading();

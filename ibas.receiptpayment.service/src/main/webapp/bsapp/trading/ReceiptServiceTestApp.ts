@@ -41,7 +41,8 @@ namespace receiptpayment {
                         documentEntry: 199,
                         documentLineId: 2,
                         documentTotal: 129.99,
-                        documentCurrency: ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY)
+                        documentCurrency: ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY),
+                        documentSummary: "坚果 Pro 3 64G 黑",
                     })
                 });
             }

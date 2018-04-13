@@ -189,6 +189,9 @@ namespace receiptpayment {
                 receipt.businessPartnerType = this.businesspartner.type;
                 receipt.businessPartnerCode = this.businesspartner.code;
                 receipt.businessPartnerName = this.businesspartner.name;
+                if (!ibas.strings.isEmpty(this.target.documentSummary)) {
+                    receipt.remarks = this.target.documentSummary;
+                }
                 for (let item of this.receiptTradings) {
                     let receiptItem: bo.ReceiptItem = receipt.receiptItems.create();
                     receiptItem.baseDocumentType = this.target.documentType;
