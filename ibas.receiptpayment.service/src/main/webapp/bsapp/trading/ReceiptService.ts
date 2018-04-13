@@ -184,7 +184,6 @@ namespace receiptpayment {
                     throw new Error(ibas.i18n.prop("receiptpaymentt_please_paid"));
                 }
                 this.busy(true);
-                let total: number = 0;
                 let receipt: bo.Receipt = new bo.Receipt();
                 receipt.businessPartnerType = this.businesspartner.type;
                 receipt.businessPartnerCode = this.businesspartner.code;
@@ -205,10 +204,9 @@ namespace receiptpayment {
                         // 设置收款行项目，状态
                         receiptItem.lineStatus = item.trading.method.defaultStatus;
                     }
-                    total += receiptItem.amount;
                 }
-                if (total !== this.target.total) {
-                    throw new Error(ibas.i18n.prop("receiptpayment_different_paid_amount", this.target.total - total));
+                if (receipt.documentTotal !== this.target.total) {
+                    throw new Error(ibas.i18n.prop("receiptpayment_different_paid_amount", this.target.total - receipt.documentTotal));
                 }
                 let that: this = this;
                 let boRepository: bo.BORepositoryReceiptPayment = new bo.BORepositoryReceiptPayment();

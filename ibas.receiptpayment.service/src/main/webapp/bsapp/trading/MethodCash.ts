@@ -18,6 +18,7 @@ namespace receiptpayment {
                 this.name = TRADING_MODE_CASH;
                 this.description = ibas.i18n.prop("receiptpayment_method_cash");
                 this.enabled = !ibas.config.get(ibas.strings.format(CONFIG_ITEM_TEMPLATE_TRADING_MODE_DISABLED, this.name), false);
+                this.noTrade = true;
             }
             /** 名称 */
             name: string;
@@ -25,6 +26,8 @@ namespace receiptpayment {
             description: string;
             /** 启用 */
             enabled: boolean;
+            /** 不需要进行交易 */
+            noTrade: boolean;
         }
         /**
          * 收款方式-现金
