@@ -435,7 +435,6 @@ namespace receiptpayment {
                 this.setProperty(Receipt.PROPERTY_RECEIPTITEMS_NAME, value);
             }
 
-
             /** 初始化数据 */
             protected init(): void {
                 this.receiptItems = new ReceiptItems(this);
@@ -443,6 +442,13 @@ namespace receiptpayment {
                 this.businessPartnerType = businesspartner.bo.emBusinessPartnerType.CUSTOMER;
                 this.documentStatus = ibas.emDocumentStatus.RELEASED;
                 this.documentCurrency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
+            }
+            protected registerRules(): ibas.IBusinessRule[] {
+                return [
+                    // 计算项目-行总计
+                    new ibas.BusinessRuleSumElements(
+                        Receipt.PROPERTY_DOCUMENTTOTAL_NAME, Receipt.PROPERTY_RECEIPTITEMS_NAME, ReceiptItem.PROPERTY_AMOUNT_NAME),
+                ];
             }
         }
 

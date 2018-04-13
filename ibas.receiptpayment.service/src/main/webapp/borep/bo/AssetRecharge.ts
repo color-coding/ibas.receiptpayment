@@ -441,6 +441,13 @@ namespace receiptpayment {
                 this.businessPartnerType = businesspartner.bo.emBusinessPartnerType.CUSTOMER;
                 this.documentStatus = ibas.emDocumentStatus.RELEASED;
             }
+            protected registerRules(): ibas.IBusinessRule[] {
+                return [
+                    // 计算项目-行总计
+                    new ibas.BusinessRuleSumElements(
+                        AssetRecharge.PROPERTY_AMOUNT_NAME, AssetRecharge.PROPERTY_ASSETRECHARGEITEMS_NAME, AssetRechargeItem.PROPERTY_AMOUNT_NAME),
+                ];
+            }
         }
 
         /** 资产充值-项目 集合 */
