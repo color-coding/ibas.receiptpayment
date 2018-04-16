@@ -139,7 +139,7 @@ namespace receiptpayment {
                     this.messages(ibas.emMessageType.SUCCESS, ibas.i18n.prop("receiptpayment_receipt_trade_completed", this.receipt.docEntry));
                     this.close();
                 } else {
-                    if (!this.view.isDisplayed) {
+                    if (!this.isViewShowed()) {
                         this.show();
                     }
                     this.view.showTradings(tradings);
