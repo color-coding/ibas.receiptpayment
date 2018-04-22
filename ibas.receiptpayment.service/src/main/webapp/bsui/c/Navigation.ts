@@ -71,6 +71,9 @@ namespace receiptpayment {
                     case app.AssetRechargeEditApp.APPLICATION_ID:
                         view = new c.AssetRechargeEditView();
                         break;
+                    case app.WaitTradingService.APPLICATION_ID:
+                        view = new c.WaitTradingServiceView();
+                        break;
                     default:
                         break;
                 }

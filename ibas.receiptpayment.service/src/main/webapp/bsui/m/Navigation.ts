@@ -26,11 +26,14 @@ namespace receiptpayment {
                     case app.ReceiptService.APPLICATION_ID:
                         view = new c.ReceiptServiceView();
                         break;
+                    case app.ReceiptTradeService.APPLICATION_ID:
+                        view = new c.ReceiptTradeServiceView();
+                        break;
                     case app.ReceiptServiceTestApp.APPLICATION_ID:
                         view = new c.ReceiptServiceTestView();
                         break;
-                    case app.ReceiptTradeService.APPLICATION_ID:
-                        view = new c.ReceiptTradeServiceView();
+                    case app.WaitTradingService.APPLICATION_ID:
+                        view = new c.WaitTradingServiceView();
                         break;
                     default:
                         break;

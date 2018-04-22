@@ -54,5 +54,6 @@
   "receiptpayment_receipt_service_test": "收款测试",
   "receiptpayment_receipt_trading": "正在进行收款交易[{0} - {1}]",
   "receiptpayment_receipt_traded": "收款交易[{0} - {1}]完成",
+  "receiptpayment_wait_trading": "等待交易",
   "receiptpayment_closing_delimiter": "----结束----"
 }

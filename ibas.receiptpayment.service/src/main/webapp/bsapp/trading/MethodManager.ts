@@ -95,16 +95,26 @@ namespace receiptpayment {
             trade(amount: number): void | ibas.Waiter {
                 if (ibas.config.get(ibas.CONFIG_ITEM_DEBUG_MODE)) {
                     // 测试等待
-                    return new Waiter();
+                    return new Waiter(this.description);
                 }
             }
         }
         class Waiter extends ibas.Waiter {
+            constructor(title: string) {
+                super();
+                this.title = title;
+            }
+            title: string;
             start(): void {
                 let that: this = this;
-                setTimeout(function (): void {
-                    that.fireCompleted();
-                }, 1000);
+                ibas.servicesManager.runApplicationService<IWaitTradingContract, any>({
+                    proxy: new WaitTradingServiceProxy({
+                        title: this.title,
+                    }),
+                    onCompleted(result: any): void {
+                        that.fireCompleted();
+                    }
+                });
             }
         }
         /** 付款交易方式 */

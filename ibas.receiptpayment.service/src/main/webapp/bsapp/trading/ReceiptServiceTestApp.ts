@@ -20,7 +20,6 @@ namespace receiptpayment {
                 this.name = ReceiptServiceTestApp.APPLICATION_NAME;
                 this.description = ibas.i18n.prop(this.name);
             }
-            private refresh: boolean = true;
             /** 注册视图 */
             protected registerView(): void {
                 super.registerView();
