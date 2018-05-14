@@ -44,7 +44,7 @@ namespace receiptpayment {
             getTradings(caller: IReceiptTradingGetter): void {
                 if (caller.onCompleted instanceof Function) {
                     let opRslt: ibas.IOperationResult<ReceiptTradingMethod> = new ibas.OperationResult<ReceiptTradingMethod>();
-                    let trading: IReceiptTradingMethod = new ReceiptTradingMethod();
+                    let trading: ReceiptTradingMethod = new ReceiptTradingMethod();
                     trading.method = this;
                     trading.id = "";
                     trading.description = this.description;

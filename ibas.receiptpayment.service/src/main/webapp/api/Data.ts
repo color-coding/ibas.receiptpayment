@@ -39,6 +39,8 @@ namespace receiptpayment {
             icon?: string;
             /** 可用金额 */
             amount: number;
+            /** 折扣 */
+            discount?: number;
             /** 交易 */
             trade(amount: number): void | ibas.Waiter;
         }

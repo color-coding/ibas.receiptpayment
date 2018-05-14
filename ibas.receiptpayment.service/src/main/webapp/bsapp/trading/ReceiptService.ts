@@ -7,6 +7,8 @@
  */
 namespace receiptpayment {
     export namespace app {
+        /** 系统折扣交易模板 */
+        const TRADING_SYSTEM_DISCOUNT_TEMPLATE: string = "_SYS_DIS_{0}";
         /** 收款服务 */
         export class ReceiptService extends ibas.ServiceWithResultApplication<IReceiptServiceView, businesspartner.app.IReceiptContract, bo.IReceipt> {
             /** 应用标识 */
@@ -126,6 +128,17 @@ namespace receiptpayment {
                 if (ibas.objects.isNull(this.receiptTradings)) {
                     return;
                 }
+                for (let index: number = this.receiptTradings.length - 1; index >= 0; index--) {
+                    let item: ReceiptTrading = this.receiptTradings[index];
+                    if (item === trading) {
+                        this.receiptTradings.removeAt(index);
+                    }
+                    if (item instanceof ReceiptTradingDiscount) {
+                        if (item.parent === trading) {
+                            this.receiptTradings.removeAt(index);
+                        }
+                    }
+                }
                 this.receiptTradings.remove(trading);
                 this.showReceiptTradings();
             }
@@ -158,12 +171,30 @@ namespace receiptpayment {
                 if (amount > paid) {
                     amount = paid;
                 }
-                let trading: ReceiptTrading = new ReceiptTrading();
-                trading.trading = method;
-                trading.amount = amount;
-                trading.currency = this.target.currency;
-                this.receiptTradings.add(trading);
-                this.showReceiptTradings();
+                if (!isNaN(method.discount) && method.discount > 0 && method.discount < 1) {
+                    // 使用折扣
+                    let amountAfter: number = amount * method.discount;
+                    let amountLeft: number = amount - amountAfter;
+                    // 正常交易
+                    let trading: ReceiptTrading = new ReceiptTrading();
+                    trading.trading = method;
+                    trading.amount = amountAfter;
+                    trading.currency = this.target.currency;
+                    this.receiptTradings.add(trading);
+                    // 折扣交易
+                    let tradingDiscout: ReceiptTradingDiscount = new ReceiptTradingDiscount(trading);
+                    tradingDiscout.amount = amountLeft;
+                    this.receiptTradings.add(tradingDiscout);
+
+                    this.showReceiptTradings();
+                } else {
+                    let trading: ReceiptTrading = new ReceiptTrading();
+                    trading.trading = method;
+                    trading.amount = amount;
+                    trading.currency = this.target.currency;
+                    this.receiptTradings.add(trading);
+                    this.showReceiptTradings();
+                }
             }
             private showReceiptTradings(): void {
                 let paid: number = this.target.total;
@@ -198,6 +229,10 @@ namespace receiptpayment {
                     receiptItem.baseDocumentLineId = this.target.documentLineId;
                     receiptItem.mode = item.trading.method.name;
                     receiptItem.tradeId = item.trading.id;
+                    if (item instanceof ReceiptTradingDiscount) {
+                        // 折扣项目，特殊处理id
+                        receiptItem.tradeId = ibas.strings.format(TRADING_SYSTEM_DISCOUNT_TEMPLATE, receiptItem.tradeId).toUpperCase();
+                    }
                     receiptItem.amount = item.amount;
                     receiptItem.currency = item.currency;
                     if (!ibas.objects.isNull(item.trading.method.defaultStatus)) {
@@ -284,6 +319,16 @@ namespace receiptpayment {
             amount: number;
             /** 货币 */
             currency: string;
+        }
+        export class ReceiptTradingDiscount extends ReceiptTrading {
+            constructor(parent: ReceiptTrading) {
+                super();
+                this.parent = parent;
+                this.currency = this.parent.currency;
+                this.trading = this.parent.trading;
+            }
+            /** 父项交易 */
+            parent: ReceiptTrading;
         }
         /** 收款服务映射 */
         export class ReceiptServiceMapping extends ibas.ServiceMapping {

@@ -37,7 +37,7 @@ namespace receiptpayment {
             getTradings(caller: IReceiptTradingGetter): void {
                 if (caller.onCompleted instanceof Function) {
                     let opRslt: ibas.IOperationResult<ReceiptTradingMethod> = new ibas.OperationResult<ReceiptTradingMethod>();
-                    let trading: IReceiptTradingMethod = new ReceiptTradingMethod();
+                    let trading: POSTradingMethod = new POSTradingMethod();
                     trading.method = this;
                     trading.id = "";
                     trading.description = this.description;
@@ -45,6 +45,13 @@ namespace receiptpayment {
                     opRslt.resultObjects.add(trading);
                     caller.onCompleted(opRslt);
                 }
+            }
+        }
+
+        class POSTradingMethod extends ReceiptTradingMethod {
+            /** 交易 */
+            trade(amount: number): void | ibas.Waiter {
+                return new Waiter(this.description);
             }
         }
     }

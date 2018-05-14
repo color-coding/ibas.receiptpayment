@@ -38,7 +38,6 @@ namespace receiptpayment {
             protected viewShowed(): void {
                 this.view.start();
             }
-            private receipt: bo.Receipt;
             /** 运行服务 */
             runService(contract: IWaitTradingContract): void {
                 if (!ibas.strings.isEmpty(contract.title)) {

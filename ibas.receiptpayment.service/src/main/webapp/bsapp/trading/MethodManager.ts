@@ -91,6 +91,8 @@ namespace receiptpayment {
             icon?: string;
             /** 可用金额 */
             amount: number;
+            /** 折扣 */
+            discount: number;
             /** 交易 */
             trade(amount: number): void | ibas.Waiter {
                 if (ibas.config.get(ibas.CONFIG_ITEM_DEBUG_MODE)) {
@@ -99,7 +101,7 @@ namespace receiptpayment {
                 }
             }
         }
-        class Waiter extends ibas.Waiter {
+        export class Waiter extends ibas.Waiter {
             constructor(title: string) {
                 super();
                 this.title = title;

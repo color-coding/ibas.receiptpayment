@@ -54,6 +54,7 @@ namespace receiptpayment {
                                 trading.description = item.name;
                                 trading.amount = item.amount;
                                 trading.icon = item.picture;
+                                trading.discount = item.discount;
                                 if (ibas.strings.isEmpty(trading.icon)) {
                                     trading.icon = ibas.i18n.prop("receiptpayment_method_bp_asset_icon");
                                 }
@@ -66,7 +67,7 @@ namespace receiptpayment {
                     }
                 });
             }
-
         }
+
     }
 }
