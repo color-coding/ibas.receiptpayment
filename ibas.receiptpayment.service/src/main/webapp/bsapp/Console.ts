@@ -55,6 +55,8 @@ namespace receiptpayment {
                 receiptMethodManager.register(new ReceiptMethodBPAsset());
                 receiptMethodManager.register(new ReceiptMethodBank());
                 receiptMethodManager.register(new ReceiptMethodCash());
+                receiptMethodManager.register(new ReceiptMethodPOS());
+                receiptMethodManager.register(new ReceiptMethodCOD());
                 // 注册付款方式
                 paymentMethodManager.register(new PaymentMethodCash());
                 paymentMethodManager.register(new PaymentMethodBank());
@@ -105,8 +107,7 @@ namespace receiptpayment {
                 this.register(new ReceiptTradeServiceMapping());
                 // 注册收款方式
                 receiptMethodManager.register(new ReceiptMethodBPAsset());
-                receiptMethodManager.register(new ReceiptMethodCash());
-                receiptMethodManager.register(new ReceiptMethodBank());
+                receiptMethodManager.register(new ReceiptMethodCOD());
                 // 注册测试应用
                 if (ibas.config.get(ibas.CONFIG_ITEM_DEBUG_MODE)) {
                     this.register(new ReceiptServiceTestApp());
