@@ -44,6 +44,7 @@
   "receiptpayment_method_bp_asset": "业务伙伴资产",
   "receiptpayment_method_bp_asset_icon": "sap-icon://lead",
   "receiptpayment_paid": "支付：",
+  "receiptpayment_discount": "折扣~{0}",
   "receiptpaymentt_please_choose_paid_method": "请选择支付方式",
   "receiptpaymentt_not_found_paid_method": "没有找到支付方式",
   "receiptpaymentt_please_input_paid_amount": "请输入支付金额",

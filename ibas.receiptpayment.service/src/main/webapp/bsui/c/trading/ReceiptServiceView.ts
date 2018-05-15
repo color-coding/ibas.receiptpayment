@@ -279,7 +279,9 @@ namespace receiptpayment {
                             content: [
                                 new sap.m.Label("", {
                                     width: "100%",
-                                    text: item.trading.description,
+                                    text: item instanceof app.ReceiptTradingDiscount ?
+                                        ibas.strings.format(ibas.i18n.prop("receiptpayment_discount"), item.trading.description) :
+                                        item.trading.description,
                                     textAlign: sap.ui.core.TextAlign.Right,
                                 }),
                                 new sap.m.Label("", {

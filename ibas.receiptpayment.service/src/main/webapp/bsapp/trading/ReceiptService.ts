@@ -138,8 +138,12 @@ namespace receiptpayment {
                             this.receiptTradings.removeAt(index);
                         }
                     }
+                    if (trading instanceof ReceiptTradingDiscount) {
+                        if (trading.parent === item) {
+                            this.receiptTradings.removeAt(index);
+                        }
+                    }
                 }
-                this.receiptTradings.remove(trading);
                 this.showReceiptTradings();
             }
             /** 使用收款交易 */
