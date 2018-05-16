@@ -11,30 +11,16 @@ namespace receiptpayment {
         /** 交易方式-货到付款 */
         export const TRADING_MODE_COD: string = "TM_COD";
         /**
-         * 交易方式-货到付款
+         * 收款方式-货到付款
          */
-        export abstract class TradingMethodCOD {
+        export class ReceiptMethodCOD extends ReceiptMethod {
             constructor() {
+                super();
+                this.id = "0618d10f-b3c9-408e-be17-726a0ed6a238";
                 this.name = TRADING_MODE_COD;
                 this.description = ibas.i18n.prop("receiptpayment_method_cod");
                 this.enabled = !ibas.config.get(ibas.strings.format(CONFIG_ITEM_TEMPLATE_TRADING_MODE_DISABLED, this.name), false);
                 this.noTrade = true;
-            }
-            /** 名称 */
-            name: string;
-            /** 描述 */
-            description: string;
-            /** 启用 */
-            enabled: boolean;
-            /** 不需要进行交易 */
-            noTrade: boolean;
-        }
-        /**
-         * 收款方式-货到付款
-         */
-        export class ReceiptMethodCOD extends TradingMethodCOD implements IReceiptMethod {
-            constructor() {
-                super();
                 // 状态为计划，收款后变化
                 this.defaultStatus = ibas.emDocumentStatus.PLANNED;
             }

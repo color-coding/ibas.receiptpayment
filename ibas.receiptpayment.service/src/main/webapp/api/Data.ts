@@ -30,7 +30,7 @@ namespace receiptpayment {
         /** 收款交易方式 */
         export interface IReceiptTradingMethod {
             /** 收款方式 */
-            method: IReceiptMethod;
+            method: ReceiptMethod;
             /** 标记 */
             id: string;
             /** 描述 */
@@ -64,11 +64,7 @@ namespace receiptpayment {
             documentSummary?: string;
         }
         /** 收款方式 */
-        export interface IReceiptMethod {
-            /** 名称 */
-            name: string;
-            /** 描述 */
-            description: string;
+        export abstract class ReceiptMethod extends ibas.Element {
             /** 启用 */
             enabled: boolean;
             /** 默认收款项目状态 */
@@ -76,12 +72,12 @@ namespace receiptpayment {
             /** 不需要进行交易 */
             noTrade?: boolean;
             /** 获取可用交易方式 */
-            getTradings(caller: IReceiptTradingGetter): void;
+            abstract getTradings(caller: IReceiptTradingGetter): void;
         }
         /** 付款交易方式 */
         export interface IPaymentTradingMethod {
             /** 付款方式 */
-            method: IPaymentMethod;
+            method: PaymentMethod;
             /** 标记 */
             id: string;
             /** 描述 */
@@ -111,11 +107,7 @@ namespace receiptpayment {
             documentSummary?: string;
         }
         /** 付款方式 */
-        export interface IPaymentMethod {
-            /** 名称 */
-            name: string;
-            /** 描述 */
-            description: string;
+        export abstract class PaymentMethod extends ibas.Element {
             /** 启用 */
             enabled: boolean;
             /** 默认付款项目状态 */
@@ -123,51 +115,8 @@ namespace receiptpayment {
             /** 不需要进行交易 */
             noTrade?: boolean;
             /** 获取可用交易方式 */
-            getTradings(caller: IPaymentTradingGetter): void;
+            abstract getTradings(caller: IPaymentTradingGetter): void;
         }
-        /** 收款方式管理员 */
-        export interface IReceiptMethodManager {
-            /** 注册收款方式 */
-            register(method: IReceiptMethod): void;
-            /** 获取方式 */
-            getMethods(): ibas.IList<IReceiptMethod>;
-        }
-        /** 注册收款方式 */
-        export function registerReceipt(method: IReceiptMethod): void {
-            let module: any = receiptpayment;
-            if (ibas.objects.isNull(module) || ibas.objects.isNull(module.app)) {
-                return;
-            }
-            let manager: IReceiptMethodManager = module.app.receiptMethodManager;
-            if (ibas.objects.isNull(manager)) {
-                return;
-            }
-            if (manager.register instanceof Function) {
-                manager.register(method);
-            }
-        }
-        /** 付款方式管理员 */
-        export interface IPaymentMethodManager {
-            /** 注册付款方式 */
-            register(method: IPaymentMethod): void;
-            /** 获取方式 */
-            getMethods(): ibas.IList<IPaymentMethod>;
-        }
-        /** 注册付款方式 */
-        export function registerPayment(method: IPaymentMethod): void {
-            let module: any = receiptpayment;
-            if (ibas.objects.isNull(module) || ibas.objects.isNull(module.app)) {
-                return;
-            }
-            let manager: IPaymentMethodManager = module.app.paymentMethodManager;
-            if (ibas.objects.isNull(manager)) {
-                return;
-            }
-            if (manager.register instanceof Function) {
-                manager.register(method);
-            }
-        }
-
         /** 收款交易契约 */
         export interface IReceiptTradeContract extends ibas.IServiceContract {
             /** 收款单据 */

@@ -206,7 +206,7 @@ namespace receiptpayment {
                     this.target_bar.bindObject("/");
                 }
                 /** 显示收款方式 */
-                showMethods(methods: app.IReceiptMethod[]): void {
+                showMethods(methods: app.ReceiptMethod[]): void {
                     if (ibas.objects.isNull(this.menthod_bars)) {
                         this.menthod_bars = new Map<String, sap.m.Toolbar>();
                     }

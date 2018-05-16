@@ -61,9 +61,9 @@ namespace receiptpayment {
                 try {
                     this.receipt = receipt;
                     let that: this = this;
-                    let methods: ibas.IList<IReceiptMethod> = receiptMethodManager.getMethods();
+                    let methods: ibas.IList<ReceiptMethod> = receiptMethods();
                     for (let item of this.receipt.receiptItems) {
-                        let method: IReceiptMethod = methods.firstOrDefault(c => c.name === item.mode);
+                        let method: ReceiptMethod = methods.firstOrDefault(c => c.name === item.mode);
                         if (ibas.objects.isNull(method)) {
                             continue;
                         }

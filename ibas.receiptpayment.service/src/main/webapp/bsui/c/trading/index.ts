@@ -15,7 +15,7 @@ namespace receiptpayment {
         export namespace c {
             export function receiptMethods(): sap.ui.core.Item[] {
                 let items: sap.ui.core.Item[] = new ibas.ArrayList<sap.ui.core.Item>();
-                for (let item of app.receiptMethodManager.getMethods()) {
+                for (let item of app.receiptMethods()) {
                     items.push(new sap.ui.core.Item("", {
                         key: item.name,
                         text: item.description,
@@ -25,7 +25,7 @@ namespace receiptpayment {
             }
             export function paymentMethods(): sap.ui.core.Item[] {
                 let items: sap.ui.core.Item[] = new ibas.ArrayList<sap.ui.core.Item>();
-                for (let item of app.paymentMethodManager.getMethods()) {
+                for (let item of app.paymentMethods()) {
                     items.push(new sap.ui.core.Item("", {
                         key: item.name,
                         text: item.description,

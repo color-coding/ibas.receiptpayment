@@ -5,6 +5,7 @@
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
+/// <reference path="../../3rdparty/shell/index.d.ts" />
 namespace receiptpayment {
     export namespace app {
         /** 系统折扣交易模板 */
@@ -35,7 +36,7 @@ namespace receiptpayment {
                 // 视图加载完成
                 this.view.showBusinessPartner(this.businesspartner);
                 this.view.showTarget(this.target);
-                let methods: ibas.IList<IReceiptMethod> = receiptMethodManager.getMethods();
+                let methods: ibas.IList<ReceiptMethod> = receiptMethods();
                 this.view.showMethods(methods);
                 let that: this = this;
                 for (let item of methods) {
@@ -282,7 +283,7 @@ namespace receiptpayment {
             /** 显示收款目标 */
             showTarget(data: ReceiptTarget): void;
             /** 显示收款方式 */
-            showMethods(methods: IReceiptMethod[]): void;
+            showMethods(methods: ReceiptMethod[]): void;
             /** 显示收款交易方式 */
             showTradingMethods(methods: IReceiptTradingMethod[]): void;
             /** 显示收款交易 */

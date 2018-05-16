@@ -52,14 +52,14 @@ namespace receiptpayment {
                 // 注册常驻应用
 
                 // 注册收款方式
-                receiptMethodManager.register(new ReceiptMethodBPAsset());
-                receiptMethodManager.register(new ReceiptMethodBank());
-                receiptMethodManager.register(new ReceiptMethodCash());
-                receiptMethodManager.register(new ReceiptMethodPOS());
-                receiptMethodManager.register(new ReceiptMethodCOD());
+                this.register(new ReceiptMethodBPAsset());
+                this.register(new ReceiptMethodBank());
+                this.register(new ReceiptMethodCash());
+                this.register(new ReceiptMethodPOS());
+                this.register(new ReceiptMethodCOD());
                 // 注册付款方式
-                paymentMethodManager.register(new PaymentMethodCash());
-                paymentMethodManager.register(new PaymentMethodBank());
+                this.register(new PaymentMethodCash());
+                this.register(new PaymentMethodBank());
                 // 注册测试应用
                 if (ibas.config.get(ibas.CONFIG_ITEM_DEBUG_MODE)) {
                     this.register(new WaitTradingServiceMapping());
@@ -106,8 +106,8 @@ namespace receiptpayment {
                 this.register(new ReceiptServiceMapping());
                 this.register(new ReceiptTradeServiceMapping());
                 // 注册收款方式
-                receiptMethodManager.register(new ReceiptMethodBPAsset());
-                receiptMethodManager.register(new ReceiptMethodCOD());
+                this.register(new ReceiptMethodBPAsset());
+                this.register(new ReceiptMethodCOD());
                 // 注册测试应用
                 if (ibas.config.get(ibas.CONFIG_ITEM_DEBUG_MODE)) {
                     this.register(new ReceiptServiceTestApp());

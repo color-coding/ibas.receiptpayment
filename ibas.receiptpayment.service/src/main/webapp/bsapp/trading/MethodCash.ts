@@ -11,28 +11,17 @@ namespace receiptpayment {
         /** 交易方式-现金 */
         export const TRADING_MODE_CASH: string = "TM_CASH";
         /**
-         * 交易方式-现金
+         * 收款方式-现金
          */
-        export abstract class TradingMethodCash {
+        export class ReceiptMethodCash extends ReceiptMethod {
             constructor() {
+                super();
+                this.id = "9cf6da37-146e-408c-85a3-5f03d454a289";
                 this.name = TRADING_MODE_CASH;
                 this.description = ibas.i18n.prop("receiptpayment_method_cash");
                 this.enabled = !ibas.config.get(ibas.strings.format(CONFIG_ITEM_TEMPLATE_TRADING_MODE_DISABLED, this.name), false);
                 this.noTrade = true;
             }
-            /** 名称 */
-            name: string;
-            /** 描述 */
-            description: string;
-            /** 启用 */
-            enabled: boolean;
-            /** 不需要进行交易 */
-            noTrade: boolean;
-        }
-        /**
-         * 收款方式-现金
-         */
-        export class ReceiptMethodCash extends TradingMethodCash implements IReceiptMethod {
             /** 获取可用交易类型 */
             getTradings(caller: IReceiptTradingGetter): void {
                 if (caller.onCompleted instanceof Function) {
@@ -50,7 +39,15 @@ namespace receiptpayment {
         /**
          * 付款方式-现金
          */
-        export class PaymentMethodCash extends TradingMethodCash implements IPaymentMethod {
+        export class PaymentMethodCash extends PaymentMethod {
+            constructor() {
+                super();
+                this.id = "87cfa94a-cc7e-4399-bfa7-ce055b38f65a";
+                this.name = TRADING_MODE_CASH;
+                this.description = ibas.i18n.prop("receiptpayment_method_cash");
+                this.enabled = !ibas.config.get(ibas.strings.format(CONFIG_ITEM_TEMPLATE_TRADING_MODE_DISABLED, this.name), false);
+                this.noTrade = true;
+            }
             /** 获取可用交易类型 */
             getTradings(caller: IPaymentTradingGetter): void {
                 if (caller.onCompleted instanceof Function) {
