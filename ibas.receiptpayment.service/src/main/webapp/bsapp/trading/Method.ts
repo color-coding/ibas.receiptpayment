@@ -11,9 +11,6 @@ namespace receiptpayment {
         export function receiptMethods(): ibas.IList<ReceiptMethod> {
             let methods: ibas.IList<ReceiptMethod> = new ibas.ArrayList<ReceiptMethod>();
             for (let module of shell.app.consoleManager.modules()) {
-                if (!(module instanceof receiptpayment.app.Console || module instanceof receiptpayment.app.ConsolePhone)) {
-                    continue;
-                }
                 for (let element of module.elements()) {
                     if (!(ibas.objects.instanceOf(element, ReceiptMethod))) {
                         continue;
@@ -27,9 +24,6 @@ namespace receiptpayment {
         export function paymentMethods(): ibas.IList<PaymentMethod> {
             let methods: ibas.IList<PaymentMethod> = new ibas.ArrayList<PaymentMethod>();
             for (let module of shell.app.consoleManager.modules()) {
-                if (!(module instanceof receiptpayment.app.Console || module instanceof receiptpayment.app.ConsolePhone)) {
-                    continue;
-                }
                 for (let element of module.elements()) {
                     if (!(ibas.objects.instanceOf(element, PaymentMethod))) {
                         continue;
