@@ -9,7 +9,7 @@
 namespace receiptpayment {
     export namespace app {
         /** 系统折扣交易模板 */
-        const TRADING_SYSTEM_DISCOUNT_TEMPLATE: string = "_SYS_DIS_{0}";
+        const TRADING_SYSTEM_DISCOUNT_TEMPLATE: string = "%{0}";
         /** 收款服务 */
         export class ReceiptService extends ibas.ServiceWithResultApplication<IReceiptServiceView, businesspartner.app.IReceiptContract, bo.IReceipt> {
             /** 应用标识 */
@@ -161,11 +161,6 @@ namespace receiptpayment {
                 if (!ibas.objects.isNull(this.receiptTradings.firstOrDefault(c => c.trading === method))) {
                     throw new Error(ibas.i18n.prop("receiptpayment_exists_paid_method", method.description));
                 }
-                // 最多使用可用金额
-                if (!isNaN(method.amount) && method.amount > 0 && method.amount < amount) {
-                    amount = method.amount;
-                    this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("receiptpayment_bp_asset_amount_available", method.description, method.amount));
-                }
                 let paid: number = this.target.total;
                 if (!ibas.objects.isNull(this.receiptTradings)) {
                     for (let item of this.receiptTradings) {
@@ -176,10 +171,24 @@ namespace receiptpayment {
                 if (amount > paid) {
                     amount = paid;
                 }
+                // 最多使用可用金额
+                let usingAmount: number = amount;
+                if (!isNaN(method.amount) && method.amount > 0 && method.amount < usingAmount) {
+                    usingAmount = method.amount;
+                    this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("receiptpayment_bp_asset_amount_available", method.description, method.amount));
+                }
                 if (!isNaN(method.discount) && method.discount > 0 && method.discount < 1) {
                     // 使用折扣
-                    let amountAfter: number = amount * method.discount;
-                    let amountLeft: number = amount - amountAfter;
+                    let amountAfter: number = usingAmount * method.discount;
+                    let amountLeft: number = usingAmount - amountAfter;
+                    if (usingAmount < amount) {
+                        let amountTotal: number = usingAmount / method.discount;
+                        if (amountTotal > amount) {
+                            amountTotal = amount;
+                        }
+                        amountAfter = usingAmount;
+                        amountLeft = amountTotal - amountAfter;
+                    }
                     // 正常交易
                     let trading: ReceiptTrading = new ReceiptTrading();
                     trading.trading = method;
@@ -195,7 +204,7 @@ namespace receiptpayment {
                 } else {
                     let trading: ReceiptTrading = new ReceiptTrading();
                     trading.trading = method;
-                    trading.amount = amount;
+                    trading.amount = usingAmount;
                     trading.currency = this.target.currency;
                     this.receiptTradings.add(trading);
                     this.showReceiptTradings();
@@ -236,7 +245,7 @@ namespace receiptpayment {
                     receiptItem.tradeId = item.trading.id;
                     if (item instanceof ReceiptTradingDiscount) {
                         // 折扣项目，特殊处理id
-                        receiptItem.tradeId = ibas.strings.format(TRADING_SYSTEM_DISCOUNT_TEMPLATE, receiptItem.tradeId).toUpperCase();
+                        receiptItem.tradeId = ibas.strings.format(TRADING_SYSTEM_DISCOUNT_TEMPLATE, receiptItem.tradeId);
                     }
                     receiptItem.amount = item.amount;
                     receiptItem.currency = item.currency;
