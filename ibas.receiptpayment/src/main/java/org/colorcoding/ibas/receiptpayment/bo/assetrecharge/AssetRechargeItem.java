@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
+import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
 import org.colorcoding.ibas.bobas.data.Decimal;
@@ -33,7 +34,7 @@ import org.colorcoding.ibas.receiptpayment.MyConfiguration;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = AssetRechargeItem.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 public class AssetRechargeItem extends BusinessObject<AssetRechargeItem>
-		implements IAssetRechargeItem, IBusinessLogicsHost, IBOTagDeleted {
+		implements IAssetRechargeItem, IBusinessLogicsHost, IBOTagDeleted, IBOUserFields {
 
 	/**
 	 * 序列化版本标记

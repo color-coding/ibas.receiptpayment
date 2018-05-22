@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.colorcoding.ibas.bobas.approval.IApprovalData;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
+import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.DateTime;
@@ -45,7 +46,7 @@ import org.colorcoding.ibas.receiptpayment.MyConfiguration;
 @XmlRootElement(name = AssetRecharge.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BOCode(AssetRecharge.BUSINESS_OBJECT_CODE)
 public class AssetRecharge extends BusinessObject<AssetRecharge>
-		implements IAssetRecharge, IDataOwnership, IApprovalData, IBOTagDeleted, IBusinessLogicsHost {
+		implements IAssetRecharge, IDataOwnership, IApprovalData, IBOTagDeleted, IBusinessLogicsHost, IBOUserFields {
 
 	/**
 	 * 序列化版本标记
