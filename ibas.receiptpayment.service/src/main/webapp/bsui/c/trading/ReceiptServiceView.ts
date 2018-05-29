@@ -55,6 +55,14 @@ namespace receiptpayment {
                             }).bindProperty("text", {
                                 path: "documentType",
                                 formatter(data: any): any {
+                                    try {
+                                        let name: string = ibas.objects.getName(ibas.boFactory.classOf(data));
+                                        let description: string = ibas.i18n.prop(ibas.strings.format("bo_{0}", name).toLowerCase());
+                                        if (!description.startsWith("[") && !description.endsWith("]")) {
+                                            return description;
+                                        }
+                                    } catch (error) {
+                                    }
                                     return data;
                                 }
                             }),
