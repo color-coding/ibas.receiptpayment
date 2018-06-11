@@ -65,7 +65,7 @@ namespace receiptpayment {
                 this.target.documentEntry = contract.documentEntry;
                 this.target.documentLineId = contract.documentLineId;
                 this.target.documentSummary = contract.documentSummary;
-                this.target.total = contract.documentTotal;
+                this.target.total = ibas.numbers.round(contract.documentTotal);
                 this.target.currency = contract.documentCurrency;
                 this.businesspartner = new BusinessPartner();
                 this.businesspartner.type = contract.businessPartnerType;
@@ -192,19 +192,19 @@ namespace receiptpayment {
                     // 正常交易
                     let trading: ReceiptTrading = new ReceiptTrading();
                     trading.trading = method;
-                    trading.amount = amountAfter;
+                    trading.amount = ibas.numbers.round(amountAfter);
                     trading.currency = this.target.currency;
                     this.receiptTradings.add(trading);
                     // 折扣交易
                     let tradingDiscout: ReceiptTradingDiscount = new ReceiptTradingDiscount(trading);
-                    tradingDiscout.amount = amountLeft;
+                    tradingDiscout.amount = ibas.numbers.round(amountLeft);
                     this.receiptTradings.add(tradingDiscout);
 
                     this.showReceiptTradings();
                 } else {
                     let trading: ReceiptTrading = new ReceiptTrading();
                     trading.trading = method;
-                    trading.amount = usingAmount;
+                    trading.amount = ibas.numbers.round(usingAmount);
                     trading.currency = this.target.currency;
                     this.receiptTradings.add(trading);
                     this.showReceiptTradings();
@@ -221,6 +221,7 @@ namespace receiptpayment {
                 if (paid < 0) {
                     paid = 0;
                 }
+                paid = ibas.numbers.round(paid);
                 this.view.showReceiptTradings(this.receiptTradings, paid);
             }
             /** 确定 */
