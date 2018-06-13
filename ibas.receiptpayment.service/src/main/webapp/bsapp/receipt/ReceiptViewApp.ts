@@ -8,7 +8,7 @@
 namespace receiptpayment {
     export namespace app {
         /** 查看应用-收款 */
-        export class ReceiptViewApp extends ibas.BOViewService<IReceiptViewView> {
+        export class ReceiptViewApp extends ibas.BOViewService<IReceiptViewView, bo.Receipt> {
             /** 应用标识 */
             static APPLICATION_ID: string = "fb024320-b6ad-4411-a819-65793326f286";
             /** 应用名称 */
@@ -51,13 +51,15 @@ namespace receiptpayment {
                     super.run.apply(this, arguments);
                 }
             }
-            private viewData: bo.Receipt;
+            protected viewData: bo.Receipt;
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria | string): void {
                 this.busy(true);
                 let that: this = this;
                 if (typeof criteria === "string") {
+                    let value: string = criteria;
                     criteria = new ibas.Criteria();
+                    criteria.result = 1;
                     // 添加查询条件
 
                 }
@@ -70,7 +72,11 @@ namespace receiptpayment {
                                 throw new Error(opRslt.message);
                             }
                             that.viewData = opRslt.resultObjects.firstOrDefault();
-                            that.viewShowed();
+                            if (!that.isViewShowed()) {
+                                that.show();
+                            } else {
+                                that.viewShowed();
+                            }
                         } catch (error) {
                             that.messages(error);
                         }

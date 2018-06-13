@@ -8,7 +8,7 @@
 namespace receiptpayment {
     export namespace app {
         /** 查看应用-资产充值 */
-        export class AssetRechargeViewApp extends ibas.BOViewService<IAssetRechargeViewView> {
+        export class AssetRechargeViewApp extends ibas.BOViewService<IAssetRechargeViewView, bo.AssetRecharge> {
 
             /** 应用标识 */
             static APPLICATION_ID: string = "5ecd608a-19e0-4f58-af2b-ca96a9e005ce";
@@ -58,7 +58,9 @@ namespace receiptpayment {
                 this.busy(true);
                 let that: this = this;
                 if (typeof criteria === "string") {
+                    let value: string = criteria;
                     criteria = new ibas.Criteria();
+                    criteria.result = 1;
                     // 添加查询条件
 
                 }
@@ -71,7 +73,11 @@ namespace receiptpayment {
                                 throw new Error(opRslt.message);
                             }
                             that.viewData = opRslt.resultObjects.firstOrDefault();
-                            that.viewShowed();
+                            if (!that.isViewShowed()) {
+                                that.show();
+                            } else {
+                                that.viewShowed();
+                            }
                         } catch (error) {
                             that.messages(error);
                         }
