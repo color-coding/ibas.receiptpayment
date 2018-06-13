@@ -143,6 +143,12 @@ namespace purchase {
             /** 项目代码 */
             project: string;
 
+            /** 消费者 */
+            consumer: string;
+
+            /** 单据类型 */
+            orderType: string;
+
             /** 采购报价-行集合 */
             purchaseQuoteItems: IPurchaseQuoteItems;
 

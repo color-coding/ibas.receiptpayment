@@ -39,6 +39,7 @@
     <Property Name="DocumentCurrency" Description="单据货币" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="DocCur"/>
     <Property Name="DocumentRate" Description="单据汇率" DataType="Decimal" DataSubType="Rate" EditSize="8" Mapped="DocRate"/>
     <Property Name="DocumentTotal" Description="单据总计" DataType="Decimal" DataSubType="Sum" EditSize="8" Mapped="DocTotal"/>
+    <Property Name="OrderType" Description="单据类型" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrderType"/>
   </Model>
   <Model Name="PaymentItem" Description="付款-项目" ModelType="DocumentLine" Mapped="${Company}_RP_PAY1">
     <Property Name="DocEntry" Description="编码" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="DocEntry" PrimaryKey="Yes"/>

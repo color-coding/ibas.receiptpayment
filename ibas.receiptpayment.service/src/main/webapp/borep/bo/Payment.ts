@@ -423,6 +423,17 @@ namespace receiptpayment {
                 this.setProperty(Payment.PROPERTY_DOCUMENTTOTAL_NAME, value);
             }
 
+            /** 映射的属性名称-单据类型 */
+            static PROPERTY_ORDERTYPE_NAME: string = "OrderType";
+            /** 获取-单据类型 */
+            get orderType(): string {
+                return this.getProperty<string>(Payment.PROPERTY_ORDERTYPE_NAME);
+            }
+            /** 设置-单据类型 */
+            set orderType(value: string) {
+                this.setProperty(Payment.PROPERTY_ORDERTYPE_NAME, value);
+            }
+
 
             /** 映射的属性名称-付款-项目集合 */
             static PROPERTY_PAYMENTITEMS_NAME: string = "PaymentItems";

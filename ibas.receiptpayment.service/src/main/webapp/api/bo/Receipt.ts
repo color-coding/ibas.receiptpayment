@@ -122,6 +122,9 @@ namespace receiptpayment {
             /** 单据总计 */
             documentTotal: number;
 
+            /** 单据类型 */
+            orderType: string;
+
 
             /** 收款-项目集合 */
             receiptItems: IReceiptItems;

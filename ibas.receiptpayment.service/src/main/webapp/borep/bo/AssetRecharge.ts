@@ -422,6 +422,17 @@ namespace receiptpayment {
                 this.setProperty(AssetRecharge.PROPERTY_TIMES_NAME, value);
             }
 
+            /** 映射的属性名称-单据类型 */
+            static PROPERTY_ORDERTYPE_NAME: string = "OrderType";
+            /** 获取-单据类型 */
+            get orderType(): string {
+                return this.getProperty<string>(AssetRecharge.PROPERTY_ORDERTYPE_NAME);
+            }
+            /** 设置-单据类型 */
+            set orderType(value: string) {
+                this.setProperty(AssetRecharge.PROPERTY_ORDERTYPE_NAME, value);
+            }
+
 
             /** 映射的属性名称-资产充值-项目集合 */
             static PROPERTY_ASSETRECHARGEITEMS_NAME: string = "AssetRechargeItems";
