@@ -110,7 +110,6 @@ namespace receiptpayment {
                 this.register(new ReceiptMethodCOD());
                 // 注册测试应用
                 if (ibas.config.get(ibas.CONFIG_ITEM_DEBUG_MODE)) {
-                    this.register(new ReceiptServiceTestApp());
                     this.register(new WaitTradingServiceMapping());
                 }
             }

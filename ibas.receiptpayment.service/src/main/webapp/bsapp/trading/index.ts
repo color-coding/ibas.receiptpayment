@@ -13,5 +13,4 @@
 /// <reference path="./MethodPOS.ts" />
 /// <reference path="./ReceiptService.ts" />
 /// <reference path="./ReceiptTradeService.ts" />
-/// <reference path="./ReceiptServiceTestApp.ts" />
 /// <reference path="./WaitTradingService.ts" />

@@ -199,7 +199,6 @@ namespace receiptpayment {
                     let tradingDiscout: ReceiptTradingDiscount = new ReceiptTradingDiscount(trading);
                     tradingDiscout.amount = ibas.numbers.round(amountLeft);
                     this.receiptTradings.add(tradingDiscout);
-
                     this.showReceiptTradings();
                 } else {
                     let trading: ReceiptTrading = new ReceiptTrading();
@@ -229,7 +228,6 @@ namespace receiptpayment {
                 if (ibas.objects.isNull(this.receiptTradings) || this.receiptTradings.length === 0) {
                     throw new Error(ibas.i18n.prop("receiptpaymentt_please_paid"));
                 }
-                this.busy(true);
                 let receipt: bo.Receipt = new bo.Receipt();
                 receipt.businessPartnerType = this.businesspartner.type;
                 receipt.businessPartnerCode = this.businesspartner.code;
@@ -258,12 +256,14 @@ namespace receiptpayment {
                 if (receipt.documentTotal !== this.target.total) {
                     throw new Error(ibas.i18n.prop("receiptpayment_different_paid_amount", this.target.total - receipt.documentTotal));
                 }
+                this.busy(true);
                 let that: this = this;
                 let boRepository: bo.BORepositoryReceiptPayment = new bo.BORepositoryReceiptPayment();
                 boRepository.saveReceipt({
                     beSaved: receipt,
                     onCompleted(opRslt: ibas.IOperationResult<bo.Receipt>): void {
                         try {
+                            that.busy(false);
                             if (opRslt.resultCode !== 0) {
                                 throw new Error(opRslt.message);
                             }
