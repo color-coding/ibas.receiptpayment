@@ -1,38 +1,59 @@
 package org.colorcoding.ibas.receiptpayment;
 
+import org.colorcoding.ibas.bobas.configuration.ConfigurationFactory;
+import org.colorcoding.ibas.bobas.configuration.IConfigurationManager;
+
 /**
  * 我的配置项
  */
 public class MyConfiguration extends org.colorcoding.ibas.bobas.MyConfiguration {
 
-    /**
-    * 模块标识
-    */
-    public static final String MODULE_ID = "77d894db-e7f7-4fdd-910c-7835612407be";
+	private volatile static IConfigurationManager instance;
 
-    /**
-    * 命名空间
-    */
-    public static final String NAMESPACE_ROOT = "http://colorcoding.org/ibas/receiptpayment/";
+	public static IConfigurationManager create() {
+		if (instance == null) {
+			synchronized (MyConfiguration.class) {
+				if (instance == null) {
+					instance = ConfigurationFactory.create().createManager();
+					instance.setConfigSign(MODULE_ID);
+					instance.update();
+				}
+			}
+		}
+		return instance;
+	}
 
-    /**
-    * 数据命名空间
-    */
-    public static final String NAMESPACE_DATA = NAMESPACE_ROOT + "data";
+	public static <P> P getConfigValue(String key, P defaultValue) {
+		return create().getConfigValue(key, defaultValue);
+	}
 
-    /**
-    * 业务对象命名空间
-    */
-    public static final String NAMESPACE_BO = NAMESPACE_ROOT + "bo";
+	public static String getConfigValue(String key) {
+		return create().getConfigValue(key);
+	}
 
-    /**
-    * 服务命名空间
-    */
-    public static final String NAMESPACE_SERVICE = NAMESPACE_ROOT + "service";
+	/**
+	 * 模块标识
+	 */
+	public static final String MODULE_ID = "77d894db-e7f7-4fdd-910c-7835612407be";
 
-    /**
-     * 配置项目-文件文件夹
-     */
-    public final static String CONFIG_ITEM_RECEIPTPAYMENT_FILE_FOLDER = "RPFileFolder";
+	/**
+	 * 命名空间
+	 */
+	public static final String NAMESPACE_ROOT = "http://colorcoding.org/ibas/receiptpayment/";
+
+	/**
+	 * 数据命名空间
+	 */
+	public static final String NAMESPACE_DATA = NAMESPACE_ROOT + "data";
+
+	/**
+	 * 业务对象命名空间
+	 */
+	public static final String NAMESPACE_BO = NAMESPACE_ROOT + "bo";
+
+	/**
+	 * 服务命名空间
+	 */
+	public static final String NAMESPACE_SERVICE = NAMESPACE_ROOT + "service";
 
 }
