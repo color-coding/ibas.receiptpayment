@@ -8,7 +8,7 @@
 namespace purchase {
     export namespace bo {
         /** 采购退货 */
-        export interface IPurchaseReturn extends ibas.IBODocument {
+        export interface IPurchaseReturn extends ibas.IBODocument, ibas.IBOUserFields {
 
             /** 凭证编号 */
             docEntry: number;
@@ -169,7 +169,7 @@ namespace purchase {
         }
 
         /** 采购退货-行 */
-        export interface IPurchaseReturnItem extends ibas.IBODocumentLine, materials.bo.IMaterialBatchItemParent, materials.bo.IMaterialSerialItemParent {
+        export interface IPurchaseReturnItem extends ibas.IBODocumentLine, materials.bo.IMaterialBatchItemParent, materials.bo.IMaterialSerialItemParent, ibas.IBOUserFields {
 
             /** 编码 */
             docEntry: number;

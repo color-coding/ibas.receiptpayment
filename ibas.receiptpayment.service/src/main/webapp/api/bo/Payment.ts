@@ -9,7 +9,7 @@ namespace receiptpayment {
     export namespace bo {
 
         /** 付款 */
-        export interface IPayment extends ibas.IBODocument {
+        export interface IPayment extends ibas.IBODocument, ibas.IBOUserFields {
 
             /** 凭证编号 */
             docEntry: number;
@@ -140,7 +140,7 @@ namespace receiptpayment {
         }
 
         /** 付款-项目 */
-        export interface IPaymentItem extends ibas.IBODocumentLine {
+        export interface IPaymentItem extends ibas.IBODocumentLine, ibas.IBOUserFields {
 
             /** 编码 */
             docEntry: number;

@@ -8,7 +8,7 @@
 namespace receiptpayment {
     export namespace bo {
         /** 资产充值 */
-        export interface IAssetRecharge extends ibas.IBODocument {
+        export interface IAssetRecharge extends ibas.IBODocument, ibas.IBOUserFields {
             /** 凭证编号 */
             docEntry: number;
             /** 期间编号 */
@@ -98,7 +98,7 @@ namespace receiptpayment {
         }
 
         /** 资产充值-项目 */
-        export interface IAssetRechargeItem extends ibas.IBODocumentLine {
+        export interface IAssetRechargeItem extends ibas.IBODocumentLine, ibas.IBOUserFields {
             /** 编码 */
             docEntry: number;
             /** 行号 */
