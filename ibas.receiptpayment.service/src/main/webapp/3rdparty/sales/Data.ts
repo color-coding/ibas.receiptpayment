@@ -28,6 +28,10 @@ namespace sales {
         export const BO_CODE_SALESQUOTE: string = "${Company}_SL_SALESQUOTE";
         /** 业务对象编码-送货地址 */
         export const BO_CODE_SHIPPINGADDRESS: string = "${Company}_SL_SHIPADDRESS";
+        /** 业务对象编码-产品规格 */
+        export const BO_CODE_PRODUCTSPECIFICATION: string = "${Company}_SL_PDSPEC";
+        /** 业务对象编码-规格模板 */
+        export const BO_CODE_SPECIFICATION: string = "${Company}_SL_SPEC";
 
         /** 产品树类型 */
         export enum emProductTreeType {
@@ -48,6 +52,27 @@ namespace sales {
              * 已送达
              */
             SHIPPED,
+        }
+        export enum emSpecificationTarget {
+            /**
+             * 物料
+             */
+            MATERIAL,
+            /**
+             * 物料组
+             */
+            MATERIAL_GROUP,
+        }
+        /**
+         * 查询调用者
+         */
+        export interface ISpecificationTreeFetcher extends ibas.IMethodCaller<ISpecificationTree> {
+            /** 模板编号 */
+            template?: number;
+            /** 物料 */
+            material?: string;
+            /** 物料组 */
+            materialGroup?: string;
         }
     }
 }
