@@ -76,6 +76,15 @@ namespace receiptpayment {
                             }).bindProperty("value", {
                                 path: "times",
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrecharge_ordertype") }),
+                            new sap.m.ex.SmartField("", {
+                                width: "100%",
+                                boType: bo.AssetRecharge.name,
+                                propertyName: "orderType",
+                                bindingValue: {
+                                    path: "orderType"
+                                }
+                            }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrecharge_reference1") }),
                             new sap.m.Input("", {
                             }).bindProperty("value", {
