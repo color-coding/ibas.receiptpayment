@@ -74,7 +74,7 @@ namespace receiptpayment {
                             new sap.m.ex.SmartField("", {
                                 width: "100%",
                                 boType: bo.Payment.name,
-                                propertyName: "orderType",
+                                propertyName: "OrderType",
                                 bindingValue: {
                                     path: "orderType"
                                 }
