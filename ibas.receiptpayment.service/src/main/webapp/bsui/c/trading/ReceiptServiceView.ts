@@ -51,7 +51,7 @@ namespace receiptpayment {
                     this.target_bar = new sap.m.Toolbar("", {
                         content: [
                             new sap.m.Label("", {
-                                width: "auto",
+                                width: "60px",
                             }).bindProperty("text", {
                                 path: "documentType",
                                 formatter(data: any): any {
@@ -71,7 +71,7 @@ namespace receiptpayment {
                                 text: "-",
                             }),
                             new sap.m.Label("", {
-                                width: "auto",
+                                width: "30px",
                                 textAlign: sap.ui.core.TextAlign.Right,
                             }).bindProperty("text", {
                                 path: "documentEntry",
@@ -81,7 +81,7 @@ namespace receiptpayment {
                                 text: "-",
                             }),
                             new sap.m.Label("", {
-                                width: "auto",
+                                width: "15px",
                                 textAlign: sap.ui.core.TextAlign.Left,
                             }).bindProperty("text", {
                                 path: "documentLineId",

@@ -18,7 +18,7 @@ namespace receiptpayment {
                 super();
                 this.id = "9cf6da37-146e-408c-85a3-5f03d454a289";
                 this.name = TRADING_MODE_CASH;
-                this.description = ibas.i18n.prop("receiptpayment_method_cash");
+                this.description = ibas.i18n.prop(ibas.strings.format("{0}_{1}", ReceiptMethod.name, this.name).toLowerCase());
                 this.enabled = !ibas.config.get(ibas.strings.format(CONFIG_ITEM_TEMPLATE_TRADING_MODE_DISABLED, this.name), false);
                 this.noTrade = true;
             }
@@ -30,7 +30,7 @@ namespace receiptpayment {
                     trading.method = this;
                     trading.id = "";
                     trading.description = this.description;
-                    trading.icon = ibas.i18n.prop("receiptpayment_method_cash_icon");
+                    trading.icon = ibas.i18n.prop(ibas.strings.format("{0}_{1}_icon", ReceiptMethod.name, this.name).toLowerCase());
                     opRslt.resultObjects.add(trading);
                     caller.onCompleted(opRslt);
                 }
@@ -44,7 +44,7 @@ namespace receiptpayment {
                 super();
                 this.id = "87cfa94a-cc7e-4399-bfa7-ce055b38f65a";
                 this.name = TRADING_MODE_CASH;
-                this.description = ibas.i18n.prop("receiptpayment_method_cash");
+                this.description = ibas.i18n.prop(ibas.strings.format("{0}_{1}", PaymentMethod.name, this.name).toLowerCase());
                 this.enabled = !ibas.config.get(ibas.strings.format(CONFIG_ITEM_TEMPLATE_TRADING_MODE_DISABLED, this.name), false);
                 this.noTrade = true;
             }
@@ -56,7 +56,7 @@ namespace receiptpayment {
                     trading.method = this;
                     trading.id = "";
                     trading.description = this.description;
-                    trading.icon = ibas.i18n.prop("receiptpayment_method_cash_icon");
+                    trading.icon = ibas.i18n.prop(ibas.strings.format("{0}_{1}_icon", PaymentMethod.name, this.name).toLowerCase());
                     opRslt.resultObjects.add(trading);
                     caller.onCompleted(opRslt);
                 }

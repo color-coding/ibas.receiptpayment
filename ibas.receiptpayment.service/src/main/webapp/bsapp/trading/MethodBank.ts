@@ -18,7 +18,7 @@ namespace receiptpayment {
                 super();
                 this.id = "e81d088d-2735-4356-b0af-610d261a1019";
                 this.name = TRADING_MODE_BANK;
-                this.description = ibas.i18n.prop("receiptpayment_method_bank");
+                this.description = ibas.i18n.prop(ibas.strings.format("{0}_{1}", ReceiptMethod.name, this.name).toLowerCase());
                 this.enabled = !ibas.config.get(ibas.strings.format(CONFIG_ITEM_TEMPLATE_TRADING_MODE_DISABLED, this.name), false);
             }
             /** 获取可用交易类型 */
@@ -29,7 +29,7 @@ namespace receiptpayment {
                     trading.method = this;
                     trading.id = "";
                     trading.description = this.description;
-                    trading.icon = ibas.i18n.prop("receiptpayment_method_bank_icon");
+                    trading.icon = ibas.i18n.prop(ibas.strings.format("{0}_{1}_icon", ReceiptMethod.name, this.name).toLowerCase());
                     opRslt.resultObjects.add(trading);
                     caller.onCompleted(opRslt);
                 }
@@ -43,7 +43,7 @@ namespace receiptpayment {
                 super();
                 this.id = "d92a2b64-8fd0-4e04-9384-0fbb4f6497a7";
                 this.name = TRADING_MODE_BANK;
-                this.description = ibas.i18n.prop("receiptpayment_method_bank");
+                this.description = ibas.i18n.prop(ibas.strings.format("{0}_{1}", PaymentMethod.name, this.name).toLowerCase());
                 this.enabled = !ibas.config.get(ibas.strings.format(CONFIG_ITEM_TEMPLATE_TRADING_MODE_DISABLED, this.name), false);
             }
             /** 获取可用交易类型 */
@@ -54,7 +54,7 @@ namespace receiptpayment {
                     trading.method = this;
                     trading.id = "";
                     trading.description = this.description;
-                    trading.icon = ibas.i18n.prop("receiptpayment_method_bank_icon");
+                    trading.icon = ibas.i18n.prop(ibas.strings.format("{0}_{1}_icon", PaymentMethod.name, this.name).toLowerCase());
                     opRslt.resultObjects.add(trading);
                     caller.onCompleted(opRslt);
                 }

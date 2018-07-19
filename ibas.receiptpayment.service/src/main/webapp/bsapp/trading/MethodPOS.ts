@@ -18,7 +18,7 @@ namespace receiptpayment {
                 super();
                 this.id = "25edd5e5-1a85-4be0-b2a9-131065ca5828";
                 this.name = TRADING_MODE_POS;
-                this.description = ibas.i18n.prop("receiptpayment_method_pos");
+                this.description = ibas.i18n.prop(ibas.strings.format("{0}_{1}", ReceiptMethod.name, this.name).toLowerCase());
                 this.enabled = !ibas.config.get(ibas.strings.format(CONFIG_ITEM_TEMPLATE_TRADING_MODE_DISABLED, this.name), false);
                 this.noTrade = false;
             }
@@ -30,7 +30,7 @@ namespace receiptpayment {
                     trading.method = this;
                     trading.id = "";
                     trading.description = this.description;
-                    trading.icon = ibas.i18n.prop("receiptpayment_method_pos_icon");
+                    trading.icon = ibas.i18n.prop(ibas.strings.format("{0}_{1}_icon", ReceiptMethod.name, this.name).toLowerCase());
                     opRslt.resultObjects.add(trading);
                     caller.onCompleted(opRslt);
                 }

@@ -18,7 +18,7 @@ namespace receiptpayment {
                 super();
                 this.id = "bd959445-66a0-4760-be0a-2be36bfeec01";
                 this.name = TRADING_MODE_BP_ASSSET;
-                this.description = ibas.i18n.prop("receiptpayment_method_bp_asset");
+                this.description = ibas.i18n.prop(ibas.strings.format("{0}_{1}", ReceiptMethod.name, this.name).toLowerCase());
                 this.enabled = !ibas.config.get(ibas.strings.format(CONFIG_ITEM_TEMPLATE_TRADING_MODE_DISABLED, this.name), false);
                 this.noTrade = true;
             }
@@ -50,7 +50,7 @@ namespace receiptpayment {
                                 trading.icon = item.picture;
                                 trading.discount = item.discount;
                                 if (ibas.strings.isEmpty(trading.icon)) {
-                                    trading.icon = ibas.i18n.prop("receiptpayment_method_bp_asset_icon");
+                                    trading.icon = ibas.i18n.prop(ibas.strings.format("{0}_{1}_icon", ReceiptMethod.name, that.name).toLowerCase());
                                 }
                                 opRslt.resultObjects.add(trading);
                             }
