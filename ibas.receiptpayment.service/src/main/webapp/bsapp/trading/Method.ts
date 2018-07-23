@@ -15,6 +15,9 @@ namespace receiptpayment {
                     if (!(ibas.objects.instanceOf(element, ReceiptMethod))) {
                         continue;
                     }
+                    if (!shell.app.privilegeManager.canRun(element)) {
+                        continue;
+                    }
                     methods.add(<ReceiptMethod>element);
                 }
             }
@@ -26,6 +29,9 @@ namespace receiptpayment {
             for (let module of shell.app.consoleManager.modules()) {
                 for (let element of module.elements()) {
                     if (!(ibas.objects.instanceOf(element, PaymentMethod))) {
+                        continue;
+                    }
+                    if (!shell.app.privilegeManager.canRun(element)) {
                         continue;
                     }
                     methods.add(<PaymentMethod>element);
