@@ -1,4 +1,4 @@
-package org.colorcoding.ibas.receiptpayment.test.bo;
+package org.colorcoding.ibas.receiptpayment.test;
 
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
@@ -23,7 +23,7 @@ import junit.framework.TestCase;
  * 付款 测试
  * 
  */
-public class testAssetRecharge extends TestCase {
+public class TestAssetRecharge extends TestCase {
 	/**
 	 * 获取连接口令
 	 */

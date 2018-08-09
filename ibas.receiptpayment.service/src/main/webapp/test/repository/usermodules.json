@@ -1,9 +1,0 @@
-[
-  {
-    "Id": "77d894db-e7f7-4fdd-910c-7835612407be",
-    "Name": "ReceiptPayment",
-    "Category": "",
-    "Address": ".../",
-    "Repository": "http://localhost:8080/receiptpayment/services/rest/data"
-  }
-]
