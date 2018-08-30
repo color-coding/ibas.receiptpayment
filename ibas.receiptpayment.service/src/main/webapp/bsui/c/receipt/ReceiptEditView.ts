@@ -198,7 +198,7 @@ namespace receiptpayment {
                                 }).bindProperty("text", {
                                     path: "baseDocumentType",
                                     formatter(data: any): any {
-                                        return openui5.utils.describeBOCode(data);
+                                        return ibas.businessobjects.describe(data);
                                     }
                                 }),
                             }),

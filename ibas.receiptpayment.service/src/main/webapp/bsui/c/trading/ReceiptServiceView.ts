@@ -220,6 +220,7 @@ namespace receiptpayment {
                     }
                     for (let item of methods) {
                         let bar: sap.m.Toolbar = new sap.m.Toolbar("", {
+                            visible: false,
                             content: [
                                 new sap.m.Label("", {
                                     width: "auto",
@@ -243,6 +244,9 @@ namespace receiptpayment {
                         let bar: sap.m.Toolbar = this.menthod_bars.get(item.method.name);
                         if (ibas.objects.isNull(bar)) {
                             continue;
+                        }
+                        if (bar.getVisible() === false) {
+                            bar.setVisible(true);
                         }
                         let button: sap.m.ToggleButton = new sap.m.ToggleButton("", {
                             text: item.description,
