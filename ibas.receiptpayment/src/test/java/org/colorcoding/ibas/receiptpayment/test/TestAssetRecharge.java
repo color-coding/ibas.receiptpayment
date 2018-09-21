@@ -16,6 +16,8 @@ import org.colorcoding.ibas.receiptpayment.bo.assetrecharge.AssetRecharge;
 import org.colorcoding.ibas.receiptpayment.bo.assetrecharge.IAssetRechargeItem;
 import org.colorcoding.ibas.receiptpayment.repository.BORepositoryReceiptPayment;
 import org.colorcoding.ibas.receiptpayment.repository.IBORepositoryReceiptPaymentApp;
+import org.colorcoding.ibas.sales.bo.salesorder.ISalesOrderItem;
+import org.colorcoding.ibas.sales.bo.salesorder.SalesOrder;
 
 import junit.framework.TestCase;
 
@@ -82,6 +84,24 @@ public class TestAssetRecharge extends TestCase {
 		Decimal thirdValue = this.getBpAssetAmount(assetId);
 
 		System.out.println(String.format("%s  %s  %s", firstValue, secondValue, thirdValue));
+	}
+
+	public void testSalesOrder() {
+		MyConfiguration.addConfigValue(MyConfiguration.CONFIG_ITEM_LIVE_BUSINESS_RULES, true);
+		SalesOrder salesOrder = new SalesOrder();
+		ISalesOrderItem salesOrderItem = salesOrder.getSalesOrderItems().create();
+		salesOrderItem.setItemCode("A000001");
+		salesOrderItem.setWarehouse("W001");
+		salesOrderItem.setPrice(199.99);
+		System.out.println(String.format("%s * %s = %s", salesOrderItem.getUnitPrice(), salesOrderItem.getDiscount(),
+				salesOrderItem.getPrice()));
+		salesOrderItem = salesOrder.getSalesOrderItems().create();
+		salesOrderItem.setItemCode("A000002");
+		salesOrderItem.setWarehouse("W002");
+		salesOrderItem.setUnitPrice("199.99");
+		salesOrderItem.setPrice("169.99");
+		System.out.println(String.format("%s * %s = %s", salesOrderItem.getUnitPrice(), salesOrderItem.getDiscount(),
+				salesOrderItem.getPrice()));
 	}
 
 	private Decimal getBpAssetAmount(String code) throws InvalidTokenException {
