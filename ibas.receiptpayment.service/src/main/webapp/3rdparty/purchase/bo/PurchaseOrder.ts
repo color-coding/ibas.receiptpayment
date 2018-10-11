@@ -315,9 +315,6 @@ namespace purchase {
             /** 毛总额 */
             grossTotal: number;
 
-            /** 项目代码 */
-            project: string;
-
             /** 分配规则1 */
             distributionRule1: string;
 
