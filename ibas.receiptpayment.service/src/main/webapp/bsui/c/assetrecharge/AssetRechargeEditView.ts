@@ -79,7 +79,7 @@ namespace receiptpayment {
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrecharge_ordertype") }),
                             new sap.m.ex.SmartField("", {
                                 width: "100%",
-                                boType: bo.AssetRecharge.name,
+                                boCode: ibas.config.applyVariables(bo.AssetRecharge.BUSINESS_OBJECT_CODE),
                                 propertyName: "OrderType",
                                 bindingValue: {
                                     path: "orderType"
@@ -242,7 +242,6 @@ namespace receiptpayment {
                     });
                     this.layoutMain = new sap.ui.layout.VerticalLayout("", {
                         width: "100%",
-                        height: "100%",
                         content: [
                             formTop,
                             formAssetRechargeItem,

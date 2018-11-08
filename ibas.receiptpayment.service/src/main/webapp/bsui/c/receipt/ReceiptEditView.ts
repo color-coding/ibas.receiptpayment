@@ -73,7 +73,7 @@ namespace receiptpayment {
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_ordertype") }),
                             new sap.m.ex.SmartField("", {
                                 width: "100%",
-                                boType: bo.Receipt.name,
+                                boCode: ibas.config.applyVariables(bo.Receipt.BUSINESS_OBJECT_CODE),
                                 propertyName: "OrderType",
                                 bindingValue: {
                                     path: "orderType"
