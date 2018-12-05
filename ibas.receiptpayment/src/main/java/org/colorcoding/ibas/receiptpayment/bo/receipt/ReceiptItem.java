@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
+import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
@@ -37,7 +38,7 @@ import org.colorcoding.ibas.sales.logic.ISalesOrderPaymentContract;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = ReceiptItem.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 public class ReceiptItem extends BusinessObject<ReceiptItem>
-		implements IReceiptItem, IBusinessLogicsHost, IBOTagDeleted, IBOUserFields {
+		implements IReceiptItem, IBusinessLogicsHost, IBOTagDeleted, IBOTagCanceled, IBOUserFields {
 	/**
 	 * 序列化版本标记
 	 */
@@ -88,8 +89,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-编码
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDocEntry(Integer value) {
 		this.setProperty(PROPERTY_DOCENTRY, value);
@@ -120,8 +120,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-行号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setLineId(Integer value) {
 		this.setProperty(PROPERTY_LINEID, value);
@@ -152,8 +151,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-显示顺序
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setVisOrder(Integer value) {
 		this.setProperty(PROPERTY_VISORDER, value);
@@ -184,8 +182,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setObjectCode(String value) {
 		this.setProperty(PROPERTY_OBJECTCODE, value);
@@ -216,8 +213,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-实例号（版本）
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setLogInst(Integer value) {
 		this.setProperty(PROPERTY_LOGINST, value);
@@ -248,8 +244,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-数据源
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDataSource(String value) {
 		this.setProperty(PROPERTY_DATASOURCE, value);
@@ -280,8 +275,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-取消
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCanceled(emYesNo value) {
 		this.setProperty(PROPERTY_CANCELED, value);
@@ -312,8 +306,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-状态
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setStatus(emBOStatus value) {
 		this.setProperty(PROPERTY_STATUS, value);
@@ -344,8 +337,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-单据状态
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setLineStatus(emDocumentStatus value) {
 		this.setProperty(PROPERTY_LINESTATUS, value);
@@ -376,8 +368,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-创建日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateDate(DateTime value) {
 		this.setProperty(PROPERTY_CREATEDATE, value);
@@ -408,8 +399,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-创建时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateTime(Short value) {
 		this.setProperty(PROPERTY_CREATETIME, value);
@@ -440,8 +430,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-修改日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateDate(DateTime value) {
 		this.setProperty(PROPERTY_UPDATEDATE, value);
@@ -472,8 +461,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-修改时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateTime(Short value) {
 		this.setProperty(PROPERTY_UPDATETIME, value);
@@ -504,8 +492,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-创建用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateUserSign(Integer value) {
 		this.setProperty(PROPERTY_CREATEUSERSIGN, value);
@@ -536,8 +523,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-修改用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateUserSign(Integer value) {
 		this.setProperty(PROPERTY_UPDATEUSERSIGN, value);
@@ -568,8 +554,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-创建动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCreateActionId(String value) {
 		this.setProperty(PROPERTY_CREATEACTIONID, value);
@@ -600,8 +585,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-更新动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setUpdateActionId(String value) {
 		this.setProperty(PROPERTY_UPDATEACTIONID, value);
@@ -632,8 +616,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-参考1
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setReference1(String value) {
 		this.setProperty(PROPERTY_REFERENCE1, value);
@@ -664,8 +647,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-参考2
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setReference2(String value) {
 		this.setProperty(PROPERTY_REFERENCE2, value);
@@ -696,8 +678,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-已引用
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setReferenced(emYesNo value) {
 		this.setProperty(PROPERTY_REFERENCED, value);
@@ -728,8 +709,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-已删除
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setDeleted(emYesNo value) {
 		this.setProperty(PROPERTY_DELETED, value);
@@ -760,8 +740,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-基于类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setBaseDocumentType(String value) {
 		this.setProperty(PROPERTY_BASEDOCUMENTTYPE, value);
@@ -792,8 +771,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-基于标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setBaseDocumentEntry(Integer value) {
 		this.setProperty(PROPERTY_BASEDOCUMENTENTRY, value);
@@ -824,8 +802,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-基于行号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setBaseDocumentLineId(Integer value) {
 		this.setProperty(PROPERTY_BASEDOCUMENTLINEID, value);
@@ -856,8 +833,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-原始类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOriginalDocumentType(String value) {
 		this.setProperty(PROPERTY_ORIGINALDOCUMENTTYPE, value);
@@ -888,8 +864,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-原始标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOriginalDocumentEntry(Integer value) {
 		this.setProperty(PROPERTY_ORIGINALDOCUMENTENTRY, value);
@@ -920,8 +895,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-原始行号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setOriginalDocumentLineId(Integer value) {
 		this.setProperty(PROPERTY_ORIGINALDOCUMENTLINEID, value);
@@ -952,8 +926,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-方式
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setMode(String value) {
 		this.setProperty(PROPERTY_MODE, value);
@@ -984,8 +957,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-金额
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setAmount(Decimal value) {
 		this.setProperty(PROPERTY_AMOUNT, value);
@@ -994,8 +966,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-金额
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setAmount(String value) {
 		this.setAmount(new Decimal(value));
@@ -1004,8 +975,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-金额
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setAmount(int value) {
 		this.setAmount(new Decimal(value));
@@ -1014,8 +984,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-金额
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setAmount(double value) {
 		this.setAmount(new Decimal(value));
@@ -1046,8 +1015,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-货币
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setCurrency(String value) {
 		this.setProperty(PROPERTY_CURRENCY, value);
@@ -1078,8 +1046,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-汇率
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setRate(Decimal value) {
 		this.setProperty(PROPERTY_RATE, value);
@@ -1088,8 +1055,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-汇率
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setRate(String value) {
 		this.setRate(new Decimal(value));
@@ -1098,8 +1064,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-汇率
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setRate(int value) {
 		this.setRate(new Decimal(value));
@@ -1108,8 +1073,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-汇率
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setRate(double value) {
 		this.setRate(new Decimal(value));
@@ -1140,8 +1104,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	/**
 	 * 设置-交易识别码
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	public final void setTradeId(String value) {
 		this.setProperty(PROPERTY_TRADEID, value);
