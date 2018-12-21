@@ -30,6 +30,7 @@ import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
 import org.colorcoding.ibas.bobas.period.IPeriodData;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleDocumentStatus;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
@@ -1338,6 +1339,8 @@ public class AssetRecharge extends BusinessObject<AssetRecharge> implements IAss
 				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_AMOUNT), // 不能低于0
 				new BusinessRuleMinValue<Integer>(0, PROPERTY_TIMES), // 不能低于0
 				new BusinessRuleRequiredElements(PROPERTY_ASSETRECHARGEITEMS), // 要求有元素
+				new BusinessRuleDocumentStatus(PROPERTY_DOCUMENTSTATUS, PROPERTY_ASSETRECHARGEITEMS,
+						AssetRechargeItem.PROPERTY_LINESTATUS), // 使用集合元素状态
 		};
 	}
 
