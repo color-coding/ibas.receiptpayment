@@ -61,24 +61,19 @@ namespace receiptpayment {
                 try {
                     this.receipt = receipt;
                     let that: this = this;
-                    let methods: ibas.IList<ReceiptMethod> = receiptMethods();
                     for (let item of this.receipt.receiptItems) {
-                        let method: ReceiptMethod = methods.firstOrDefault(c => c.name === item.mode);
-                        if (ibas.objects.isNull(method)) {
-                            continue;
-                        }
-                        if (method.noTrade) {
-                            continue;
-                        }
-                        method.getTradings({
-                            businessPartnerType: this.receipt.businessPartnerType,
-                            businessPartnerCode: this.receipt.businessPartnerCode,
-                            documentType: this.receipt.objectCode,
-                            documentEntry: this.receipt.docEntry,
-                            documentLineId: item.lineId,
-                            documentTotal: item.amount,
-                            documentCurrency: item.currency,
-                            documentSummary: this.receipt.remarks,
+                        for (let method of ibas.servicesManager.getServices(<ibas.IServiceCaller<ibas.IServiceContract>>{
+                            category: item.mode,
+                            proxy: new ReceiptMethodProxy({
+                                businessPartnerType: this.receipt.businessPartnerType,
+                                businessPartnerCode: this.receipt.businessPartnerCode,
+                                documentType: this.receipt.objectCode,
+                                documentEntry: this.receipt.docEntry,
+                                documentLineId: item.lineId,
+                                documentTotal: item.amount,
+                                documentCurrency: item.currency,
+                                documentSummary: this.receipt.remarks,
+                            }),
                             onCompleted(opRslt: ibas.IOperationResult<IReceiptTradingMethod>): void {
                                 let trade: IReceiptTradingMethod = opRslt.resultObjects.firstOrDefault(c => c.id === item.tradeId);
                                 let trading: ReceiptTrading = new ReceiptTrading();
@@ -94,7 +89,14 @@ namespace receiptpayment {
                                     that.trade();
                                 }
                             }
-                        });
+                        })) {
+                            if (method instanceof ReceiptMethod) {
+                                if (method.noTrade) {
+                                    continue;
+                                }
+                            }
+                            method.run();
+                        }
                     }
                 } catch (error) {
                     this.messages(error);

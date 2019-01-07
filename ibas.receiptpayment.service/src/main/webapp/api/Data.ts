@@ -27,6 +27,42 @@ namespace receiptpayment {
     export namespace app {
         /** 配置项目-远程仓库的默认地址模板 */
         export const CONFIG_ITEM_TEMPLATE_TRADING_MODE_DISABLED: string = "disabledTradingMode|{0}";
+        /** 收款方式契约 */
+        export interface IReceiptMethodContract extends ibas.IServiceContract {
+            /** 业务伙伴类型 */
+            businessPartnerType: businesspartner.bo.emBusinessPartnerType;
+            /** 业务伙伴编码 */
+            businessPartnerCode: string;
+            /** 单据类型 */
+            documentType: string;
+            /** 单据编号 */
+            documentEntry: number;
+            /** 单据行号 */
+            documentLineId?: number;
+            /** 单据总计 */
+            documentTotal: number;
+            /** 单据货币 */
+            documentCurrency: string;
+            /** 单据摘要 */
+            documentSummary?: string;
+        }
+        /** 收款方式代理 */
+        export class ReceiptMethodProxy extends ibas.ServiceProxy<IReceiptMethodContract> {
+        }
+        /** 收款方式服务映射 */
+        export abstract class ReceiptMethodServiceMapping extends ibas.ServiceMapping {
+            constructor() {
+                super();
+                this.proxy = ReceiptMethodProxy;
+            }
+            get category(): string {
+                return this.name;
+            }
+            set category(value: string) {
+                this.name = value;
+            }
+            abstract create(): ibas.IService<ibas.IServiceContract>;
+        }
         /** 收款交易方式 */
         export interface IReceiptTradingMethod {
             /** 收款方式 */
@@ -44,8 +80,20 @@ namespace receiptpayment {
             /** 交易 */
             trade(amount: number): void | ibas.Waiter;
         }
-        /** 收款交易方式的调用者 */
-        export interface IReceiptTradingGetter extends ibas.IMethodCaller<IReceiptTradingMethod> {
+        /** 收款方式 */
+        export abstract class ReceiptMethod extends ibas.Element
+            implements ibas.IService<ibas.IServiceWithResultCaller<IReceiptMethodContract, ibas.IOperationResult<IReceiptTradingMethod>>> {
+            /** 启用 */
+            enabled: boolean;
+            /** 默认收款项目状态 */
+            defaultStatus?: ibas.emDocumentStatus;
+            /** 不需要进行交易 */
+            noTrade?: boolean;
+            /** 运行-获取可用交易方式 */
+            abstract run(caller: ibas.IServiceWithResultCaller<IReceiptMethodContract, ibas.IOperationResult<IReceiptTradingMethod>>): void;
+        }
+        /** 付款方式契约 */
+        export interface IPaymentMethodContract extends ibas.IServiceContract {
             /** 业务伙伴类型 */
             businessPartnerType: businesspartner.bo.emBusinessPartnerType;
             /** 业务伙伴编码 */
@@ -63,16 +111,22 @@ namespace receiptpayment {
             /** 单据摘要 */
             documentSummary?: string;
         }
-        /** 收款方式 */
-        export abstract class ReceiptMethod extends ibas.Element {
-            /** 启用 */
-            enabled: boolean;
-            /** 默认收款项目状态 */
-            defaultStatus?: ibas.emDocumentStatus;
-            /** 不需要进行交易 */
-            noTrade?: boolean;
-            /** 获取可用交易方式 */
-            abstract getTradings(caller: IReceiptTradingGetter): void;
+        /** 付款方式代理 */
+        export class PaymentMethodProxy extends ibas.ServiceProxy<IPaymentMethodContract> {
+        }
+        /** 付款方式服务映射 */
+        export abstract class PaymentMethodServiceMapping extends ibas.ServiceMapping {
+            constructor() {
+                super();
+                this.proxy = PaymentMethodProxy;
+            }
+            get category(): string {
+                return this.name;
+            }
+            set category(value: string) {
+                this.name = value;
+            }
+            abstract create(): ibas.IService<ibas.IServiceContract>;
         }
         /** 付款交易方式 */
         export interface IPaymentTradingMethod {
@@ -87,35 +141,17 @@ namespace receiptpayment {
             /** 可用金额 */
             amount: number;
         }
-        /** 付款交易方式的调用者 */
-        export interface IPaymentTradingGetter extends ibas.IMethodCaller<IPaymentTradingMethod> {
-            /** 业务伙伴类型 */
-            businessPartnerType: businesspartner.bo.emBusinessPartnerType;
-            /** 业务伙伴编码 */
-            businessPartnerCode: string;
-            /** 单据类型 */
-            documentType: string;
-            /** 单据编号 */
-            documentEntry: number;
-            /** 单据行号 */
-            documentLineId?: number;
-            /** 单据总计 */
-            documentTotal: number;
-            /** 单据货币 */
-            documentCurrency: string;
-            /** 单据摘要 */
-            documentSummary?: string;
-        }
         /** 付款方式 */
-        export abstract class PaymentMethod extends ibas.Element {
+        export abstract class PaymentMethod extends ibas.Element
+            implements ibas.IService<ibas.IServiceWithResultCaller<IPaymentMethodContract, ibas.IOperationResult<IPaymentTradingMethod>>> {
             /** 启用 */
             enabled: boolean;
             /** 默认付款项目状态 */
             defaultStatus?: ibas.emDocumentStatus;
             /** 不需要进行交易 */
             noTrade?: boolean;
-            /** 获取可用交易方式 */
-            abstract getTradings(caller: IPaymentTradingGetter): void;
+            /** 运行-获取可用交易方式 */
+            abstract run(caller: ibas.IServiceWithResultCaller<IPaymentMethodContract, ibas.IOperationResult<IPaymentTradingMethod>>): void;
         }
         /** 收款交易契约 */
         export interface IReceiptTradeContract extends ibas.IServiceContract {

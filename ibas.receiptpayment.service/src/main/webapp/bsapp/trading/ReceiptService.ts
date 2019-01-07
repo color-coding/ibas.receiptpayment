@@ -35,22 +35,24 @@ namespace receiptpayment {
                 // 视图加载完成
                 this.view.showBusinessPartner(this.businesspartner);
                 this.view.showTarget(this.target);
-                let methods: ibas.IList<ReceiptMethod> = receiptMethods();
-                this.view.showMethods(methods);
                 let that: this = this;
-                for (let item of methods) {
-                    item.getTradings({
+                let methods: ibas.IServiceAgent[] = ibas.servicesManager.getServices(<ibas.IServiceCaller<ibas.IServiceContract>>{
+                    proxy: new ReceiptMethodProxy({
                         businessPartnerType: this.businesspartner.type,
                         businessPartnerCode: this.businesspartner.code,
                         documentType: this.target.documentType,
                         documentEntry: this.target.documentEntry,
                         documentLineId: this.target.documentLineId,
                         documentTotal: this.target.total,
-                        documentCurrency: this.target.currency,
-                        onCompleted(opRslt: ibas.IOperationResult<IReceiptTradingMethod>): void {
-                            that.view.showTradingMethods(opRslt.resultObjects);
-                        }
-                    });
+                        documentCurrency: this.target.currency
+                    }),
+                    onCompleted(opRslt: ibas.IOperationResult<IReceiptTradingMethod>): void {
+                        that.view.showTradingMethods(opRslt.resultObjects);
+                    }
+                });
+                this.view.showMethods(methods);
+                for (let item of methods) {
+                    item.run();
                 }
                 this.showReceiptTradings();
             }
@@ -292,7 +294,7 @@ namespace receiptpayment {
             /** 显示收款目标 */
             showTarget(data: ReceiptTarget): void;
             /** 显示收款方式 */
-            showMethods(methods: ReceiptMethod[]): void;
+            showMethods(methods: ibas.IElement[]): void;
             /** 显示收款交易方式 */
             showTradingMethods(methods: IReceiptTradingMethod[]): void;
             /** 显示收款交易 */

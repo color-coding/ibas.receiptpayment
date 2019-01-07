@@ -7,38 +7,6 @@
  */
 namespace receiptpayment {
     export namespace app {
-        /** 收款方法 */
-        export function receiptMethods(): ibas.IList<ReceiptMethod> {
-            let methods: ibas.IList<ReceiptMethod> = new ibas.ArrayList<ReceiptMethod>();
-            for (let module of shell.app.consoleManager.modules()) {
-                for (let element of module.elements()) {
-                    if (!(ibas.objects.instanceOf(element, ReceiptMethod))) {
-                        continue;
-                    }
-                    if (!shell.app.privilegeManager.canRun(element)) {
-                        continue;
-                    }
-                    methods.add(<ReceiptMethod>element);
-                }
-            }
-            return methods;
-        }
-        /** 付款方法 */
-        export function paymentMethods(): ibas.IList<PaymentMethod> {
-            let methods: ibas.IList<PaymentMethod> = new ibas.ArrayList<PaymentMethod>();
-            for (let module of shell.app.consoleManager.modules()) {
-                for (let element of module.elements()) {
-                    if (!(ibas.objects.instanceOf(element, PaymentMethod))) {
-                        continue;
-                    }
-                    if (!shell.app.privilegeManager.canRun(element)) {
-                        continue;
-                    }
-                    methods.add(<PaymentMethod>element);
-                }
-            }
-            return methods;
-        }
         /** 收款交易方式 */
         export class ReceiptTradingMethod implements IReceiptTradingMethod {
             /** 收款方式 */
