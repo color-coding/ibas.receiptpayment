@@ -11,7 +11,7 @@ namespace receiptpayment {
             /**
              * 服务视图-等待交易
              */
-            export class WaitTradingServiceView extends ibas.BODialogView implements app.IWaitTradingServiceView {
+            export class WaitTradingServiceView extends ibas.DialogView implements app.IWaitTradingServiceView {
                 /** 完成事件 */
                 finishedEvent: Function;
                 /** 绘制视图 */

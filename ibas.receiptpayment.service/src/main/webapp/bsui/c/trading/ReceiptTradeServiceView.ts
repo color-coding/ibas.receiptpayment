@@ -11,7 +11,7 @@ namespace receiptpayment {
             /**
              * 服务视图-收款交易
              */
-            export class ReceiptTradeServiceView extends ibas.BODialogView implements app.IReceiptTradeServiceView {
+            export class ReceiptTradeServiceView extends ibas.DialogView implements app.IReceiptTradeServiceView {
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
