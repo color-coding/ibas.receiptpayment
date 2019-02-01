@@ -106,15 +106,10 @@ namespace receiptpayment {
             private trade(): void {
                 if (!ibas.objects.isNull(this.tradings) && this.tradings.length !== 0) {
                     let that: this = this;
-                    let tradings: Array<ReceiptTrading> = this.tradings.copyWithin(this.tradings.length, 0);
-                    let trade: Function = function (): void {
-                        that.showTradings(tradings);
-                        let trading: ReceiptTrading = tradings.pop();
-                        if (ibas.objects.isNull(trading)) {
-                            // 队列处理完成
-                        } else if (trading.trading.method.noTrade) {
+                    ibas.queues.execute(this.tradings, (trading, next) => {
+                        if (trading.trading.method.noTrade) {
                             // 不需要进行交易，处理下一条
-                            trade();
+                            next();
                         } else {
                             that.proceeding(ibas.emMessageType.INFORMATION,
                                 ibas.i18n.prop("receiptpayment_receipt_trading", trading.trading.description, trading.amount));
@@ -124,14 +119,20 @@ namespace receiptpayment {
                                     onCompleted(): void {
                                         that.proceeding(ibas.emMessageType.SUCCESS,
                                             ibas.i18n.prop("receiptpayment_receipt_traded", trading.trading.description, trading.amount));
-                                        trade();
+                                        next();
                                     }
                                 });
                                 waiter.start();
+                            } else {
+                                next();
                             }
                         }
-                    };
-                    trade();
+                    }, (error) => {
+                        if (error instanceof Error) {
+                            that.messages(error);
+                        }
+                        that.showTradings(that.tradings);
+                    });
                 } else {
                     this.showTradings(null);
                 }
