@@ -1,5 +1,6 @@
 package org.colorcoding.ibas.receiptpayment.bo.assetrecharge;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -1170,8 +1171,8 @@ public class AssetRecharge extends BusinessObject<AssetRecharge> implements IAss
 	 * 充值量 属性
 	 */
 	@DbField(name = "Amount", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_AMOUNT = registerProperty(PROPERTY_AMOUNT_NAME, Decimal.class,
-			MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_AMOUNT = registerProperty(PROPERTY_AMOUNT_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-充值量
@@ -1179,7 +1180,7 @@ public class AssetRecharge extends BusinessObject<AssetRecharge> implements IAss
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_AMOUNT_NAME)
-	public final Decimal getAmount() {
+	public final BigDecimal getAmount() {
 		return this.getProperty(PROPERTY_AMOUNT);
 	}
 
@@ -1188,7 +1189,7 @@ public class AssetRecharge extends BusinessObject<AssetRecharge> implements IAss
 	 * 
 	 * @param value 值
 	 */
-	public final void setAmount(Decimal value) {
+	public final void setAmount(BigDecimal value) {
 		this.setProperty(PROPERTY_AMOUNT, value);
 	}
 
@@ -1198,7 +1199,7 @@ public class AssetRecharge extends BusinessObject<AssetRecharge> implements IAss
 	 * @param value 值
 	 */
 	public final void setAmount(String value) {
-		this.setAmount(new Decimal(value));
+		this.setAmount(Decimal.valueOf(value));
 	}
 
 	/**
@@ -1207,7 +1208,7 @@ public class AssetRecharge extends BusinessObject<AssetRecharge> implements IAss
 	 * @param value 值
 	 */
 	public final void setAmount(int value) {
-		this.setAmount(new Decimal(value));
+		this.setAmount(Decimal.valueOf(value));
 	}
 
 	/**
@@ -1216,7 +1217,7 @@ public class AssetRecharge extends BusinessObject<AssetRecharge> implements IAss
 	 * @param value 值
 	 */
 	public final void setAmount(double value) {
-		this.setAmount(new Decimal(value));
+		this.setAmount(Decimal.valueOf(value));
 	}
 
 	/**
@@ -1336,7 +1337,7 @@ public class AssetRecharge extends BusinessObject<AssetRecharge> implements IAss
 				new BusinessRuleRequired(PROPERTY_BUSINESSPARTNERTYPE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_BUSINESSPARTNERCODE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_SERVICECODE), // 要求有值
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_AMOUNT), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_AMOUNT), // 不能低于0
 				new BusinessRuleMinValue<Integer>(0, PROPERTY_TIMES), // 不能低于0
 				new BusinessRuleRequiredElements(PROPERTY_ASSETRECHARGEITEMS), // 要求有元素
 				new BusinessRuleDocumentStatus(PROPERTY_DOCUMENTSTATUS, PROPERTY_ASSETRECHARGEITEMS,
@@ -1385,7 +1386,7 @@ public class AssetRecharge extends BusinessObject<AssetRecharge> implements IAss
 			}
 
 			@Override
-			public Decimal getAmount() {
+			public BigDecimal getAmount() {
 				return AssetRecharge.this.getAmount();
 			}
 

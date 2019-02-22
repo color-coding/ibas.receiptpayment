@@ -1,8 +1,9 @@
 package org.colorcoding.ibas.receiptpayment.bo.receipt;
 
+import java.math.BigDecimal;
+
 import org.colorcoding.ibas.bobas.bo.IBODocumentLine;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
@@ -23,8 +24,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-编码
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setDocEntry(Integer value);
 
@@ -38,8 +38,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-行号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setLineId(Integer value);
 
@@ -53,8 +52,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-显示顺序
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setVisOrder(Integer value);
 
@@ -68,8 +66,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setObjectCode(String value);
 
@@ -83,8 +80,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-实例号（版本）
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setLogInst(Integer value);
 
@@ -98,8 +94,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-数据源
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setDataSource(String value);
 
@@ -113,8 +108,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-取消
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCanceled(emYesNo value);
 
@@ -128,8 +122,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-状态
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setStatus(emBOStatus value);
 
@@ -143,8 +136,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-单据状态
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setLineStatus(emDocumentStatus value);
 
@@ -158,8 +150,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-创建日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateDate(DateTime value);
 
@@ -173,8 +164,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-创建时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateTime(Short value);
 
@@ -188,8 +178,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-修改日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateDate(DateTime value);
 
@@ -203,8 +192,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-修改时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateTime(Short value);
 
@@ -218,8 +206,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-创建用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateUserSign(Integer value);
 
@@ -233,8 +220,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-修改用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateUserSign(Integer value);
 
@@ -248,8 +234,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-创建动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateActionId(String value);
 
@@ -263,8 +248,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-更新动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateActionId(String value);
 
@@ -278,8 +262,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-参考1
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setReference1(String value);
 
@@ -293,8 +276,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-参考2
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setReference2(String value);
 
@@ -308,8 +290,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-已引用
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setReferenced(emYesNo value);
 
@@ -323,8 +304,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-已删除
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setDeleted(emYesNo value);
 
@@ -338,8 +318,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-基于类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setBaseDocumentType(String value);
 
@@ -353,8 +332,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-基于标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setBaseDocumentEntry(Integer value);
 
@@ -368,8 +346,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-基于行号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setBaseDocumentLineId(Integer value);
 
@@ -383,8 +360,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-原始类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setOriginalDocumentType(String value);
 
@@ -398,8 +374,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-原始标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setOriginalDocumentEntry(Integer value);
 
@@ -413,8 +388,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-原始行号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setOriginalDocumentLineId(Integer value);
 
@@ -428,8 +402,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-方式
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setMode(String value);
 
@@ -438,37 +411,33 @@ public interface IReceiptItem extends IBODocumentLine {
 	 * 
 	 * @return 值
 	 */
-	Decimal getAmount();
+	BigDecimal getAmount();
 
 	/**
 	 * 设置-金额
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
-	void setAmount(Decimal value);
+	void setAmount(BigDecimal value);
 
 	/**
 	 * 设置-金额
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setAmount(String value);
 
 	/**
 	 * 设置-金额
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setAmount(int value);
 
 	/**
 	 * 设置-金额
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setAmount(double value);
 
@@ -482,8 +451,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-货币
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCurrency(String value);
 
@@ -492,37 +460,33 @@ public interface IReceiptItem extends IBODocumentLine {
 	 * 
 	 * @return 值
 	 */
-	Decimal getRate();
+	BigDecimal getRate();
 
 	/**
 	 * 设置-汇率
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
-	void setRate(Decimal value);
+	void setRate(BigDecimal value);
 
 	/**
 	 * 设置-汇率
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setRate(String value);
 
 	/**
 	 * 设置-汇率
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setRate(int value);
 
 	/**
 	 * 设置-汇率
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setRate(double value);
 
@@ -536,8 +500,7 @@ public interface IReceiptItem extends IBODocumentLine {
 	/**
 	 * 设置-交易识别码
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setTradeId(String value);
 

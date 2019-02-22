@@ -1,5 +1,6 @@
 package org.colorcoding.ibas.receiptpayment.bo.receipt;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -941,8 +942,8 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	 * 金额 属性
 	 */
 	@DbField(name = "Amount", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_AMOUNT = registerProperty(PROPERTY_AMOUNT_NAME, Decimal.class,
-			MY_CLASS);
+	public static final IPropertyInfo<BigDecimal> PROPERTY_AMOUNT = registerProperty(PROPERTY_AMOUNT_NAME,
+			BigDecimal.class, MY_CLASS);
 
 	/**
 	 * 获取-金额
@@ -950,7 +951,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_AMOUNT_NAME)
-	public final Decimal getAmount() {
+	public final BigDecimal getAmount() {
 		return this.getProperty(PROPERTY_AMOUNT);
 	}
 
@@ -959,7 +960,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	 * 
 	 * @param value 值
 	 */
-	public final void setAmount(Decimal value) {
+	public final void setAmount(BigDecimal value) {
 		this.setProperty(PROPERTY_AMOUNT, value);
 	}
 
@@ -969,7 +970,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	 * @param value 值
 	 */
 	public final void setAmount(String value) {
-		this.setAmount(new Decimal(value));
+		this.setAmount(Decimal.valueOf(value));
 	}
 
 	/**
@@ -978,7 +979,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	 * @param value 值
 	 */
 	public final void setAmount(int value) {
-		this.setAmount(new Decimal(value));
+		this.setAmount(Decimal.valueOf(value));
 	}
 
 	/**
@@ -987,7 +988,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	 * @param value 值
 	 */
 	public final void setAmount(double value) {
-		this.setAmount(new Decimal(value));
+		this.setAmount(Decimal.valueOf(value));
 	}
 
 	/**
@@ -1030,7 +1031,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	 * 汇率 属性
 	 */
 	@DbField(name = "Rate", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<Decimal> PROPERTY_RATE = registerProperty(PROPERTY_RATE_NAME, Decimal.class,
+	public static final IPropertyInfo<BigDecimal> PROPERTY_RATE = registerProperty(PROPERTY_RATE_NAME, BigDecimal.class,
 			MY_CLASS);
 
 	/**
@@ -1039,7 +1040,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	 * @return 值
 	 */
 	@XmlElement(name = PROPERTY_RATE_NAME)
-	public final Decimal getRate() {
+	public final BigDecimal getRate() {
 		return this.getProperty(PROPERTY_RATE);
 	}
 
@@ -1048,7 +1049,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	 * 
 	 * @param value 值
 	 */
-	public final void setRate(Decimal value) {
+	public final void setRate(BigDecimal value) {
 		this.setProperty(PROPERTY_RATE, value);
 	}
 
@@ -1058,7 +1059,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	 * @param value 值
 	 */
 	public final void setRate(String value) {
-		this.setRate(new Decimal(value));
+		this.setRate(Decimal.valueOf(value));
 	}
 
 	/**
@@ -1067,7 +1068,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	 * @param value 值
 	 */
 	public final void setRate(int value) {
-		this.setRate(new Decimal(value));
+		this.setRate(Decimal.valueOf(value));
 	}
 
 	/**
@@ -1076,7 +1077,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	 * @param value 值
 	 */
 	public final void setRate(double value) {
-		this.setRate(new Decimal(value));
+		this.setRate(Decimal.valueOf(value));
 	}
 
 	/**
@@ -1123,8 +1124,8 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	protected IBusinessRule[] registerRules() {
 		return new IBusinessRule[] { // 注册的业务规则
 				new BusinessRuleRequired(PROPERTY_MODE), // 要求有值
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_AMOUNT), // 不能低于0
-				new BusinessRuleMinValue<Decimal>(Decimal.ZERO, PROPERTY_RATE), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_AMOUNT), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_RATE), // 不能低于0
 
 		};
 	}
@@ -1152,7 +1153,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 			}
 
 			@Override
-			public Decimal getAmount() {
+			public BigDecimal getAmount() {
 				return ReceiptItem.this.getAmount();
 			}
 
@@ -1162,7 +1163,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 			}
 
 			@Override
-			public Decimal getRate() {
+			public BigDecimal getRate() {
 				return ReceiptItem.this.getRate();
 			}
 		});
@@ -1184,7 +1185,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 			}
 
 			@Override
-			public Decimal getAmount() {
+			public BigDecimal getAmount() {
 				return ReceiptItem.this.getAmount();
 			}
 
@@ -1194,7 +1195,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 			}
 
 			@Override
-			public Decimal getRate() {
+			public BigDecimal getRate() {
 				return ReceiptItem.this.getRate();
 			}
 		});
@@ -1216,7 +1217,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 			}
 
 			@Override
-			public Decimal getAmount() {
+			public BigDecimal getAmount() {
 				return ReceiptItem.this.getAmount();
 			}
 
@@ -1226,7 +1227,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 			}
 
 			@Override
-			public Decimal getRate() {
+			public BigDecimal getRate() {
 				return ReceiptItem.this.getRate();
 			}
 		});
@@ -1244,7 +1245,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 				}
 
 				@Override
-				public Decimal getAmount() {
+				public BigDecimal getAmount() {
 					return ReceiptItem.this.getAmount();
 				}
 

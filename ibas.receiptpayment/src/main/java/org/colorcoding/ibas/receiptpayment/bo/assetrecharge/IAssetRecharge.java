@@ -1,8 +1,9 @@
 package org.colorcoding.ibas.receiptpayment.bo.assetrecharge;
 
+import java.math.BigDecimal;
+
 import org.colorcoding.ibas.bobas.bo.IBODocument;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
@@ -25,8 +26,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-凭证编号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setDocEntry(Integer value);
 
@@ -40,8 +40,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-期间编号
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setDocNum(Integer value);
 
@@ -55,8 +54,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-期间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setPeriod(Integer value);
 
@@ -70,8 +68,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-取消
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCanceled(emYesNo value);
 
@@ -85,8 +82,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-状态
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setStatus(emBOStatus value);
 
@@ -100,8 +96,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-审批状态
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setApprovalStatus(emApprovalStatus value);
 
@@ -115,8 +110,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-单据状态
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setDocumentStatus(emDocumentStatus value);
 
@@ -130,8 +124,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-对象类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setObjectCode(String value);
 
@@ -145,8 +138,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-创建日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateDate(DateTime value);
 
@@ -160,8 +152,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-创建时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateTime(Short value);
 
@@ -175,8 +166,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-修改日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateDate(DateTime value);
 
@@ -190,8 +180,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-修改时间
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateTime(Short value);
 
@@ -205,8 +194,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-版本
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setLogInst(Integer value);
 
@@ -220,8 +208,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-服务系列
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setSeries(Integer value);
 
@@ -235,8 +222,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-数据源
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setDataSource(String value);
 
@@ -250,8 +236,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-创建用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateUserSign(Integer value);
 
@@ -265,8 +250,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-修改用户
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateUserSign(Integer value);
 
@@ -280,8 +264,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-创建动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setCreateActionId(String value);
 
@@ -295,8 +278,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-更新动作标识
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setUpdateActionId(String value);
 
@@ -310,8 +292,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-数据所有者
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setDataOwner(Integer value);
 
@@ -325,8 +306,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-团队成员
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setTeamMembers(String value);
 
@@ -340,8 +320,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-数据所属组织
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setOrganization(String value);
 
@@ -355,8 +334,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-过账日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setPostingDate(DateTime value);
 
@@ -370,8 +348,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-到期日
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setDeliveryDate(DateTime value);
 
@@ -385,8 +362,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-凭证日期
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setDocumentDate(DateTime value);
 
@@ -400,8 +376,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-参考1
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setReference1(String value);
 
@@ -415,8 +390,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-参考2
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setReference2(String value);
 
@@ -430,8 +404,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-备注
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setRemarks(String value);
 
@@ -445,8 +418,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-已引用
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setReferenced(emYesNo value);
 
@@ -460,8 +432,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-已删除
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setDeleted(emYesNo value);
 
@@ -475,8 +446,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-业务伙伴类型
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setBusinessPartnerType(emBusinessPartnerType value);
 
@@ -490,8 +460,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-业务伙伴代码
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setBusinessPartnerCode(String value);
 
@@ -505,8 +474,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-业务伙伴名称
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setBusinessPartnerName(String value);
 
@@ -520,8 +488,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-联系人
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setContactPerson(Integer value);
 
@@ -535,8 +502,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-业务伙伴资产码
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setServiceCode(String value);
 
@@ -545,37 +511,33 @@ public interface IAssetRecharge extends IBODocument {
 	 * 
 	 * @return 值
 	 */
-	Decimal getAmount();
+	BigDecimal getAmount();
 
 	/**
 	 * 设置-充值量
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
-	void setAmount(Decimal value);
+	void setAmount(BigDecimal value);
 
 	/**
 	 * 设置-充值量
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setAmount(String value);
 
 	/**
 	 * 设置-充值量
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setAmount(int value);
 
 	/**
 	 * 设置-充值量
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setAmount(double value);
 
@@ -589,8 +551,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-充值次数
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setTimes(Integer value);
 
@@ -604,8 +565,7 @@ public interface IAssetRecharge extends IBODocument {
 	/**
 	 * 设置-资产充值-项目集合
 	 * 
-	 * @param value
-	 *            值
+	 * @param value 值
 	 */
 	void setAssetRechargeItems(IAssetRechargeItems value);
 

@@ -1,10 +1,11 @@
 package org.colorcoding.ibas.receiptpayment.test;
 
+import java.math.BigDecimal;
+
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.organization.OrganizationFactory;
 import org.colorcoding.ibas.bobas.repository.InvalidTokenException;
 import org.colorcoding.ibas.businesspartner.bo.businesspartnerasset.IBusinessPartnerAsset;
@@ -56,7 +57,7 @@ public class TestAssetRecharge extends TestCase {
 		System.out.println(String.format("new item: %s", rechargeItem.toString()));
 		// 测试属性赋值
 
-		Decimal firstValue = this.getBpAssetAmount(assetId);
+		BigDecimal firstValue = this.getBpAssetAmount(assetId);
 		// 测试对象的保存和查询
 		IOperationResult<?> operationResult = null;
 		ICriteria criteria = null;
@@ -69,7 +70,7 @@ public class TestAssetRecharge extends TestCase {
 		assertEquals(operationResult.getMessage(), operationResult.getResultCode(), 0);
 		AssetRecharge boSaved = (AssetRecharge) operationResult.getResultObjects().firstOrDefault();
 
-		Decimal secondValue = this.getBpAssetAmount(assetId);
+		BigDecimal secondValue = this.getBpAssetAmount(assetId);
 		// 测试查询
 		criteria = boSaved.getCriteria();
 		operationResult = boRepository.fetchAssetRecharge(criteria);
@@ -81,7 +82,7 @@ public class TestAssetRecharge extends TestCase {
 		operationResult = boRepository.saveAssetRecharge(boSaved);
 		assertEquals(operationResult.getMessage(), operationResult.getResultCode(), 0);
 
-		Decimal thirdValue = this.getBpAssetAmount(assetId);
+		BigDecimal thirdValue = this.getBpAssetAmount(assetId);
 
 		System.out.println(String.format("%s  %s  %s", firstValue, secondValue, thirdValue));
 	}
@@ -104,7 +105,7 @@ public class TestAssetRecharge extends TestCase {
 				salesOrderItem.getPrice()));
 	}
 
-	private Decimal getBpAssetAmount(String code) throws InvalidTokenException {
+	private BigDecimal getBpAssetAmount(String code) throws InvalidTokenException {
 		IBORepositoryBusinessPartnerApp boRepository = new BORepositoryBusinessPartner();
 		boRepository.setUserToken(this.getToken());
 		ICriteria criteria = new Criteria();
