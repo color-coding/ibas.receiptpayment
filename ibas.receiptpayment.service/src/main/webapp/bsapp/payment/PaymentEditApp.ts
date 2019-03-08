@@ -37,6 +37,7 @@ namespace receiptpayment {
                 this.view.choosePaymentItemPurchaseOrderEvent = this.choosePaymentItemPurchaseOrder;
                 this.view.choosePaymentItemPurchaseDeliveryEvent = this.choosePaymentItemPurchaseDelivery;
                 this.view.choosePaymentItemSalesReturnEvent = this.choosePaymentItemSalesReturn;
+                this.view.choosePaymentItemReceiptEvent = this.choosePaymentItemReceipt;
                 this.view.choosePaymentItemModeTradeIdEvent = this.choosePaymentItemModeTradeId;
             }
             /** 视图显示后 */
@@ -268,6 +269,7 @@ namespace receiptpayment {
                 condition.operation = ibas.emConditionOperation.NOT_EQUAL;
                 condition.value = ibas.emDocumentStatus.CLOSED.toString();
                 // 当前供应商的
+                condition = criteria.conditions.create();
                 condition.alias = "SupplierCode";
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = this.editData.businessPartnerCode;
@@ -322,6 +324,7 @@ namespace receiptpayment {
                 condition.operation = ibas.emConditionOperation.NOT_EQUAL;
                 condition.value = ibas.emDocumentStatus.CLOSED.toString();
                 // 当前供应商的
+                condition = criteria.conditions.create();
                 condition.alias = "SupplierCode";
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = this.editData.businessPartnerCode;
@@ -344,6 +347,63 @@ namespace receiptpayment {
                             item.baseDocumentLineId = -1;
                             item.amount = selected.documentTotal - selected.paidTotal;
                             item.currency = selected.documentCurrency;
+                        }
+                        that.view.showPaymentItems(that.editData.paymentItems.filterDeleted());
+                    }
+                });
+            }
+            /** 选择付款项目-收款 */
+            private choosePaymentItemReceipt(): void {
+                if (ibas.objects.isNull(this.editData) || ibas.strings.isEmpty(this.editData.businessPartnerCode)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                        ibas.i18n.prop("bo_payment_businesspartnercode")
+                    ));
+                    return;
+                }
+                let criteria: ibas.ICriteria = new ibas.Criteria();
+                let condition: ibas.ICondition = criteria.conditions.create();
+                // 未取消的
+                condition.alias = ibas.BO_PROPERTY_NAME_CANCELED;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emYesNo.NO.toString();
+                // 未删除的
+                condition = criteria.conditions.create();
+                condition.alias = ibas.BO_PROPERTY_NAME_DELETED;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emYesNo.NO.toString();
+                // 当前业务伙伴
+                condition = criteria.conditions.create();
+                condition.alias = bo.Receipt.PROPERTY_BUSINESSPARTNERTYPE_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = this.editData.businessPartnerType.toString();
+                condition = criteria.conditions.create();
+                condition.alias = bo.Receipt.PROPERTY_BUSINESSPARTNERCODE_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = this.editData.businessPartnerCode;
+                // 调用选择服务
+                let that: this = this;
+                ibas.servicesManager.runChooseService<bo.IReceipt>({
+                    boCode: bo.Receipt.BUSINESS_OBJECT_CODE,
+                    chooseType: ibas.emChooseType.MULTIPLE,
+                    criteria: criteria,
+                    onCompleted(selecteds: ibas.IList<bo.IReceipt>): void {
+                        for (let selected of selecteds) {
+                            for (let rItem of selected.receiptItems) {
+                                let item: bo.PaymentItem = that.editData.paymentItems.create();
+                                item.baseDocumentType = selected.objectCode;
+                                item.baseDocumentEntry = selected.docEntry;
+                                item.baseDocumentLineId = rItem.lineId;
+                                item.originalDocumentType = rItem.baseDocumentType;
+                                item.originalDocumentEntry = rItem.baseDocumentEntry;
+                                item.originalDocumentLineId = rItem.baseDocumentLineId;
+                                item.amount = rItem.amount;
+                                item.currency = rItem.currency;
+                                item.rate = rItem.rate;
+                                item.tradeId = rItem.tradeId;
+                                item.mode = rItem.mode;
+                                item.reference1 = rItem.reference1;
+                                item.reference2 = rItem.reference2;
+                            }
                         }
                         that.view.showPaymentItems(that.editData.paymentItems.filterDeleted());
                     }
@@ -446,6 +506,8 @@ namespace receiptpayment {
             choosePaymentItemPurchaseDeliveryEvent: Function;
             /** 选择付款项目-销售退货 */
             choosePaymentItemSalesReturnEvent: Function;
+            /** 选择付款项目-收款 */
+            choosePaymentItemReceiptEvent: Function;
             /** 选择付款方式项目 */
             choosePaymentItemModeTradeIdEvent: Function;
         }

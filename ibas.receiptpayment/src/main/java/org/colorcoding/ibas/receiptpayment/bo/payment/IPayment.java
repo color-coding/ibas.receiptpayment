@@ -577,6 +577,48 @@ public interface IPayment extends IBODocument {
 	void setDocumentTotal(double value);
 
 	/**
+	 * 获取-项目代码
+	 * 
+	 * @return 值
+	 */
+	String getProject();
+
+	/**
+	 * 设置-项目代码
+	 * 
+	 * @param value 值
+	 */
+	void setProject(String value);
+
+	/**
+	 * 获取-终端客户
+	 * 
+	 * @return 值
+	 */
+	String getConsumer();
+
+	/**
+	 * 设置-终端客户
+	 * 
+	 * @param value 值
+	 */
+	void setConsumer(String value);
+
+	/**
+	 * 获取-单据类型
+	 * 
+	 * @return 值
+	 */
+	String getOrderType();
+
+	/**
+	 * 设置-单据类型
+	 * 
+	 * @param value 值
+	 */
+	void setOrderType(String value);
+
+	/**
 	 * 获取-付款-项目集合
 	 * 
 	 * @return 值

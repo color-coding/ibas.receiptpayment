@@ -110,6 +110,7 @@ namespace receiptpayment {
                                     wrapping: false
                                 }).bindProperty("text", {
                                     path: "amount",
+                                    type: new openui5.datatype.Sum(),
                                 })
                             }),
                             new sap.ui.table.Column("", {
@@ -118,6 +119,7 @@ namespace receiptpayment {
                                     wrapping: false
                                 }).bindProperty("text", {
                                     path: "times",
+                                    type: new openui5.datatype.Numeric(),
                                 })
                             }),
                             new sap.ui.table.Column("", {

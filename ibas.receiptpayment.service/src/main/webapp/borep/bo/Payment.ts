@@ -423,6 +423,28 @@ namespace receiptpayment {
                 this.setProperty(Payment.PROPERTY_DOCUMENTTOTAL_NAME, value);
             }
 
+            /** 映射的属性名称-项目代码 */
+            static PROPERTY_PROJECT_NAME: string = "Project";
+            /** 获取-项目代码 */
+            get project(): string {
+                return this.getProperty<string>(Payment.PROPERTY_PROJECT_NAME);
+            }
+            /** 设置-项目代码 */
+            set project(value: string) {
+                this.setProperty(Payment.PROPERTY_PROJECT_NAME, value);
+            }
+
+            /** 映射的属性名称-终端客户 */
+            static PROPERTY_CONSUMER_NAME: string = "Consumer";
+            /** 获取-终端客户 */
+            get consumer(): string {
+                return this.getProperty<string>(Payment.PROPERTY_CONSUMER_NAME);
+            }
+            /** 设置-终端客户 */
+            set consumer(value: string) {
+                this.setProperty(Payment.PROPERTY_CONSUMER_NAME, value);
+            }
+
             /** 映射的属性名称-单据类型 */
             static PROPERTY_ORDERTYPE_NAME: string = "OrderType";
             /** 获取-单据类型 */
@@ -433,7 +455,6 @@ namespace receiptpayment {
             set orderType(value: string) {
                 this.setProperty(Payment.PROPERTY_ORDERTYPE_NAME, value);
             }
-
 
             /** 映射的属性名称-付款-项目集合 */
             static PROPERTY_PAYMENTITEMS_NAME: string = "PaymentItems";

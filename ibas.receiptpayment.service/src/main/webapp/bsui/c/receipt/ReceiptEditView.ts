@@ -232,7 +232,8 @@ namespace receiptpayment {
                                 template: new sap.m.Input("", {
                                     width: "100%",
                                 }).bindProperty("value", {
-                                    path: "amount"
+                                    path: "amount",
+                                    type: new openui5.datatype.Sum(),
                                 })
                             }),
                             new sap.ui.table.Column("", {

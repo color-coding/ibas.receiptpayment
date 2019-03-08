@@ -28,6 +28,8 @@ namespace receiptpayment {
                 choosePaymentItemPurchaseDeliveryEvent: Function;
                 /** 选择付款项目-销售退货 */
                 choosePaymentItemSalesReturnEvent: Function;
+                /** 选择付款项目-收款 */
+                choosePaymentItemReceiptEvent: Function;
                 /** 选择付款方式项目 */
                 choosePaymentItemModeTradeIdEvent: Function;
 
@@ -152,6 +154,12 @@ namespace receiptpayment {
                                                     that.fireViewEvents(that.choosePaymentItemSalesReturnEvent);
                                                 }
                                             }),
+                                            new sap.m.MenuItem("", {
+                                                text: ibas.i18n.prop("receiptpayment_receipt"),
+                                                press: function (): void {
+                                                    that.fireViewEvents(that.choosePaymentItemReceiptEvent);
+                                                }
+                                            }),
                                         ]
                                     })
                                 }),
@@ -232,7 +240,8 @@ namespace receiptpayment {
                                 template: new sap.m.Input("", {
                                     width: "100%",
                                 }).bindProperty("value", {
-                                    path: "amount"
+                                    path: "amount",
+                                    type: new openui5.datatype.Sum(),
                                 })
                             }),
                             new sap.ui.table.Column("", {

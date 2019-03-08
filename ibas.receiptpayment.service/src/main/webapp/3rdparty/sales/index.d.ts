@@ -409,7 +409,7 @@ declare namespace sales {
             diffAmount: number;
             /** 项目代码 */
             project: string;
-            /** 消费者 */
+            /** 终端客户 */
             consumer: string;
             /** 单据类型 */
             orderType: string;
@@ -651,7 +651,7 @@ declare namespace sales {
             diffAmount: number;
             /** 项目代码 */
             project: string;
-            /** 消费者 */
+            /** 终端客户 */
             consumer: string;
             /** 单据类型 */
             orderType: string;
@@ -951,7 +951,7 @@ declare namespace sales {
             diffAmount: number;
             /** 项目代码 */
             project: string;
-            /** 消费者 */
+            /** 终端客户 */
             consumer: string;
             /** 单据类型 */
             orderType: string;
@@ -1193,7 +1193,7 @@ declare namespace sales {
             diffAmount: number;
             /** 项目代码 */
             project: string;
-            /** 消费者 */
+            /** 终端客户 */
             consumer: string;
             /** 单据类型 */
             orderType: string;
@@ -2288,10 +2288,10 @@ declare namespace sales {
             /** 获取-项目代码 */
             /** 设置-项目代码 */
             project: string;
-            /** 映射的属性名称-消费者 */
+            /** 映射的属性名称-终端客户 */
             static PROPERTY_CONSUMER_NAME: string;
-            /** 获取-消费者 */
-            /** 设置-消费者 */
+            /** 获取-终端客户 */
+            /** 设置-终端客户 */
             consumer: string;
             /** 映射的属性名称-单据类型 */
             static PROPERTY_ORDERTYPE_NAME: string;
@@ -2899,10 +2899,10 @@ declare namespace sales {
             /** 获取-项目代码 */
             /** 设置-项目代码 */
             project: string;
-            /** 映射的属性名称-消费者 */
+            /** 映射的属性名称-终端客户 */
             static PROPERTY_CONSUMER_NAME: string;
-            /** 获取-消费者 */
-            /** 设置-消费者 */
+            /** 获取-终端客户 */
+            /** 设置-终端客户 */
             consumer: string;
             /** 映射的属性名称-单据类型 */
             static PROPERTY_ORDERTYPE_NAME: string;
@@ -3647,10 +3647,10 @@ declare namespace sales {
             /** 获取-项目代码 */
             /** 设置-项目代码 */
             project: string;
-            /** 映射的属性名称-消费者 */
+            /** 映射的属性名称-终端客户 */
             static PROPERTY_CONSUMER_NAME: string;
-            /** 获取-消费者 */
-            /** 设置-消费者 */
+            /** 获取-终端客户 */
+            /** 设置-终端客户 */
             consumer: string;
             /** 映射的属性名称-单据类型 */
             static PROPERTY_ORDERTYPE_NAME: string;
@@ -4371,10 +4371,10 @@ declare namespace sales {
             /** 获取-项目代码 */
             /** 设置-项目代码 */
             project: string;
-            /** 映射的属性名称-消费者 */
+            /** 映射的属性名称-终端客户 */
             static PROPERTY_CONSUMER_NAME: string;
-            /** 获取-消费者 */
-            /** 设置-消费者 */
+            /** 获取-终端客户 */
+            /** 设置-终端客户 */
             consumer: string;
             /** 映射的属性名称-单据类型 */
             static PROPERTY_ORDERTYPE_NAME: string;
@@ -7601,7 +7601,6 @@ declare namespace sales {
         class Console extends ibas.ModuleConsole {
             /** 构造函数 */
             constructor();
-            private _navigation;
             /** 创建视图导航 */
             navigation(): ibas.IViewNavigation;
             /** 初始化 */

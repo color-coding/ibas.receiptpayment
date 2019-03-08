@@ -56,7 +56,7 @@ namespace receiptpayment {
                                 path: "documentType",
                                 formatter(data: any): any {
                                     try {
-                                        let name: string = ibas.objects.getName(ibas.boFactory.classOf(data));
+                                        let name: string = ibas.objects.nameOf(ibas.boFactory.classOf(data));
                                         let description: string = ibas.i18n.prop(ibas.strings.format("bo_{0}", name).toLowerCase());
                                         if (!description.startsWith("[") && !description.endsWith("]")) {
                                             return description;
@@ -100,6 +100,7 @@ namespace receiptpayment {
                                 textAlign: sap.ui.core.TextAlign.Right,
                             }).bindProperty("text", {
                                 path: "total",
+                                type: new openui5.datatype.Sum(),
                             }),
                             new sap.m.Label("", {
                                 width: "auto",
@@ -115,6 +116,7 @@ namespace receiptpayment {
                     });
                     this.paid_input = new sap.m.Input("", {
                         width: "auto",
+                        type: sap.m.InputType.Number,
                         textAlign: sap.ui.core.TextAlign.Right,
                         placeholder: ibas.i18n.prop("receiptpaymentt_please_input_paid_amount"),
                     });

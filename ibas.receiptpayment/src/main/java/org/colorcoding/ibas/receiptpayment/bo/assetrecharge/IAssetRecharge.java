@@ -556,6 +556,20 @@ public interface IAssetRecharge extends IBODocument {
 	void setTimes(Integer value);
 
 	/**
+	 * 获取-单据类型
+	 * 
+	 * @return 值
+	 */
+	String getOrderType();
+
+	/**
+	 * 设置-单据类型
+	 * 
+	 * @param value 值
+	 */
+	void setOrderType(String value);
+
+	/**
 	 * 获取-资产充值-项目集合
 	 * 
 	 * @return 值

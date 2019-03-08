@@ -264,6 +264,7 @@ namespace receiptpayment {
                 condition.operation = ibas.emConditionOperation.NOT_EQUAL;
                 condition.value = ibas.emDocumentStatus.CLOSED.toString();
                 // 当前客户的
+                condition = criteria.conditions.create();
                 condition.alias = "CustomerCode";
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = this.editData.businessPartnerCode;
@@ -318,6 +319,7 @@ namespace receiptpayment {
                 condition.operation = ibas.emConditionOperation.NOT_EQUAL;
                 condition.value = ibas.emDocumentStatus.CLOSED.toString();
                 // 当前客户的
+                condition = criteria.conditions.create();
                 condition.alias = "CustomerCode";
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = this.editData.businessPartnerCode;

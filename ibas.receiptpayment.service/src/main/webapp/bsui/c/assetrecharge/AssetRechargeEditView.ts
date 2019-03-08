@@ -70,11 +70,13 @@ namespace receiptpayment {
                             new sap.m.Input("", {
                             }).bindProperty("value", {
                                 path: "amount",
+                                type: new openui5.datatype.Sum(),
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrecharge_times") }),
                             new sap.m.Input("", {
                             }).bindProperty("value", {
                                 path: "times",
+                                type: new openui5.datatype.Numeric(),
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrecharge_ordertype") }),
                             new sap.m.ex.SmartField("", {
@@ -186,7 +188,8 @@ namespace receiptpayment {
                                 template: new sap.m.Input("", {
                                     width: "100%",
                                 }).bindProperty("value", {
-                                    path: "amount"
+                                    path: "amount",
+                                    type: new openui5.datatype.Sum(),
                                 })
                             }),
                             new sap.ui.table.Column("", {
