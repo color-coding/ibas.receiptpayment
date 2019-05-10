@@ -3762,6 +3762,8 @@ declare namespace purchase {
             private choosePurchaseDeliveryItemMaterialSerial;
             /** 选择采购收货-采购订单事件 */
             private choosePurchaseDeliveryPurchaseOrder;
+            /** 选择联系人 */
+            private choosePurchaseDeliveryContactPerson;
             private editShippingAddresses;
         }
         /** 视图-采购收货 */
@@ -3778,6 +3780,8 @@ declare namespace purchase {
             removePurchaseDeliveryItemEvent: Function;
             /** 选择采购收货供应商信息 */
             choosePurchaseDeliverySupplierEvent: Function;
+            /** 选择采购收货联系人信息 */
+            choosePurchaseDeliveryContactPersonEvent: Function;
             /** 选择采购收货价格清单信息 */
             choosePurchaseDeliveryPriceListEvent: Function;
             /** 选择采购收货-行物料主数据 */
@@ -4009,6 +4013,8 @@ declare namespace purchase {
             private choosePurchaseOrderItemMaterialSerial;
             /** 选择采购订单-采购报价事件 */
             private choosePurchaseOrderPurchaseQuote;
+            /** 选择联系人 */
+            private choosePurchaseOrderContactPerson;
             private editShippingAddresses;
         }
         /** 视图-采购订单 */
@@ -4025,6 +4031,8 @@ declare namespace purchase {
             removePurchaseOrderItemEvent: Function;
             /** 选择采购订单供应商信息 */
             choosePurchaseOrderSupplierEvent: Function;
+            /** 选择采购订单联系人信息 */
+            choosePurchaseOrderContactPersonEvent: Function;
             /** 选择采购订单价格清单信息 */
             choosePurchaseOrderPriceListEvent: Function;
             /** 选择采购订单-行物料主数据 */
@@ -4258,6 +4266,8 @@ declare namespace purchase {
             private choosePurchaseReturnPurchaseOrder;
             /** 选择采购退货项目-采购收货事件 */
             private choosePurchaseReturnPurchaseDelivery;
+            /** 选择联系人 */
+            private choosePurchaseReturnContactPerson;
             private editShippingAddresses;
         }
         /** 视图-采购退货 */
@@ -4274,6 +4284,8 @@ declare namespace purchase {
             removePurchaseReturnItemEvent: Function;
             /** 选择采购退货供应商信息 */
             choosePurchaseReturnSupplierEvent: Function;
+            /** 选择采购退货联系人信息 */
+            choosePurchaseReturnContactPersonEvent: Function;
             /** 选择采购退货价格清单信息 */
             choosePurchaseReturnPriceListEvent: Function;
             /** 选择采购退货-行物料主数据 */
@@ -4467,7 +4479,7 @@ declare namespace purchase {
  */
 declare namespace purchase {
     namespace app {
-        /** 编辑应用-采购订单 */
+        /** 编辑应用-采购报价 */
         class PurchaseQuoteEditApp extends ibas.BOEditApplication<IPurchaseQuoteEditView, bo.PurchaseQuote> {
             /** 应用标识 */
             static APPLICATION_ID: string;
@@ -4497,12 +4509,14 @@ declare namespace purchase {
             private choosePurchaseQuotePriceList;
             private choosePurchaseQuoteItemWarehouse;
             private choosePurchaseQuoteItemMaterial;
-            /** 添加采购订单-行事件 */
+            /** 添加采购报价-行事件 */
             private addPurchaseQuoteItem;
-            /** 删除采购订单-行事件 */
+            /** 删除采购报价-行事件 */
             private removePurchaseQuoteItem;
+            /** 选择联系人 */
+            private choosePurchaseQuoteContactPerson;
         }
-        /** 视图-采购订单 */
+        /** 视图-采购报价 */
         interface IPurchaseQuoteEditView extends ibas.IBOEditView {
             /** 显示数据 */
             showPurchaseQuote(data: bo.PurchaseQuote): void;
@@ -4510,17 +4524,19 @@ declare namespace purchase {
             deleteDataEvent: Function;
             /** 新建数据事件，参数1：是否克隆 */
             createDataEvent: Function;
-            /** 添加采购订单-行事件 */
+            /** 添加采购报价-行事件 */
             addPurchaseQuoteItemEvent: Function;
-            /** 删除采购订单-行事件 */
+            /** 删除采购报价-行事件 */
             removePurchaseQuoteItemEvent: Function;
-            /** 选择采购订单供应商信息 */
+            /** 选择采购报价供应商信息 */
             choosePurchaseQuoteSupplierEvent: Function;
-            /** 选择采购订单价格清单信息 */
+            /** 选择采购报价联系人信息 */
+            choosePurchaseQuoteContactPersonEvent: Function;
+            /** 选择采购报价价格清单信息 */
             choosePurchaseQuotePriceListEvent: Function;
-            /** 选择采购订单-行物料主数据 */
+            /** 选择采购报价-行物料主数据 */
             choosePurchaseQuoteItemMaterialEvent: Function;
-            /** 选择采购订单-行 仓库 */
+            /** 选择采购报价-行 仓库 */
             choosePurchaseQuoteItemWarehouseEvent: Function;
             /** 显示数据 */
             showPurchaseQuoteItems(datas: bo.PurchaseQuoteItem[]): void;

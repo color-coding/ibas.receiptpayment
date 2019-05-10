@@ -961,7 +961,7 @@ declare namespace sales {
             shippingAddresss: IShippingAddresss;
             /** 基于销售订单 */
             baseDocument(document: ISalesOrder): void;
-            /** 基于销售收货 */
+            /** 基于销售交货 */
             baseDocument(document: ISalesDelivery): void;
         }
         /** 销售退货-行 集合 */
@@ -4415,7 +4415,7 @@ declare namespace sales {
             afterParsing(): void;
             /** 基于销售订单 */
             baseDocument(document: ISalesOrder): void;
-            /** 基于销售收货 */
+            /** 基于销售交货 */
             baseDocument(document: ISalesDelivery): void;
         }
         /** 销售退货-行 集合 */
@@ -6041,9 +6041,11 @@ declare namespace sales {
             private chooseSalesDeliveryLineMaterialBatch;
             /** 选择销售交货序列事件 */
             private chooseSalesDeliveryLineMaterialSerial;
-            /** 选择销售收货-销售订单事件 */
+            /** 选择销售交货-销售订单事件 */
             private chooseSalesDeliverySalesOrder;
             private receiptSalesDelivery;
+            /** 选择联系人 */
+            private chooseSalesDeliveryContactPerson;
             private editShippingAddresses;
         }
         /** 视图-销售交货 */
@@ -6062,6 +6064,8 @@ declare namespace sales {
             showSalesDeliveryItems(datas: bo.SalesDeliveryItem[]): void;
             /** 选择销售交货客户事件 */
             chooseSalesDeliveryCustomerEvent: Function;
+            /** 选择销售交货联系人信息 */
+            chooseSalesDeliveryContactPersonEvent: Function;
             /** 选择销售交货价格清单事件 */
             chooseSalesDeliveryPriceListEvent: Function;
             /** 选择销售交货物料事件 */
@@ -6298,6 +6302,8 @@ declare namespace sales {
             /** 选择销售订单-销售报价事件 */
             private chooseSalesOrderSalesQuote;
             private receiptSalesOrder;
+            /** 选择联系人 */
+            private chooseSalesOrderContactPerson;
             private editShippingAddresses;
             private showSaleOrderItemExtra;
         }
@@ -6317,6 +6323,8 @@ declare namespace sales {
             showSalesOrderItems(datas: bo.SalesOrderItem[]): void;
             /** 选择销售订单客户事件 */
             chooseSalesOrderCustomerEvent: Function;
+            /** 选择销售订单联系人信息 */
+            chooseSalesOrderContactPersonEvent: Function;
             /** 选择销售订单价格清单事件 */
             chooseSalesOrderPriceListEvent: Function;
             /** 选择销售订单行物料事件 */
@@ -6601,8 +6609,10 @@ declare namespace sales {
             private createSalesReturnLineMaterialSerial;
             /** 选择销售退货项目-销售订单事件 */
             private chooseSalesReturnSalesOrder;
-            /** 选择销售退货项目-销售收货事件 */
+            /** 选择销售退货项目-销售交货事件 */
             private chooseSalesReturnSalesDelivery;
+            /** 选择联系人 */
+            private chooseSalesReturnContactPerson;
             private editShippingAddresses;
         }
         /** 视图-销售退货 */
@@ -6621,6 +6631,8 @@ declare namespace sales {
             showSalesReturnItems(datas: bo.SalesReturnItem[]): void;
             /** 选择销售退货客户事件 */
             chooseSalesReturnCustomerEvent: Function;
+            /** 选择销售退货联系人信息 */
+            chooseSalesReturnContactPersonEvent: Function;
             /** 选择销售退货价格清单事件 */
             chooseSalesReturnPriceListEvent: Function;
             /** 选择销售退货物料事件 */
@@ -6850,6 +6862,8 @@ declare namespace sales {
             private removeSalesQuoteItem;
             /** 选择销售交货行仓库事件 */
             private chooseSalesQuoteItemWarehouse;
+            /** 选择联系人 */
+            private chooseSalesQuoteContactPerson;
             private showSalesQuoteItemExtra;
         }
         /** 视图-销售报价 */
@@ -6868,6 +6882,8 @@ declare namespace sales {
             showSalesQuoteItems(datas: bo.SalesQuoteItem[]): void;
             /** 选择销售报价客户事件 */
             chooseSalesQuoteCustomerEvent: Function;
+            /** 选择销售报价联系人信息 */
+            chooseSalesQuoteContactPersonEvent: Function;
             /** 选择销售报价价格清单事件 */
             chooseSalesQuotePriceListEvent: Function;
             /** 选择销售报价行物料事件 */

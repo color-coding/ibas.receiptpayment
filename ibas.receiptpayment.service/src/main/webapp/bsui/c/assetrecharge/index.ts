@@ -7,5 +7,4 @@
  */
 /// <reference path="./AssetRechargeListView.ts" />
 /// <reference path="./AssetRechargeChooseView.ts" />
-/// <reference path="./AssetRechargeViewView.ts" />
 /// <reference path="./AssetRechargeEditView.ts" />

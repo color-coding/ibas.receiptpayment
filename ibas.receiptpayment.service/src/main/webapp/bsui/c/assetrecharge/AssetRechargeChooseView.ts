@@ -17,135 +17,144 @@ namespace receiptpayment {
                 /** 绘制视图 */
                 draw(): any {
                     let that: this = this;
-                    this.table = new sap.ui.table.Table("", {
-                        enableSelectAll: false,
-                        selectionBehavior: sap.ui.table.SelectionBehavior.Row,
-                        selectionMode: openui5.utils.toSelectionMode(this.chooseType),
-                        visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 15),
+                    this.table = new sap.extension.table.DataTable("", {
+                        chooseType: this.chooseType,
+                        visibleRowCount: sap.extension.table.visibleRowCount(15),
+                        dataInfo: this.queryTarget,
                         rows: "{/rows}",
                         columns: [
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_assetrecharge_docentry"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "docEntry",
+                                    type: new sap.extension.data.Numeric()
                                 }),
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_assetrecharge_approvalstatus"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "approvalStatus",
-                                    formatter(data: any): any {
-                                        return ibas.enums.describe(ibas.emApprovalStatus, data);
-                                    }
-                                })
+                                    type: new sap.extension.data.ApprovalStatus(true)
+                                }),
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_assetrecharge_canceled"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "canceled",
-                                    formatter(data: any): any {
-                                        return ibas.enums.describe(ibas.emYesNo, data);
-                                    }
-                                })
+                                    type: new sap.extension.data.YesNo(true)
+                                }),
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_assetrecharge_documentstatus"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "documentStatus",
-                                    formatter(data: any): any {
-                                        return ibas.enums.describe(ibas.emDocumentStatus, data);
-                                    }
-                                })
+                                    type: new sap.extension.data.DocumentStatus(true)
+                                }),
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_assetrecharge_businesspartnertype"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "businessPartnerType",
-                                    formatter(data: any): any {
-                                        return ibas.enums.describe(businesspartner.bo.emBusinessPartnerType, data);
-                                    }
-                                })
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_assetrecharge_businesspartnername"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false
-                                }).bindProperty("text", {
-                                    path: "businessPartnerName",
-                                })
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_assetrecharge_documentdate"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
-                                    path: "documentDate",
-                                    type: new sap.ui.model.type.Date({
-                                        pattern: "yyyy-MM-dd",
-                                        strictParsing: true,
+                                    type: new sap.extension.data.Enum({
+                                        enumType: businesspartner.bo.emBusinessPartnerType,
+                                        describe: true,
                                     })
                                 }),
                             }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_assetrecharge_servicecode"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
-                                    path: "serviceCode",
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_assetrecharge_businesspartnercode"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "businessPartnerCode",
+                                    type: new sap.extension.data.Alphanumeric()
                                 }),
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_assetrecharge_businesspartnername"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "businessPartnerName",
+                                    type: new sap.extension.data.Alphanumeric()
+                                }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_assetrecharge_documentdate"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "documentDate",
+                                    type: new sap.extension.data.Date()
+                                }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_assetrecharge_servicecode"),
+                                template: new sap.extension.m.RepositoryText("", {
+                                    repository: businesspartner.bo.BORepositoryBusinessPartner,
+                                    dataInfo: {
+                                        type: businesspartner.bo.BusinessPartnerAsset,
+                                        key: "Code",
+                                        text: "Name"
+                                    },
+                                }).bindProperty("bindingValue", {
+                                    path: "serviceCode",
+                                    type: new sap.extension.data.Alphanumeric()
+                                }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_assetrecharge_amount"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "amount",
-                                    type: new openui5.datatype.Sum(),
-                                })
+                                    type: new sap.extension.data.Sum()
+                                }),
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_assetrecharge_times"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "times",
-                                    type: new openui5.datatype.Numeric(),
-                                })
+                                    type: new sap.extension.data.Numeric()
+                                }),
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_assetrecharge_ordertype"),
+                                template: new sap.extension.m.PropertyText("", {
+                                    dataInfo: {
+                                        code: bo.AssetRecharge.BUSINESS_OBJECT_CODE,
+                                    },
+                                    propertyName: "orderType",
+                                }).bindProperty("bindingValue", {
+                                    path: "orderType",
+                                    type: new sap.extension.data.Alphanumeric()
+                                }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_assetrecharge_reference1"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "reference1",
-                                })
+                                    type: new sap.extension.data.Alphanumeric()
+                                }),
                             }),
-                            new sap.ui.table.Column("", {
+                            new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_assetrecharge_reference2"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false
-                                }).bindProperty("text", {
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
                                     path: "reference2",
-                                })
+                                    type: new sap.extension.data.Alphanumeric()
+                                }),
                             }),
-                        ]
-                    });
-                    // 调整选择样式风格
-                    openui5.utils.changeSelectionStyle(this.table, this.chooseType);
-                    // 添加列表自动查询事件
-                    openui5.utils.triggerNextResults({
-                        listener: this.table,
-                        next(data: any): void {
+                        ],
+                        nextDataSet(event: sap.ui.base.Event): void {
+                            // 查询下一个数据集
+                            let data: any = event.getParameter("data");
+                            if (ibas.objects.isNull(data)) {
+                                return;
+                            }
                             if (ibas.objects.isNull(that.lastCriteria)) {
                                 return;
                             }
@@ -161,10 +170,11 @@ namespace receiptpayment {
                         title: this.title,
                         type: sap.m.DialogType.Standard,
                         state: sap.ui.core.ValueState.None,
-                        stretchOnPhone: true,
                         horizontalScrolling: true,
                         verticalScrolling: true,
-                        content: [this.table],
+                        content: [
+                            this.table
+                        ],
                         buttons: [
                             new sap.m.Button("", {
                                 text: ibas.i18n.prop("shell_data_new"),
@@ -178,10 +188,7 @@ namespace receiptpayment {
                                 text: ibas.i18n.prop("shell_data_choose"),
                                 type: sap.m.ButtonType.Transparent,
                                 press: function (): void {
-                                    that.fireViewEvents(that.chooseDataEvent,
-                                        // 获取表格选中的对象
-                                        openui5.utils.getSelecteds<bo.AssetRecharge>(that.table)
-                                    );
+                                    that.fireViewEvents(that.chooseDataEvent, that.table.getSelecteds());
                                 }
                             }),
                             new sap.m.Button("", {
@@ -194,25 +201,16 @@ namespace receiptpayment {
                         ],
                     });
                 }
-                private table: sap.ui.table.Table;
+                private table: sap.extension.table.Table;
                 /** 显示数据 */
                 showData(datas: bo.AssetRecharge[]): void {
-                    let done: boolean = false;
-                    let model: sap.ui.model.Model = this.table.getModel(undefined);
-                    if (!ibas.objects.isNull(model)) {
-                        // 已存在绑定数据，添加新的
-                        let hDatas: any = (<any>model).getData();
-                        if (!ibas.objects.isNull(hDatas) && hDatas.rows instanceof Array) {
-                            for (let item of datas) {
-                                hDatas.rows.push(item);
-                            }
-                            model.refresh(false);
-                            done = true;
-                        }
-                    }
-                    if (!done) {
-                        // 没有显示数据
-                        this.table.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
+                    let model: sap.ui.model.Model = this.table.getModel();
+                    if (model instanceof sap.extension.model.JSONModel) {
+                        // 已绑定过数据
+                        model.addData(datas);
+                    } else {
+                        // 未绑定过数据
+                        this.table.setModel(new sap.extension.model.JSONModel({ rows: datas }));
                     }
                     this.table.setBusy(false);
                 }

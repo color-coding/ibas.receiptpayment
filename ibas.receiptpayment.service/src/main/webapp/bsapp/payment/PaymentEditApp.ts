@@ -34,6 +34,7 @@ namespace receiptpayment {
                 this.view.addPaymentItemEvent = this.addPaymentItem;
                 this.view.removePaymentItemEvent = this.removePaymentItem;
                 this.view.choosePaymentBusinessPartnerEvent = this.choosePaymentBusinessPartner;
+                this.view.choosePaymentContactPersonEvent = this.choosePaymentContactPerson;
                 this.view.choosePaymentItemPurchaseOrderEvent = this.choosePaymentItemPurchaseOrder;
                 this.view.choosePaymentItemPurchaseDeliveryEvent = this.choosePaymentItemPurchaseDelivery;
                 this.view.choosePaymentItemSalesReturnEvent = this.choosePaymentItemSalesReturn;
@@ -483,6 +484,36 @@ namespace receiptpayment {
                     });
                 }
             }
+            /** 选择付款联系人 */
+            private choosePaymentContactPerson(): void {
+                if (ibas.objects.isNull(this.editData) || ibas.strings.isEmpty(this.editData.businessPartnerCode)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                        ibas.i18n.prop("bo_payment_businesspartnercode")
+                    ));
+                    return;
+                }
+                let criteria: ibas.ICriteria = new ibas.Criteria();
+                let condition: ibas.ICondition = criteria.conditions.create();
+                condition.alias = businesspartner.bo.ContactPerson.PROPERTY_OWNERTYPE_NAME;
+                condition.value = this.editData.businessPartnerType.toString();
+                condition = criteria.conditions.create();
+                condition.alias = businesspartner.bo.ContactPerson.PROPERTY_BUSINESSPARTNER_NAME;
+                condition.value = this.editData.businessPartnerCode;
+                condition = criteria.conditions.create();
+                condition.alias = businesspartner.bo.ContactPerson.PROPERTY_ACTIVATED_NAME;
+                condition.value = ibas.emYesNo.YES.toString();
+                // 调用选择服务
+                let that: this = this;
+                ibas.servicesManager.runChooseService<businesspartner.bo.IContactPerson>({
+                    boCode: businesspartner.bo.BO_CODE_CONTACTPERSON,
+                    chooseType: ibas.emChooseType.SINGLE,
+                    criteria: criteria,
+                    onCompleted(selecteds: ibas.IList<businesspartner.bo.IContactPerson>): void {
+                        let selected: businesspartner.bo.IContactPerson = selecteds.firstOrDefault();
+                        that.editData.contactPerson = selected.objectKey;
+                    }
+                });
+            }
         }
         /** 视图-付款 */
         export interface IPaymentEditView extends ibas.IBOEditView {
@@ -494,6 +525,8 @@ namespace receiptpayment {
             createDataEvent: Function;
             /** 选择付款客户事件 */
             choosePaymentBusinessPartnerEvent: Function;
+            /** 选择付款联系人事件 */
+            choosePaymentContactPersonEvent: Function;
             /** 添加付款-项目事件 */
             addPaymentItemEvent: Function;
             /** 删除付款-项目事件 */

@@ -8,4 +8,3 @@
 /// <reference path="./PaymentChooseView.ts" />
 /// <reference path="./PaymentEditView.ts" />
 /// <reference path="./PaymentListView.ts" />
-/// <reference path="./PaymentViewView.ts" />

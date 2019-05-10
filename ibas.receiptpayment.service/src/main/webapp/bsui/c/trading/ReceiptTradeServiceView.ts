@@ -39,7 +39,6 @@ namespace receiptpayment {
                         ]
                     });
                 }
-                private page: sap.m.Page;
                 private list: sap.m.List;
                 showTradings(tradings: app.ReceiptTrading[]): void {
                     this.list.destroyItems();

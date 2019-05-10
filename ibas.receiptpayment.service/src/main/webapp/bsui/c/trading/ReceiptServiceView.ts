@@ -100,7 +100,7 @@ namespace receiptpayment {
                                 textAlign: sap.ui.core.TextAlign.Right,
                             }).bindProperty("text", {
                                 path: "total",
-                                type: new openui5.datatype.Sum(),
+                                type: new sap.extension.data.Sum(),
                             }),
                             new sap.m.Label("", {
                                 width: "auto",
@@ -197,7 +197,6 @@ namespace receiptpayment {
                         ]
                     });
                 }
-                private page: sap.m.Page;
                 private bp_bar: sap.m.Toolbar;
                 private target_bar: sap.m.Toolbar;
                 private paid_bar: sap.m.Toolbar;

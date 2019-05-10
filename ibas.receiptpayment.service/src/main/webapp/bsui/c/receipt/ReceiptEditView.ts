@@ -22,6 +22,8 @@ namespace receiptpayment {
                 removeReceiptItemEvent: Function;
                 /** 选择收款客户事件 */
                 chooseReceiptBusinessPartnerEvent: Function;
+                /** 选择收款联系人事件 */
+                chooseReceiptContactPersonEvent: Function;
                 /** 选择收款项目-销售订单 */
                 chooseReceiptItemSalesOrderEvent: Function;
                 /** 选择收款项目-销售交货 */
@@ -39,233 +41,257 @@ namespace receiptpayment {
                         content: [
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("receiptpayment_title_general") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_businesspartnercode") }),
-                            new sap.m.Select("", {
-                                items: openui5.utils.createComboBoxItems(businesspartner.bo.emBusinessPartnerType),
-                            }).bindProperty("selectedKey", {
-                                path: "businessPartnerType",
-                                type: "sap.ui.model.type.Integer",
-                            }),
-                            new sap.m.Input("", {
+                            new sap.extension.m.Input("", {
                                 showValueHelp: true,
                                 valueHelpRequest: function (): void {
                                     that.fireViewEvents(that.chooseReceiptBusinessPartnerEvent);
                                 }
-                            }).bindProperty("value", {
+                            }).bindProperty("bindingValue", {
                                 path: "businessPartnerCode",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 20
+                                })
+                            }),
+                            new sap.extension.m.EnumSelect("", {
+                                enumType: businesspartner.bo.emBusinessPartnerType
+                            }).bindProperty("bindingValue", {
+                                path: "businessPartnerType",
+                                type: new sap.extension.data.Enum({
+                                    enumType: businesspartner.bo.emBusinessPartnerType
+                                })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_businesspartnername") }),
-                            new sap.m.Input("", {
+                            new sap.extension.m.Input("", {
                                 editable: false,
-                            }).bindProperty("value", {
+                            }).bindProperty("bindingValue", {
                                 path: "businessPartnerName",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 200
+                                })
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_contactperson") }),
-                            new sap.m.ex.BOChooseInput("", {
-                                boText: "name",
-                                boKey: "objectKey",
-                                boCode: ibas.config.applyVariables(businesspartner.bo.BO_CODE_CONTACTPERSON),
-                                repositoryName: businesspartner.bo.BO_REPOSITORY_BUSINESSPARTNER,
-                                criteria: businesspartner.app.conditions.contactperson.create(<any>"{businessPartnerType}", "{businessPartnerCode}"),
-                                bindingValue: {
-                                    path: "contactPerson"
-                                }
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_contactperson") }),
+                            new sap.extension.m.RepositoryInput("", {
+                                showValueHelp: true,
+                                repository: businesspartner.bo.BORepositoryBusinessPartner,
+                                dataInfo: {
+                                    type: businesspartner.bo.ContactPerson,
+                                    key: "ObjectKey",
+                                    text: "Name"
+                                },
+                                valueHelpRequest: function (): void {
+                                    that.fireViewEvents(that.chooseReceiptContactPersonEvent);
+                                },
+                            }).bindProperty("bindingValue", {
+                                path: "contactPerson",
+                                type: new sap.extension.data.Numeric()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_ordertype") }),
-                            new sap.m.ex.SmartField("", {
-                                width: "100%",
-                                boCode: ibas.config.applyVariables(bo.Receipt.BUSINESS_OBJECT_CODE),
-                                propertyName: "OrderType",
-                                bindingValue: {
-                                    path: "orderType"
-                                }
+                            new sap.extension.m.PropertySelect("", {
+                                dataInfo: {
+                                    code: bo.Receipt.BUSINESS_OBJECT_CODE,
+                                },
+                                propertyName: "orderType",
+                            }).bindProperty("bindingValue", {
+                                path: "orderType",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 8
+                                })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_reference1") }),
-                            new sap.m.Input("", {
-                            }).bindProperty("value", {
+                            new sap.extension.m.Input("", {
+                            }).bindProperty("bindingValue", {
                                 path: "reference1",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 100
+                                })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_reference2") }),
-                            new sap.m.Input("", {
-                            }).bindProperty("value", {
+                            new sap.extension.m.Input("", {
+                            }).bindProperty("bindingValue", {
                                 path: "reference2",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 200
+                                })
                             }),
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("receiptpayment_title_status") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_docentry") }),
-                            new sap.m.Input("", {
+                            new sap.extension.m.Input("", {
                                 editable: false,
-                            }).bindProperty("value", {
-                                path: "docEntry"
+                            }).bindProperty("bindingValue", {
+                                path: "docEntry",
+                                type: new sap.extension.data.Numeric()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_documentstatus") }),
-                            new sap.m.Select("", {
-                                items: openui5.utils.createComboBoxItems(ibas.emDocumentStatus),
-                            }).bindProperty("selectedKey", {
+                            new sap.extension.m.EnumSelect("", {
+                                enumType: ibas.emDocumentStatus
+                            }).bindProperty("bindingValue", {
                                 path: "documentStatus",
-                                type: "sap.ui.model.type.Integer",
+                                type: new sap.extension.data.DocumentStatus()
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_canceled") }),
-                            new sap.m.Select("", {
-                                items: openui5.utils.createComboBoxItems(ibas.emYesNo),
-                            }).bindProperty("selectedKey", {
+                            new sap.extension.m.CheckBox("", {
+                                text: ibas.i18n.prop("bo_receipt_canceled")
+                            }).bindProperty("bindingValue", {
                                 path: "canceled",
-                                type: "sap.ui.model.type.Integer",
+                                type: new sap.extension.data.YesNo()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_documentdate") }),
-                            new sap.m.DatePicker("", {
-                                valueFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                                displayFormat: ibas.config.get(ibas.CONFIG_ITEM_FORMAT_DATE),
-                            }).bindProperty("dateValue", {
+                            new sap.extension.m.DatePicker("", {
+                            }).bindProperty("bindingValue", {
                                 path: "documentDate",
+                                type: new sap.extension.data.Date()
                             }),
                         ]
                     });
-                    this.tableReceiptItem = new sap.ui.table.Table("", {
-                        toolbar: new sap.m.Toolbar("", {
-                            content: [
-                                new sap.m.MenuButton("", {
-                                    type: sap.m.ButtonType.Transparent,
-                                    icon: "sap-icon://add",
-                                    text: ibas.i18n.prop("shell_data_add"),
-                                    menu: new sap.m.Menu("", {
-                                        items: [
-                                            new sap.m.MenuItem("", {
-                                                text: ibas.i18n.prop("shell_data_add_line"),
-                                                press: function (): void {
-                                                    that.fireViewEvents(that.addReceiptItemEvent);
-                                                }
-                                            }),
-                                            new sap.m.MenuItem("", {
-                                                text: ibas.i18n.prop("receiptpayment_sales_order"),
-                                                press: function (): void {
-                                                    that.fireViewEvents(that.chooseReceiptItemSalesOrderEvent);
-                                                }
-                                            }),
-                                            new sap.m.MenuItem("", {
-                                                text: ibas.i18n.prop("receiptpayment_sales_delivery"),
-                                                press: function (): void {
-                                                    that.fireViewEvents(that.chooseReceiptItemSalesDeliveryEvent);
-                                                }
-                                            }),
-                                            new sap.m.MenuItem("", {
-                                                text: ibas.i18n.prop("receiptpayment_purchase_return"),
-                                                press: function (): void {
-                                                    that.fireViewEvents(that.chooseReceiptItemPurchaseReturnEvent);
-                                                }
-                                            }),
-                                        ]
-                                    })
-                                }),
-                                new sap.m.Button("", {
-                                    text: ibas.i18n.prop("shell_data_remove"),
-                                    type: sap.m.ButtonType.Transparent,
-                                    icon: "sap-icon://less",
-                                    press: function (): void {
-                                        that.fireViewEvents(that.removeReceiptItemEvent,
-                                            // 获取表格选中的对象
-                                            openui5.utils.getSelecteds<bo.ReceiptItem>(that.tableReceiptItem)
-                                        );
-                                    }
-                                })
-                            ]
-                        }),
-                        enableSelectAll: false,
-                        selectionBehavior: sap.ui.table.SelectionBehavior.Row,
-                        visibleRowCount: ibas.config.get(openui5.utils.CONFIG_ITEM_LIST_TABLE_VISIBLE_ROW_COUNT, 8),
-                        rows: "{/rows}",
-                        columns: [
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_receiptitem_lineid"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
-                                    path: "lineId",
-                                }),
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_receiptitem_linestatus"),
-                                template: new sap.m.Select("", {
-                                    width: "100%",
-                                    items: openui5.utils.createComboBoxItems(ibas.emDocumentStatus),
-                                }).bindProperty("selectedKey", {
-                                    path: "lineStatus",
-                                    type: "sap.ui.model.type.Integer",
-                                })
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_paymentitem_basedocumenttype"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
-                                    path: "baseDocumentType",
-                                    formatter(data: any): any {
-                                        return ibas.businessobjects.describe(data);
-                                    }
-                                }),
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_paymentitem_basedocumententry"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
-                                    path: "baseDocumentEntry",
-                                }),
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_paymentitem_basedocumentlineid"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
-                                    path: "baseDocumentLineId",
-                                }),
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_receiptitem_mode"),
-                                template: new sap.m.Select("", {
-                                    width: "100%",
-                                    items: receiptMethods(),
-                                }).bindProperty("selectedKey", {
-                                    path: "mode"
-                                })
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_receiptitem_amount"),
-                                template: new sap.m.Input("", {
-                                    width: "100%",
-                                }).bindProperty("value", {
-                                    path: "amount",
-                                    type: new openui5.datatype.Sum(),
-                                })
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_receiptitem_currency"),
-                                template: new sap.m.Text("", {
-                                    wrapping: false,
-                                }).bindProperty("text", {
-                                    path: "currency"
-                                })
-                            }),
-                            new sap.ui.table.Column("", {
-                                label: ibas.i18n.prop("bo_paymentitem_tradeid"),
-                                template: new sap.m.Input("", {
-                                    width: "100%",
-                                    showValueHelp: true,
-                                    valueHelpRequest: function (): void {
-                                        that.fireViewEvents(that.chooseReceiptItemModeTradeIdEvent,
-                                            // 获取当前对象
-                                            this.getBindingContext().getObject()
-                                        );
-                                    }
-                                }).bindProperty("value", {
-                                    path: "tradeId"
-                                })
-                            }),
-                        ]
-                    });
-                    let formMiddle: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
+                    let formReceiptItem: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
                         editable: true,
                         content: [
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("bo_receiptitem") }),
-                            this.tableReceiptItem,
+                            this.tableReceiptItem = new sap.extension.table.DataTable("", {
+                                enableSelectAll: false,
+                                visibleRowCount: sap.extension.table.visibleRowCount(8),
+                                dataInfo: {
+                                    code: bo.Receipt.BUSINESS_OBJECT_CODE,
+                                    name: bo.ReceiptItem.name
+                                },
+                                toolbar: new sap.m.Toolbar("", {
+                                    content: [
+                                        new sap.m.MenuButton("", {
+                                            type: sap.m.ButtonType.Transparent,
+                                            icon: "sap-icon://add",
+                                            text: ibas.i18n.prop("shell_data_add"),
+                                            menu: new sap.m.Menu("", {
+                                                items: [
+                                                    new sap.m.MenuItem("", {
+                                                        text: ibas.i18n.prop("shell_data_add_line"),
+                                                        press: function (): void {
+                                                            that.fireViewEvents(that.addReceiptItemEvent);
+                                                        }
+                                                    }),
+                                                    new sap.m.MenuItem("", {
+                                                        text: ibas.i18n.prop("receiptpayment_sales_order"),
+                                                        press: function (): void {
+                                                            that.fireViewEvents(that.chooseReceiptItemSalesOrderEvent);
+                                                        }
+                                                    }),
+                                                    new sap.m.MenuItem("", {
+                                                        text: ibas.i18n.prop("receiptpayment_sales_delivery"),
+                                                        press: function (): void {
+                                                            that.fireViewEvents(that.chooseReceiptItemSalesDeliveryEvent);
+                                                        }
+                                                    }),
+                                                    new sap.m.MenuItem("", {
+                                                        text: ibas.i18n.prop("receiptpayment_purchase_return"),
+                                                        press: function (): void {
+                                                            that.fireViewEvents(that.chooseReceiptItemPurchaseReturnEvent);
+                                                        }
+                                                    }),
+                                                ]
+                                            })
+                                        }),
+                                        new sap.m.Button("", {
+                                            text: ibas.i18n.prop("shell_data_remove"),
+                                            type: sap.m.ButtonType.Transparent,
+                                            icon: "sap-icon://less",
+                                            press: function (): void {
+                                                that.fireViewEvents(that.removeReceiptItemEvent, that.tableReceiptItem.getSelecteds());
+                                            }
+                                        }),
+                                    ]
+                                }),
+                                rows: "{/rows}",
+                                columns: [
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_receiptitem_lineid"),
+                                        template: new sap.extension.m.Text("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "lineId",
+                                            type: new sap.extension.data.Numeric()
+                                        }),
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_receiptitem_linestatus"),
+                                        template: new sap.extension.m.EnumSelect("", {
+                                            enumType: ibas.emDocumentStatus
+                                        }).bindProperty("bindingValue", {
+                                            path: "lineStatus",
+                                            type: new sap.extension.data.DocumentStatus()
+                                        }),
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_receiptitem_basedocumenttype"),
+                                        template: new sap.extension.m.Text("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "baseDocumentType",
+                                            formatter(data: any): any {
+                                                return ibas.businessobjects.describe(data);
+                                            }
+                                        }),
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_receiptitem_basedocumententry"),
+                                        template: new sap.extension.m.Text("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "baseDocumentEntry",
+                                            type: new sap.extension.data.Numeric()
+                                        }),
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_receiptitem_basedocumentlineid"),
+                                        template: new sap.extension.m.Text("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "baseDocumentLineId",
+                                            type: new sap.extension.data.Numeric()
+                                        }),
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_receiptitem_mode"),
+                                        template: new sap.extension.m.Select("", {
+                                            items: receiptMethods(),
+                                        }).bindProperty("bindingValue", {
+                                            path: "mode",
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 8
+                                            })
+                                        }),
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_receiptitem_amount"),
+                                        template: new sap.extension.m.Input("", {
+                                            type: sap.m.InputType.Number
+                                        }).bindProperty("bindingValue", {
+                                            path: "amount",
+                                            type: new sap.extension.data.Sum()
+                                        }),
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_receiptitem_currency"),
+                                        template: new sap.extension.m.Text("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "currency",
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 8
+                                            })
+                                        })
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_receiptitem_tradeid"),
+                                        template: new sap.extension.m.Input("", {
+                                            showValueHelp: true,
+                                            valueHelpRequest: function (): void {
+                                                that.fireViewEvents(that.chooseReceiptItemModeTradeIdEvent,
+                                                    // 获取当前对象
+                                                    this.getBindingContext().getObject()
+                                                );
+                                            }
+                                        }).bindProperty("bindingValue", {
+                                            path: "tradeId",
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 140
+                                            })
+                                        }),
+                                    }),
+                                ]
+                            })
                         ]
                     });
                     let formBottom: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {
@@ -273,41 +299,70 @@ namespace receiptpayment {
                         content: [
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("receiptpayment_title_others") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_dataowner") }),
-                            new sap.m.ex.DataOwnerInput("", {
-                                bindingValue: {
-                                    path: "dataOwner"
-                                }
+                            new sap.extension.m.UserInput("", {
+                                showValueHelp: true,
+                            }).bindProperty("bindingValue", {
+                                path: "dataOwner",
+                                type: new sap.extension.data.Numeric()
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_project") }),
+                            new sap.extension.m.SelectionInput("", {
+                                showValueHelp: true,
+                                repository: accounting.bo.BORepositoryAccounting,
+                                dataInfo: {
+                                    type: accounting.bo.Project,
+                                    key: "Code",
+                                    text: "Name"
+                                },
+                                criteria: [
+                                    new ibas.Condition(accounting.bo.Project.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES.toString())
+                                ]
+                            }).bindProperty("bindingValue", {
+                                path: "project",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 8
+                                })
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_organization") }),
+                            new sap.extension.m.OrganizationInput("", {
+                                showValueHelp: true,
+                            }).bindProperty("bindingValue", {
+                                path: "organization",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 8
+                                })
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_remarks") }),
-                            new sap.m.TextArea("", {
+                            new sap.extension.m.TextArea("", {
                                 rows: 3,
-                            }).bindProperty("value", {
+                            }).bindProperty("bindingValue", {
                                 path: "remarks",
+                                type: new sap.extension.data.Alphanumeric()
                             }),
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("receiptpayment_title_total") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_documenttotal") }),
-                            new sap.m.Input("", {
+                            new sap.extension.m.Input("", {
                                 editable: false,
-                            }).bindProperty("value", {
+                                type: sap.m.InputType.Number
+                            }).bindProperty("bindingValue", {
                                 path: "documentTotal",
-                                type: new openui5.datatype.Sum(),
+                                type: new sap.extension.data.Sum()
                             }),
-                            new sap.m.Input("", {
+                            new sap.extension.m.Input("", {
                                 editable: false,
-                            }).bindProperty("value", {
+                            }).bindProperty("bindingValue", {
                                 path: "documentCurrency",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 8
+                                })
                             }),
                         ],
                     });
-                    this.layoutMain = new sap.ui.layout.VerticalLayout("", {
-                        content: [
-                            formTop,
-                            formMiddle,
-                            formBottom,
-                        ],
-                    });
-                    this.page = new sap.m.Page("", {
+                    return this.page = new sap.extension.m.DataPage("", {
                         showHeader: false,
+                        dataInfo: {
+                            code: bo.Receipt.BUSINESS_OBJECT_CODE,
+                        },
                         subHeader: new sap.m.Toolbar("", {
                             content: [
                                 new sap.m.Button("", {
@@ -355,49 +410,25 @@ namespace receiptpayment {
                                 }),
                             ]
                         }),
-                        content: [this.layoutMain]
+                        content: [
+                            formTop,
+                            formReceiptItem,
+                            formBottom,
+                        ]
                     });
-                    return this.page;
                 }
-                private page: sap.m.Page;
-                private layoutMain: sap.ui.layout.VerticalLayout;
-                /** 改变视图状态 */
-                private changeViewStatus(data: bo.Receipt): void {
-                    if (ibas.objects.isNull(data)) {
-                        return;
-                    }
-                    // 新建时：禁用删除，
-                    if (data.isNew) {
-                        if (this.page.getSubHeader() instanceof sap.m.Toolbar) {
-                            openui5.utils.changeToolbarSavable(<sap.m.Toolbar>this.page.getSubHeader(), true);
-                            openui5.utils.changeToolbarDeletable(<sap.m.Toolbar>this.page.getSubHeader(), false);
-                        }
-                    }
-                    // 不可编辑：已批准，
-                    if (data.approvalStatus === ibas.emApprovalStatus.APPROVED) {
-                        if (this.page.getSubHeader() instanceof sap.m.Toolbar) {
-                            openui5.utils.changeToolbarSavable(<sap.m.Toolbar>this.page.getSubHeader(), false);
-                            openui5.utils.changeToolbarDeletable(<sap.m.Toolbar>this.page.getSubHeader(), false);
-                        }
-                        openui5.utils.changeFormEditable(this.layoutMain, false);
-                    }
-                }
-                private tableReceiptItem: sap.ui.table.Table;
+                private page: sap.extension.m.Page;
+                private tableReceiptItem: sap.extension.table.Table;
 
                 /** 显示数据 */
                 showReceipt(data: bo.Receipt): void {
-                    this.layoutMain.setModel(new sap.ui.model.json.JSONModel(data));
-                    this.layoutMain.bindObject("/");
-                    // 监听属性改变，并更新控件
-                    openui5.utils.refreshModelChanged(this.layoutMain, data);
-                    // 改变视图状态
-                    this.changeViewStatus(data);
+                    this.page.setModel(new sap.extension.model.JSONModel(data));
+                    // 改变页面状态
+                    sap.extension.pages.changeStatus(this.page);
                 }
-                /** 显示数据 */
+                /** 显示数据-收款-项目 */
                 showReceiptItems(datas: bo.ReceiptItem[]): void {
-                    this.tableReceiptItem.setModel(new sap.ui.model.json.JSONModel({ rows: datas }));
-                    // 监听属性改变，并更新控件
-                    openui5.utils.refreshModelChanged(this.tableReceiptItem, datas);
+                    this.tableReceiptItem.setModel(new sap.extension.model.JSONModel({ rows: datas }));
                 }
             }
         }
