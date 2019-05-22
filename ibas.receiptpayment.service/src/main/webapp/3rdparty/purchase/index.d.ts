@@ -217,6 +217,8 @@ declare namespace purchase {
             itemCode: string;
             /** 物料/服务描述 */
             itemDescription: string;
+            /** 物料标识 */
+            itemSign: string;
             /** 序号管理 */
             serialManagement: ibas.emYesNo;
             /** 批号管理 */
@@ -443,6 +445,8 @@ declare namespace purchase {
             itemCode: string;
             /** 物料/服务描述 */
             itemDescription: string;
+            /** 物料标识 */
+            itemSign: string;
             /** 序号管理 */
             serialManagement: ibas.emYesNo;
             /** 批号管理 */
@@ -493,6 +497,64 @@ declare namespace purchase {
             distributionRule4: string;
             /** 分配规则5 */
             distributionRule5: string;
+            /** 采购订单-行-额外信息集合 */
+            purchaseOrderItemExtras: IPurchaseOrderItemExtras;
+        }
+        /** 采购订单-行-额外信息 集合 */
+        interface IPurchaseOrderItemExtras extends ibas.IBusinessObjects<IPurchaseOrderItemExtra> {
+            /** 创建并添加子项 */
+            create(): IPurchaseOrderItemExtra;
+        }
+        /** 采购订单-行-额外信息 */
+        interface IPurchaseOrderItemExtra extends ibas.IBODocumentLine {
+            /** 编码 */
+            docEntry: number;
+            /** 行号 */
+            lineId: number;
+            /** 显示顺序 */
+            visOrder: number;
+            /** 类型 */
+            objectCode: string;
+            /** 实例号（版本） */
+            logInst: number;
+            /** 数据源 */
+            dataSource: string;
+            /** 取消 */
+            canceled: ibas.emYesNo;
+            /** 状态 */
+            status: ibas.emBOStatus;
+            /** 单据状态 */
+            lineStatus: ibas.emDocumentStatus;
+            /** 创建日期 */
+            createDate: Date;
+            /** 创建时间 */
+            createTime: number;
+            /** 修改日期 */
+            updateDate: Date;
+            /** 修改时间 */
+            updateTime: number;
+            /** 创建用户 */
+            createUserSign: number;
+            /** 修改用户 */
+            updateUserSign: number;
+            /** 创建动作标识 */
+            createActionId: string;
+            /** 更新动作标识 */
+            updateActionId: string;
+            /** 参考1 */
+            reference1: string;
+            /** 参考2 */
+            reference2: string;
+            /** 项目行号 */
+            itemId: number;
+            /** 额外类型 */
+            extraType: string;
+            /** 额外标识 */
+            extraKey: number;
+            /** 数量 */
+            quantity: number;
+            /** 备注 */
+            note: string;
         }
     }
 }
@@ -673,6 +735,8 @@ declare namespace purchase {
             itemCode: string;
             /** 物料/服务描述 */
             itemDescription: string;
+            /** 物料标识 */
+            itemSign: string;
             /** 序号管理 */
             serialManagement: ibas.emYesNo;
             /** 批号管理 */
@@ -897,6 +961,8 @@ declare namespace purchase {
             itemCode: string;
             /** 物料/服务描述 */
             itemDescription: string;
+            /** 物料标识 */
+            itemSign: string;
             /** 序号管理 */
             serialManagement: ibas.emYesNo;
             /** 批号管理 */
@@ -947,6 +1013,64 @@ declare namespace purchase {
             distributionRule4: string;
             /** 分配规则5 */
             distributionRule5: string;
+            /** 采购报价-行-额外信息集合 */
+            purchaseQuoteItemExtras: IPurchaseQuoteItemExtras;
+        }
+        /** 采购报价-行-额外信息 集合 */
+        interface IPurchaseQuoteItemExtras extends ibas.IBusinessObjects<IPurchaseQuoteItemExtra> {
+            /** 创建并添加子项 */
+            create(): IPurchaseQuoteItemExtra;
+        }
+        /** 采购报价-行-额外信息 */
+        interface IPurchaseQuoteItemExtra extends ibas.IBODocumentLine {
+            /** 编码 */
+            docEntry: number;
+            /** 行号 */
+            lineId: number;
+            /** 显示顺序 */
+            visOrder: number;
+            /** 类型 */
+            objectCode: string;
+            /** 实例号（版本） */
+            logInst: number;
+            /** 数据源 */
+            dataSource: string;
+            /** 取消 */
+            canceled: ibas.emYesNo;
+            /** 状态 */
+            status: ibas.emBOStatus;
+            /** 单据状态 */
+            lineStatus: ibas.emDocumentStatus;
+            /** 创建日期 */
+            createDate: Date;
+            /** 创建时间 */
+            createTime: number;
+            /** 修改日期 */
+            updateDate: Date;
+            /** 修改时间 */
+            updateTime: number;
+            /** 创建用户 */
+            createUserSign: number;
+            /** 修改用户 */
+            updateUserSign: number;
+            /** 创建动作标识 */
+            createActionId: string;
+            /** 更新动作标识 */
+            updateActionId: string;
+            /** 参考1 */
+            reference1: string;
+            /** 参考2 */
+            reference2: string;
+            /** 项目行号 */
+            itemId: number;
+            /** 额外类型 */
+            extraType: string;
+            /** 额外标识 */
+            extraKey: number;
+            /** 数量 */
+            quantity: number;
+            /** 备注 */
+            note: string;
         }
     }
 }
@@ -1538,6 +1662,11 @@ declare namespace purchase {
             /** 获取-物料/服务描述 */
             /** 设置-物料/服务描述 */
             itemDescription: string;
+            /** 映射的属性名称-物料标识 */
+            static PROPERTY_ITEMSIGN_NAME: string;
+            /** 获取-物料标识 */
+            /** 设置-物料标识 */
+            itemSign: string;
             /** 映射的属性名称-序号管理 */
             static PROPERTY_SERIALMANAGEMENT_NAME: string;
             /** 获取-序号管理 */
@@ -2113,6 +2242,11 @@ declare namespace purchase {
             /** 获取-物料/服务描述 */
             /** 设置-物料/服务描述 */
             itemDescription: string;
+            /** 映射的属性名称-物料标识 */
+            static PROPERTY_ITEMSIGN_NAME: string;
+            /** 获取-物料标识 */
+            /** 设置-物料标识 */
+            itemSign: string;
             /** 映射的属性名称-序号管理 */
             static PROPERTY_SERIALMANAGEMENT_NAME: string;
             /** 获取-序号管理 */
@@ -2238,6 +2372,11 @@ declare namespace purchase {
             /** 获取-分配规则5 */
             /** 设置-分配规则5 */
             distributionRule5: string;
+            /** 映射的属性名称-采购订单-行-额外信息集合 */
+            static PROPERTY_PURCHASEORDERITEMEXTRAS_NAME: string;
+            /** 获取-采购订单-行-额外信息集合 */
+            /** 设置-采购订单-行-额外信息集合 */
+            purchaseOrderItemExtras: PurchaseOrderItemExtras;
             /** 映射的属性名称-物料批次集合 */
             static PROPERTY_MATERIALBATCHES_NAME: string;
             /** 获取-物料批次集合 */
@@ -2251,6 +2390,138 @@ declare namespace purchase {
             /** 初始化数据 */
             protected init(): void;
             protected registerRules(): ibas.IBusinessRule[];
+        }
+        /** 采购订单-行-额外信息 集合 */
+        class PurchaseOrderItemExtras extends ibas.BusinessObjects<PurchaseOrderItemExtra, PurchaseOrderItem> implements IPurchaseOrderItemExtras {
+            /** 创建并添加子项 */
+            create(): PurchaseOrderItemExtra;
+        }
+        /** 采购订单-行-额外信息 */
+        class PurchaseOrderItemExtra extends ibas.BODocumentLine<PurchaseOrderItemExtra> implements IPurchaseOrderItemExtra {
+            /** 构造函数 */
+            constructor();
+            /** 映射的属性名称-编码 */
+            static PROPERTY_DOCENTRY_NAME: string;
+            /** 获取-编码 */
+            /** 设置-编码 */
+            docEntry: number;
+            /** 映射的属性名称-行号 */
+            static PROPERTY_LINEID_NAME: string;
+            /** 获取-行号 */
+            /** 设置-行号 */
+            lineId: number;
+            /** 映射的属性名称-显示顺序 */
+            static PROPERTY_VISORDER_NAME: string;
+            /** 获取-显示顺序 */
+            /** 设置-显示顺序 */
+            visOrder: number;
+            /** 映射的属性名称-类型 */
+            static PROPERTY_OBJECTCODE_NAME: string;
+            /** 获取-类型 */
+            /** 设置-类型 */
+            objectCode: string;
+            /** 映射的属性名称-实例号（版本） */
+            static PROPERTY_LOGINST_NAME: string;
+            /** 获取-实例号（版本） */
+            /** 设置-实例号（版本） */
+            logInst: number;
+            /** 映射的属性名称-数据源 */
+            static PROPERTY_DATASOURCE_NAME: string;
+            /** 获取-数据源 */
+            /** 设置-数据源 */
+            dataSource: string;
+            /** 映射的属性名称-取消 */
+            static PROPERTY_CANCELED_NAME: string;
+            /** 获取-取消 */
+            /** 设置-取消 */
+            canceled: ibas.emYesNo;
+            /** 映射的属性名称-状态 */
+            static PROPERTY_STATUS_NAME: string;
+            /** 获取-状态 */
+            /** 设置-状态 */
+            status: ibas.emBOStatus;
+            /** 映射的属性名称-单据状态 */
+            static PROPERTY_LINESTATUS_NAME: string;
+            /** 获取-单据状态 */
+            /** 设置-单据状态 */
+            lineStatus: ibas.emDocumentStatus;
+            /** 映射的属性名称-创建日期 */
+            static PROPERTY_CREATEDATE_NAME: string;
+            /** 获取-创建日期 */
+            /** 设置-创建日期 */
+            createDate: Date;
+            /** 映射的属性名称-创建时间 */
+            static PROPERTY_CREATETIME_NAME: string;
+            /** 获取-创建时间 */
+            /** 设置-创建时间 */
+            createTime: number;
+            /** 映射的属性名称-修改日期 */
+            static PROPERTY_UPDATEDATE_NAME: string;
+            /** 获取-修改日期 */
+            /** 设置-修改日期 */
+            updateDate: Date;
+            /** 映射的属性名称-修改时间 */
+            static PROPERTY_UPDATETIME_NAME: string;
+            /** 获取-修改时间 */
+            /** 设置-修改时间 */
+            updateTime: number;
+            /** 映射的属性名称-创建用户 */
+            static PROPERTY_CREATEUSERSIGN_NAME: string;
+            /** 获取-创建用户 */
+            /** 设置-创建用户 */
+            createUserSign: number;
+            /** 映射的属性名称-修改用户 */
+            static PROPERTY_UPDATEUSERSIGN_NAME: string;
+            /** 获取-修改用户 */
+            /** 设置-修改用户 */
+            updateUserSign: number;
+            /** 映射的属性名称-创建动作标识 */
+            static PROPERTY_CREATEACTIONID_NAME: string;
+            /** 获取-创建动作标识 */
+            /** 设置-创建动作标识 */
+            createActionId: string;
+            /** 映射的属性名称-更新动作标识 */
+            static PROPERTY_UPDATEACTIONID_NAME: string;
+            /** 获取-更新动作标识 */
+            /** 设置-更新动作标识 */
+            updateActionId: string;
+            /** 映射的属性名称-参考1 */
+            static PROPERTY_REFERENCE1_NAME: string;
+            /** 获取-参考1 */
+            /** 设置-参考1 */
+            reference1: string;
+            /** 映射的属性名称-参考2 */
+            static PROPERTY_REFERENCE2_NAME: string;
+            /** 获取-参考2 */
+            /** 设置-参考2 */
+            reference2: string;
+            /** 映射的属性名称-项目行号 */
+            static PROPERTY_ITEMID_NAME: string;
+            /** 获取-项目行号 */
+            /** 设置-项目行号 */
+            itemId: number;
+            /** 映射的属性名称-额外类型 */
+            static PROPERTY_EXTRATYPE_NAME: string;
+            /** 获取-额外类型 */
+            /** 设置-额外类型 */
+            extraType: string;
+            /** 映射的属性名称-额外标识 */
+            static PROPERTY_EXTRAKEY_NAME: string;
+            /** 获取-额外标识 */
+            /** 设置-额外标识 */
+            extraKey: number;
+            /** 映射的属性名称-数量 */
+            static PROPERTY_QUANTITY_NAME: string;
+            /** 获取-数量 */
+            /** 设置-数量 */
+            quantity: number;
+            /** 映射的属性名称-备注 */
+            static PROPERTY_NOTE_NAME: string;
+            /** 获取-备注 */
+            /** 设置-备注 */
+            note: string;
+            /** 初始化数据 */
+            protected init(): void;
         }
     }
 }
@@ -2690,6 +2961,11 @@ declare namespace purchase {
             /** 获取-物料/服务描述 */
             /** 设置-物料/服务描述 */
             itemDescription: string;
+            /** 映射的属性名称-物料标识 */
+            static PROPERTY_ITEMSIGN_NAME: string;
+            /** 获取-物料标识 */
+            /** 设置-物料标识 */
+            itemSign: string;
             /** 映射的属性名称-序号管理 */
             static PROPERTY_SERIALMANAGEMENT_NAME: string;
             /** 获取-序号管理 */
@@ -3253,6 +3529,11 @@ declare namespace purchase {
             /** 获取-物料/服务描述 */
             /** 设置-物料/服务描述 */
             itemDescription: string;
+            /** 映射的属性名称-物料标识 */
+            static PROPERTY_ITEMSIGN_NAME: string;
+            /** 获取-物料标识 */
+            /** 设置-物料标识 */
+            itemSign: string;
             /** 映射的属性名称-序号管理 */
             static PROPERTY_SERIALMANAGEMENT_NAME: string;
             /** 获取-序号管理 */
@@ -3378,9 +3659,146 @@ declare namespace purchase {
             /** 获取-分配规则5 */
             /** 设置-分配规则5 */
             distributionRule5: string;
+            /** 映射的属性名称-采购报价-行-额外信息集合 */
+            static PROPERTY_PURCHASEQUOTEITEMEXTRAS_NAME: string;
+            /** 获取-采购报价-行-额外信息集合 */
+            /** 设置-采购报价-行-额外信息集合 */
+            purchaseQuoteItemExtras: PurchaseQuoteItemExtras;
             /** 初始化数据 */
             protected init(): void;
             protected registerRules(): ibas.IBusinessRule[];
+        }
+        /** 采购报价-行-额外信息 集合 */
+        class PurchaseQuoteItemExtras extends ibas.BusinessObjects<PurchaseQuoteItemExtra, PurchaseQuoteItem> implements IPurchaseQuoteItemExtras {
+            /** 创建并添加子项 */
+            create(): PurchaseQuoteItemExtra;
+        }
+        /** 采购报价-行-额外信息 */
+        class PurchaseQuoteItemExtra extends ibas.BODocumentLine<PurchaseQuoteItemExtra> implements IPurchaseQuoteItemExtra {
+            /** 构造函数 */
+            constructor();
+            /** 映射的属性名称-编码 */
+            static PROPERTY_DOCENTRY_NAME: string;
+            /** 获取-编码 */
+            /** 设置-编码 */
+            docEntry: number;
+            /** 映射的属性名称-行号 */
+            static PROPERTY_LINEID_NAME: string;
+            /** 获取-行号 */
+            /** 设置-行号 */
+            lineId: number;
+            /** 映射的属性名称-显示顺序 */
+            static PROPERTY_VISORDER_NAME: string;
+            /** 获取-显示顺序 */
+            /** 设置-显示顺序 */
+            visOrder: number;
+            /** 映射的属性名称-类型 */
+            static PROPERTY_OBJECTCODE_NAME: string;
+            /** 获取-类型 */
+            /** 设置-类型 */
+            objectCode: string;
+            /** 映射的属性名称-实例号（版本） */
+            static PROPERTY_LOGINST_NAME: string;
+            /** 获取-实例号（版本） */
+            /** 设置-实例号（版本） */
+            logInst: number;
+            /** 映射的属性名称-数据源 */
+            static PROPERTY_DATASOURCE_NAME: string;
+            /** 获取-数据源 */
+            /** 设置-数据源 */
+            dataSource: string;
+            /** 映射的属性名称-取消 */
+            static PROPERTY_CANCELED_NAME: string;
+            /** 获取-取消 */
+            /** 设置-取消 */
+            canceled: ibas.emYesNo;
+            /** 映射的属性名称-状态 */
+            static PROPERTY_STATUS_NAME: string;
+            /** 获取-状态 */
+            /** 设置-状态 */
+            status: ibas.emBOStatus;
+            /** 映射的属性名称-单据状态 */
+            static PROPERTY_LINESTATUS_NAME: string;
+            /** 获取-单据状态 */
+            /** 设置-单据状态 */
+            lineStatus: ibas.emDocumentStatus;
+            /** 映射的属性名称-创建日期 */
+            static PROPERTY_CREATEDATE_NAME: string;
+            /** 获取-创建日期 */
+            /** 设置-创建日期 */
+            createDate: Date;
+            /** 映射的属性名称-创建时间 */
+            static PROPERTY_CREATETIME_NAME: string;
+            /** 获取-创建时间 */
+            /** 设置-创建时间 */
+            createTime: number;
+            /** 映射的属性名称-修改日期 */
+            static PROPERTY_UPDATEDATE_NAME: string;
+            /** 获取-修改日期 */
+            /** 设置-修改日期 */
+            updateDate: Date;
+            /** 映射的属性名称-修改时间 */
+            static PROPERTY_UPDATETIME_NAME: string;
+            /** 获取-修改时间 */
+            /** 设置-修改时间 */
+            updateTime: number;
+            /** 映射的属性名称-创建用户 */
+            static PROPERTY_CREATEUSERSIGN_NAME: string;
+            /** 获取-创建用户 */
+            /** 设置-创建用户 */
+            createUserSign: number;
+            /** 映射的属性名称-修改用户 */
+            static PROPERTY_UPDATEUSERSIGN_NAME: string;
+            /** 获取-修改用户 */
+            /** 设置-修改用户 */
+            updateUserSign: number;
+            /** 映射的属性名称-创建动作标识 */
+            static PROPERTY_CREATEACTIONID_NAME: string;
+            /** 获取-创建动作标识 */
+            /** 设置-创建动作标识 */
+            createActionId: string;
+            /** 映射的属性名称-更新动作标识 */
+            static PROPERTY_UPDATEACTIONID_NAME: string;
+            /** 获取-更新动作标识 */
+            /** 设置-更新动作标识 */
+            updateActionId: string;
+            /** 映射的属性名称-参考1 */
+            static PROPERTY_REFERENCE1_NAME: string;
+            /** 获取-参考1 */
+            /** 设置-参考1 */
+            reference1: string;
+            /** 映射的属性名称-参考2 */
+            static PROPERTY_REFERENCE2_NAME: string;
+            /** 获取-参考2 */
+            /** 设置-参考2 */
+            reference2: string;
+            /** 映射的属性名称-项目行号 */
+            static PROPERTY_ITEMID_NAME: string;
+            /** 获取-项目行号 */
+            /** 设置-项目行号 */
+            itemId: number;
+            /** 映射的属性名称-额外类型 */
+            static PROPERTY_EXTRATYPE_NAME: string;
+            /** 获取-额外类型 */
+            /** 设置-额外类型 */
+            extraType: string;
+            /** 映射的属性名称-额外标识 */
+            static PROPERTY_EXTRAKEY_NAME: string;
+            /** 获取-额外标识 */
+            /** 设置-额外标识 */
+            extraKey: number;
+            /** 映射的属性名称-数量 */
+            static PROPERTY_QUANTITY_NAME: string;
+            /** 获取-数量 */
+            /** 设置-数量 */
+            quantity: number;
+            /** 映射的属性名称-备注 */
+            static PROPERTY_NOTE_NAME: string;
+            /** 获取-备注 */
+            /** 设置-备注 */
+            note: string;
+            /** 初始化数据 */
+            protected init(): void;
         }
     }
 }
@@ -3563,7 +3981,7 @@ declare namespace purchase {
             protected init(): void;
         }
         /** 送货地址 集合 */
-        class ShippingAddresss extends ibas.BusinessObjects<ShippingAddress, ibas.IBODocument> implements IShippingAddresss {
+        class ShippingAddresss extends ibas.BusinessObjects<ShippingAddress, IPurchaseQuote | IPurchaseOrder | IPurchaseDelivery | IPurchaseReturn> implements IShippingAddresss {
             /** 创建并添加子项 */
             create(): ShippingAddress;
             /** 添加子项后 子项属性赋值 */
@@ -4016,6 +4434,7 @@ declare namespace purchase {
             /** 选择联系人 */
             private choosePurchaseOrderContactPerson;
             private editShippingAddresses;
+            private showSaleOrderItemExtra;
         }
         /** 视图-采购订单 */
         interface IPurchaseOrderEditView extends ibas.IBOEditView {
@@ -4043,6 +4462,8 @@ declare namespace purchase {
             choosePurchaseOrderItemMaterialSerialEvent: Function;
             /** 选择采购订单-行 物料批次事件 */
             choosePurchaseOrderItemMaterialBatchEvent: Function;
+            /** 显示采购订单行额外信息事件 */
+            showPurchaseOrderItemExtraEvent: Function;
             /** 显示数据 */
             showPurchaseOrderItems(datas: bo.PurchaseOrderItem[]): void;
             /** 选择采购订单-采购报价事件 */
@@ -4163,6 +4584,54 @@ declare namespace purchase {
             constructor();
             /** 创建服务实例 */
             create(): ibas.IService<ibas.IBOLinkServiceCaller>;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace purchase {
+    namespace app {
+        /** 列表应用-采购订单项目-额外 */
+        class PurchaseOrderItemExtraApp extends ibas.Application<IPurchaseOrderItemExtraView> {
+            /** 应用标识 */
+            static APPLICATION_ID: string;
+            /** 应用名称 */
+            static APPLICATION_NAME: string;
+            /** 构造函数 */
+            constructor();
+            /** 注册视图 */
+            protected registerView(): void;
+            /** 视图显示后 */
+            protected viewShowed(): void;
+            run(): void;
+            run(data: bo.PurchaseOrderItem): void;
+            private editData;
+            /** 添加采购订单-行事件 */
+            private addPurchaseOrderItemExtra;
+            /** 删除采购订单-行事件 */
+            private removePurchaseOrderItemExtra;
+            private deletePurchaseOrderItemExtra;
+            private viewPurchaseOrderItemExtra;
+        }
+        /** 视图-采购订单项目-额外 */
+        interface IPurchaseOrderItemExtraView extends ibas.IBOView {
+            /** 显示数据 */
+            showData(data: bo.PurchaseOrderItem): void;
+            /** 显示额外数据 */
+            showExtraDatas(datas: bo.PurchaseOrderItemExtra[]): void;
+            /** 添加采购订单-行额外 事件 */
+            addPurchaseOrderItemExtraEvent: Function;
+            /** 移出采购订单-行额外 事件 */
+            removePurchaseOrderItemExtraEvent: Function;
+            /** 删除采购订单-行额外 事件 */
+            deletePurchaseOrderItemExtraEvent: Function;
+            /** 查看采购订单-行额外 事件 */
+            viewPurchaseOrderItemExtraEvent: Function;
         }
     }
 }
@@ -4515,6 +4984,7 @@ declare namespace purchase {
             private removePurchaseQuoteItem;
             /** 选择联系人 */
             private choosePurchaseQuoteContactPerson;
+            private showPurchaseQuoteItemExtra;
         }
         /** 视图-采购报价 */
         interface IPurchaseQuoteEditView extends ibas.IBOEditView {
@@ -4538,6 +5008,8 @@ declare namespace purchase {
             choosePurchaseQuoteItemMaterialEvent: Function;
             /** 选择采购报价-行 仓库 */
             choosePurchaseQuoteItemWarehouseEvent: Function;
+            /** 显示采购报价额外信息事件 */
+            showPurchaseQuoteItemExtraEvent: Function;
             /** 显示数据 */
             showPurchaseQuoteItems(datas: bo.PurchaseQuoteItem[]): void;
         }
@@ -4662,6 +5134,54 @@ declare namespace purchase {
  * Use of this source code is governed by an Apache License, Version 2.0
  * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
  */
+declare namespace purchase {
+    namespace app {
+        /** 列表应用-采购报价项目-额外 */
+        class PurchaseQuoteItemExtraApp extends ibas.Application<IPurchaseQuoteItemExtraView> {
+            /** 应用标识 */
+            static APPLICATION_ID: string;
+            /** 应用名称 */
+            static APPLICATION_NAME: string;
+            /** 构造函数 */
+            constructor();
+            /** 注册视图 */
+            protected registerView(): void;
+            /** 视图显示后 */
+            protected viewShowed(): void;
+            run(): void;
+            run(data: bo.PurchaseQuoteItem): void;
+            private editData;
+            /** 添加采购报价-行事件 */
+            private addPurchaseQuoteItemExtra;
+            /** 删除采购报价-行事件 */
+            private removePurchaseQuoteItemExtra;
+            private deletePurchaseQuoteItemExtra;
+            private viewPurchaseQuoteItemExtra;
+        }
+        /** 视图-采购报价项目-额外 */
+        interface IPurchaseQuoteItemExtraView extends ibas.IBOView {
+            /** 显示数据 */
+            showData(data: bo.PurchaseQuoteItem): void;
+            /** 显示额外数据 */
+            showExtraDatas(datas: bo.PurchaseQuoteItemExtra[]): void;
+            /** 添加采购报价-行额外 事件 */
+            addPurchaseQuoteItemExtraEvent: Function;
+            /** 移出采购报价-行额外 事件 */
+            removePurchaseQuoteItemExtraEvent: Function;
+            /** 删除采购报价-行额外 事件 */
+            deletePurchaseQuoteItemExtraEvent: Function;
+            /** 查看采购报价-行额外 事件 */
+            viewPurchaseQuoteItemExtraEvent: Function;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
 /**
  * @license
  * Copyright Color-Coding Studio. All Rights Reserved.
@@ -4695,9 +5215,6 @@ declare namespace purchase {
             protected editAddress: bo.ShippingAddress;
             /** 编辑数据 */
             protected editData(data: bo.ShippingAddress): void;
-            /** 关闭视图 */
-            close(): void;
-            onClosed: Function;
         }
         /** 视图-送货地址 */
         interface IShippingAddressesEditView extends ibas.IBOView {
@@ -4730,6 +5247,8 @@ declare namespace purchase {
  */
 declare namespace purchase {
     namespace app {
+        /** 附件信息-文档附件 */
+        const EXTRA_ATTACHMENT: string;
         /** 模块控制台 */
         class Console extends ibas.ModuleConsole {
             /** 构造函数 */

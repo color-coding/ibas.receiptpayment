@@ -14,6 +14,10 @@ namespace receiptpayment {
         export namespace c {
             export function receiptMethods(): sap.ui.core.Item[] {
                 let items: sap.ui.core.Item[] = new ibas.ArrayList<sap.ui.core.Item>();
+                items.push(new sap.ui.core.Item("", {
+                    key: "",
+                    text: ibas.i18n.prop("openui5_please_select_data"),
+                }));
                 for (let item of ibas.servicesManager.getServices(<ibas.IServiceCaller<ibas.IServiceContract>>{
                     proxy: new app.ReceiptMethodProxy()
                 })) {
@@ -26,6 +30,10 @@ namespace receiptpayment {
             }
             export function paymentMethods(): sap.ui.core.Item[] {
                 let items: sap.ui.core.Item[] = new ibas.ArrayList<sap.ui.core.Item>();
+                items.push(new sap.ui.core.Item("", {
+                    key: "",
+                    text: ibas.i18n.prop("openui5_please_select_data"),
+                }));
                 for (let item of ibas.servicesManager.getServices(<ibas.IServiceCaller<ibas.IServiceContract>>{
                     proxy: new app.PaymentMethodProxy()
                 })) {
