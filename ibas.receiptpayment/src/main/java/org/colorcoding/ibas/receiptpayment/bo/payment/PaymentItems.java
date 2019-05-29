@@ -36,8 +36,7 @@ public class PaymentItems extends BusinessObjects<IPaymentItem, IPayment> implem
 	/**
 	 * 构造方法
 	 * 
-	 * @param parent
-	 *            父项对象
+	 * @param parent 父项对象
 	 */
 	public PaymentItems(IPayment parent) {
 		super(parent);
@@ -71,6 +70,7 @@ public class PaymentItems extends BusinessObjects<IPaymentItem, IPayment> implem
 		}
 		// 记录父项的值
 		item.setRate(this.getParent().getDocumentRate());
+		item.setCurrency(this.getParent().getDocumentCurrency());
 	}
 
 	@Override
@@ -82,5 +82,10 @@ public class PaymentItems extends BusinessObjects<IPaymentItem, IPayment> implem
 	@Override
 	public void onParentPropertyChanged(PropertyChangeEvent evt) {
 		super.onParentPropertyChanged(evt);
+		if (Payment.PROPERTY_DOCUMENTCURRENCY.getName().equals(evt.getPropertyName())) {
+			this.forEach(c -> c.setCurrency(this.getParent().getDocumentCurrency()));
+		} else if (Payment.PROPERTY_DOCUMENTRATE.getName().equals(evt.getPropertyName())) {
+			this.forEach(c -> c.setRate(this.getParent().getDocumentRate()));
+		}
 	}
 }

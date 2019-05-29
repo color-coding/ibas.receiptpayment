@@ -1121,6 +1121,8 @@ declare namespace purchase {
             expense: number;
             /** 货币 */
             currency: string;
+            /** 汇率 */
+            rate: number;
             /** 快递单号 */
             trackingNumber: string;
             /** 对象编号 */
@@ -3907,6 +3909,11 @@ declare namespace purchase {
             /** 获取-货币 */
             /** 设置-货币 */
             currency: string;
+            /** 映射的属性名称-汇率 */
+            static PROPERTY_RATE_NAME: string;
+            /** 获取-汇率 */
+            /** 设置-汇率 */
+            rate: number;
             /** 映射的属性名称-快递单号 */
             static PROPERTY_TRACKINGNUMBER_NAME: string;
             /** 获取-快递单号 */

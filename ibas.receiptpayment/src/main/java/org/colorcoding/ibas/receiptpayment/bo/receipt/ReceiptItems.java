@@ -1,5 +1,7 @@
 package org.colorcoding.ibas.receiptpayment.bo.receipt;
 
+import java.beans.PropertyChangeEvent;
+
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 
@@ -34,8 +36,7 @@ public class ReceiptItems extends BusinessObjects<IReceiptItem, IReceipt> implem
 	/**
 	 * 构造方法
 	 * 
-	 * @param parent
-	 *            父项对象
+	 * @param parent 父项对象
 	 */
 	public ReceiptItems(IReceipt parent) {
 		super(parent);
@@ -69,12 +70,23 @@ public class ReceiptItems extends BusinessObjects<IReceiptItem, IReceipt> implem
 		}
 		// 记录父项的值
 		item.setRate(this.getParent().getDocumentRate());
+		item.setCurrency(this.getParent().getDocumentCurrency());
 	}
 
 	@Override
 	public ICriteria getElementCriteria() {
 		ICriteria criteria = super.getElementCriteria();
 		return criteria;
+	}
+
+	@Override
+	public void onParentPropertyChanged(PropertyChangeEvent evt) {
+		super.onParentPropertyChanged(evt);
+		if (Receipt.PROPERTY_DOCUMENTCURRENCY.getName().equals(evt.getPropertyName())) {
+			this.forEach(c -> c.setCurrency(this.getParent().getDocumentCurrency()));
+		} else if (Receipt.PROPERTY_DOCUMENTRATE.getName().equals(evt.getPropertyName())) {
+			this.forEach(c -> c.setRate(this.getParent().getDocumentRate()));
+		}
 	}
 
 }

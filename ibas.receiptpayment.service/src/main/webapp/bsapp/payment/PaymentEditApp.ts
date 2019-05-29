@@ -227,6 +227,7 @@ namespace receiptpayment {
                             that.editData.businessPartnerCode = selected.code;
                             that.editData.businessPartnerName = selected.name;
                             that.editData.contactPerson = selected.contactPerson;
+                            that.editData.documentCurrency = selected.currency;
                         }
                     });
                 } else if (this.editData.businessPartnerType === businesspartner.bo.emBusinessPartnerType.SUPPLIER) {
@@ -239,6 +240,7 @@ namespace receiptpayment {
                             that.editData.businessPartnerCode = selected.code;
                             that.editData.businessPartnerName = selected.name;
                             that.editData.contactPerson = selected.contactPerson;
+                            that.editData.documentCurrency = selected.currency;
                         }
                     });
                 }
