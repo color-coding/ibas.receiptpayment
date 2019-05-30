@@ -25,7 +25,7 @@ import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
-import org.colorcoding.ibas.bobas.mapping.BOCode;
+import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
@@ -48,7 +48,7 @@ import org.colorcoding.ibas.receiptpayment.MyConfiguration;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = Payment.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = Payment.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-@BOCode(Payment.BUSINESS_OBJECT_CODE)
+@BusinessObjectUnit(code = Payment.BUSINESS_OBJECT_CODE)
 public class Payment extends BusinessObject<Payment> implements IPayment, IDataOwnership, IPeriodData, IApprovalData,
 		IBOTagDeleted, IBOTagCanceled, IBusinessLogicsHost, IBOUserFields {
 
