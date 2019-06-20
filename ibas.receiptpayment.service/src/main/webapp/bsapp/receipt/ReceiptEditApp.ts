@@ -213,6 +213,10 @@ namespace receiptpayment {
 
             /** 选择收款供应商事件 */
             private chooseReceiptBusinessPartner(): void {
+                if (!ibas.objects.isNull(this.editData) && this.editData.receiptItems.length > 0) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("receiptpayment_existing_items_not_allowed_operation"));
+                    return;
+                }
                 let that: this = this;
                 if (this.editData.businessPartnerType === businesspartner.bo.emBusinessPartnerType.CUSTOMER) {
                     ibas.servicesManager.runChooseService<businesspartner.bo.ICustomer>({
@@ -231,7 +235,7 @@ namespace receiptpayment {
                         chooseType: ibas.emChooseType.SINGLE,
                         criteria: businesspartner.app.conditions.supplier.create(),
                         onCompleted(selecteds: ibas.IList<businesspartner.bo.ISupplier>): void {
-                            let selected: businesspartner.bo.ICustomer = selecteds.firstOrDefault();
+                            let selected: businesspartner.bo.ISupplier = selecteds.firstOrDefault();
                             that.editData.businessPartnerCode = selected.code;
                             that.editData.businessPartnerName = selected.name;
                         }
@@ -282,6 +286,12 @@ namespace receiptpayment {
                     criteria: criteria,
                     onCompleted(selecteds: ibas.IList<sales.bo.ISalesOrder>): void {
                         for (let selected of selecteds) {
+                            if (that.editData.receiptItems.firstOrDefault(
+                                c => c.baseDocumentType === selected.objectCode
+                                    && c.baseDocumentEntry === selected.docEntry
+                                    && c.baseDocumentLineId === -1) !== null) {
+                                continue;
+                            }
                             let item: bo.ReceiptItem = that.editData.receiptItems.create();
                             item.baseDocumentType = selected.objectCode;
                             item.baseDocumentEntry = selected.docEntry;
@@ -337,6 +347,12 @@ namespace receiptpayment {
                     criteria: criteria,
                     onCompleted(selecteds: ibas.IList<sales.bo.ISalesDelivery>): void {
                         for (let selected of selecteds) {
+                            if (that.editData.receiptItems.firstOrDefault(
+                                c => c.baseDocumentType === selected.objectCode
+                                    && c.baseDocumentEntry === selected.docEntry
+                                    && c.baseDocumentLineId === -1) !== null) {
+                                continue;
+                            }
                             let item: bo.ReceiptItem = that.editData.receiptItems.create();
                             item.baseDocumentType = selected.objectCode;
                             item.baseDocumentEntry = selected.docEntry;
@@ -392,6 +408,12 @@ namespace receiptpayment {
                     criteria: criteria,
                     onCompleted(selecteds: ibas.IList<purchase.bo.IPurchaseReturn>): void {
                         for (let selected of selecteds) {
+                            if (that.editData.receiptItems.firstOrDefault(
+                                c => c.baseDocumentType === selected.objectCode
+                                    && c.baseDocumentEntry === selected.docEntry
+                                    && c.baseDocumentLineId === -1) !== null) {
+                                continue;
+                            }
                             let item: bo.ReceiptItem = that.editData.receiptItems.create();
                             item.baseDocumentType = selected.objectCode;
                             item.baseDocumentEntry = selected.docEntry;

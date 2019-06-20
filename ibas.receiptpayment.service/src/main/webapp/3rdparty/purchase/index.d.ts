@@ -1503,6 +1503,8 @@ declare namespace purchase {
             /** 设置-运送费用总计 */
             shippingsExpenseTotal: number;
             protected registerRules(): ibas.IBusinessRule[];
+            /** 重置 */
+            reset(): void;
             /** 转换之前 */
             beforeConvert(): void;
             /** 数据解析后 */
@@ -1807,6 +1809,8 @@ declare namespace purchase {
             /** 初始化数据 */
             protected init(): void;
             protected registerRules(): ibas.IBusinessRule[];
+            /** 重置 */
+            reset(): void;
         }
     }
 }
@@ -2085,6 +2089,8 @@ declare namespace purchase {
             /** 设置-运送费用总计 */
             shippingsExpenseTotal: number;
             protected registerRules(): ibas.IBusinessRule[];
+            /** 重置 */
+            reset(): void;
             /** 转换之前 */
             beforeConvert(): void;
             /** 数据解析后 */
@@ -2392,6 +2398,8 @@ declare namespace purchase {
             /** 初始化数据 */
             protected init(): void;
             protected registerRules(): ibas.IBusinessRule[];
+            /** 重置 */
+            reset(): void;
         }
         /** 采购订单-行-额外信息 集合 */
         class PurchaseOrderItemExtras extends ibas.BusinessObjects<PurchaseOrderItemExtra, PurchaseOrderItem> implements IPurchaseOrderItemExtras {
@@ -2800,6 +2808,8 @@ declare namespace purchase {
             /** 设置-运送费用总计 */
             shippingsExpenseTotal: number;
             protected registerRules(): ibas.IBusinessRule[];
+            /** 重置 */
+            reset(): void;
             /** 转换之前 */
             beforeConvert(): void;
             /** 数据解析后 */
@@ -3106,6 +3116,8 @@ declare namespace purchase {
             /** 初始化数据 */
             protected init(): void;
             protected registerRules(): ibas.IBusinessRule[];
+            /** 重置 */
+            reset(): void;
         }
     }
 }
@@ -3372,6 +3384,8 @@ declare namespace purchase {
             /** 设置-项目的行总计 */
             itemsLineTotal: number;
             protected registerRules(): ibas.IBusinessRule[];
+            /** 重置 */
+            reset(): void;
             /** 转换之前 */
             beforeConvert(): void;
             /** 数据解析后 */
@@ -3669,6 +3683,8 @@ declare namespace purchase {
             /** 初始化数据 */
             protected init(): void;
             protected registerRules(): ibas.IBusinessRule[];
+            /** 重置 */
+            reset(): void;
         }
         /** 采购报价-行-额外信息 集合 */
         class PurchaseQuoteItemExtras extends ibas.BusinessObjects<PurchaseQuoteItemExtra, PurchaseQuoteItem> implements IPurchaseQuoteItemExtras {
@@ -4014,6 +4030,18 @@ declare namespace purchase {
         }
         /** 模块业务对象工厂 */
         const boFactory: ibas.BOFactory;
+        /**
+         * 基于单据
+         * @param target 目标
+         * @param source 源
+         */
+        function baseDocument(target: IPurchaseOrder | IPurchaseDelivery | IPurchaseReturn, source: IPurchaseQuote | IPurchaseOrder | IPurchaseDelivery): void;
+        /**
+         * 基于单据
+         * @param target 目标
+         * @param source 源
+         */
+        function baseDocumentItem(target: IPurchaseOrderItem | IPurchaseDeliveryItem | IPurchaseReturnItem, source: IPurchaseQuoteItem | IPurchaseOrderItem | IPurchaseDeliveryItem): void;
     }
 }
 /**
@@ -4330,6 +4358,7 @@ declare namespace purchase {
         interface IPurchaseDeliveryViewView extends ibas.IBOViewView {
             showPurchaseDelivery(data: bo.PurchaseDelivery): void;
             showPurchaseDeliveryItems(data: bo.PurchaseDeliveryItem[]): void;
+            showShippingAddresses(datas: bo.ShippingAddress[]): void;
         }
         /** 采购收货连接服务映射 */
         class PurchaseDeliveryLinkServiceMapping extends ibas.BOLinkServiceMapping {
@@ -4584,6 +4613,7 @@ declare namespace purchase {
         interface IPurchaseOrderViewView extends ibas.IBOViewView {
             showPurchaseOrder(data: bo.PurchaseOrder): void;
             showPurchaseOrderItems(data: bo.PurchaseOrderItem[]): void;
+            showShippingAddresses(datas: bo.ShippingAddress[]): void;
         }
         /** 采购订单连接服务映射 */
         class PurchaseOrderLinkServiceMapping extends ibas.BOLinkServiceMapping {
@@ -4887,6 +4917,7 @@ declare namespace purchase {
         interface IPurchaseReturnViewView extends ibas.IBOViewView {
             showPurchaseReturn(data: bo.PurchaseReturn): void;
             showPurchaseReturnItems(data: bo.PurchaseReturnItem[]): void;
+            showShippingAddresses(datas: bo.ShippingAddress[]): void;
         }
         /** 采购退货连接服务映射 */
         class PurchaseReturnLinkServiceMapping extends ibas.BOLinkServiceMapping {
@@ -5222,6 +5253,8 @@ declare namespace purchase {
             protected editAddress: bo.ShippingAddress;
             /** 编辑数据 */
             protected editData(data: bo.ShippingAddress): void;
+            /** 关闭视图 */
+            close(): void;
         }
         /** 视图-送货地址 */
         interface IShippingAddressesEditView extends ibas.IBOView {

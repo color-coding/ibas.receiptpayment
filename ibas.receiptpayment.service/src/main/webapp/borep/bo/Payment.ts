@@ -496,11 +496,23 @@ namespace receiptpayment {
             /** 添加子项后 子项属性赋值 */
             protected afterAdd(item: PaymentItem): void {
                 super.afterAdd(item);
+                if (ibas.strings.isEmpty(this.parent.documentCurrency)
+                    && !ibas.strings.isEmpty(item.currency)) {
+                    this.parent.documentCurrency = item.currency;
+                }
             }
-
             /** 主表属性发生变化后 子项属性赋值  */
             protected onParentPropertyChanged(name: string): void {
                 super.onParentPropertyChanged(name);
+            }
+            /** 子项属性改变时 */
+            protected onItemPropertyChanged(item: PaymentItem, name: string): void {
+                super.onItemPropertyChanged(item, name);
+                if (ibas.strings.equalsIgnoreCase(ReceiptItem.PROPERTY_CURRENCY_NAME, name)) {
+                    if (this.length === 1) {
+                        this.parent.documentCurrency = item.currency;
+                    }
+                }
             }
         }
 

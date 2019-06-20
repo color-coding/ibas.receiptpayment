@@ -221,6 +221,7 @@ namespace receiptpayment {
                         onCompleted(selecteds: ibas.IList<businesspartner.bo.IBusinessPartnerAsset>): void {
                             let selected: businesspartner.bo.IBusinessPartnerAsset = selecteds.firstOrDefault();
                             data.tradeId = selected.code;
+                            data.currency = selected.tradingCurrency;
                         }
                     });
                 }
@@ -254,6 +255,10 @@ namespace receiptpayment {
             }
             /** 选择资产充值客户事件 */
             private chooseAssetRechargeBusinessPartner(): void {
+                if (!ibas.objects.isNull(this.editData) && this.editData.assetRechargeItems.length > 0) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("receiptpayment_existing_items_not_allowed_operation"));
+                    return;
+                }
                 let that: this = this;
                 if (this.editData.businessPartnerType === businesspartner.bo.emBusinessPartnerType.CUSTOMER) {
                     ibas.servicesManager.runChooseService<businesspartner.bo.ICustomer>({
@@ -273,7 +278,7 @@ namespace receiptpayment {
                         chooseType: ibas.emChooseType.SINGLE,
                         criteria: businesspartner.app.conditions.supplier.create(),
                         onCompleted(selecteds: ibas.IList<businesspartner.bo.ISupplier>): void {
-                            let selected: businesspartner.bo.ICustomer = selecteds.firstOrDefault();
+                            let selected: businesspartner.bo.ISupplier = selecteds.firstOrDefault();
                             that.editData.businessPartnerCode = selected.code;
                             that.editData.businessPartnerName = selected.name;
                             that.editData.contactPerson = selected.contactPerson;

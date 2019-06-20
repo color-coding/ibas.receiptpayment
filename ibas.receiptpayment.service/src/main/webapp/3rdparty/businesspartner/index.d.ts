@@ -345,6 +345,8 @@ declare namespace businesspartner {
             code: string;
             /** 名称 */
             name: string;
+            /** 标识 */
+            sign: string;
             /** 组代码 */
             group: string;
             /** 激活 */
@@ -377,6 +379,8 @@ declare namespace businesspartner {
             validDate: Date;
             /** 失效日期 */
             invalidDate: Date;
+            /** 底价清单 */
+            floorList: number;
             /** 备注 */
             remarks: string;
             /** 已引用 */
@@ -437,6 +441,8 @@ declare namespace businesspartner {
             code: string;
             /** 名称 */
             name: string;
+            /** 标识 */
+            sign: string;
             /** 组代码 */
             group: string;
             /** 激活 */
@@ -1333,6 +1339,11 @@ declare namespace businesspartner {
             /** 获取-名称 */
             /** 设置-名称 */
             name: string;
+            /** 映射的属性名称-标识 */
+            static PROPERTY_SIGN_NAME: string;
+            /** 获取-标识 */
+            /** 设置-标识 */
+            sign: string;
             /** 映射的属性名称-组代码 */
             static PROPERTY_GROUP_NAME: string;
             /** 获取-组代码 */
@@ -1413,6 +1424,11 @@ declare namespace businesspartner {
             /** 获取-失效日期 */
             /** 设置-失效日期 */
             invalidDate: Date;
+            /** 映射的属性名称-底价清单 */
+            static PROPERTY_FLOORLIST_NAME: string;
+            /** 获取-底价清单 */
+            /** 设置-底价清单 */
+            floorList: number;
             /** 映射的属性名称-备注 */
             static PROPERTY_REMARKS_NAME: string;
             /** 获取-备注 */
@@ -1548,6 +1564,11 @@ declare namespace businesspartner {
             /** 获取-名称 */
             /** 设置-名称 */
             name: string;
+            /** 映射的属性名称-标识 */
+            static PROPERTY_SIGN_NAME: string;
+            /** 获取-标识 */
+            /** 设置-标识 */
+            sign: string;
             /** 映射的属性名称-组代码 */
             static PROPERTY_GROUP_NAME: string;
             /** 获取-组代码 */
@@ -2115,6 +2136,8 @@ declare namespace businesspartner {
             remark2: string;
             /** 初始化数据 */
             protected init(): void;
+            /** 重置 */
+            reset(): void;
             protected registerRules(): ibas.IBusinessRule[];
         }
         /** 客户资产 */
@@ -3054,6 +3077,7 @@ declare namespace businesspartner {
             private chooseCustomerShipAddress;
             private chooseCustomerBillAddress;
             private chooseCustomerPriceList;
+            private chooseCustomerFloorList;
             private chooseCustomerWarehouse;
             private createContactPerson;
             private createAddress;
@@ -3076,6 +3100,8 @@ declare namespace businesspartner {
             chooseCustomerBillAddressEvent: Function;
             /** 选择客户价格清单事件 */
             chooseCustomerPriceListEvent: Function;
+            /** 选择客户底价清单事件 */
+            chooseCustomerFloorListEvent: Function;
             /** 选择客户仓库事件 */
             chooseCustomerWarehouseEvent: Function;
             /** 创建联系人 */

@@ -51,6 +51,7 @@
   "receiptpayment_receipt_trading": "正在进行收款交易[{0} - {1}]",
   "receiptpayment_receipt_traded": "收款交易[{0} - {1}]完成",
   "receiptpayment_wait_trading": "等待交易",
+  "receiptpayment_existing_items_not_allowed_operation": "已存在行项目，不允许执行此操作",
   "paymentmethod_tm_cash": "现金",
   "paymentmethod_tm_cash_icon": "sap-icon://money-bills",
   "paymentmethod_tm_bank": "银行转账",

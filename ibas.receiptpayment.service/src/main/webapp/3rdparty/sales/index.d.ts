@@ -529,6 +529,8 @@ declare namespace sales {
             consumer: string;
             /** 单据类型 */
             orderType: string;
+            /** 底价清单 */
+            floorList: number;
             /** 销售订单-行集合 */
             salesOrderItems: ISalesOrderItems;
             /** 送货地址集合 */
@@ -1075,6 +1077,8 @@ declare namespace sales {
             consumer: string;
             /** 单据类型 */
             orderType: string;
+            /** 底价清单 */
+            floorList: number;
             /** 销售报价-行集合 */
             salesQuoteItems: ISalesQuoteItems;
         }
@@ -1996,6 +2000,8 @@ declare namespace sales {
             /** 设置-运送费用总计 */
             shippingsExpenseTotal: number;
             protected registerRules(): ibas.IBusinessRule[];
+            /** 重置 */
+            reset(): void;
             /** 转换之前 */
             beforeConvert(): void;
             /** 数据解析后 */
@@ -2331,6 +2337,8 @@ declare namespace sales {
             /** 初始化数据 */
             protected init(): void;
             protected registerRules(): ibas.IBusinessRule[];
+            /** 重置 */
+            reset(): void;
         }
     }
 }
@@ -2584,6 +2592,11 @@ declare namespace sales {
             /** 获取-单据类型 */
             /** 设置-单据类型 */
             orderType: string;
+            /** 映射的属性名称-底价清单 */
+            static PROPERTY_FLOORLIST_NAME: string;
+            /** 获取-底价清单 */
+            /** 设置-底价清单 */
+            floorList: number;
             /** 映射的属性名称-销售订单-行集合 */
             static PROPERTY_SALESORDERITEMS_NAME: string;
             /** 获取-销售订单-行集合 */
@@ -2616,6 +2629,8 @@ declare namespace sales {
             /** 设置-运送费用总计 */
             shippingsExpenseTotal: number;
             protected registerRules(): ibas.IBusinessRule[];
+            /** 重置 */
+            reset(): void;
             /** 转换之前 */
             beforeConvert(): void;
             /** 数据解析后 */
@@ -2952,6 +2967,8 @@ declare namespace sales {
             /** 初始化数据 */
             protected init(): void;
             protected registerRules(): ibas.IBusinessRule[];
+            /** 重置 */
+            reset(): void;
         }
         /** 销售订单-行-额外信息 集合 */
         class SalesOrderItemExtras extends ibas.BusinessObjects<SalesOrderItemExtra, SalesOrderItem> implements ISalesOrderItemExtras {
@@ -3337,6 +3354,11 @@ declare namespace sales {
             /** 获取-单据类型 */
             /** 设置-单据类型 */
             orderType: string;
+            /** 映射的属性名称-底价清单 */
+            static PROPERTY_FLOORLIST_NAME: string;
+            /** 获取-底价清单 */
+            /** 设置-底价清单 */
+            floorList: number;
             /** 映射的属性名称-销售订单-行集合 */
             static PROPERTY_SALESQUOTEITEMS_NAME: string;
             /** 获取-销售订单-行集合 */
@@ -3355,6 +3377,8 @@ declare namespace sales {
             /** 设置-项目的行总计 */
             itemsLineTotal: number;
             protected registerRules(): ibas.IBusinessRule[];
+            /** 重置 */
+            reset(): void;
             /** 转换之前 */
             beforeConvert(): void;
             /** 数据解析后 */
@@ -3681,6 +3705,8 @@ declare namespace sales {
             /** 初始化数据 */
             protected init(): void;
             protected registerRules(): ibas.IBusinessRule[];
+            /** 重置 */
+            reset(): void;
         }
         /** 销售报价-行-额外信息 集合 */
         class SalesQuoteItemExtras extends ibas.BusinessObjects<SalesQuoteItemExtra, SalesQuoteItem> implements ISalesQuoteItemExtras {
@@ -4094,6 +4120,8 @@ declare namespace sales {
             /** 设置-运送费用总计 */
             shippingsExpenseTotal: number;
             protected registerRules(): ibas.IBusinessRule[];
+            /** 重置 */
+            reset(): void;
             /** 转换之前 */
             beforeConvert(): void;
             /** 数据解析后 */
@@ -4429,6 +4457,8 @@ declare namespace sales {
             /** 初始化数据 */
             protected init(): void;
             protected registerRules(): ibas.IBusinessRule[];
+            /** 重置 */
+            reset(): void;
         }
     }
 }
@@ -4644,6 +4674,18 @@ declare namespace sales {
         }
         /** 模块业务对象工厂 */
         const boFactory: ibas.BOFactory;
+        /**
+         * 基于单据
+         * @param target 目标
+         * @param source 源
+         */
+        function baseDocument(target: ISalesOrder | ISalesDelivery | ISalesReturn, source: ISalesQuote | ISalesOrder | ISalesDelivery): void;
+        /**
+         * 基于单据
+         * @param target 目标
+         * @param source 源
+         */
+        function baseDocumentItem(target: ISalesOrderItem | ISalesDeliveryItem | ISalesReturnItem, source: ISalesQuoteItem | ISalesOrderItem | ISalesDeliveryItem): void;
     }
 }
 /**
@@ -5200,6 +5242,7 @@ declare namespace sales {
         interface ISalesDeliveryViewView extends ibas.IBOViewView {
             showSalesDelivery(viewData: bo.SalesDelivery): void;
             showSalesDeliveryItems(salesDeliveryItem: bo.SalesDeliveryItem[]): void;
+            showShippingAddresses(datas: bo.ShippingAddress[]): void;
         }
         /** 销售交货连接服务映射 */
         class SalesDeliveryLinkServiceMapping extends ibas.BOLinkServiceMapping {
@@ -5461,6 +5504,7 @@ declare namespace sales {
         interface ISalesOrderViewView extends ibas.IBOViewView {
             showSalesOrder(viewData: bo.SalesOrder): void;
             showSalesOrderItems(salesOrderItems: bo.SalesOrderItem[]): void;
+            showShippingAddresses(datas: bo.ShippingAddress[]): void;
         }
         /** 销售订单连接服务映射 */
         class SalesOrderLinkServiceMapping extends ibas.BOLinkServiceMapping {
@@ -5767,6 +5811,7 @@ declare namespace sales {
         interface ISalesReturnViewView extends ibas.IBOViewView {
             showSalesReturn(viewData: bo.SalesReturn): void;
             showSalesReturnItems(salesOrderItems: bo.SalesReturnItem[]): void;
+            showShippingAddresses(datas: bo.ShippingAddress[]): void;
         }
         /** 销售退货连接服务映射 */
         class SalesReturnLinkServiceMapping extends ibas.BOLinkServiceMapping {
@@ -6106,6 +6151,8 @@ declare namespace sales {
             protected editAddress: bo.ShippingAddress;
             /** 编辑数据 */
             protected editData(data: bo.ShippingAddress): void;
+            /** 关闭视图 */
+            close(): void;
         }
         /** 视图-送货地址 */
         interface IShippingAddressesEditView extends ibas.IBOView {
