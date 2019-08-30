@@ -77,8 +77,8 @@ namespace receiptpayment {
                                 repository: businesspartner.bo.BORepositoryBusinessPartner,
                                 dataInfo: {
                                     type: businesspartner.bo.ContactPerson,
-                                    key: "ObjectKey",
-                                    text: "Name"
+                                    key: businesspartner.bo.ContactPerson.PROPERTY_OBJECTKEY_NAME,
+                                    text: businesspartner.bo.ContactPerson.PROPERTY_NAME_NAME
                                 },
                                 valueHelpRequest: function (): void {
                                     that.fireViewEvents(that.choosePaymentContactPersonEvent);
@@ -319,8 +319,8 @@ namespace receiptpayment {
                                 repository: accounting.bo.BORepositoryAccounting,
                                 dataInfo: {
                                     type: accounting.bo.Project,
-                                    key: "Code",
-                                    text: "Name"
+                                    key: accounting.bo.Project.PROPERTY_CODE_NAME,
+                                    text: accounting.bo.Project.PROPERTY_NAME_NAME,
                                 },
                                 criteria: [
                                     new ibas.Condition(accounting.bo.Project.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES.toString())

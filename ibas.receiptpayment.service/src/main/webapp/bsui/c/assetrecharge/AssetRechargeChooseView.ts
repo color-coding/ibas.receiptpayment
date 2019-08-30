@@ -96,8 +96,8 @@ namespace receiptpayment {
                                     repository: businesspartner.bo.BORepositoryBusinessPartner,
                                     dataInfo: {
                                         type: businesspartner.bo.BusinessPartnerAsset,
-                                        key: "Code",
-                                        text: "Name"
+                                        key: businesspartner.bo.BusinessPartnerAsset.PROPERTY_CODE_NAME,
+                                        text: businesspartner.bo.BusinessPartnerAsset.PROPERTY_NAME_NAME
                                     },
                                 }).bindProperty("bindingValue", {
                                     path: "serviceCode",

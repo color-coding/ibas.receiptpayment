@@ -4042,6 +4042,24 @@ declare namespace purchase {
          * @param source 源
          */
         function baseDocumentItem(target: IPurchaseOrderItem | IPurchaseDeliveryItem | IPurchaseReturnItem, source: IPurchaseQuoteItem | IPurchaseOrderItem | IPurchaseDeliveryItem): void;
+        /** 业务规则-计算毛价 */
+        class BusinessRuleCalculateGrossPrice extends ibas.BusinessRuleCommon {
+            /**
+             *
+             * @param result 属性-结果
+             * @param original 属性-原价
+             * @param taxRate 属性-税率
+             */
+            constructor(result: string, original: string, taxRate: string);
+            /** 结果 */
+            result: string;
+            /** 原价 */
+            original: string;
+            /** 税率 */
+            taxRate: string;
+            /** 计算规则 */
+            protected compute(context: ibas.BusinessRuleContextCommon): void;
+        }
     }
 }
 /**
@@ -4253,6 +4271,8 @@ declare namespace purchase {
             editShippingAddressesEvent: Function;
             /** 默认仓库 */
             defaultWarehouse: string;
+            /** 默认税组 */
+            defaultTaxGroup: string;
         }
     }
 }
@@ -4508,6 +4528,8 @@ declare namespace purchase {
             editShippingAddressesEvent: Function;
             /** 默认仓库 */
             defaultWarehouse: string;
+            /** 默认税组 */
+            defaultTaxGroup: string;
         }
     }
 }
@@ -5050,6 +5072,8 @@ declare namespace purchase {
             showPurchaseQuoteItemExtraEvent: Function;
             /** 显示数据 */
             showPurchaseQuoteItems(datas: bo.PurchaseQuoteItem[]): void;
+            /** 默认税组 */
+            defaultTaxGroup: string;
         }
     }
 }

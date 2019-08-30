@@ -4686,6 +4686,24 @@ declare namespace sales {
          * @param source 源
          */
         function baseDocumentItem(target: ISalesOrderItem | ISalesDeliveryItem | ISalesReturnItem, source: ISalesQuoteItem | ISalesOrderItem | ISalesDeliveryItem): void;
+        /** 业务规则-计算毛价 */
+        class BusinessRuleCalculateGrossPrice extends ibas.BusinessRuleCommon {
+            /**
+             *
+             * @param result 属性-结果
+             * @param original 属性-原价
+             * @param taxRate 属性-税率
+             */
+            constructor(result: string, original: string, taxRate: string);
+            /** 结果 */
+            result: string;
+            /** 原价 */
+            original: string;
+            /** 税率 */
+            taxRate: string;
+            /** 计算规则 */
+            protected compute(context: ibas.BusinessRuleContextCommon): void;
+        }
     }
 }
 /**
@@ -5071,7 +5089,6 @@ declare namespace sales {
             run(data: bo.SalesDelivery): void;
             /** 待编辑的数据 */
             protected editData: bo.SalesDelivery;
-            protected lineEditData: bo.SalesDeliveryItem;
             /** 保存数据 */
             protected saveData(): void;
             /** 删除数据 */
@@ -5137,6 +5154,8 @@ declare namespace sales {
             editShippingAddressesEvent: Function;
             /** 默认仓库 */
             defaultWarehouse: string;
+            /** 默认税组 */
+            defaultTaxGroup: string;
         }
     }
 }
@@ -5330,7 +5349,6 @@ declare namespace sales {
             run(data: bo.SalesOrder): void;
             /** 待编辑的数据 */
             protected editData: bo.SalesOrder;
-            protected lineEditData: bo.SalesOrderItem;
             /** 保存数据 */
             protected saveData(): void;
             /** 删除数据 */
@@ -5399,6 +5417,8 @@ declare namespace sales {
             editShippingAddressesEvent: Function;
             /** 默认仓库 */
             defaultWarehouse: string;
+            /** 默认税组 */
+            defaultTaxGroup: string;
         }
     }
 }
@@ -5640,7 +5660,6 @@ declare namespace sales {
             run(data: bo.SalesReturn): void;
             /** 待编辑的数据 */
             protected editData: bo.SalesReturn;
-            protected lineEditData: bo.SalesDeliveryItem;
             /** 保存数据 */
             protected saveData(): void;
             /** 删除数据 */
@@ -5899,7 +5918,6 @@ declare namespace sales {
             run(data: bo.SalesQuote): void;
             /** 待编辑的数据 */
             protected editData: bo.SalesQuote;
-            protected lineEditData: bo.SalesQuoteItem;
             /** 保存数据 */
             protected saveData(): void;
             /** 删除数据 */
@@ -5948,6 +5966,8 @@ declare namespace sales {
             chooseSalesQuoteItemWarehouseEvent: Function;
             /** 显示销售报价额外信息事件 */
             showSalesQuoteItemExtraEvent: Function;
+            /** 默认税组 */
+            defaultTaxGroup: string;
         }
     }
 }
