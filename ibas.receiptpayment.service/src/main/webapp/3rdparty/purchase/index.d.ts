@@ -4668,8 +4668,9 @@ declare namespace purchase {
             /** 视图显示后 */
             protected viewShowed(): void;
             run(): void;
-            run(data: bo.PurchaseOrderItem): void;
+            run(data: bo.PurchaseOrderItem, parent?: bo.PurchaseOrder): void;
             private editData;
+            private dataParent;
             /** 添加采购订单-行事件 */
             private addPurchaseOrderItemExtra;
             /** 删除采购订单-行事件 */
@@ -5211,8 +5212,9 @@ declare namespace purchase {
             /** 视图显示后 */
             protected viewShowed(): void;
             run(): void;
-            run(data: bo.PurchaseQuoteItem): void;
+            run(data: bo.PurchaseQuoteItem, parent?: bo.PurchaseQuote): void;
             private editData;
+            private dataParent;
             /** 添加采购报价-行事件 */
             private addPurchaseQuoteItemExtra;
             /** 删除采购报价-行事件 */

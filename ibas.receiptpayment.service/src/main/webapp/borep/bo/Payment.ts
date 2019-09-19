@@ -434,17 +434,6 @@ namespace receiptpayment {
                 this.setProperty(Payment.PROPERTY_PROJECT_NAME, value);
             }
 
-            /** 映射的属性名称-终端客户 */
-            static PROPERTY_CONSUMER_NAME: string = "Consumer";
-            /** 获取-终端客户 */
-            get consumer(): string {
-                return this.getProperty<string>(Payment.PROPERTY_CONSUMER_NAME);
-            }
-            /** 设置-终端客户 */
-            set consumer(value: string) {
-                this.setProperty(Payment.PROPERTY_CONSUMER_NAME, value);
-            }
-
             /** 映射的属性名称-单据类型 */
             static PROPERTY_ORDERTYPE_NAME: string = "OrderType";
             /** 获取-单据类型 */
@@ -818,6 +807,17 @@ namespace receiptpayment {
             /** 设置-原始行号 */
             set originalDocumentLineId(value: number) {
                 this.setProperty(PaymentItem.PROPERTY_ORIGINALDOCUMENTLINEID_NAME, value);
+            }
+
+            /** 映射的属性名称-终端客户 */
+            static PROPERTY_CONSUMER_NAME: string = "Consumer";
+            /** 获取-终端客户 */
+            get consumer(): string {
+                return this.getProperty<string>(PaymentItem.PROPERTY_CONSUMER_NAME);
+            }
+            /** 设置-终端客户 */
+            set consumer(value: string) {
+                this.setProperty(PaymentItem.PROPERTY_CONSUMER_NAME, value);
             }
 
             /** 映射的属性名称-方式 */

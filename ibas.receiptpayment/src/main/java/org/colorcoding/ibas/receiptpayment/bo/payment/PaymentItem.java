@@ -902,6 +902,37 @@ public class PaymentItem extends BusinessObject<PaymentItem>
 	}
 
 	/**
+	 * 属性名称-终端客户
+	 */
+	private static final String PROPERTY_CONSUMER_NAME = "Consumer";
+
+	/**
+	 * 终端客户 属性
+	 */
+	@DbField(name = "Consumer", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<String> PROPERTY_CONSUMER = registerProperty(PROPERTY_CONSUMER_NAME, String.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-终端客户
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_CONSUMER_NAME)
+	public final String getConsumer() {
+		return this.getProperty(PROPERTY_CONSUMER);
+	}
+
+	/**
+	 * 设置-终端客户
+	 * 
+	 * @param value 值
+	 */
+	public final void setConsumer(String value) {
+		this.setProperty(PROPERTY_CONSUMER, value);
+	}
+
+	/**
 	 * 属性名称-方式
 	 */
 	private static final String PROPERTY_MODE_NAME = "Mode";

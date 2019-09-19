@@ -40,7 +40,6 @@
     <Property Name="DocumentRate" Description="单据汇率" DataType="Decimal" DataSubType="Rate" EditSize="8" Mapped="DocRate"/>
     <Property Name="DocumentTotal" Description="单据总计" DataType="Decimal" DataSubType="Sum" EditSize="8" Mapped="DocTotal"/>
     <Property Name="Project" Description="项目代码" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Project"/>
-    <Property Name="Consumer" Description="终端客户" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="Consumer"/>
     <Property Name="OrderType" Description="单据类型" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrderType"/>
   </Model>
   <Model Name="PaymentItem" Description="付款-项目" ModelType="DocumentLine" Mapped="${Company}_RP_PAY1">
@@ -71,6 +70,7 @@
     <Property Name="OriginalDocumentType" Description="原始类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="OrgnlType"/>
     <Property Name="OriginalDocumentEntry" Description="原始标识" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="OrgnlEntry"/>
     <Property Name="OriginalDocumentLineId" Description="原始行号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="OrgnlLine"/>
+    <Property Name="Consumer" Description="终端客户" DataType="Alphanumeric" DataSubType="Default" EditSize="100" Mapped="Consumer"/>
     <Property Name="Mode" Description="方式" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Mode"/>
     <Property Name="Amount" Description="金额" DataType="Decimal" DataSubType="Sum" EditSize="8" Mapped="Amount"/>
     <Property Name="Currency" Description="货币" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Currency"/>

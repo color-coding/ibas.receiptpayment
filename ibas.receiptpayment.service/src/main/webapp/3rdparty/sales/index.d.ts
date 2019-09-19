@@ -529,8 +529,6 @@ declare namespace sales {
             consumer: string;
             /** 单据类型 */
             orderType: string;
-            /** 底价清单 */
-            floorList: number;
             /** 销售订单-行集合 */
             salesOrderItems: ISalesOrderItems;
             /** 送货地址集合 */
@@ -1077,8 +1075,6 @@ declare namespace sales {
             consumer: string;
             /** 单据类型 */
             orderType: string;
-            /** 底价清单 */
-            floorList: number;
             /** 销售报价-行集合 */
             salesQuoteItems: ISalesQuoteItems;
         }
@@ -2592,11 +2588,6 @@ declare namespace sales {
             /** 获取-单据类型 */
             /** 设置-单据类型 */
             orderType: string;
-            /** 映射的属性名称-底价清单 */
-            static PROPERTY_FLOORLIST_NAME: string;
-            /** 获取-底价清单 */
-            /** 设置-底价清单 */
-            floorList: number;
             /** 映射的属性名称-销售订单-行集合 */
             static PROPERTY_SALESORDERITEMS_NAME: string;
             /** 获取-销售订单-行集合 */
@@ -3354,11 +3345,6 @@ declare namespace sales {
             /** 获取-单据类型 */
             /** 设置-单据类型 */
             orderType: string;
-            /** 映射的属性名称-底价清单 */
-            static PROPERTY_FLOORLIST_NAME: string;
-            /** 获取-底价清单 */
-            /** 设置-底价清单 */
-            floorList: number;
             /** 映射的属性名称-销售订单-行集合 */
             static PROPERTY_SALESQUOTEITEMS_NAME: string;
             /** 获取-销售订单-行集合 */
@@ -5557,8 +5543,9 @@ declare namespace sales {
             /** 视图显示后 */
             protected viewShowed(): void;
             run(): void;
-            run(data: bo.SalesOrderItem): void;
+            run(data: bo.SalesOrderItem, parent?: bo.SalesOrder): void;
             private editData;
+            private dataParent;
             /** 添加销售订单-行事件 */
             private addSalesOrderItemExtra;
             /** 删除销售订单-行事件 */
@@ -6105,8 +6092,9 @@ declare namespace sales {
             /** 视图显示后 */
             protected viewShowed(): void;
             run(): void;
-            run(data: bo.SalesQuoteItem): void;
+            run(data: bo.SalesQuoteItem, parent?: bo.SalesQuote): void;
             private editData;
+            private dataParent;
             /** 添加销售报价-行事件 */
             private addSalesQuoteItemExtra;
             /** 删除销售报价-行事件 */

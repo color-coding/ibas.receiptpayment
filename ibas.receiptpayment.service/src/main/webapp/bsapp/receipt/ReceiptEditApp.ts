@@ -296,6 +296,7 @@ namespace receiptpayment {
                             item.baseDocumentType = selected.objectCode;
                             item.baseDocumentEntry = selected.docEntry;
                             item.baseDocumentLineId = -1;
+                            item.consumer = selected.consumer;
                             item.amount = selected.documentTotal - selected.paidTotal;
                             item.currency = selected.documentCurrency;
                         }
@@ -357,6 +358,7 @@ namespace receiptpayment {
                             item.baseDocumentType = selected.objectCode;
                             item.baseDocumentEntry = selected.docEntry;
                             item.baseDocumentLineId = -1;
+                            item.consumer = selected.consumer;
                             item.amount = selected.documentTotal - selected.paidTotal;
                             item.currency = selected.documentCurrency;
                         }
@@ -418,6 +420,7 @@ namespace receiptpayment {
                             item.baseDocumentType = selected.objectCode;
                             item.baseDocumentEntry = selected.docEntry;
                             item.baseDocumentLineId = -1;
+                            item.consumer = selected.consumer;
                             item.amount = selected.documentTotal - selected.paidTotal;
                             item.currency = selected.documentCurrency;
                         }

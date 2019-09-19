@@ -125,9 +125,6 @@ namespace receiptpayment {
             /** 项目代码 */
             project: string;
 
-            /** 终端客户 */
-            consumer: string;
-
             /** 单据类型 */
             orderType: string;
 
@@ -227,6 +224,9 @@ namespace receiptpayment {
 
             /** 原始行号 */
             originalDocumentLineId: number;
+
+            /** 终端客户 */
+            consumer: string;
 
             /** 方式 */
             mode: string;

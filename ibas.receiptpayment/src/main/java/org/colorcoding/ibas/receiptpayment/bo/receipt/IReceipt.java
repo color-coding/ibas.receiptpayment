@@ -591,20 +591,6 @@ public interface IReceipt extends IBODocument {
 	void setProject(String value);
 
 	/**
-	 * 获取-终端客户
-	 * 
-	 * @return 值
-	 */
-	String getConsumer();
-
-	/**
-	 * 设置-终端客户
-	 * 
-	 * @param value 值
-	 */
-	void setConsumer(String value);
-
-	/**
 	 * 获取-单据类型
 	 * 
 	 * @return 值
