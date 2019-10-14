@@ -66,6 +66,8 @@ namespace receiptpayment {
                 this.target.documentEntry = contract.documentEntry;
                 this.target.documentLineId = contract.documentLineId;
                 this.target.documentSummary = contract.documentSummary;
+                this.target.allowPartial = contract.allowPartial;
+                this.target.allowOver = contract.allowOver;
                 this.target.total = ibas.numbers.round(contract.documentTotal);
                 this.target.currency = contract.documentCurrency;
                 this.businesspartner = new BusinessPartner();
@@ -254,8 +256,11 @@ namespace receiptpayment {
                         receiptItem.lineStatus = item.trading.method.defaultStatus;
                     }
                 }
-                if (receipt.documentTotal !== this.target.total) {
-                    throw new Error(ibas.i18n.prop("receiptpayment_different_paid_amount", this.target.total - receipt.documentTotal));
+                let totalDiff: number = this.target.total - receipt.documentTotal;
+                if (totalDiff > 0 && this.target.allowPartial !== true) {
+                    throw new Error(ibas.i18n.prop("receiptpayment_unpaid_amount", totalDiff));
+                } else if (totalDiff < 0 && this.target.allowOver !== true) {
+                    throw new Error(ibas.i18n.prop("receiptpayment_more_paid_amount", totalDiff));
                 }
                 this.busy(true);
                 let that: this = this;
@@ -327,6 +332,10 @@ namespace receiptpayment {
             documentLineId?: number;
             /** 单据摘要 */
             documentSummary?: string;
+            /** 允许部分收款 */
+            allowPartial?: boolean;
+            /** 允许超出收款 */
+            allowOver?: boolean;
         }
         export class ReceiptTrading {
             /** 交易方式 */

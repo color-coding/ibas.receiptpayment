@@ -4680,13 +4680,15 @@ declare namespace sales {
              * @param original 属性-原价
              * @param taxRate 属性-税率
              */
-            constructor(result: string, original: string, taxRate: string);
+            constructor(result: string, original: string, taxRate: string, decimalPlaces?: number);
             /** 结果 */
             result: string;
             /** 原价 */
             original: string;
             /** 税率 */
             taxRate: string;
+            /** 结果保留小数位 */
+            decimalPlaces: number;
             /** 计算规则 */
             protected compute(context: ibas.BusinessRuleContextCommon): void;
         }
