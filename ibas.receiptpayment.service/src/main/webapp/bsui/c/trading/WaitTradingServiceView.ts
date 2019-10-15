@@ -20,7 +20,7 @@ namespace receiptpayment {
                     this.progress = new sap.m.ProgressIndicator("", {
                         state: sap.ui.core.ValueState.Success
                     });
-                    return new sap.m.Dialog("", {
+                    return new sap.extension.m.Dialog("", {
                         title: this.title,
                         type: sap.m.DialogType.Standard,
                         state: sap.ui.core.ValueState.Warning,
