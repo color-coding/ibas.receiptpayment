@@ -8,7 +8,7 @@
 namespace receiptpayment {
     export namespace app {
         /** 收款交易服务 */
-        export class ReceiptTradeService extends ibas.ServiceApplication<IReceiptTradeServiceView, IReceiptTradeContract> {
+        export class ReceiptTradeService extends ibas.ServiceWithResultApplication<IReceiptTradeServiceView, IReceiptTradeContract, bo.IReceipt> {
             /** 应用标识 */
             static APPLICATION_ID: string = "388eb3e2-d481-4ae2-b629-43f83e51a5b4";
             /** 应用名称 */
@@ -24,6 +24,7 @@ namespace receiptpayment {
             protected registerView(): void {
                 super.registerView();
                 // 其他事件
+                this.view.closeEvent = this.finished;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -147,6 +148,9 @@ namespace receiptpayment {
                     }
                     this.view.showTradings(tradings);
                 }
+            }
+            private finished(): void {
+                this.fireCompleted(this.receipt);
             }
         }
         /** 视图-收款交易服务 */

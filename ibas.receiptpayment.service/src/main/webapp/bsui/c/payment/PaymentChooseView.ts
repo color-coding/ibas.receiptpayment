@@ -109,14 +109,6 @@ namespace receiptpayment {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
-                                label: ibas.i18n.prop("bo_payment_consumer"),
-                                template: new sap.extension.m.Text("", {
-                                }).bindProperty("bindingValue", {
-                                    path: "consumer",
-                                    type: new sap.extension.data.Alphanumeric()
-                                }),
-                            }),
-                            new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_payment_ordertype"),
                                 template: new sap.extension.m.PropertyText("", {
                                     dataInfo: {

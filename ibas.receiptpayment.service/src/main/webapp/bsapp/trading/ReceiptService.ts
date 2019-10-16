@@ -276,14 +276,18 @@ namespace receiptpayment {
                             let receipt: bo.Receipt = opRslt.resultObjects.firstOrDefault();
                             if (!ibas.objects.isNull(receipt)) {
                                 that.proceeding(ibas.emMessageType.SUCCESS, ibas.i18n.prop("receiptpayment_receipt_completed", receipt.docEntry));
-                                ibas.servicesManager.runApplicationService<IReceiptTradeContract>({
+                                ibas.servicesManager.runApplicationService<IReceiptTradeContract, bo.IReceipt>({
                                     proxy: new ReceiptTradingServiceProxy({
                                         document: receipt
-                                    })
+                                    }),
+                                    onCompleted(result: bo.IReceipt): void {
+                                        that.fireCompleted(receipt);
+                                    }
                                 });
+                            } else {
+                                that.fireCompleted(receipt);
                             }
                             that.close();
-                            that.fireCompleted(receipt);
                         } catch (error) {
                             that.messages(error);
                         }

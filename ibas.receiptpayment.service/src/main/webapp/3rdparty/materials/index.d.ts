@@ -155,11 +155,17 @@ declare namespace materials {
         /** 物料批次选择服务代理 */
         class MaterialBatchIssueServiceProxy extends ibas.ServiceProxy<IMaterialBatchContract[]> {
         }
+        /** 物料批次列表服务代理 */
+        class MaterialBatchListServiceProxy extends ibas.ServiceProxy<IMaterialBatchContract[]> {
+        }
         /** 物料序列创建服务代理 */
         class MaterialSerialReceiptServiceProxy extends ibas.ServiceProxy<IMaterialSerialContract[]> {
         }
         /** 物料序列选择服务代理 */
         class MaterialSerialIssueServiceProxy extends ibas.ServiceProxy<IMaterialSerialContract[]> {
+        }
+        /** 物料序列列表服务代理 */
+        class MaterialSerialListServiceProxy extends ibas.ServiceProxy<IMaterialSerialContract[]> {
         }
         /** 规格服务契约 */
         interface ISpecificationTreeContract extends ibas.IServiceContract {
@@ -206,6 +212,8 @@ declare namespace materials {
                 const CONDITION_ALIAS_PURCHASE_ITEM: string;
                 /** 查询条件字段-库存物料 */
                 const CONDITION_ALIAS_INVENTORY_ITEM: string;
+                /** 查询条件字段-虚拟物料 */
+                const CONDITION_ALIAS_PHANTOM_ITEM: string;
                 /** 查询条件字段-物料类型 */
                 const CONDITION_ALIAS_ITEM_TYPE: string;
                 /** 默认查询条件 */
@@ -2018,6 +2026,8 @@ declare namespace materials {
             code: string;
             /** 名称 */
             name: string;
+            /** 条形码 */
+            barCode: string;
             /** 激活 */
             activated: ibas.emYesNo;
             /** 街道 */
@@ -5558,6 +5568,11 @@ declare namespace materials {
             /** 获取-名称 */
             /** 设置-名称 */
             name: string;
+            /** 映射的属性名称-条形码 */
+            static PROPERTY_BARCODE_NAME: string;
+            /** 获取-条形码 */
+            /** 设置-条形码 */
+            barCode: string;
             /** 映射的属性名称-激活 */
             static PROPERTY_ACTIVATED_NAME: string;
             /** 获取-激活 */
@@ -8329,6 +8344,19 @@ declare namespace materials {
             protected deleteMaterialBatchItem(data: bo.IMaterialBatchItem): void;
             protected createMaterialBatchItem(): void;
         }
+        /** 物料批次列表服务 */
+        class MaterialBatchListService extends MaterialBatchService<IMaterialBatchListsView> {
+            /** 应用标识 */
+            static APPLICATION_ID: string;
+            /** 应用名称 */
+            static APPLICATION_NAME: string;
+            /** 构造函数 */
+            constructor();
+            /** 注册视图 */
+            protected registerView(): void;
+            protected removeMaterialBatchItem(data: bo.IMaterialBatchItem[]): void;
+            protected addMaterialBatchItem(createNew?: boolean): void;
+        }
         /** 视图-物料批次服务 */
         interface IMaterialBatchServiceView extends ibas.IBOView {
             /** 显示待处理数据 */
@@ -8354,6 +8382,13 @@ declare namespace materials {
             /** 删除物料批次库存 */
             deleteMaterialBatchItemEvent: Function;
         }
+        /** 视图-物料批次列表 */
+        interface IMaterialBatchListsView extends IMaterialBatchServiceView {
+            /** 添加批次记录 */
+            addMaterialBatchItemEvent: Function;
+            /** 移出物料批次库存 */
+            removeMaterialBatchItemEvent: Function;
+        }
         /** 物料批次发货服务映射 */
         class MaterialBatchIssueServiceMapping extends ibas.ServiceMapping {
             /** 构造函数 */
@@ -8363,6 +8398,13 @@ declare namespace materials {
         }
         /** 物料批次收货服务映射 */
         class MaterialBatchReceiptServiceMapping extends ibas.ServiceMapping {
+            /** 构造函数 */
+            constructor();
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IServiceContract>;
+        }
+        /** 物料批次列表服务映射 */
+        class MaterialBatchListServiceMapping extends ibas.ServiceMapping {
             /** 构造函数 */
             constructor();
             /** 创建服务实例 */
@@ -8953,6 +8995,19 @@ declare namespace materials {
             protected deleteMaterialSerialItem(data: bo.IMaterialSerialItem): void;
             protected createMaterialSerialItem(): void;
         }
+        /** 物料序列列表服务 */
+        class MaterialSerialListService extends MaterialSerialService<IMaterialSerialListsView> {
+            /** 应用标识 */
+            static APPLICATION_ID: string;
+            /** 应用名称 */
+            static APPLICATION_NAME: string;
+            /** 构造函数 */
+            constructor();
+            /** 注册视图 */
+            protected registerView(): void;
+            protected removeMaterialSerialItem(data: bo.IMaterialSerialItem[]): void;
+            protected addMaterialSerialItem(createNew?: boolean): void;
+        }
         /** 视图-物料序列服务 */
         interface IMaterialSerialServiceView extends ibas.IBOView {
             /** 显示待处理数据 */
@@ -8978,6 +9033,13 @@ declare namespace materials {
             /** 删除物料序列库存 */
             deleteMaterialSerialItemEvent: Function;
         }
+        /** 视图-物料序列列表 */
+        interface IMaterialSerialListsView extends IMaterialSerialServiceView {
+            /** 添加序列编码记录 */
+            addMaterialSerialItemEvent: Function;
+            /** 移出物料序列库存 */
+            removeMaterialSerialItemEvent: Function;
+        }
         /** 物料序列发货服务映射 */
         class MaterialSerialIssueServiceMapping extends ibas.ServiceMapping {
             /** 构造函数 */
@@ -8987,6 +9049,13 @@ declare namespace materials {
         }
         /** 物料序列收货服务映射 */
         class MaterialSerialReceiptServiceMapping extends ibas.ServiceMapping {
+            /** 构造函数 */
+            constructor();
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IServiceContract>;
+        }
+        /** 物料序列列表服务映射 */
+        class MaterialSerialListServiceMapping extends ibas.ServiceMapping {
             /** 构造函数 */
             constructor();
             /** 创建服务实例 */
@@ -9451,7 +9520,7 @@ declare namespace materials {
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria): void;
             /** 新建数据 */
-            protected newData(): void;
+            protected newData(smart?: boolean): void;
             /** 查看数据，参数：目标数据 */
             protected viewData(data: bo.MaterialSpecification): void;
             /** 编辑数据，参数：目标数据 */

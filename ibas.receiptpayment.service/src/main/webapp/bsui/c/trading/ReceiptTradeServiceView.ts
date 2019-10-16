@@ -24,6 +24,9 @@ namespace receiptpayment {
                         stretchOnPhone: false,
                         horizontalScrolling: false,
                         verticalScrolling: true,
+                        escapeHandler(): void {
+                            // 组织esc关闭页面
+                        },
                         // contentWidth: "60%",
                         content: [
                             this.list
