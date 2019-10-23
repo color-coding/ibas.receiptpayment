@@ -80,7 +80,7 @@ namespace receiptpayment {
                         let boRepository: businesspartner.bo.IBORepositoryBusinessPartner = ibas.boFactory.create(businesspartner.bo.BO_REPOSITORY_BUSINESSPARTNER);
                         let criteria: ibas.ICriteria = new ibas.Criteria();
                         let condition: ibas.ICondition = criteria.conditions.create();
-                        condition.alias = "Code";
+                        condition.alias = businesspartner.bo.Customer.PROPERTY_CODE_NAME;
                         condition.value = this.businesspartner.code;
                         if (this.businesspartner.type === businesspartner.bo.emBusinessPartnerType.CUSTOMER) {
                             boRepository.fetchCustomer({

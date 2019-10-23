@@ -255,29 +255,29 @@ namespace receiptpayment {
                 criteria.noChilds = true;
                 let condition: ibas.ICondition = criteria.conditions.create();
                 // 未取消的
-                condition.alias = ibas.BO_PROPERTY_NAME_CANCELED;
+                condition.alias = sales.bo.SalesOrder.PROPERTY_CANCELED_NAME;
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = ibas.emYesNo.NO.toString();
                 // 未删除的
                 condition = criteria.conditions.create();
-                condition.alias = ibas.BO_PROPERTY_NAME_DELETED;
+                condition.alias = sales.bo.SalesOrder.PROPERTY_DELETED_NAME;
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = ibas.emYesNo.NO.toString();
                 // 未结算的
                 condition = criteria.conditions.create();
-                condition.alias = ibas.BO_PROPERTY_NAME_DOCUMENTSTATUS;
+                condition.alias = sales.bo.SalesOrder.PROPERTY_DOCUMENTSTATUS_NAME;
                 condition.operation = ibas.emConditionOperation.NOT_EQUAL;
                 condition.value = ibas.emDocumentStatus.CLOSED.toString();
                 // 当前客户的
                 condition = criteria.conditions.create();
-                condition.alias = "CustomerCode";
+                condition.alias = sales.bo.SalesOrder.PROPERTY_CUSTOMERCODE_NAME;
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = this.editData.businessPartnerCode;
                 // 未收全款的
                 condition = criteria.conditions.create();
-                condition.alias = "DocumentTotal";
+                condition.alias = sales.bo.SalesOrder.PROPERTY_DOCUMENTTOTAL_NAME;
                 condition.operation = ibas.emConditionOperation.GRATER_THAN;
-                condition.comparedAlias = "PaidTotal";
+                condition.comparedAlias = sales.bo.SalesOrder.PROPERTY_PAIDTOTAL_NAME;
                 // 调用选择服务
                 let that: this = this;
                 ibas.servicesManager.runChooseService<sales.bo.ISalesOrder>({
@@ -317,29 +317,29 @@ namespace receiptpayment {
                 criteria.noChilds = true;
                 let condition: ibas.ICondition = criteria.conditions.create();
                 // 未取消的
-                condition.alias = ibas.BO_PROPERTY_NAME_CANCELED;
+                condition.alias = sales.bo.SalesDelivery.PROPERTY_CANCELED_NAME;
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = ibas.emYesNo.NO.toString();
                 // 未删除的
                 condition = criteria.conditions.create();
-                condition.alias = ibas.BO_PROPERTY_NAME_DELETED;
+                condition.alias = sales.bo.SalesDelivery.PROPERTY_DELETED_NAME;
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = ibas.emYesNo.NO.toString();
                 // 未结算的
                 condition = criteria.conditions.create();
-                condition.alias = ibas.BO_PROPERTY_NAME_DOCUMENTSTATUS;
+                condition.alias = sales.bo.SalesDelivery.PROPERTY_DOCUMENTSTATUS_NAME;
                 condition.operation = ibas.emConditionOperation.NOT_EQUAL;
                 condition.value = ibas.emDocumentStatus.CLOSED.toString();
                 // 当前客户的
                 condition = criteria.conditions.create();
-                condition.alias = "CustomerCode";
+                condition.alias = sales.bo.SalesDelivery.PROPERTY_CUSTOMERCODE_NAME;
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = this.editData.businessPartnerCode;
                 // 未收全款的
                 condition = criteria.conditions.create();
-                condition.alias = "DocumentTotal";
+                condition.alias = sales.bo.SalesDelivery.PROPERTY_DOCUMENTTOTAL_NAME;
                 condition.operation = ibas.emConditionOperation.GRATER_THAN;
-                condition.comparedAlias = "PaidTotal";
+                condition.comparedAlias = sales.bo.SalesDelivery.PROPERTY_PAIDTOTAL_NAME;
                 // 调用选择服务
                 let that: this = this;
                 ibas.servicesManager.runChooseService<sales.bo.ISalesDelivery>({
@@ -379,29 +379,29 @@ namespace receiptpayment {
                 criteria.noChilds = true;
                 let condition: ibas.ICondition = criteria.conditions.create();
                 // 未取消的
-                condition.alias = ibas.BO_PROPERTY_NAME_CANCELED;
+                condition.alias = purchase.bo.PurchaseReturn.PROPERTY_CANCELED_NAME;
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = ibas.emYesNo.NO.toString();
                 // 未删除的
                 condition = criteria.conditions.create();
-                condition.alias = ibas.BO_PROPERTY_NAME_DELETED;
+                condition.alias = purchase.bo.PurchaseReturn.PROPERTY_DELETED_NAME;
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = ibas.emYesNo.NO.toString();
                 // 未结算的
                 condition = criteria.conditions.create();
-                condition.alias = ibas.BO_PROPERTY_NAME_DOCUMENTSTATUS;
+                condition.alias = purchase.bo.PurchaseReturn.PROPERTY_DOCUMENTSTATUS_NAME;
                 condition.operation = ibas.emConditionOperation.NOT_EQUAL;
                 condition.value = ibas.emDocumentStatus.CLOSED.toString();
                 // 当前供应商的
                 condition = criteria.conditions.create();
-                condition.alias = "SupplierCode";
+                condition.alias = purchase.bo.PurchaseReturn.PROPERTY_SUPPLIERCODE_NAME;
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = this.editData.businessPartnerCode;
                 // 未收全款的
                 condition = criteria.conditions.create();
-                condition.alias = "DocumentTotal";
+                condition.alias = purchase.bo.PurchaseReturn.PROPERTY_DOCUMENTTOTAL_NAME;
                 condition.operation = ibas.emConditionOperation.GRATER_THAN;
-                condition.comparedAlias = "PaidTotal";
+                condition.comparedAlias = purchase.bo.PurchaseReturn.PROPERTY_PAIDTOTAL_NAME;
                 // 调用选择服务
                 let that: this = this;
                 ibas.servicesManager.runChooseService<purchase.bo.IPurchaseReturn>({

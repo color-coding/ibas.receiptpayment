@@ -198,6 +198,8 @@ declare namespace materials {
                 const CONDITION_ALIAS_INVENTORY_ITEM: string;
                 /** 查询条件字段-物料类型 */
                 const CONDITION_ALIAS_ITEM_TYPE: string;
+                /** 查询条件字段-虚拟物料 */
+                const CONDITION_ALIAS_PHANTOM_ITEM: string;
                 /** 默认查询条件 */
                 function create(): ibas.IList<ibas.ICondition>;
             }
@@ -2807,6 +2809,8 @@ declare namespace materials {
             goodsIssueLines: GoodsIssueLines;
             /** 初始化数据 */
             protected init(): void;
+            /** 重置 */
+            reset(): void;
             protected registerRules(): ibas.IBusinessRule[];
         }
         /** 库存发货-行 集合 */
@@ -3211,6 +3215,8 @@ declare namespace materials {
             goodsReceiptLines: GoodsReceiptLines;
             /** 初始化数据 */
             protected init(): void;
+            /** 重置 */
+            reset(): void;
             protected registerRules(): ibas.IBusinessRule[];
         }
         /** 库存收货-行 集合 */
@@ -3620,6 +3626,8 @@ declare namespace materials {
             inventoryTransferLines: InventoryTransferLines;
             /** 初始化数据 */
             protected init(): void;
+            /** 重置 */
+            reset(): void;
             protected registerRules(): ibas.IBusinessRule[];
         }
         /** 库存转储-行 集合 */
@@ -4201,7 +4209,7 @@ declare namespace materials {
             /** 设置-物料编码 */
             itemCode: string;
             /** 映射的属性名称-批次编号 */
-            static PROPERTY_BATCH_NAME: string;
+            static PROPERTY_BATCHCODE_NAME: string;
             /** 获取-批次编号 */
             /** 设置-批次编号 */
             batchCode: string;
@@ -5092,7 +5100,7 @@ declare namespace materials {
             /** 设置-物料编码 */
             itemCode: string;
             /** 映射的属性名称-序列编号 */
-            static PROPERTY_BATCH_NAME: string;
+            static PROPERTY_SERIALCODE_NAME: string;
             /** 获取-序列编号 */
             /** 设置-序列编号 */
             serialCode: string;
@@ -5885,6 +5893,8 @@ declare namespace materials {
             inventoryCountingLines: InventoryCountingLines;
             /** 初始化数据 */
             protected init(): void;
+            /** 重置 */
+            reset(): void;
         }
         /** 库存盘点-行 集合 */
         class InventoryCountingLines extends ibas.BusinessObjects<InventoryCountingLine, InventoryCounting> implements IInventoryCountingLines {

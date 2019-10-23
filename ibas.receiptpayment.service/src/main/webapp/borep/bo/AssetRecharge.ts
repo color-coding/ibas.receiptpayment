@@ -452,6 +452,11 @@ namespace receiptpayment {
                 this.businessPartnerType = businesspartner.bo.emBusinessPartnerType.CUSTOMER;
                 this.documentStatus = ibas.emDocumentStatus.RELEASED;
             }
+            /** 重置 */
+            reset(): void {
+                super.reset();
+                this.documentStatus = ibas.emDocumentStatus.RELEASED;
+            }
             protected registerRules(): ibas.IBusinessRule[] {
                 return [
                     // 计算项目-行总计

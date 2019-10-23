@@ -234,10 +234,10 @@ namespace receiptpayment {
                 // 调用选择服务
                 let criteria: ibas.ICriteria = new ibas.Criteria();
                 let condition: ibas.ICondition = criteria.conditions.create();
-                condition.alias = "BusinessPartnerType";
+                condition.alias = businesspartner.bo.BusinessPartnerAsset.PROPERTY_BUSINESSPARTNERTYPE_NAME;
                 condition.value = this.editData.businessPartnerType.toString();
                 condition = criteria.conditions.create();
-                condition.alias = "BusinessPartnerCode";
+                condition.alias = businesspartner.bo.BusinessPartnerAsset.PROPERTY_BUSINESSPARTNERCODE_NAME;
                 condition.value = this.editData.businessPartnerCode;
 
                 let that: this = this;
