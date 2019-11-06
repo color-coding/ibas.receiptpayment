@@ -185,7 +185,8 @@ namespace receiptpayment {
             }
             /** 添加付款-项目事件 */
             private addPaymentItem(): void {
-                this.editData.paymentItems.create();
+                let item: bo.IPaymentItem = this.editData.paymentItems.create();
+                item.currency = this.editData.documentCurrency;
                 // 仅显示没有标记删除的
                 this.view.showPaymentItems(this.editData.paymentItems.filterDeleted());
             }
@@ -275,14 +276,26 @@ namespace receiptpayment {
                 condition.alias = purchase.bo.PurchaseOrder.PROPERTY_DOCUMENTSTATUS_NAME;
                 condition.operation = ibas.emConditionOperation.NOT_EQUAL;
                 condition.value = ibas.emDocumentStatus.CLOSED.toString();
+                // 审批通过的或未进审批
+                condition = criteria.conditions.create();
+                condition.alias = purchase.bo.PurchaseOrder.PROPERTY_APPROVALSTATUS_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emApprovalStatus.APPROVED.toString();
+                condition.bracketOpen = 1;
+                condition = criteria.conditions.create();
+                condition.alias = purchase.bo.PurchaseOrder.PROPERTY_APPROVALSTATUS_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emApprovalStatus.UNAFFECTED.toString();
+                condition.relationship = ibas.emConditionRelationship.OR;
+                condition.bracketClose = 1;
                 // 当前供应商的
                 condition = criteria.conditions.create();
-                condition.alias =  purchase.bo.PurchaseOrder.PROPERTY_SUPPLIERCODE_NAME;
+                condition.alias = purchase.bo.PurchaseOrder.PROPERTY_SUPPLIERCODE_NAME;
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = this.editData.businessPartnerCode;
                 // 未收全款的
                 condition = criteria.conditions.create();
-                condition.alias =  purchase.bo.PurchaseOrder.PROPERTY_DOCUMENTTOTAL_NAME;
+                condition.alias = purchase.bo.PurchaseOrder.PROPERTY_DOCUMENTTOTAL_NAME;
                 condition.operation = ibas.emConditionOperation.GRATER_THAN;
                 condition.comparedAlias = purchase.bo.PurchaseOrder.PROPERTY_PAIDTOTAL_NAME;
                 // 调用选择服务
@@ -334,9 +347,21 @@ namespace receiptpayment {
                 condition.value = ibas.emYesNo.NO.toString();
                 // 未结算的
                 condition = criteria.conditions.create();
-                condition.alias =purchase.bo.PurchaseDelivery.PROPERTY_DOCUMENTSTATUS_NAME;
+                condition.alias = purchase.bo.PurchaseDelivery.PROPERTY_DOCUMENTSTATUS_NAME;
                 condition.operation = ibas.emConditionOperation.NOT_EQUAL;
                 condition.value = ibas.emDocumentStatus.CLOSED.toString();
+                // 审批通过的或未进审批
+                condition = criteria.conditions.create();
+                condition.alias = purchase.bo.PurchaseDelivery.PROPERTY_APPROVALSTATUS_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emApprovalStatus.APPROVED.toString();
+                condition.bracketOpen = 1;
+                condition = criteria.conditions.create();
+                condition.alias = purchase.bo.PurchaseDelivery.PROPERTY_APPROVALSTATUS_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emApprovalStatus.UNAFFECTED.toString();
+                condition.relationship = ibas.emConditionRelationship.OR;
+                condition.bracketClose = 1;
                 // 当前供应商的
                 condition = criteria.conditions.create();
                 condition.alias = purchase.bo.PurchaseDelivery.PROPERTY_SUPPLIERCODE_NAME;
@@ -384,7 +409,7 @@ namespace receiptpayment {
                 let criteria: ibas.ICriteria = new ibas.Criteria();
                 let condition: ibas.ICondition = criteria.conditions.create();
                 // 未取消的
-                condition.alias =bo.Receipt.PROPERTY_CANCELED_NAME;
+                condition.alias = bo.Receipt.PROPERTY_CANCELED_NAME;
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = ibas.emYesNo.NO.toString();
                 // 未删除的
@@ -392,6 +417,18 @@ namespace receiptpayment {
                 condition.alias = bo.Receipt.PROPERTY_DELETED_NAME;
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = ibas.emYesNo.NO.toString();
+                // 审批通过的或未进审批
+                condition = criteria.conditions.create();
+                condition.alias = bo.Receipt.PROPERTY_APPROVALSTATUS_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emApprovalStatus.APPROVED.toString();
+                condition.bracketOpen = 1;
+                condition = criteria.conditions.create();
+                condition.alias = bo.Receipt.PROPERTY_APPROVALSTATUS_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emApprovalStatus.UNAFFECTED.toString();
+                condition.relationship = ibas.emConditionRelationship.OR;
+                condition.bracketClose = 1;
                 // 当前业务伙伴
                 condition = criteria.conditions.create();
                 condition.alias = bo.Receipt.PROPERTY_BUSINESSPARTNERTYPE_NAME;
@@ -455,24 +492,36 @@ namespace receiptpayment {
                 condition.value = ibas.emYesNo.NO.toString();
                 // 未删除的
                 condition = criteria.conditions.create();
-                condition.alias =sales.bo.SalesReturn.PROPERTY_DELETED_NAME;
+                condition.alias = sales.bo.SalesReturn.PROPERTY_DELETED_NAME;
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = ibas.emYesNo.NO.toString();
                 // 未结算的
                 condition = criteria.conditions.create();
-                condition.alias =sales.bo.SalesReturn.PROPERTY_DOCUMENTSTATUS_NAME;
+                condition.alias = sales.bo.SalesReturn.PROPERTY_DOCUMENTSTATUS_NAME;
                 condition.operation = ibas.emConditionOperation.NOT_EQUAL;
                 condition.value = ibas.emDocumentStatus.CLOSED.toString();
+                // 审批通过的或未进审批
+                condition = criteria.conditions.create();
+                condition.alias = sales.bo.SalesReturn.PROPERTY_APPROVALSTATUS_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emApprovalStatus.APPROVED.toString();
+                condition.bracketOpen = 1;
+                condition = criteria.conditions.create();
+                condition.alias = sales.bo.SalesReturn.PROPERTY_APPROVALSTATUS_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emApprovalStatus.UNAFFECTED.toString();
+                condition.relationship = ibas.emConditionRelationship.OR;
+                condition.bracketClose = 1;
                 // 当前客户的
                 condition = criteria.conditions.create();
-                condition.alias =sales.bo.SalesReturn.PROPERTY_CUSTOMERCODE_NAME;
+                condition.alias = sales.bo.SalesReturn.PROPERTY_CUSTOMERCODE_NAME;
                 condition.operation = ibas.emConditionOperation.EQUAL;
                 condition.value = this.editData.businessPartnerCode;
                 // 未收全款的
                 condition = criteria.conditions.create();
                 condition.alias = sales.bo.SalesReturn.PROPERTY_DOCUMENTTOTAL_NAME;
                 condition.operation = ibas.emConditionOperation.GRATER_THAN;
-                condition.comparedAlias =sales.bo.SalesReturn.PROPERTY_PAIDTOTAL_NAME;
+                condition.comparedAlias = sales.bo.SalesReturn.PROPERTY_PAIDTOTAL_NAME;
                 // 调用选择服务
                 let that: this = this;
                 ibas.servicesManager.runChooseService<sales.bo.ISalesReturn>({

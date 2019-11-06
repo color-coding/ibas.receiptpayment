@@ -182,7 +182,8 @@ namespace receiptpayment {
             }
             /** 添加收款-项目事件 */
             private addReceiptItem(): void {
-                this.editData.receiptItems.create();
+                let item: bo.IReceiptItem = this.editData.receiptItems.create();
+                item.currency = this.editData.documentCurrency;
                 // 仅显示没有标记删除的
                 this.view.showReceiptItems(this.editData.receiptItems.filterDeleted());
             }
@@ -227,6 +228,8 @@ namespace receiptpayment {
                             let selected: businesspartner.bo.ICustomer = selecteds.firstOrDefault();
                             that.editData.businessPartnerCode = selected.code;
                             that.editData.businessPartnerName = selected.name;
+                            that.editData.contactPerson = selected.contactPerson;
+                            that.editData.documentCurrency = selected.currency;
                         }
                     });
                 } else if (this.editData.businessPartnerType === businesspartner.bo.emBusinessPartnerType.SUPPLIER) {
@@ -238,6 +241,8 @@ namespace receiptpayment {
                             let selected: businesspartner.bo.ISupplier = selecteds.firstOrDefault();
                             that.editData.businessPartnerCode = selected.code;
                             that.editData.businessPartnerName = selected.name;
+                            that.editData.contactPerson = selected.contactPerson;
+                            that.editData.documentCurrency = selected.currency;
                         }
                     });
                 }
@@ -268,6 +273,18 @@ namespace receiptpayment {
                 condition.alias = sales.bo.SalesOrder.PROPERTY_DOCUMENTSTATUS_NAME;
                 condition.operation = ibas.emConditionOperation.NOT_EQUAL;
                 condition.value = ibas.emDocumentStatus.CLOSED.toString();
+                // 审批通过的或未进审批
+                condition = criteria.conditions.create();
+                condition.alias = sales.bo.SalesOrder.PROPERTY_APPROVALSTATUS_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emApprovalStatus.APPROVED.toString();
+                condition.bracketOpen = 1;
+                condition = criteria.conditions.create();
+                condition.alias = sales.bo.SalesOrder.PROPERTY_APPROVALSTATUS_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emApprovalStatus.UNAFFECTED.toString();
+                condition.relationship = ibas.emConditionRelationship.OR;
+                condition.bracketClose = 1;
                 // 当前客户的
                 condition = criteria.conditions.create();
                 condition.alias = sales.bo.SalesOrder.PROPERTY_CUSTOMERCODE_NAME;
@@ -330,6 +347,18 @@ namespace receiptpayment {
                 condition.alias = sales.bo.SalesDelivery.PROPERTY_DOCUMENTSTATUS_NAME;
                 condition.operation = ibas.emConditionOperation.NOT_EQUAL;
                 condition.value = ibas.emDocumentStatus.CLOSED.toString();
+                // 审批通过的或未进审批
+                condition = criteria.conditions.create();
+                condition.alias = sales.bo.SalesDelivery.PROPERTY_APPROVALSTATUS_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emApprovalStatus.APPROVED.toString();
+                condition.bracketOpen = 1;
+                condition = criteria.conditions.create();
+                condition.alias = sales.bo.SalesDelivery.PROPERTY_APPROVALSTATUS_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emApprovalStatus.UNAFFECTED.toString();
+                condition.relationship = ibas.emConditionRelationship.OR;
+                condition.bracketClose = 1;
                 // 当前客户的
                 condition = criteria.conditions.create();
                 condition.alias = sales.bo.SalesDelivery.PROPERTY_CUSTOMERCODE_NAME;
@@ -392,6 +421,18 @@ namespace receiptpayment {
                 condition.alias = purchase.bo.PurchaseReturn.PROPERTY_DOCUMENTSTATUS_NAME;
                 condition.operation = ibas.emConditionOperation.NOT_EQUAL;
                 condition.value = ibas.emDocumentStatus.CLOSED.toString();
+                // 审批通过的或未进审批
+                condition = criteria.conditions.create();
+                condition.alias = purchase.bo.PurchaseReturn.PROPERTY_APPROVALSTATUS_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emApprovalStatus.APPROVED.toString();
+                condition.bracketOpen = 1;
+                condition = criteria.conditions.create();
+                condition.alias = purchase.bo.PurchaseReturn.PROPERTY_APPROVALSTATUS_NAME;
+                condition.operation = ibas.emConditionOperation.EQUAL;
+                condition.value = ibas.emApprovalStatus.UNAFFECTED.toString();
+                condition.relationship = ibas.emConditionRelationship.OR;
+                condition.bracketClose = 1;
                 // 当前供应商的
                 condition = criteria.conditions.create();
                 condition.alias = purchase.bo.PurchaseReturn.PROPERTY_SUPPLIERCODE_NAME;
