@@ -245,8 +245,6 @@ declare namespace purchase {
             discount: number;
             /** 已清金额 */
             closedAmount: number;
-            /** 科目代码 */
-            accountCode: string;
             /** 折扣前价格 */
             unitPrice: number;
             /** 税定义 */
@@ -255,10 +253,10 @@ declare namespace purchase {
             taxRate: number;
             /** 税总额 */
             taxTotal: number;
-            /** 毛价 */
-            grossPrice: number;
-            /** 毛总额 */
-            grossTotal: number;
+            /** 税前价格 */
+            preTaxPrice: number;
+            /** 税前行总计 */
+            preTaxLineTotal: number;
             /** 分配规则1 */
             distributionRule1: string;
             /** 分配规则2 */
@@ -269,6 +267,8 @@ declare namespace purchase {
             distributionRule4: string;
             /** 分配规则5 */
             distributionRule5: string;
+            /** 赋值产品 */
+            baseProduct(source: materials.bo.IProduct): void;
         }
     }
 }
@@ -473,8 +473,6 @@ declare namespace purchase {
             discount: number;
             /** 已清金额 */
             closedAmount: number;
-            /** 科目代码 */
-            accountCode: string;
             /** 折扣前价格 */
             unitPrice: number;
             /** 税定义 */
@@ -483,10 +481,10 @@ declare namespace purchase {
             taxRate: number;
             /** 税总额 */
             taxTotal: number;
-            /** 毛价 */
-            grossPrice: number;
-            /** 毛总额 */
-            grossTotal: number;
+            /** 税前价格 */
+            preTaxPrice: number;
+            /** 税前行总计 */
+            preTaxLineTotal: number;
             /** 分配规则1 */
             distributionRule1: string;
             /** 分配规则2 */
@@ -499,6 +497,8 @@ declare namespace purchase {
             distributionRule5: string;
             /** 采购订单-行-额外信息集合 */
             purchaseOrderItemExtras: IPurchaseOrderItemExtras;
+            /** 赋值产品 */
+            baseProduct(source: materials.bo.IProduct): void;
         }
         /** 采购订单-行-额外信息 集合 */
         interface IPurchaseOrderItemExtras extends ibas.IBusinessObjects<IPurchaseOrderItemExtra> {
@@ -763,8 +763,6 @@ declare namespace purchase {
             discount: number;
             /** 已清金额 */
             closedAmount: number;
-            /** 科目代码 */
-            accountCode: string;
             /** 折扣前价格 */
             unitPrice: number;
             /** 税定义 */
@@ -773,10 +771,10 @@ declare namespace purchase {
             taxRate: number;
             /** 税总额 */
             taxTotal: number;
-            /** 毛价 */
-            grossPrice: number;
-            /** 毛总额 */
-            grossTotal: number;
+            /** 税前价格 */
+            preTaxPrice: number;
+            /** 税前行总计 */
+            preTaxLineTotal: number;
             /** 分配规则1 */
             distributionRule1: string;
             /** 分配规则2 */
@@ -787,6 +785,8 @@ declare namespace purchase {
             distributionRule4: string;
             /** 分配规则5 */
             distributionRule5: string;
+            /** 赋值产品 */
+            baseProduct(source: materials.bo.IProduct): void;
         }
     }
 }
@@ -989,8 +989,6 @@ declare namespace purchase {
             discount: number;
             /** 已清金额 */
             closedAmount: number;
-            /** 科目代码 */
-            accountCode: string;
             /** 折扣前价格 */
             unitPrice: number;
             /** 税定义 */
@@ -999,10 +997,10 @@ declare namespace purchase {
             taxRate: number;
             /** 税总额 */
             taxTotal: number;
-            /** 毛价 */
-            grossPrice: number;
-            /** 毛总额 */
-            grossTotal: number;
+            /** 税前价格 */
+            preTaxPrice: number;
+            /** 税前行总计 */
+            preTaxLineTotal: number;
             /** 分配规则1 */
             distributionRule1: string;
             /** 分配规则2 */
@@ -1015,6 +1013,8 @@ declare namespace purchase {
             distributionRule5: string;
             /** 采购报价-行-额外信息集合 */
             purchaseQuoteItemExtras: IPurchaseQuoteItemExtras;
+            /** 赋值产品 */
+            baseProduct(source: materials.bo.IProduct): void;
         }
         /** 采购报价-行-额外信息 集合 */
         interface IPurchaseQuoteItemExtras extends ibas.IBusinessObjects<IPurchaseQuoteItemExtra> {
@@ -1125,6 +1125,14 @@ declare namespace purchase {
             rate: number;
             /** 快递单号 */
             trackingNumber: string;
+            /** 税定义 */
+            tax: string;
+            /** 税率 */
+            taxRate: number;
+            /** 税总额 */
+            taxTotal: number;
+            /** 税前费用 */
+            preTaxExpense: number;
             /** 对象编号 */
             objectKey: number;
             /** 对象类型 */
@@ -1547,12 +1555,24 @@ declare namespace purchase {
             get itemsLineTotal(): number;
             /** 设置-项目的行总计 */
             set itemsLineTotal(value: number);
+            /** 映射的属性名称-运送费税总计 */
+            static PROPERTY_SHIPPINGSTAXTOTAL_NAME: string;
+            /** 获取-运送费税总计 */
+            get shippingsTaxTotal(): number;
+            /** 设置-运送费税总计 */
+            set shippingsTaxTotal(value: number);
             /** 映射的属性名称-运送费用总计 */
             static PROPERTY_SHIPPINGSEXPENSETOTAL_NAME: string;
             /** 获取-运送费用总计 */
             get shippingsExpenseTotal(): number;
             /** 设置-运送费用总计 */
             set shippingsExpenseTotal(value: number);
+            /** 映射的属性名称-单据税总计 */
+            static PROPERTY_DOCUMENTTAXTOTAL_NAME: string;
+            /** 获取-单据税总计 */
+            get documentTaxTotal(): number;
+            /** 设置-单据税总计 */
+            set documentTaxTotal(value: number);
             protected registerRules(): ibas.IBusinessRule[];
             /** 重置 */
             reset(): void;
@@ -1830,12 +1850,6 @@ declare namespace purchase {
             get closedAmount(): number;
             /** 设置-已清金额 */
             set closedAmount(value: number);
-            /** 映射的属性名称-科目代码 */
-            static PROPERTY_ACCOUNTCODE_NAME: string;
-            /** 获取-科目代码 */
-            get accountCode(): string;
-            /** 设置-科目代码 */
-            set accountCode(value: string);
             /** 映射的属性名称-折扣前价格 */
             static PROPERTY_UNITPRICE_NAME: string;
             /** 获取-折扣前价格 */
@@ -1860,18 +1874,18 @@ declare namespace purchase {
             get taxTotal(): number;
             /** 设置-税总额 */
             set taxTotal(value: number);
-            /** 映射的属性名称-毛价 */
-            static PROPERTY_GROSSPRICE_NAME: string;
-            /** 获取-毛价 */
-            get grossPrice(): number;
-            /** 设置-毛价 */
-            set grossPrice(value: number);
-            /** 映射的属性名称-毛总额 */
-            static PROPERTY_GROSSTOTAL_NAME: string;
-            /** 获取-毛总额 */
-            get grossTotal(): number;
-            /** 设置-毛总额 */
-            set grossTotal(value: number);
+            /** 映射的属性名称-税前价格 */
+            static PROPERTY_PRETAXPRICE_NAME: string;
+            /** 获取-税前价格 */
+            get preTaxPrice(): number;
+            /** 设置-税前价格 */
+            set preTaxPrice(value: number);
+            /** 映射的属性名称-税前行总计 */
+            static PROPERTY_PRETAXLINETOTAL_NAME: string;
+            /** 获取-税前行总计 */
+            get preTaxLineTotal(): number;
+            /** 设置-税前行总计 */
+            set preTaxLineTotal(value: number);
             /** 映射的属性名称-分配规则1 */
             static PROPERTY_DISTRIBUTIONRULE1_NAME: string;
             /** 获取-分配规则1 */
@@ -1916,6 +1930,8 @@ declare namespace purchase {
             set materialSerials(value: materials.bo.MaterialSerialItems);
             /** 初始化数据 */
             protected init(): void;
+            /** 赋值产品 */
+            baseProduct(source: materials.bo.IProduct): void;
             protected registerRules(): ibas.IBusinessRule[];
             /** 重置 */
             reset(): void;
@@ -2241,12 +2257,24 @@ declare namespace purchase {
             get itemsLineTotal(): number;
             /** 设置-项目的行总计 */
             set itemsLineTotal(value: number);
+            /** 映射的属性名称-运送费税总计 */
+            static PROPERTY_SHIPPINGSTAXTOTAL_NAME: string;
+            /** 获取-运送费税总计 */
+            get shippingsTaxTotal(): number;
+            /** 设置-运送费税总计 */
+            set shippingsTaxTotal(value: number);
             /** 映射的属性名称-运送费用总计 */
             static PROPERTY_SHIPPINGSEXPENSETOTAL_NAME: string;
             /** 获取-运送费用总计 */
             get shippingsExpenseTotal(): number;
             /** 设置-运送费用总计 */
             set shippingsExpenseTotal(value: number);
+            /** 映射的属性名称-单据税总计 */
+            static PROPERTY_DOCUMENTTAXTOTAL_NAME: string;
+            /** 获取-单据税总计 */
+            get documentTaxTotal(): number;
+            /** 设置-单据税总计 */
+            set documentTaxTotal(value: number);
             protected registerRules(): ibas.IBusinessRule[];
             /** 重置 */
             reset(): void;
@@ -2522,12 +2550,6 @@ declare namespace purchase {
             get closedAmount(): number;
             /** 设置-已清金额 */
             set closedAmount(value: number);
-            /** 映射的属性名称-科目代码 */
-            static PROPERTY_ACCOUNTCODE_NAME: string;
-            /** 获取-科目代码 */
-            get accountCode(): string;
-            /** 设置-科目代码 */
-            set accountCode(value: string);
             /** 映射的属性名称-折扣前价格 */
             static PROPERTY_UNITPRICE_NAME: string;
             /** 获取-折扣前价格 */
@@ -2552,18 +2574,18 @@ declare namespace purchase {
             get taxTotal(): number;
             /** 设置-税总额 */
             set taxTotal(value: number);
-            /** 映射的属性名称-毛价 */
-            static PROPERTY_GROSSPRICE_NAME: string;
-            /** 获取-毛价 */
-            get grossPrice(): number;
-            /** 设置-毛价 */
-            set grossPrice(value: number);
-            /** 映射的属性名称-毛总额 */
-            static PROPERTY_GROSSTOTAL_NAME: string;
-            /** 获取-毛总额 */
-            get grossTotal(): number;
-            /** 设置-毛总额 */
-            set grossTotal(value: number);
+            /** 映射的属性名称-税前价格 */
+            static PROPERTY_PRETAXPRICE_NAME: string;
+            /** 获取-税前价格 */
+            get preTaxPrice(): number;
+            /** 设置-税前价格 */
+            set preTaxPrice(value: number);
+            /** 映射的属性名称-税前行总计 */
+            static PROPERTY_PRETAXLINETOTAL_NAME: string;
+            /** 获取-税前行总计 */
+            get preTaxLineTotal(): number;
+            /** 设置-税前行总计 */
+            set preTaxLineTotal(value: number);
             /** 映射的属性名称-分配规则1 */
             static PROPERTY_DISTRIBUTIONRULE1_NAME: string;
             /** 获取-分配规则1 */
@@ -2614,6 +2636,8 @@ declare namespace purchase {
             set materialSerials(value: materials.bo.MaterialSerialItems);
             /** 初始化数据 */
             protected init(): void;
+            /** 赋值产品 */
+            baseProduct(source: materials.bo.IProduct): void;
             protected registerRules(): ibas.IBusinessRule[];
             /** 重置 */
             reset(): void;
@@ -3093,12 +3117,24 @@ declare namespace purchase {
             get itemsLineTotal(): number;
             /** 设置-项目的行总计 */
             set itemsLineTotal(value: number);
+            /** 映射的属性名称-运送费税总计 */
+            static PROPERTY_SHIPPINGSTAXTOTAL_NAME: string;
+            /** 获取-运送费税总计 */
+            get shippingsTaxTotal(): number;
+            /** 设置-运送费税总计 */
+            set shippingsTaxTotal(value: number);
             /** 映射的属性名称-运送费用总计 */
             static PROPERTY_SHIPPINGSEXPENSETOTAL_NAME: string;
             /** 获取-运送费用总计 */
             get shippingsExpenseTotal(): number;
             /** 设置-运送费用总计 */
             set shippingsExpenseTotal(value: number);
+            /** 映射的属性名称-单据税总计 */
+            static PROPERTY_DOCUMENTTAXTOTAL_NAME: string;
+            /** 获取-单据税总计 */
+            get documentTaxTotal(): number;
+            /** 设置-单据税总计 */
+            set documentTaxTotal(value: number);
             protected registerRules(): ibas.IBusinessRule[];
             /** 重置 */
             reset(): void;
@@ -3378,12 +3414,6 @@ declare namespace purchase {
             get closedAmount(): number;
             /** 设置-已清金额 */
             set closedAmount(value: number);
-            /** 映射的属性名称-科目代码 */
-            static PROPERTY_ACCOUNTCODE_NAME: string;
-            /** 获取-科目代码 */
-            get accountCode(): string;
-            /** 设置-科目代码 */
-            set accountCode(value: string);
             /** 映射的属性名称-折扣前价格 */
             static PROPERTY_UNITPRICE_NAME: string;
             /** 获取-折扣前价格 */
@@ -3408,18 +3438,18 @@ declare namespace purchase {
             get taxTotal(): number;
             /** 设置-税总额 */
             set taxTotal(value: number);
-            /** 映射的属性名称-毛价 */
-            static PROPERTY_GROSSPRICE_NAME: string;
-            /** 获取-毛价 */
-            get grossPrice(): number;
-            /** 设置-毛价 */
-            set grossPrice(value: number);
-            /** 映射的属性名称-毛总额 */
-            static PROPERTY_GROSSTOTAL_NAME: string;
-            /** 获取-毛总额 */
-            get grossTotal(): number;
-            /** 设置-毛总额 */
-            set grossTotal(value: number);
+            /** 映射的属性名称-税前价格 */
+            static PROPERTY_PRETAXPRICE_NAME: string;
+            /** 获取-税前价格 */
+            get preTaxPrice(): number;
+            /** 设置-税前价格 */
+            set preTaxPrice(value: number);
+            /** 映射的属性名称-税前行总计 */
+            static PROPERTY_PRETAXLINETOTAL_NAME: string;
+            /** 获取-税前行总计 */
+            get preTaxLineTotal(): number;
+            /** 设置-税前行总计 */
+            set preTaxLineTotal(value: number);
             /** 映射的属性名称-分配规则1 */
             static PROPERTY_DISTRIBUTIONRULE1_NAME: string;
             /** 获取-分配规则1 */
@@ -3464,6 +3494,8 @@ declare namespace purchase {
             set materialSerials(value: materials.bo.MaterialSerialItems);
             /** 初始化数据 */
             protected init(): void;
+            /** 赋值产品 */
+            baseProduct(source: materials.bo.IProduct): void;
             protected registerRules(): ibas.IBusinessRule[];
             /** 重置 */
             reset(): void;
@@ -3781,6 +3813,12 @@ declare namespace purchase {
             get itemsLineTotal(): number;
             /** 设置-项目的行总计 */
             set itemsLineTotal(value: number);
+            /** 映射的属性名称-单据税总计 */
+            static PROPERTY_DOCUMENTTAXTOTAL_NAME: string;
+            /** 获取-单据税总计 */
+            get documentTaxTotal(): number;
+            /** 设置-单据税总计 */
+            set documentTaxTotal(value: number);
             protected registerRules(): ibas.IBusinessRule[];
             /** 重置 */
             reset(): void;
@@ -4056,12 +4094,6 @@ declare namespace purchase {
             get closedAmount(): number;
             /** 设置-已清金额 */
             set closedAmount(value: number);
-            /** 映射的属性名称-科目代码 */
-            static PROPERTY_ACCOUNTCODE_NAME: string;
-            /** 获取-科目代码 */
-            get accountCode(): string;
-            /** 设置-科目代码 */
-            set accountCode(value: string);
             /** 映射的属性名称-折扣前价格 */
             static PROPERTY_UNITPRICE_NAME: string;
             /** 获取-折扣前价格 */
@@ -4086,18 +4118,18 @@ declare namespace purchase {
             get taxTotal(): number;
             /** 设置-税总额 */
             set taxTotal(value: number);
-            /** 映射的属性名称-毛价 */
-            static PROPERTY_GROSSPRICE_NAME: string;
-            /** 获取-毛价 */
-            get grossPrice(): number;
-            /** 设置-毛价 */
-            set grossPrice(value: number);
-            /** 映射的属性名称-毛总额 */
-            static PROPERTY_GROSSTOTAL_NAME: string;
-            /** 获取-毛总额 */
-            get grossTotal(): number;
-            /** 设置-毛总额 */
-            set grossTotal(value: number);
+            /** 映射的属性名称-税前价格 */
+            static PROPERTY_PRETAXPRICE_NAME: string;
+            /** 获取-税前价格 */
+            get preTaxPrice(): number;
+            /** 设置-税前价格 */
+            set preTaxPrice(value: number);
+            /** 映射的属性名称-税前行总计 */
+            static PROPERTY_PRETAXLINETOTAL_NAME: string;
+            /** 获取-税前行总计 */
+            get preTaxLineTotal(): number;
+            /** 设置-税前行总计 */
+            set preTaxLineTotal(value: number);
             /** 映射的属性名称-分配规则1 */
             static PROPERTY_DISTRIBUTIONRULE1_NAME: string;
             /** 获取-分配规则1 */
@@ -4136,6 +4168,8 @@ declare namespace purchase {
             set purchaseQuoteItemExtras(value: PurchaseQuoteItemExtras);
             /** 初始化数据 */
             protected init(): void;
+            /** 赋值产品 */
+            baseProduct(source: materials.bo.IProduct): void;
             protected registerRules(): ibas.IBusinessRule[];
             /** 重置 */
             reset(): void;
@@ -4433,6 +4467,30 @@ declare namespace purchase {
             get trackingNumber(): string;
             /** 设置-快递单号 */
             set trackingNumber(value: string);
+            /** 映射的属性名称-税定义 */
+            static PROPERTY_TAX_NAME: string;
+            /** 获取-税定义 */
+            get tax(): string;
+            /** 设置-税定义 */
+            set tax(value: string);
+            /** 映射的属性名称-税率 */
+            static PROPERTY_TAXRATE_NAME: string;
+            /** 获取-税率 */
+            get taxRate(): number;
+            /** 设置-税率 */
+            set taxRate(value: number);
+            /** 映射的属性名称-税总额 */
+            static PROPERTY_TAXTOTAL_NAME: string;
+            /** 获取-税总额 */
+            get taxTotal(): number;
+            /** 设置-税总额 */
+            set taxTotal(value: number);
+            /** 映射的属性名称-税前费用 */
+            static PROPERTY_PRETAXEXPENSE_NAME: string;
+            /** 获取-税前费用 */
+            get preTaxExpense(): number;
+            /** 设置-税前费用 */
+            set preTaxExpense(value: number);
             /** 映射的属性名称-对象编号 */
             static PROPERTY_OBJECTKEY_NAME: string;
             /** 获取-对象编号 */
@@ -4513,6 +4571,7 @@ declare namespace purchase {
             set updateActionId(value: string);
             /** 初始化数据 */
             protected init(): void;
+            protected registerRules(): ibas.IBusinessRule[];
         }
         /** 送货地址 集合 */
         class ShippingAddresss extends ibas.BusinessObjects<ShippingAddress, IPurchaseQuote | IPurchaseOrder | IPurchaseDelivery | IPurchaseReturn> implements IShippingAddresss {
@@ -4553,21 +4612,42 @@ declare namespace purchase {
          * @param source 源
          */
         function baseDocumentItem(target: IPurchaseOrderItem | IPurchaseDeliveryItem | IPurchaseReturnItem, source: IPurchaseQuoteItem | IPurchaseOrderItem | IPurchaseDeliveryItem): void;
-        /** 业务规则-计算毛价 */
-        class BusinessRuleCalculateGrossPrice extends ibas.BusinessRuleCommon {
+        function baseProduct(target: IPurchaseQuoteItem | IPurchaseOrderItem | IPurchaseDeliveryItem | IPurchaseReturnItem, source: materials.bo.IProduct): void;
+        /** 业务规则-推导税前税后价格 */
+        class BusinessRuleDeductionTaxPrice extends ibas.BusinessRuleCommon {
             /**
-             *
-             * @param result 属性-结果
-             * @param original 属性-原价
-             * @param taxRate 属性-税率
+             * 构造方法
+             * @param taxRate  属性-税率
+             * @param preTax   属性-税前
+             * @param afterTax 属性-税后
              */
-            constructor(result: string, original: string, taxRate: string, decimalPlaces?: number);
-            /** 结果 */
-            result: string;
-            /** 原价 */
-            original: string;
+            constructor(taxRate: string, preTax: string, afterTax: string, decimalPlaces?: number);
             /** 税率 */
             taxRate: string;
+            /** 税前价格 */
+            preTax: string;
+            /** 税后价格 */
+            afterTax: string;
+            /** 结果保留小数位 */
+            decimalPlaces: number;
+            /** 计算规则 */
+            protected compute(context: ibas.BusinessRuleContextCommon): void;
+        }
+        /** 业务规则-推导折扣前折扣后价格 */
+        class BusinessRuleDeductionDiscountPrice extends ibas.BusinessRuleCommon {
+            /**
+             * 构造方法
+             * @param discount  属性-折扣
+             * @param preDiscount   属性-折扣前
+             * @param afterDiscount 属性-折扣后
+             */
+            constructor(discount: string, preDiscount: string, afterDiscount: string, decimalPlaces?: number);
+            /** 折扣 */
+            discount: string;
+            /** 折扣前价格 */
+            preDiscount: string;
+            /** 折扣后价格 */
+            afterDiscount: string;
             /** 结果保留小数位 */
             decimalPlaces: number;
             /** 计算规则 */
