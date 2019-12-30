@@ -285,6 +285,7 @@ namespace receiptpayment {
                                         label: ibas.i18n.prop("bo_paymentitem_tradeid"),
                                         template: new sap.extension.m.Input("", {
                                             showValueHelp: true,
+                                            valueHelpOnly: false,
                                             valueHelpRequest: function (): void {
                                                 that.fireViewEvents(that.choosePaymentItemModeTradeIdEvent,
                                                     // 获取当前对象

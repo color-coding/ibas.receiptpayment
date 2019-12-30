@@ -76,7 +76,7 @@ public class AssetRechargeItems extends BusinessObjects<IAssetRechargeItem, IAss
 	}
 
 	@Override
-	public void onParentPropertyChanged(PropertyChangeEvent evt) {
+	protected void onParentPropertyChanged(PropertyChangeEvent evt) {
 		super.onParentPropertyChanged(evt);
 	}
 }

@@ -40,8 +40,8 @@
   "receiptpaymentt_not_found_paid_method": "没有找到支付方式",
   "receiptpaymentt_please_input_paid_amount": "请输入支付金额",
   "receiptpaymentt_please_paid": "请进行支付",
-  "receiptpaymentt_choosable_paid_method": "可选择支付方式:",
-  "receiptpaymentt_choosed_paid_method": "已选择支付方式:",
+  "receiptpaymentt_choosable_paid_method": "可选择支付方式：",
+  "receiptpaymentt_choosed_paid_method": "已选择支付方式：",
   "receiptpayment_unpaid_amount": "还差[{0}]未支付",
   "receiptpayment_more_paid_amount": "多支付了[{0}]",
   "receiptpayment_exists_paid_method": "已存在支付方式[{0}]",
@@ -67,5 +67,9 @@
   "receiptmethod_tm_pos_icon": "sap-icon://it-host",
   "receiptmethod_tm_bpas": "业务伙伴资产",
   "receiptmethod_tm_bpas_icon": "sap-icon://lead",
+  "receiptmethod_tm_check": "支票",
+  "receiptmethod_tm_check_icon": "sap-icon://sales-order",
+  "receiptmethod_tm_meord": "汇票",
+  "receiptmethod_tm_meord_icon": "sap-icon://sales-order-item",
   "receiptpayment_closing_delimiter": "----结束----"
 }
