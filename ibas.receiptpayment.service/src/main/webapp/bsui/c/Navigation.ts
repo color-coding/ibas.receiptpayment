@@ -33,6 +33,9 @@ namespace receiptpayment {
                     case app.PaymentEditApp.APPLICATION_ID:
                         view = new c.PaymentEditView();
                         break;
+                    case app.PaymentViewApp.APPLICATION_ID:
+                        view = new c.PaymentViewView();
+                        break;
                     case app.ReceiptListApp.APPLICATION_ID:
                         view = new c.ReceiptListView();
                         break;
@@ -41,6 +44,9 @@ namespace receiptpayment {
                         break;
                     case app.ReceiptEditApp.APPLICATION_ID:
                         view = new c.ReceiptEditView();
+                        break;
+                    case app.ReceiptViewApp.APPLICATION_ID:
+                        view = new c.ReceiptViewView();
                         break;
                     case app.ReceiptService.APPLICATION_ID:
                         view = new c.ReceiptServiceView();
@@ -56,6 +62,9 @@ namespace receiptpayment {
                         break;
                     case app.AssetRechargeEditApp.APPLICATION_ID:
                         view = new c.AssetRechargeEditView();
+                        break;
+                    case app.AssetRechargeViewApp.APPLICATION_ID:
+                        view = new c.AssetRechargeViewView();
                         break;
                     case app.WaitTradingService.APPLICATION_ID:
                         view = new c.WaitTradingServiceView();

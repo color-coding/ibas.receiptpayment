@@ -10,7 +10,7 @@ namespace receiptpayment {
         /** 查看应用-收款 */
         export class ReceiptViewApp extends ibas.BOViewService<IReceiptViewView, bo.Receipt> {
             /** 应用标识 */
-            static APPLICATION_ID: string = "fb024320-b6ad-4411-a819-65793326f286";
+            static APPLICATION_ID: string = "85ff41f9-ec7a-4d97-a634-829121c881be";
             /** 应用名称 */
             static APPLICATION_NAME: string = "receiptpayment_app_receipt_view";
             /** 业务对象编码 */
@@ -31,8 +31,15 @@ namespace receiptpayment {
             }
             /** 视图显示后 */
             protected viewShowed(): void {
-                // 视图加载完成
+                // 视图加载完成，基类方法更新地址
                 super.viewShowed();
+                if (ibas.objects.isNull(this.viewData)) {
+                    // 创建编辑对象实例
+                    this.viewData = new bo.Receipt();
+                    this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_created_new"));
+                }
+                this.view.showReceipt(this.viewData);
+                this.view.showReceiptItems(this.viewData.receiptItems.filterDeleted());
             }
             /** 编辑数据，参数：目标数据 */
             protected editData(): void {
@@ -41,9 +48,9 @@ namespace receiptpayment {
                 app.viewShower = this.viewShower;
                 app.run(this.viewData);
             }
-            /** 运行,覆盖原方法 */
             run(): void;
             run(data: bo.Receipt): void;
+            /** 运行 */
             run(): void {
                 if (ibas.objects.instanceOf(arguments[0], bo.Receipt)) {
                     this.viewData = arguments[0];
@@ -58,22 +65,26 @@ namespace receiptpayment {
                 this.busy(true);
                 let that: this = this;
                 if (typeof criteria === "string") {
+                    let condition: ibas.ICondition;
                     let value: string = criteria;
                     criteria = new ibas.Criteria();
                     criteria.result = 1;
-                    // 添加查询条件
-
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.Receipt.PROPERTY_DOCENTRY_NAME;
+                    condition.value = value;
                 }
                 let boRepository: bo.BORepositoryReceiptPayment = new bo.BORepositoryReceiptPayment();
                 boRepository.fetchReceipt({
                     criteria: criteria,
                     onCompleted(opRslt: ibas.IOperationResult<bo.Receipt>): void {
                         try {
+                            that.busy(false);
                             if (opRslt.resultCode !== 0) {
                                 throw new Error(opRslt.message);
                             }
                             that.viewData = opRslt.resultObjects.firstOrDefault();
                             if (!that.isViewShowed()) {
+                                // 没显示视图，先显示
                                 that.show();
                             } else {
                                 that.viewShowed();
@@ -88,6 +99,10 @@ namespace receiptpayment {
         }
         /** 视图-收款 */
         export interface IReceiptViewView extends ibas.IBOViewView {
+            /** 显示数据 */
+            showReceipt(data: bo.Receipt): void;
+            /** 显示数据-收款-项目 */
+            showReceiptItems(datas: bo.ReceiptItem[]): void;
 
         }
         /** 收款连接服务映射 */
@@ -101,7 +116,7 @@ namespace receiptpayment {
                 this.description = ibas.i18n.prop(this.name);
             }
             /** 创建服务实例 */
-            create(): ibas.IService<ibas.IBOLinkServiceCaller> {
+            create(): ibas.IBOLinkService {
                 return new ReceiptViewApp();
             }
         }

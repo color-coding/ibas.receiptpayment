@@ -8,3 +8,4 @@
 /// <reference path="./AssetRechargeListView.ts" />
 /// <reference path="./AssetRechargeChooseView.ts" />
 /// <reference path="./AssetRechargeEditView.ts" />
+/// <reference path="./AssetRechargeViewView.ts" />

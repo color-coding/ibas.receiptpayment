@@ -9,9 +9,8 @@ namespace receiptpayment {
     export namespace app {
         /** 查看应用-资产充值 */
         export class AssetRechargeViewApp extends ibas.BOViewService<IAssetRechargeViewView, bo.AssetRecharge> {
-
             /** 应用标识 */
-            static APPLICATION_ID: string = "5ecd608a-19e0-4f58-af2b-ca96a9e005ce";
+            static APPLICATION_ID: string = "c4999a98-6ff1-41cf-8f3c-83109e89c410";
             /** 应用名称 */
             static APPLICATION_NAME: string = "receiptpayment_app_assetrecharge_view";
             /** 业务对象编码 */
@@ -32,8 +31,15 @@ namespace receiptpayment {
             }
             /** 视图显示后 */
             protected viewShowed(): void {
-                // 视图加载完成
+                // 视图加载完成，基类方法更新地址
                 super.viewShowed();
+                if (ibas.objects.isNull(this.viewData)) {
+                    // 创建编辑对象实例
+                    this.viewData = new bo.AssetRecharge();
+                    this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_data_created_new"));
+                }
+                this.view.showAssetRecharge(this.viewData);
+                this.view.showAssetRechargeItems(this.viewData.assetRechargeItems.filterDeleted());
             }
             /** 编辑数据，参数：目标数据 */
             protected editData(): void {
@@ -59,22 +65,26 @@ namespace receiptpayment {
                 this.busy(true);
                 let that: this = this;
                 if (typeof criteria === "string") {
+                    let condition: ibas.ICondition;
                     let value: string = criteria;
                     criteria = new ibas.Criteria();
                     criteria.result = 1;
-                    // 添加查询条件
-
+                    condition = criteria.conditions.create();
+                    condition.alias = bo.AssetRecharge.PROPERTY_DOCENTRY_NAME;
+                    condition.value = value;
                 }
                 let boRepository: bo.BORepositoryReceiptPayment = new bo.BORepositoryReceiptPayment();
                 boRepository.fetchAssetRecharge({
                     criteria: criteria,
                     onCompleted(opRslt: ibas.IOperationResult<bo.AssetRecharge>): void {
                         try {
+                            that.busy(false);
                             if (opRslt.resultCode !== 0) {
                                 throw new Error(opRslt.message);
                             }
                             that.viewData = opRslt.resultObjects.firstOrDefault();
                             if (!that.isViewShowed()) {
+                                // 没显示视图，先显示
                                 that.show();
                             } else {
                                 that.viewShowed();
@@ -89,6 +99,10 @@ namespace receiptpayment {
         }
         /** 视图-资产充值 */
         export interface IAssetRechargeViewView extends ibas.IBOViewView {
+            /** 显示数据 */
+            showAssetRecharge(data: bo.AssetRecharge): void;
+            /** 显示数据-资产充值-项目 */
+            showAssetRechargeItems(datas: bo.AssetRechargeItem[]): void;
 
         }
         /** 资产充值连接服务映射 */
