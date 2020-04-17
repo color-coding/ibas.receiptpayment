@@ -5426,8 +5426,6 @@ declare namespace sales {
             /** 运行,覆盖原方法 */
             run(): void;
             run(data: bo.ProductSuit): void;
-            /** 待编辑的数据 */
-            protected editData: bo.ProductSuit;
             /** 保存数据 */
             protected saveData(): void;
             /** 删除数据 */
@@ -5556,7 +5554,6 @@ declare namespace sales {
             /** 运行,覆盖原方法 */
             run(): void;
             run(data: bo.ProductSuit): void;
-            protected viewData: bo.ProductSuit;
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria | string): void;
         }
@@ -5631,7 +5628,7 @@ declare namespace sales {
 declare namespace sales {
     namespace app {
         /** 编辑应用-销售交货 */
-        class SalesDeliveryEditApp extends ibas.BOEditApplication<ISalesDeliveryEditView, bo.SalesDelivery> {
+        class SalesDeliveryEditApp extends ibas.BOEditService<ISalesDeliveryEditView, bo.SalesDelivery> {
             /** 应用标识 */
             static APPLICATION_ID: string;
             /** 应用名称 */
@@ -5647,8 +5644,6 @@ declare namespace sales {
             /** 运行,覆盖原方法 */
             run(): void;
             run(data: bo.SalesDelivery): void;
-            /** 待编辑的数据 */
-            protected editData: bo.SalesDelivery;
             /** 保存数据 */
             protected saveData(): void;
             /** 删除数据 */
@@ -5716,6 +5711,13 @@ declare namespace sales {
             defaultWarehouse: string;
             /** 默认税组 */
             defaultTaxGroup: string;
+        }
+        /** 销售交货编辑服务映射 */
+        class SalesDeliveryEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor();
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.SalesDelivery>>;
         }
     }
 }
@@ -5813,7 +5815,6 @@ declare namespace sales {
             /** 运行,覆盖原方法 */
             run(): void;
             run(data: bo.SalesDelivery): void;
-            protected viewData: bo.SalesDelivery;
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria | string): void;
         }
@@ -5891,7 +5892,7 @@ declare namespace sales {
 declare namespace sales {
     namespace app {
         /** 编辑应用-销售订单 */
-        class SalesOrderEditApp extends ibas.BOEditApplication<ISalesOrderEditView, bo.SalesOrder> {
+        class SalesOrderEditApp extends ibas.BOEditService<ISalesOrderEditView, bo.SalesOrder> {
             /** 应用标识 */
             static APPLICATION_ID: string;
             /** 应用名称 */
@@ -5907,8 +5908,6 @@ declare namespace sales {
             /** 运行,覆盖原方法 */
             run(): void;
             run(data: bo.SalesOrder): void;
-            /** 待编辑的数据 */
-            protected editData: bo.SalesOrder;
             /** 保存数据 */
             protected saveData(): void;
             /** 删除数据 */
@@ -5979,6 +5978,13 @@ declare namespace sales {
             defaultWarehouse: string;
             /** 默认税组 */
             defaultTaxGroup: string;
+        }
+        /** 销售订单编辑服务映射 */
+        class SalesOrderEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor();
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.SalesOrder>>;
         }
     }
 }
@@ -6076,7 +6082,6 @@ declare namespace sales {
             /** 运行,覆盖原方法 */
             run(): void;
             run(data: bo.SalesOrder): void;
-            protected viewData: bo.SalesOrder;
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria | string): void;
         }
@@ -6203,7 +6208,7 @@ declare namespace sales {
 declare namespace sales {
     namespace app {
         /** 编辑应用-销售退货 */
-        class SalesReturnEditApp extends ibas.BOEditApplication<ISalesReturnEditView, bo.SalesReturn> {
+        class SalesReturnEditApp extends ibas.BOEditService<ISalesReturnEditView, bo.SalesReturn> {
             /** 应用标识 */
             static APPLICATION_ID: string;
             /** 应用名称 */
@@ -6219,8 +6224,6 @@ declare namespace sales {
             /** 运行,覆盖原方法 */
             run(): void;
             run(data: bo.SalesReturn): void;
-            /** 待编辑的数据 */
-            protected editData: bo.SalesReturn;
             /** 保存数据 */
             protected saveData(): void;
             /** 删除数据 */
@@ -6288,6 +6291,13 @@ declare namespace sales {
             editShippingAddressesEvent: Function;
             /** 默认仓库 */
             defaultWarehouse: string;
+        }
+        /** 销售退货编辑服务映射 */
+        class SalesReturnEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor();
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.SalesReturn>>;
         }
     }
 }
@@ -6385,7 +6395,6 @@ declare namespace sales {
             /** 运行,覆盖原方法 */
             run(): void;
             run(data: bo.SalesReturn): void;
-            protected viewData: bo.SalesReturn;
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria | string): void;
         }
@@ -6463,7 +6472,7 @@ declare namespace sales {
 declare namespace sales {
     namespace app {
         /** 编辑应用-销售报价 */
-        class SalesQuoteEditApp extends ibas.BOEditApplication<ISalesQuoteEditView, bo.SalesQuote> {
+        class SalesQuoteEditApp extends ibas.BOEditService<ISalesQuoteEditView, bo.SalesQuote> {
             /** 应用标识 */
             static APPLICATION_ID: string;
             /** 应用名称 */
@@ -6479,8 +6488,6 @@ declare namespace sales {
             /** 运行,覆盖原方法 */
             run(): void;
             run(data: bo.SalesQuote): void;
-            /** 待编辑的数据 */
-            protected editData: bo.SalesQuote;
             /** 保存数据 */
             protected saveData(): void;
             /** 删除数据 */
@@ -6531,6 +6538,13 @@ declare namespace sales {
             showSalesQuoteItemExtraEvent: Function;
             /** 默认税组 */
             defaultTaxGroup: string;
+        }
+        /** 销售报价编辑服务映射 */
+        class SalesQuoteEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor();
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.SalesQuote>>;
         }
     }
 }
@@ -6628,7 +6642,6 @@ declare namespace sales {
             /** 运行,覆盖原方法 */
             run(): void;
             run(data: bo.SalesQuote): void;
-            protected viewData: bo.SalesQuote;
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria | string): void;
         }

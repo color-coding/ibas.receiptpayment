@@ -8,7 +8,7 @@
 namespace receiptpayment {
     export namespace app {
         /** 编辑应用-资产充值 */
-        export class AssetRechargeEditApp extends ibas.BOEditApplication<IAssetRechargeEditView, bo.AssetRecharge> {
+        export class AssetRechargeEditApp extends ibas.BOEditService<IAssetRechargeEditView, bo.AssetRecharge> {
 
             /** 应用标识 */
             static APPLICATION_ID: string = "649ebc79-6210-4bc9-83ad-19fd41aa510e";
@@ -93,8 +93,6 @@ namespace receiptpayment {
                 }
                 super.run.apply(this, arguments);
             }
-            /** 待编辑的数据 */
-            protected editData: bo.AssetRecharge;
             /** 保存数据 */
             protected saveData(): void {
                 this.busy(true);
@@ -308,6 +306,21 @@ namespace receiptpayment {
             chooseAssetRechargeBusinessPartnerAssetEvent: Function;
             /** 选择资产充值方式项目 */
             chooseAssetRechargeItemModeTradeIdEvent: Function;
+        }
+        /** 资产充值编辑服务映射 */
+        export class AssetRechargeEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = AssetRechargeEditApp.APPLICATION_ID;
+                this.name = AssetRechargeEditApp.APPLICATION_NAME;
+                this.boCode = AssetRechargeEditApp.BUSINESS_OBJECT_CODE;
+                this.description = ibas.i18n.prop(this.name);
+            }
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.AssetRecharge>> {
+                return new AssetRechargeEditApp();
+            }
         }
     }
 }

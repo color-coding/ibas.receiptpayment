@@ -5860,7 +5860,7 @@ declare namespace purchase {
 declare namespace purchase {
     namespace app {
         /** 编辑应用-采购收货 */
-        class PurchaseDeliveryEditApp extends ibas.BOEditApplication<IPurchaseDeliveryEditView, bo.PurchaseDelivery> {
+        class PurchaseDeliveryEditApp extends ibas.BOEditService<IPurchaseDeliveryEditView, bo.PurchaseDelivery> {
             /** 应用标识 */
             static APPLICATION_ID: string;
             /** 应用名称 */
@@ -5876,8 +5876,6 @@ declare namespace purchase {
             /** 运行,覆盖原方法 */
             run(): void;
             run(data: bo.PurchaseDelivery): void;
-            /** 待编辑的数据 */
-            protected editData: bo.PurchaseDelivery;
             /** 保存数据 */
             protected saveData(): void;
             /** 删除数据 */
@@ -5944,6 +5942,13 @@ declare namespace purchase {
             defaultWarehouse: string;
             /** 默认税组 */
             defaultTaxGroup: string;
+        }
+        /** 采购收货编辑服务映射 */
+        class PurchaseDeliveryEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor();
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.PurchaseDelivery>>;
         }
     }
 }
@@ -6041,7 +6046,6 @@ declare namespace purchase {
             /** 运行,覆盖原方法 */
             run(): void;
             run(data: bo.PurchaseDelivery): void;
-            protected viewData: bo.PurchaseDelivery;
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria | string): void;
         }
@@ -6119,7 +6123,7 @@ declare namespace purchase {
 declare namespace purchase {
     namespace app {
         /** 编辑应用-采购订单 */
-        class PurchaseOrderEditApp extends ibas.BOEditApplication<IPurchaseOrderEditView, bo.PurchaseOrder> {
+        class PurchaseOrderEditApp extends ibas.BOEditService<IPurchaseOrderEditView, bo.PurchaseOrder> {
             /** 应用标识 */
             static APPLICATION_ID: string;
             /** 应用名称 */
@@ -6135,8 +6139,6 @@ declare namespace purchase {
             /** 运行,覆盖原方法 */
             run(): void;
             run(data: bo.PurchaseOrder): void;
-            /** 待编辑的数据 */
-            protected editData: bo.PurchaseOrder;
             /** 保存数据 */
             protected saveData(): void;
             /** 删除数据 */
@@ -6207,6 +6209,13 @@ declare namespace purchase {
             defaultWarehouse: string;
             /** 默认税组 */
             defaultTaxGroup: string;
+        }
+        /** 采购订单编辑服务映射 */
+        class PurchaseOrderEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor();
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.PurchaseOrder>>;
         }
     }
 }
@@ -6304,7 +6313,6 @@ declare namespace purchase {
             /** 运行,覆盖原方法 */
             run(): void;
             run(data: bo.PurchaseOrder): void;
-            protected viewData: bo.PurchaseOrder;
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria | string): void;
         }
@@ -6431,7 +6439,7 @@ declare namespace purchase {
 declare namespace purchase {
     namespace app {
         /** 编辑应用-采购退货 */
-        class PurchaseReturnEditApp extends ibas.BOEditApplication<IPurchaseReturnEditView, bo.PurchaseReturn> {
+        class PurchaseReturnEditApp extends ibas.BOEditService<IPurchaseReturnEditView, bo.PurchaseReturn> {
             /** 应用标识 */
             static APPLICATION_ID: string;
             /** 应用名称 */
@@ -6447,8 +6455,6 @@ declare namespace purchase {
             /** 运行,覆盖原方法 */
             run(): void;
             run(data: bo.PurchaseReturn): void;
-            /** 待编辑的数据 */
-            protected editData: bo.PurchaseReturn;
             /** 保存数据 */
             protected saveData(): void;
             /** 删除数据 */
@@ -6512,6 +6518,13 @@ declare namespace purchase {
             editShippingAddressesEvent: Function;
             /** 默认仓库 */
             defaultWarehouse: string;
+        }
+        /** 采购退货编辑服务映射 */
+        class PurchaseReturnEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor();
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.PurchaseReturn>>;
         }
     }
 }
@@ -6609,7 +6622,6 @@ declare namespace purchase {
             /** 运行,覆盖原方法 */
             run(): void;
             run(data: bo.PurchaseReturn): void;
-            protected viewData: bo.PurchaseReturn;
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria | string): void;
         }
@@ -6687,7 +6699,7 @@ declare namespace purchase {
 declare namespace purchase {
     namespace app {
         /** 编辑应用-采购报价 */
-        class PurchaseQuoteEditApp extends ibas.BOEditApplication<IPurchaseQuoteEditView, bo.PurchaseQuote> {
+        class PurchaseQuoteEditApp extends ibas.BOEditService<IPurchaseQuoteEditView, bo.PurchaseQuote> {
             /** 应用标识 */
             static APPLICATION_ID: string;
             /** 应用名称 */
@@ -6703,8 +6715,6 @@ declare namespace purchase {
             /** 运行,覆盖原方法 */
             run(): void;
             run(data: bo.PurchaseQuote): void;
-            /** 待编辑的数据 */
-            protected editData: bo.PurchaseQuote;
             /** 保存数据 */
             protected saveData(): void;
             /** 删除数据 */
@@ -6756,6 +6766,13 @@ declare namespace purchase {
             choosePurchaseQuotePurchaseRequestEvent: Function;
             /** 默认税组 */
             defaultTaxGroup: string;
+        }
+        /** 采购报价编辑服务映射 */
+        class PurchaseQuoteEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor();
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.PurchaseQuote>>;
         }
     }
 }
@@ -6853,7 +6870,6 @@ declare namespace purchase {
             /** 运行,覆盖原方法 */
             run(): void;
             run(data: bo.PurchaseQuote): void;
-            protected viewData: bo.PurchaseQuote;
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria | string): void;
         }
@@ -7062,7 +7078,6 @@ declare namespace purchase {
             protected editData(): void;
             run(): void;
             run(data: bo.PurchaseRequest): void;
-            protected viewData: bo.PurchaseRequest;
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria | string): void;
         }
@@ -7092,7 +7107,7 @@ declare namespace purchase {
 declare namespace purchase {
     namespace app {
         /** 编辑应用-采购申请 */
-        class PurchaseRequestEditApp extends ibas.BOEditApplication<IPurchaseRequestEditView, bo.PurchaseRequest> {
+        class PurchaseRequestEditApp extends ibas.BOEditService<IPurchaseRequestEditView, bo.PurchaseRequest> {
             /** 应用标识 */
             static APPLICATION_ID: string;
             /** 应用名称 */
@@ -7107,8 +7122,6 @@ declare namespace purchase {
             protected viewShowed(): void;
             run(): void;
             run(data: bo.PurchaseRequest): void;
-            /** 待编辑的数据 */
-            protected editData: bo.PurchaseRequest;
             /** 保存数据 */
             protected saveData(): void;
             /** 删除数据 */
@@ -7144,6 +7157,13 @@ declare namespace purchase {
             showPurchaseRequestItemExtraEvent: Function;
             /** 显示数据-采购申请-行 */
             showPurchaseRequestItems(datas: bo.PurchaseRequestItem[]): void;
+        }
+        /** 采购申请编辑服务映射 */
+        class PurchaseRequestEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor();
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.PurchaseRequest>>;
         }
     }
 }

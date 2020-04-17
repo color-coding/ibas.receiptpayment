@@ -8,7 +8,7 @@
 namespace receiptpayment {
     export namespace app {
         /** 编辑应用-收款 */
-        export class ReceiptEditApp extends ibas.BOEditApplication<IReceiptEditView, bo.Receipt> {
+        export class ReceiptEditApp extends ibas.BOEditService<IReceiptEditView, bo.Receipt> {
             /** 应用标识 */
             static APPLICATION_ID: string = "1e3ec36b-931b-430a-b81a-781836e83d1c";
             /** 应用名称 */
@@ -97,8 +97,6 @@ namespace receiptpayment {
                 }
                 super.run.apply(this, arguments);
             }
-            /** 待编辑的数据 */
-            protected editData: bo.Receipt;
             /** 保存数据 */
             protected saveData(): void {
                 this.busy(true);
@@ -545,6 +543,21 @@ namespace receiptpayment {
             chooseReceiptItemPurchaseReturnEvent: Function;
             /** 选择收款方式项目 */
             chooseReceiptItemModeTradeIdEvent: Function;
+        }
+        /** 收款编辑服务映射 */
+        export class ReceiptEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = ReceiptEditApp.APPLICATION_ID;
+                this.name = ReceiptEditApp.APPLICATION_NAME;
+                this.boCode = ReceiptEditApp.BUSINESS_OBJECT_CODE;
+                this.description = ibas.i18n.prop(this.name);
+            }
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.Receipt>> {
+                return new ReceiptEditApp();
+            }
         }
     }
 }

@@ -7,9 +7,8 @@
  */
 namespace receiptpayment {
     export namespace app {
-
         /** 编辑应用-付款 */
-        export class PaymentEditApp extends ibas.BOEditApplication<IPaymentEditView, bo.Payment> {
+        export class PaymentEditApp extends ibas.BOEditService<IPaymentEditView, bo.Payment> {
 
             /** 应用标识 */
             static APPLICATION_ID: string = "101d5699-904c-49b7-9ae4-0f6f3eea0f7c";
@@ -100,8 +99,6 @@ namespace receiptpayment {
                 }
                 super.run.apply(this, arguments);
             }
-            /** 待编辑的数据 */
-            protected editData: bo.Payment;
             /** 保存数据 */
             protected saveData(): void {
                 this.busy(true);
@@ -626,6 +623,21 @@ namespace receiptpayment {
             choosePaymentItemReceiptEvent: Function;
             /** 选择付款方式项目 */
             choosePaymentItemModeTradeIdEvent: Function;
+        }
+        /** 付款编辑服务映射 */
+        export class PaymentEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = PaymentEditApp.APPLICATION_ID;
+                this.name = PaymentEditApp.APPLICATION_NAME;
+                this.boCode = PaymentEditApp.BUSINESS_OBJECT_CODE;
+                this.description = ibas.i18n.prop(this.name);
+            }
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.Payment>> {
+                return new PaymentEditApp();
+            }
         }
     }
 }

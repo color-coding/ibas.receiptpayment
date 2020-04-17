@@ -37,12 +37,15 @@ namespace receiptpayment {
                 // 注册服务应用
                 this.register(new PaymentChooseServiceMapping());
                 this.register(new PaymentLinkServiceMapping());
+                this.register(new PaymentEditServiceMapping());
                 this.register(new ReceiptChooseServiceMapping());
                 this.register(new ReceiptLinkServiceMapping());
+                this.register(new ReceiptEditServiceMapping());
                 this.register(new ReceiptServiceMapping());
                 this.register(new ReceiptTradeServiceMapping());
                 this.register(new AssetRechargeChooseServiceMapping());
                 this.register(new AssetRechargeLinkServiceMapping());
+                this.register(new AssetRechargeEditServiceMapping());
                 // 注册常驻应用
 
                 // 注册收款方式
