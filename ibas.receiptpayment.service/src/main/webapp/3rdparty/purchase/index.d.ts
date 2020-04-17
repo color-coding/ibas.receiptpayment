@@ -12,6 +12,14 @@ declare namespace purchase {
     const CONSOLE_NAME: string;
     /** 模块-版本 */
     const CONSOLE_VERSION: string;
+    namespace config {
+        /**
+         * 获取此模块配置
+         * @param key 配置项
+         * @param defalut 默认值
+         */
+        function get<T>(key: string, defalut?: T): T;
+    }
     namespace bo {
         /** 业务仓库名称 */
         const BO_REPOSITORY_PURCHASE: string;
@@ -5888,8 +5896,10 @@ declare namespace purchase {
             private addPurchaseDeliveryItem;
             /** 删除采购收货-行事件 */
             private removePurchaseDeliveryItem;
+            private batches;
             /** 选择物料批次事件 */
             private choosePurchaseDeliveryItemMaterialBatch;
+            private serials;
             /** 选择物料序列事件 */
             private choosePurchaseDeliveryItemMaterialSerial;
             /** 选择采购收货-采购订单事件 */
@@ -6142,8 +6152,10 @@ declare namespace purchase {
             private addPurchaseOrderItem;
             /** 删除采购订单-行事件 */
             private removePurchaseOrderItem;
+            private batches;
             /** 选择物料批次事件 */
             private choosePurchaseOrderItemMaterialBatch;
+            private serials;
             /** 选择物料序列事件 */
             private choosePurchaseOrderItemMaterialSerial;
             /** 选择采购订单-采购报价事件 */

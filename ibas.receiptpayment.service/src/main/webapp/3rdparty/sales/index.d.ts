@@ -12,6 +12,14 @@ declare namespace sales {
     const CONSOLE_NAME: string;
     /** 模块-版本 */
     const CONSOLE_VERSION: string;
+    namespace config {
+        /**
+         * 获取此模块配置
+         * @param key 配置项
+         * @param defalut 默认值
+         */
+        function get<T>(key: string, defalut?: T): T;
+    }
     namespace bo {
         /** 业务仓库名称 */
         const BO_REPOSITORY_SALES: string;
@@ -6230,8 +6238,10 @@ declare namespace sales {
             private addSalesReturnItem;
             /** 删除销售退货-行事件 */
             private removeSalesReturnItem;
+            private batches;
             /** 选择物料批次信息 */
             private createSalesReturnLineMaterialBatch;
+            private serials;
             /** 选择物料序列信息 */
             private createSalesReturnLineMaterialSerial;
             /** 选择销售退货项目-销售订单事件 */
