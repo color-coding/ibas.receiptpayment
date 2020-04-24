@@ -33,13 +33,13 @@ namespace receiptpayment {
             /** 视图显示后 */
             protected viewShowed(): void {
                 // 视图加载完成
-                this.view.showBusinessPartner(this.businesspartner);
+                this.view.showBusinessPartner(this.businessPartner);
                 this.view.showTarget(this.target);
                 let that: this = this;
                 let methods: ibas.IServiceAgent[] = ibas.servicesManager.getServices(<ibas.IServiceCaller<ibas.IServiceContract>>{
                     proxy: new ReceiptMethodProxy({
-                        businessPartnerType: this.businesspartner.type,
-                        businessPartnerCode: this.businesspartner.code,
+                        businessPartnerType: this.businessPartner.type,
+                        businessPartnerCode: this.businessPartner.code,
                         documentType: this.target.documentType,
                         documentEntry: this.target.documentEntry,
                         documentLineId: this.target.documentLineId,
@@ -57,7 +57,7 @@ namespace receiptpayment {
                 this.showReceiptTradings();
             }
             private target: ReceiptTarget;
-            private businesspartner: BusinessPartner;
+            private businessPartner: BusinessPartner;
             private receiptTradings: ibas.IList<ReceiptTrading>;
             /** 运行服务 */
             runService(contract: businesspartner.app.IReceiptContract): void {
@@ -70,46 +70,46 @@ namespace receiptpayment {
                 this.target.allowOver = contract.allowOver;
                 this.target.total = ibas.numbers.round(contract.documentTotal);
                 this.target.currency = contract.documentCurrency;
-                this.businesspartner = new BusinessPartner();
-                this.businesspartner.type = contract.businessPartnerType;
-                this.businesspartner.code = contract.businessPartnerCode;
+                this.businessPartner = new BusinessPartner();
+                this.businessPartner.type = contract.businessPartnerType;
+                this.businessPartner.code = contract.businessPartnerCode;
 
                 if (!ibas.objects.isNull(this.target)) {
-                    if (!ibas.objects.isNull(this.businesspartner.type) && !ibas.strings.isEmpty(this.businesspartner.code)) {
+                    if (!ibas.objects.isNull(this.businessPartner.type) && !ibas.strings.isEmpty(this.businessPartner.code)) {
                         let that: this = this;
                         let boRepository: businesspartner.bo.IBORepositoryBusinessPartner = ibas.boFactory.create(businesspartner.bo.BO_REPOSITORY_BUSINESSPARTNER);
                         let criteria: ibas.ICriteria = new ibas.Criteria();
                         let condition: ibas.ICondition = criteria.conditions.create();
                         condition.alias = businesspartner.bo.Customer.PROPERTY_CODE_NAME;
-                        condition.value = this.businesspartner.code;
-                        if (this.businesspartner.type === businesspartner.bo.emBusinessPartnerType.CUSTOMER) {
+                        condition.value = this.businessPartner.code;
+                        if (this.businessPartner.type === businesspartner.bo.emBusinessPartnerType.CUSTOMER) {
                             boRepository.fetchCustomer({
                                 criteria: criteria,
                                 onCompleted(opRslt: ibas.IOperationResult<businesspartner.bo.ICustomer>): void {
                                     try {
                                         let customer: businesspartner.bo.ICustomer = opRslt.resultObjects.firstOrDefault();
                                         if (ibas.objects.isNull(customer)) {
-                                            throw new Error(ibas.i18n.prop("receiptpayment_unknown_customer", that.businesspartner.code));
+                                            throw new Error(ibas.i18n.prop("receiptpayment_unknown_customer", that.businessPartner.code));
                                         }
-                                        that.businesspartner.code = customer.code;
-                                        that.businesspartner.name = customer.name;
+                                        that.businessPartner.code = customer.code;
+                                        that.businessPartner.name = customer.name;
                                         that.show();
                                     } catch (error) {
                                         that.messages(error);
                                     }
                                 }
                             }); return;
-                        } else if (this.businesspartner.type === businesspartner.bo.emBusinessPartnerType.SUPPLIER) {
+                        } else if (this.businessPartner.type === businesspartner.bo.emBusinessPartnerType.SUPPLIER) {
                             boRepository.fetchSupplier({
                                 criteria: criteria,
                                 onCompleted(opRslt: ibas.IOperationResult<businesspartner.bo.ISupplier>): void {
                                     try {
                                         let supplier: businesspartner.bo.ISupplier = opRslt.resultObjects.firstOrDefault();
                                         if (ibas.objects.isNull(supplier)) {
-                                            throw new Error(ibas.i18n.prop("receiptpayment_unknown_supplier", that.businesspartner.code));
+                                            throw new Error(ibas.i18n.prop("receiptpayment_unknown_supplier", that.businessPartner.code));
                                         }
-                                        that.businesspartner.code = supplier.code;
-                                        that.businesspartner.name = supplier.name;
+                                        that.businessPartner.code = supplier.code;
+                                        that.businessPartner.name = supplier.name;
                                         that.show();
                                     } catch (error) {
                                         that.messages(error);
@@ -155,7 +155,10 @@ namespace receiptpayment {
                 if (ibas.objects.isNull(method)) {
                     throw new Error(ibas.i18n.prop("receiptpaymentt_please_choose_paid_method"));
                 }
-                if (typeof amount !== "number" || isNaN(amount) || amount <= 0) {
+                if (typeof amount !== "number" || isNaN(amount)) {
+                    throw new Error(ibas.i18n.prop("receiptpaymentt_please_input_paid_amount"));
+                }
+                if (amount < 0 || (this.target.total !== 0 && amount === 0)) {
                     throw new Error(ibas.i18n.prop("receiptpaymentt_please_input_paid_amount"));
                 }
                 if (ibas.objects.isNull(this.receiptTradings)) {
@@ -232,9 +235,9 @@ namespace receiptpayment {
                     throw new Error(ibas.i18n.prop("receiptpaymentt_please_paid"));
                 }
                 let receipt: bo.Receipt = new bo.Receipt();
-                receipt.businessPartnerType = this.businesspartner.type;
-                receipt.businessPartnerCode = this.businesspartner.code;
-                receipt.businessPartnerName = this.businesspartner.name;
+                receipt.businessPartnerType = this.businessPartner.type;
+                receipt.businessPartnerCode = this.businessPartner.code;
+                receipt.businessPartnerName = this.businessPartner.name;
                 if (!ibas.strings.isEmpty(this.target.documentSummary)) {
                     receipt.remarks = this.target.documentSummary;
                 }
