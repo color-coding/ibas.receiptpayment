@@ -26,10 +26,8 @@ import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.businesspartner.logic.IBusinessPartnerAssetIncreasesContract;
-import org.colorcoding.ibas.purchase.logic.IPurchaseDeliveryPaymentContract;
-import org.colorcoding.ibas.purchase.logic.IPurchaseOrderPaymentContract;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
-import org.colorcoding.ibas.sales.logic.ISalesReturnPaymentContract;
+import org.colorcoding.ibas.receiptpayment.logic.IPaymentPaidTotalContract;
 
 /**
  * 获取-付款-项目
@@ -1164,7 +1162,7 @@ public class PaymentItem extends BusinessObject<PaymentItem>
 	@Override
 	public IBusinessLogicContract[] getContracts() {
 		List<IBusinessLogicContract> contracts = new ArrayList<>(4);
-		contracts.add(new IPurchaseOrderPaymentContract() {
+		contracts.add(new IPaymentPaidTotalContract() {
 
 			@Override
 			public String getIdentifiers() {
@@ -1197,70 +1195,7 @@ public class PaymentItem extends BusinessObject<PaymentItem>
 			}
 
 		});
-		contracts.add(new IPurchaseDeliveryPaymentContract() {
 
-			@Override
-			public String getIdentifiers() {
-				return PaymentItem.this.getIdentifiers();
-			}
-
-			@Override
-			public String getBaseDocumentType() {
-				return PaymentItem.this.getBaseDocumentType();
-			}
-
-			@Override
-			public Integer getBaseDocumentEntry() {
-				return PaymentItem.this.getBaseDocumentEntry();
-			}
-
-			@Override
-			public BigDecimal getAmount() {
-				return PaymentItem.this.getAmount();
-			}
-
-			@Override
-			public String getCurrency() {
-				return PaymentItem.this.getCurrency();
-			}
-
-			@Override
-			public BigDecimal getRate() {
-				return PaymentItem.this.getRate();
-			}
-		});
-		contracts.add(new ISalesReturnPaymentContract() {
-
-			@Override
-			public String getIdentifiers() {
-				return PaymentItem.this.getIdentifiers();
-			}
-
-			@Override
-			public String getBaseDocumentType() {
-				return PaymentItem.this.getBaseDocumentType();
-			}
-
-			@Override
-			public Integer getBaseDocumentEntry() {
-				return PaymentItem.this.getBaseDocumentEntry();
-			}
-
-			@Override
-			public BigDecimal getAmount() {
-				return PaymentItem.this.getAmount();
-			}
-
-			@Override
-			public String getCurrency() {
-				return PaymentItem.this.getCurrency();
-			}
-
-			@Override
-			public BigDecimal getRate() {
-				return PaymentItem.this.getRate();
-			}
-		});
 		if (IBusinessPartnerAssetIncreasesContract.ASSET_MODE_SIGN.equals(this.getMode())) {
 			contracts.add(new IBusinessPartnerAssetIncreasesContract() {
 

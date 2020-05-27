@@ -27,10 +27,8 @@ import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.businesspartner.logic.IBusinessPartnerAssetConsumptionContract;
-import org.colorcoding.ibas.purchase.logic.IPurchaseReturnPaymentContract;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
-import org.colorcoding.ibas.sales.logic.ISalesDeliveryPaymentContract;
-import org.colorcoding.ibas.sales.logic.ISalesOrderPaymentContract;
+import org.colorcoding.ibas.receiptpayment.logic.IReceiptPaidTotalContract;
 
 /**
  * 获取-收款-项目
@@ -1166,71 +1164,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem>
 	@Override
 	public IBusinessLogicContract[] getContracts() {
 		List<IBusinessLogicContract> contracts = new ArrayList<>(4);
-		contracts.add(new ISalesOrderPaymentContract() {
-
-			@Override
-			public String getIdentifiers() {
-				return ReceiptItem.this.getIdentifiers();
-			}
-
-			@Override
-			public String getBaseDocumentType() {
-				return ReceiptItem.this.getBaseDocumentType();
-			}
-
-			@Override
-			public Integer getBaseDocumentEntry() {
-				return ReceiptItem.this.getBaseDocumentEntry();
-			}
-
-			@Override
-			public BigDecimal getAmount() {
-				return ReceiptItem.this.getAmount();
-			}
-
-			@Override
-			public String getCurrency() {
-				return ReceiptItem.this.getCurrency();
-			}
-
-			@Override
-			public BigDecimal getRate() {
-				return ReceiptItem.this.getRate();
-			}
-		});
-		contracts.add(new ISalesDeliveryPaymentContract() {
-
-			@Override
-			public String getIdentifiers() {
-				return ReceiptItem.this.getIdentifiers();
-			}
-
-			@Override
-			public String getBaseDocumentType() {
-				return ReceiptItem.this.getBaseDocumentType();
-			}
-
-			@Override
-			public Integer getBaseDocumentEntry() {
-				return ReceiptItem.this.getBaseDocumentEntry();
-			}
-
-			@Override
-			public BigDecimal getAmount() {
-				return ReceiptItem.this.getAmount();
-			}
-
-			@Override
-			public String getCurrency() {
-				return ReceiptItem.this.getCurrency();
-			}
-
-			@Override
-			public BigDecimal getRate() {
-				return ReceiptItem.this.getRate();
-			}
-		});
-		contracts.add(new IPurchaseReturnPaymentContract() {
+		contracts.add(new IReceiptPaidTotalContract() {
 
 			@Override
 			public String getIdentifiers() {
