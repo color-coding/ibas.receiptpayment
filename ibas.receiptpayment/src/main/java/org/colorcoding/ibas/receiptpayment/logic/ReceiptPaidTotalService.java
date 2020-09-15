@@ -9,6 +9,8 @@ import org.colorcoding.ibas.bobas.mapping.LogicContract;
 import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.document.IDocumentPaidTotalOperator;
+import org.colorcoding.ibas.receiptpayment.MyConfiguration;
+import org.colorcoding.ibas.receiptpayment.bo.payment.Payment;
 
 @LogicContract(IReceiptPaidTotalContract.class)
 public class ReceiptPaidTotalService extends DocumentPaidTotalService<IReceiptPaidTotalContract> {
@@ -20,6 +22,11 @@ public class ReceiptPaidTotalService extends DocumentPaidTotalService<IReceiptPa
 			if (contract.getBaseDocumentType() == null || contract.getBaseDocumentType().isEmpty()) {
 				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
 						"BaseDocumentType", "NULL or Empty");
+				return false;
+			}
+			if (contract.getBaseDocumentType().equals(MyConfiguration.applyVariables(Payment.BUSINESS_OBJECT_CODE))) {
+				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
+						"BaseDocumentType", "Payment");
 				return false;
 			}
 		}
