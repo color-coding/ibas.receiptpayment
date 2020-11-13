@@ -143,6 +143,18 @@ namespace receiptpayment {
                                 path: "documentDate",
                                 type: new sap.extension.data.Date()
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_deliverydate") }),
+                            new sap.extension.m.DatePicker("", {
+                            }).bindProperty("bindingValue", {
+                                path: "deliveryDate",
+                                type: new sap.extension.data.Date()
+                            }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_postingdate") }),
+                            new sap.extension.m.DatePicker("", {
+                            }).bindProperty("bindingValue", {
+                                path: "postingDate",
+                                type: new sap.extension.data.Date()
+                            }),
                         ]
                     });
                     let formPaymentItem: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {

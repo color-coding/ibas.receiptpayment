@@ -221,13 +221,6 @@ namespace receiptpayment {
                                 width: "30%",
                                 content: [
                                     new sap.extension.m.ObjectAttribute("", {
-                                        title: ibas.i18n.prop("bo_receipt_postingdate"),
-                                        text: {
-                                            path: "postingDate",
-                                            type: new sap.extension.data.Date(),
-                                        }
-                                    }),
-                                    new sap.extension.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_receipt_documentdate"),
                                         text: {
                                             path: "documentDate",
@@ -238,6 +231,13 @@ namespace receiptpayment {
                                         title: ibas.i18n.prop("bo_receipt_deliverydate"),
                                         text: {
                                             path: "deliveryDate",
+                                            type: new sap.extension.data.Date(),
+                                        }
+                                    }),
+                                    new sap.extension.m.ObjectAttribute("", {
+                                        title: ibas.i18n.prop("bo_receipt_postingdate"),
+                                        text: {
+                                            path: "postingDate",
                                             type: new sap.extension.data.Date(),
                                         }
                                     }),

@@ -98,6 +98,14 @@ namespace receiptpayment {
                                 }),
                             }),
                             new sap.extension.table.DataColumn("", {
+                                label: ibas.i18n.prop("bo_payment_postingdate"),
+                                template: new sap.extension.m.Text("", {
+                                }).bindProperty("bindingValue", {
+                                    path: "postingDate",
+                                    type: new sap.extension.data.Date()
+                                }),
+                            }),
+                            new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_payment_documenttotal"),
                                 template: new sap.extension.m.Text("", {
                                 }).bindProperty("bindingValue", {
