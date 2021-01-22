@@ -47,7 +47,7 @@ namespace receiptpayment {
                             template: new sap.m.ColumnListItem("", {
                                 cells: [
                                     new sap.extension.m.ObjectAttribute("", {
-                                        text: {
+                                        bindingValue: {
                                             path: "lineId",
                                             type: new sap.extension.data.Numeric(),
                                         }
@@ -59,7 +59,7 @@ namespace receiptpayment {
                                         }
                                     }),
                                     new sap.extension.m.ObjectAttribute("", {
-                                        text: {
+                                        bindingValue: {
                                             path: "mode",
                                             type: new sap.extension.data.Alphanumeric(),
                                         }
@@ -75,19 +75,19 @@ namespace receiptpayment {
                                         }
                                     }),
                                     new sap.extension.m.ObjectAttribute("", {
-                                        text: {
+                                        bindingValue: {
                                             path: "tradeId",
                                             type: new sap.extension.data.Alphanumeric(),
                                         }
                                     }),
                                     new sap.extension.m.ObjectAttribute("", {
-                                        text: {
+                                        bindingValue: {
                                             path: "reference1",
                                             type: new sap.extension.data.Alphanumeric(),
                                         }
                                     }),
                                     new sap.extension.m.ObjectAttribute("", {
-                                        text: {
+                                        bindingValue: {
                                             path: "reference2",
                                             type: new sap.extension.data.Alphanumeric(),
                                         }
@@ -222,21 +222,21 @@ namespace receiptpayment {
                                 content: [
                                     new sap.extension.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_payment_documentdate"),
-                                        text: {
+                                        bindingValue: {
                                             path: "documentDate",
                                             type: new sap.extension.data.Date(),
                                         }
                                     }),
                                     new sap.extension.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_payment_deliverydate"),
-                                        text: {
+                                        bindingValue: {
                                             path: "deliveryDate",
                                             type: new sap.extension.data.Date(),
                                         }
                                     }),
                                     new sap.extension.m.ObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_payment_postingdate"),
-                                        text: {
+                                        bindingValue: {
                                             path: "postingDate",
                                             type: new sap.extension.data.Date(),
                                         }
@@ -264,21 +264,21 @@ namespace receiptpayment {
                                                 content: [
                                                     new sap.extension.m.ObjectAttribute("", {
                                                         title: ibas.i18n.prop("bo_payment_remarks"),
-                                                        text: {
+                                                        bindingValue: {
                                                             path: "remarks",
                                                             type: new sap.extension.data.Alphanumeric(),
                                                         }
                                                     }),
                                                     new sap.extension.m.ObjectAttribute("", {
                                                         title: ibas.i18n.prop("bo_payment_reference1"),
-                                                        text: {
+                                                        bindingValue: {
                                                             path: "reference1",
                                                             type: new sap.extension.data.Alphanumeric(),
                                                         }
                                                     }),
                                                     new sap.extension.m.ObjectAttribute("", {
                                                         title: ibas.i18n.prop("bo_payment_reference2"),
-                                                        text: {
+                                                        bindingValue: {
                                                             path: "reference2",
                                                             type: new sap.extension.data.Alphanumeric(),
                                                         }
@@ -289,21 +289,21 @@ namespace receiptpayment {
                                                 content: [
                                                     new sap.extension.m.UserObjectAttribute("", {
                                                         title: ibas.i18n.prop("bo_payment_dataowner"),
-                                                        text: {
+                                                        bindingValue: {
                                                             path: "dataOwner",
                                                             type: new sap.extension.data.Alphanumeric(),
                                                         }
                                                     }),
                                                     new sap.extension.m.OrganizationObjectAttribute("", {
                                                         title: ibas.i18n.prop("bo_payment_organization"),
-                                                        text: {
+                                                        bindingValue: {
                                                             path: "organization",
                                                             type: new sap.extension.data.Alphanumeric(),
                                                         }
                                                     }),
                                                     new sap.extension.m.RepositoryObjectAttribute("", {
                                                         title: ibas.i18n.prop("bo_payment_project"),
-                                                        text: {
+                                                        bindingValue: {
                                                             path: "project",
                                                             type: new sap.extension.data.Alphanumeric(),
                                                         },
