@@ -153,11 +153,11 @@ namespace receiptpayment {
                             }),
                         ]
                     });
-                    return new sap.extension.m.Dialog("", {
+                    return new sap.m.Dialog("", {
                         title: this.title,
                         type: sap.m.DialogType.Standard,
                         state: sap.ui.core.ValueState.None,
-                        stretchOnPhone: true,
+                        stretch: ibas.config.get(ibas.CONFIG_ITEM_PLANTFORM) === ibas.emPlantform.PHONE ? true : false,
                         horizontalScrolling: true,
                         verticalScrolling: true,
                         contentWidth: "60%",
@@ -195,7 +195,7 @@ namespace receiptpayment {
                                 }
                             }),
                         ]
-                    });
+                    }).addStyleClass("sapUiNoContentPadding");
                 }
                 private bp_bar: sap.m.Toolbar;
                 private target_bar: sap.m.Toolbar;

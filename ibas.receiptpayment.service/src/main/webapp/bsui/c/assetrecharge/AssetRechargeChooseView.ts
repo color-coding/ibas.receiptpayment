@@ -174,7 +174,7 @@ namespace receiptpayment {
                             that.fireViewEvents(that.fetchDataEvent, criteria);
                         }
                     });
-                    return new sap.extension.m.Dialog("", {
+                    return new sap.m.Dialog("", {
                         title: this.title,
                         type: sap.m.DialogType.Standard,
                         state: sap.ui.core.ValueState.None,
@@ -207,7 +207,7 @@ namespace receiptpayment {
                                 }
                             }),
                         ],
-                    });
+                    }).addStyleClass("sapUiNoContentPadding");
                 }
                 private table: sap.extension.table.Table;
                 /** 显示数据 */

@@ -35,6 +35,10 @@ declare namespace sales {
         const BO_CODE_SALESQUOTE: string;
         /** 业务对象编码-送货地址 */
         const BO_CODE_SHIPPINGADDRESS: string;
+        /** 业务对象编码-销售贷项 */
+        const BO_CODE_SALESCREDITNOTE: string;
+        /** 业务对象编码-销售发票 */
+        const BO_CODE_SALESINVOICE: string;
         /** 运输状态 */
         enum emShippingStatus {
             /**
@@ -1254,6 +1258,486 @@ declare namespace sales {
  */
 declare namespace sales {
     namespace bo {
+        /** 销售贷项 */
+        interface ISalesCreditNote extends ibas.IBODocument, ibas.IBOUserFields {
+            /** 凭证编号 */
+            docEntry: number;
+            /** 期间编号 */
+            docNum: number;
+            /** 期间 */
+            period: number;
+            /** 取消 */
+            canceled: ibas.emYesNo;
+            /** 状态 */
+            status: ibas.emBOStatus;
+            /** 审批状态 */
+            approvalStatus: ibas.emApprovalStatus;
+            /** 单据状态 */
+            documentStatus: ibas.emDocumentStatus;
+            /** 对象类型 */
+            objectCode: string;
+            /** 创建日期 */
+            createDate: Date;
+            /** 创建时间 */
+            createTime: number;
+            /** 修改日期 */
+            updateDate: Date;
+            /** 修改时间 */
+            updateTime: number;
+            /** 版本 */
+            logInst: number;
+            /** 服务系列 */
+            series: number;
+            /** 数据源 */
+            dataSource: string;
+            /** 创建用户 */
+            createUserSign: number;
+            /** 修改用户 */
+            updateUserSign: number;
+            /** 创建动作标识 */
+            createActionId: string;
+            /** 更新动作标识 */
+            updateActionId: string;
+            /** 数据所有者 */
+            dataOwner: number;
+            /** 团队成员 */
+            teamMembers: string;
+            /** 数据所属组织 */
+            organization: string;
+            /** 过账日期 */
+            postingDate: Date;
+            /** 到期日 */
+            deliveryDate: Date;
+            /** 凭证日期 */
+            documentDate: Date;
+            /** 参考1 */
+            reference1: string;
+            /** 参考2 */
+            reference2: string;
+            /** 备注 */
+            remarks: string;
+            /** 已引用 */
+            referenced: ibas.emYesNo;
+            /** 已删除 */
+            deleted: ibas.emYesNo;
+            /** 客户代码 */
+            customerCode: string;
+            /** 客户名称 */
+            customerName: string;
+            /** 联系人 */
+            contactPerson: number;
+            /** 折扣 */
+            discount: number;
+            /** 折扣后总计 */
+            discountTotal: number;
+            /** 单据货币 */
+            documentCurrency: string;
+            /** 单据汇率 */
+            documentRate: number;
+            /** 单据总计 */
+            documentTotal: number;
+            /** 已付款总计 */
+            paidTotal: number;
+            /** 价格清单 */
+            priceList: number;
+            /** 付款条款代码 */
+            paymentCode: string;
+            /** 舍入 */
+            rounding: ibas.emYesNo;
+            /** 舍入差额 */
+            diffAmount: number;
+            /** 项目代码 */
+            project: string;
+            /** 终端客户 */
+            consumer: string;
+            /** 单据类型 */
+            orderType: string;
+            /** 销售贷项-行集合 */
+            salesCreditNoteItems: ISalesCreditNoteItems;
+            /** 送货地址集合 */
+            shippingAddresss: IShippingAddresss;
+            /** 基于销售发票 */
+            baseDocument(document: ISalesInvoice): void;
+            /** 基于销售交货 */
+            baseDocument(document: ISalesReturn): void;
+            /** 基于地址 */
+            baseAddress(address: businesspartner.bo.IAddress): void;
+        }
+        /** 销售贷项-行 集合 */
+        interface ISalesCreditNoteItems extends ibas.IBusinessObjects<ISalesCreditNoteItem> {
+            /** 创建并添加子项 */
+            create(): ISalesCreditNoteItem;
+        }
+        /** 销售贷项-行 */
+        interface ISalesCreditNoteItem extends ibas.IBODocumentLine, ibas.IBOUserFields {
+            /** 编码 */
+            docEntry: number;
+            /** 行号 */
+            lineId: number;
+            /** 显示顺序 */
+            visOrder: number;
+            /** 类型 */
+            objectCode: string;
+            /** 实例号（版本） */
+            logInst: number;
+            /** 数据源 */
+            dataSource: string;
+            /** 取消 */
+            canceled: ibas.emYesNo;
+            /** 状态 */
+            status: ibas.emBOStatus;
+            /** 单据状态 */
+            lineStatus: ibas.emDocumentStatus;
+            /** 创建日期 */
+            createDate: Date;
+            /** 创建时间 */
+            createTime: number;
+            /** 修改日期 */
+            updateDate: Date;
+            /** 修改时间 */
+            updateTime: number;
+            /** 创建用户 */
+            createUserSign: number;
+            /** 修改用户 */
+            updateUserSign: number;
+            /** 创建动作标识 */
+            createActionId: string;
+            /** 更新动作标识 */
+            updateActionId: string;
+            /** 参考1 */
+            reference1: string;
+            /** 参考2 */
+            reference2: string;
+            /** 已引用 */
+            referenced: ibas.emYesNo;
+            /** 已删除 */
+            deleted: ibas.emYesNo;
+            /** 基于类型 */
+            baseDocumentType: string;
+            /** 基于标识 */
+            baseDocumentEntry: number;
+            /** 基于行号 */
+            baseDocumentLineId: number;
+            /** 原始类型 */
+            originalDocumentType: string;
+            /** 原始标识 */
+            originalDocumentEntry: number;
+            /** 原始行号 */
+            originalDocumentLineId: number;
+            /** 产品编号 */
+            itemCode: string;
+            /** 产品/服务描述 */
+            itemDescription: string;
+            /** 产品标识 */
+            itemSign: string;
+            /** 序号管理 */
+            serialManagement: ibas.emYesNo;
+            /** 批号管理 */
+            batchManagement: ibas.emYesNo;
+            /** 数量 */
+            quantity: number;
+            /** 单位 */
+            uom: string;
+            /** 仓库 */
+            warehouse: string;
+            /** 价格 */
+            price: number;
+            /** 货币 */
+            currency: string;
+            /** 汇率 */
+            rate: number;
+            /** 行总计 */
+            lineTotal: number;
+            /** 行交货日期 */
+            deliveryDate: Date;
+            /** 已清数量 */
+            closedQuantity: number;
+            /** 行折扣 */
+            discount: number;
+            /** 已清金额 */
+            closedAmount: number;
+            /** 基础数量 */
+            basisQuantity: number;
+            /** 行标志号 */
+            lineSign: string;
+            /** 父项行标志号 */
+            parentLineSign: string;
+            /** 折扣前价格 */
+            unitPrice: number;
+            /** 税定义 */
+            tax: string;
+            /** 税率 */
+            taxRate: number;
+            /** 税总额 */
+            taxTotal: number;
+            /** 税前价格 */
+            preTaxPrice: number;
+            /** 税前行总计 */
+            preTaxLineTotal: number;
+            /** 分配规则1 */
+            distributionRule1: string;
+            /** 分配规则2 */
+            distributionRule2: string;
+            /** 分配规则3 */
+            distributionRule3: string;
+            /** 分配规则4 */
+            distributionRule4: string;
+            /** 分配规则5 */
+            distributionRule5: string;
+            /** 赋值产品 */
+            baseProduct(source: materials.bo.IProduct): void;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace sales {
+    namespace bo {
+        /** 销售发票 */
+        interface ISalesInvoice extends ibas.IBODocument, ibas.IBOUserFields {
+            /** 凭证编号 */
+            docEntry: number;
+            /** 期间编号 */
+            docNum: number;
+            /** 期间 */
+            period: number;
+            /** 取消 */
+            canceled: ibas.emYesNo;
+            /** 状态 */
+            status: ibas.emBOStatus;
+            /** 审批状态 */
+            approvalStatus: ibas.emApprovalStatus;
+            /** 单据状态 */
+            documentStatus: ibas.emDocumentStatus;
+            /** 对象类型 */
+            objectCode: string;
+            /** 创建日期 */
+            createDate: Date;
+            /** 创建时间 */
+            createTime: number;
+            /** 修改日期 */
+            updateDate: Date;
+            /** 修改时间 */
+            updateTime: number;
+            /** 版本 */
+            logInst: number;
+            /** 服务系列 */
+            series: number;
+            /** 数据源 */
+            dataSource: string;
+            /** 创建用户 */
+            createUserSign: number;
+            /** 修改用户 */
+            updateUserSign: number;
+            /** 创建动作标识 */
+            createActionId: string;
+            /** 更新动作标识 */
+            updateActionId: string;
+            /** 数据所有者 */
+            dataOwner: number;
+            /** 团队成员 */
+            teamMembers: string;
+            /** 数据所属组织 */
+            organization: string;
+            /** 过账日期 */
+            postingDate: Date;
+            /** 到期日 */
+            deliveryDate: Date;
+            /** 凭证日期 */
+            documentDate: Date;
+            /** 参考1 */
+            reference1: string;
+            /** 参考2 */
+            reference2: string;
+            /** 备注 */
+            remarks: string;
+            /** 已引用 */
+            referenced: ibas.emYesNo;
+            /** 已删除 */
+            deleted: ibas.emYesNo;
+            /** 客户代码 */
+            customerCode: string;
+            /** 客户名称 */
+            customerName: string;
+            /** 联系人 */
+            contactPerson: number;
+            /** 折扣 */
+            discount: number;
+            /** 折扣后总计 */
+            discountTotal: number;
+            /** 单据货币 */
+            documentCurrency: string;
+            /** 单据汇率 */
+            documentRate: number;
+            /** 单据总计 */
+            documentTotal: number;
+            /** 已付款总计 */
+            paidTotal: number;
+            /** 价格清单 */
+            priceList: number;
+            /** 付款条款代码 */
+            paymentCode: string;
+            /** 舍入 */
+            rounding: ibas.emYesNo;
+            /** 舍入差额 */
+            diffAmount: number;
+            /** 项目代码 */
+            project: string;
+            /** 终端客户 */
+            consumer: string;
+            /** 单据类型 */
+            orderType: string;
+            /** 销售发票-行集合 */
+            salesInvoiceItems: ISalesInvoiceItems;
+            /** 送货地址集合 */
+            shippingAddresss: IShippingAddresss;
+            /** 基于销售订单 */
+            baseDocument(document: ISalesOrder): void;
+            /** 基于销售交货 */
+            baseDocument(document: ISalesDelivery): void;
+            /** 基于地址 */
+            baseAddress(address: businesspartner.bo.IAddress): void;
+        }
+        /** 销售发票-行 集合 */
+        interface ISalesInvoiceItems extends ibas.IBusinessObjects<ISalesInvoiceItem> {
+            /** 创建并添加子项 */
+            create(): ISalesInvoiceItem;
+        }
+        /** 销售发票-行 */
+        interface ISalesInvoiceItem extends ibas.IBODocumentLine, ibas.IBOUserFields {
+            /** 编码 */
+            docEntry: number;
+            /** 行号 */
+            lineId: number;
+            /** 显示顺序 */
+            visOrder: number;
+            /** 类型 */
+            objectCode: string;
+            /** 实例号（版本） */
+            logInst: number;
+            /** 数据源 */
+            dataSource: string;
+            /** 取消 */
+            canceled: ibas.emYesNo;
+            /** 状态 */
+            status: ibas.emBOStatus;
+            /** 单据状态 */
+            lineStatus: ibas.emDocumentStatus;
+            /** 创建日期 */
+            createDate: Date;
+            /** 创建时间 */
+            createTime: number;
+            /** 修改日期 */
+            updateDate: Date;
+            /** 修改时间 */
+            updateTime: number;
+            /** 创建用户 */
+            createUserSign: number;
+            /** 修改用户 */
+            updateUserSign: number;
+            /** 创建动作标识 */
+            createActionId: string;
+            /** 更新动作标识 */
+            updateActionId: string;
+            /** 参考1 */
+            reference1: string;
+            /** 参考2 */
+            reference2: string;
+            /** 已引用 */
+            referenced: ibas.emYesNo;
+            /** 已删除 */
+            deleted: ibas.emYesNo;
+            /** 基于类型 */
+            baseDocumentType: string;
+            /** 基于标识 */
+            baseDocumentEntry: number;
+            /** 基于行号 */
+            baseDocumentLineId: number;
+            /** 原始类型 */
+            originalDocumentType: string;
+            /** 原始标识 */
+            originalDocumentEntry: number;
+            /** 原始行号 */
+            originalDocumentLineId: number;
+            /** 产品编号 */
+            itemCode: string;
+            /** 产品/服务描述 */
+            itemDescription: string;
+            /** 产品标识 */
+            itemSign: string;
+            /** 序号管理 */
+            serialManagement: ibas.emYesNo;
+            /** 批号管理 */
+            batchManagement: ibas.emYesNo;
+            /** 数量 */
+            quantity: number;
+            /** 单位 */
+            uom: string;
+            /** 仓库 */
+            warehouse: string;
+            /** 价格 */
+            price: number;
+            /** 货币 */
+            currency: string;
+            /** 汇率 */
+            rate: number;
+            /** 行总计 */
+            lineTotal: number;
+            /** 行交货日期 */
+            deliveryDate: Date;
+            /** 已清数量 */
+            closedQuantity: number;
+            /** 行折扣 */
+            discount: number;
+            /** 已清金额 */
+            closedAmount: number;
+            /** 基础数量 */
+            basisQuantity: number;
+            /** 行标志号 */
+            lineSign: string;
+            /** 父项行标志号 */
+            parentLineSign: string;
+            /** 折扣前价格 */
+            unitPrice: number;
+            /** 税定义 */
+            tax: string;
+            /** 税率 */
+            taxRate: number;
+            /** 税总额 */
+            taxTotal: number;
+            /** 税前价格 */
+            preTaxPrice: number;
+            /** 税前行总计 */
+            preTaxLineTotal: number;
+            /** 分配规则1 */
+            distributionRule1: string;
+            /** 分配规则2 */
+            distributionRule2: string;
+            /** 分配规则3 */
+            distributionRule3: string;
+            /** 分配规则4 */
+            distributionRule4: string;
+            /** 分配规则5 */
+            distributionRule5: string;
+            /** 赋值产品 */
+            baseProduct(source: materials.bo.IProduct): void;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace sales {
+    namespace bo {
         /** 送货地址 */
         interface IShippingAddress extends ibas.IBOSimple, ibas.IBOUserFields {
             /** 基于类型 */
@@ -1416,6 +1900,26 @@ declare namespace sales {
              * @param fetcher 查询者
              */
             fetchProductSuitEx(fetcher: ibas.IFetchCaller<bo.IProductSuitEx>): void;
+            /**
+             * 查询 销售贷项
+             * @param fetcher 查询者
+             */
+            fetchSalesCreditNote(fetcher: ibas.IFetchCaller<bo.ISalesCreditNote>): void;
+            /**
+             * 保存 销售贷项
+             * @param saver 保存者
+             */
+            saveSalesCreditNote(saver: ibas.ISaveCaller<bo.ISalesCreditNote>): void;
+            /**
+             * 查询 销售发票
+             * @param fetcher 查询者
+             */
+            fetchSalesInvoice(fetcher: ibas.IFetchCaller<bo.ISalesInvoice>): void;
+            /**
+             * 保存 销售发票
+             * @param saver 保存者
+             */
+            saveSalesInvoice(saver: ibas.ISaveCaller<bo.ISalesInvoice>): void;
         }
     }
 }
@@ -4949,6 +5453,1454 @@ declare namespace sales {
  */
 declare namespace sales {
     namespace bo {
+        /** 销售贷项 */
+        class SalesCreditNote extends ibas.BODocument<SalesCreditNote> implements ISalesCreditNote, ibas.IConvertedData {
+            /** 业务对象编码 */
+            static BUSINESS_OBJECT_CODE: string;
+            /** 构造函数 */
+            constructor();
+            /** 映射的属性名称-凭证编号 */
+            static PROPERTY_DOCENTRY_NAME: string;
+            /** 获取-凭证编号 */
+            get docEntry(): number;
+            /** 设置-凭证编号 */
+            set docEntry(value: number);
+            /** 映射的属性名称-期间编号 */
+            static PROPERTY_DOCNUM_NAME: string;
+            /** 获取-期间编号 */
+            get docNum(): number;
+            /** 设置-期间编号 */
+            set docNum(value: number);
+            /** 映射的属性名称-期间 */
+            static PROPERTY_PERIOD_NAME: string;
+            /** 获取-期间 */
+            get period(): number;
+            /** 设置-期间 */
+            set period(value: number);
+            /** 映射的属性名称-取消 */
+            static PROPERTY_CANCELED_NAME: string;
+            /** 获取-取消 */
+            get canceled(): ibas.emYesNo;
+            /** 设置-取消 */
+            set canceled(value: ibas.emYesNo);
+            /** 映射的属性名称-状态 */
+            static PROPERTY_STATUS_NAME: string;
+            /** 获取-状态 */
+            get status(): ibas.emBOStatus;
+            /** 设置-状态 */
+            set status(value: ibas.emBOStatus);
+            /** 映射的属性名称-审批状态 */
+            static PROPERTY_APPROVALSTATUS_NAME: string;
+            /** 获取-审批状态 */
+            get approvalStatus(): ibas.emApprovalStatus;
+            /** 设置-审批状态 */
+            set approvalStatus(value: ibas.emApprovalStatus);
+            /** 映射的属性名称-单据状态 */
+            static PROPERTY_DOCUMENTSTATUS_NAME: string;
+            /** 获取-单据状态 */
+            get documentStatus(): ibas.emDocumentStatus;
+            /** 设置-单据状态 */
+            set documentStatus(value: ibas.emDocumentStatus);
+            /** 映射的属性名称-对象类型 */
+            static PROPERTY_OBJECTCODE_NAME: string;
+            /** 获取-对象类型 */
+            get objectCode(): string;
+            /** 设置-对象类型 */
+            set objectCode(value: string);
+            /** 映射的属性名称-创建日期 */
+            static PROPERTY_CREATEDATE_NAME: string;
+            /** 获取-创建日期 */
+            get createDate(): Date;
+            /** 设置-创建日期 */
+            set createDate(value: Date);
+            /** 映射的属性名称-创建时间 */
+            static PROPERTY_CREATETIME_NAME: string;
+            /** 获取-创建时间 */
+            get createTime(): number;
+            /** 设置-创建时间 */
+            set createTime(value: number);
+            /** 映射的属性名称-修改日期 */
+            static PROPERTY_UPDATEDATE_NAME: string;
+            /** 获取-修改日期 */
+            get updateDate(): Date;
+            /** 设置-修改日期 */
+            set updateDate(value: Date);
+            /** 映射的属性名称-修改时间 */
+            static PROPERTY_UPDATETIME_NAME: string;
+            /** 获取-修改时间 */
+            get updateTime(): number;
+            /** 设置-修改时间 */
+            set updateTime(value: number);
+            /** 映射的属性名称-版本 */
+            static PROPERTY_LOGINST_NAME: string;
+            /** 获取-版本 */
+            get logInst(): number;
+            /** 设置-版本 */
+            set logInst(value: number);
+            /** 映射的属性名称-服务系列 */
+            static PROPERTY_SERIES_NAME: string;
+            /** 获取-服务系列 */
+            get series(): number;
+            /** 设置-服务系列 */
+            set series(value: number);
+            /** 映射的属性名称-数据源 */
+            static PROPERTY_DATASOURCE_NAME: string;
+            /** 获取-数据源 */
+            get dataSource(): string;
+            /** 设置-数据源 */
+            set dataSource(value: string);
+            /** 映射的属性名称-创建用户 */
+            static PROPERTY_CREATEUSERSIGN_NAME: string;
+            /** 获取-创建用户 */
+            get createUserSign(): number;
+            /** 设置-创建用户 */
+            set createUserSign(value: number);
+            /** 映射的属性名称-修改用户 */
+            static PROPERTY_UPDATEUSERSIGN_NAME: string;
+            /** 获取-修改用户 */
+            get updateUserSign(): number;
+            /** 设置-修改用户 */
+            set updateUserSign(value: number);
+            /** 映射的属性名称-创建动作标识 */
+            static PROPERTY_CREATEACTIONID_NAME: string;
+            /** 获取-创建动作标识 */
+            get createActionId(): string;
+            /** 设置-创建动作标识 */
+            set createActionId(value: string);
+            /** 映射的属性名称-更新动作标识 */
+            static PROPERTY_UPDATEACTIONID_NAME: string;
+            /** 获取-更新动作标识 */
+            get updateActionId(): string;
+            /** 设置-更新动作标识 */
+            set updateActionId(value: string);
+            /** 映射的属性名称-数据所有者 */
+            static PROPERTY_DATAOWNER_NAME: string;
+            /** 获取-数据所有者 */
+            get dataOwner(): number;
+            /** 设置-数据所有者 */
+            set dataOwner(value: number);
+            /** 映射的属性名称-团队成员 */
+            static PROPERTY_TEAMMEMBERS_NAME: string;
+            /** 获取-团队成员 */
+            get teamMembers(): string;
+            /** 设置-团队成员 */
+            set teamMembers(value: string);
+            /** 映射的属性名称-数据所属组织 */
+            static PROPERTY_ORGANIZATION_NAME: string;
+            /** 获取-数据所属组织 */
+            get organization(): string;
+            /** 设置-数据所属组织 */
+            set organization(value: string);
+            /** 映射的属性名称-过账日期 */
+            static PROPERTY_POSTINGDATE_NAME: string;
+            /** 获取-过账日期 */
+            get postingDate(): Date;
+            /** 设置-过账日期 */
+            set postingDate(value: Date);
+            /** 映射的属性名称-到期日 */
+            static PROPERTY_DELIVERYDATE_NAME: string;
+            /** 获取-到期日 */
+            get deliveryDate(): Date;
+            /** 设置-到期日 */
+            set deliveryDate(value: Date);
+            /** 映射的属性名称-凭证日期 */
+            static PROPERTY_DOCUMENTDATE_NAME: string;
+            /** 获取-凭证日期 */
+            get documentDate(): Date;
+            /** 设置-凭证日期 */
+            set documentDate(value: Date);
+            /** 映射的属性名称-参考1 */
+            static PROPERTY_REFERENCE1_NAME: string;
+            /** 获取-参考1 */
+            get reference1(): string;
+            /** 设置-参考1 */
+            set reference1(value: string);
+            /** 映射的属性名称-参考2 */
+            static PROPERTY_REFERENCE2_NAME: string;
+            /** 获取-参考2 */
+            get reference2(): string;
+            /** 设置-参考2 */
+            set reference2(value: string);
+            /** 映射的属性名称-备注 */
+            static PROPERTY_REMARKS_NAME: string;
+            /** 获取-备注 */
+            get remarks(): string;
+            /** 设置-备注 */
+            set remarks(value: string);
+            /** 映射的属性名称-已引用 */
+            static PROPERTY_REFERENCED_NAME: string;
+            /** 获取-已引用 */
+            get referenced(): ibas.emYesNo;
+            /** 设置-已引用 */
+            set referenced(value: ibas.emYesNo);
+            /** 映射的属性名称-已删除 */
+            static PROPERTY_DELETED_NAME: string;
+            /** 获取-已删除 */
+            get deleted(): ibas.emYesNo;
+            /** 设置-已删除 */
+            set deleted(value: ibas.emYesNo);
+            /** 映射的属性名称-客户代码 */
+            static PROPERTY_CUSTOMERCODE_NAME: string;
+            /** 获取-客户代码 */
+            get customerCode(): string;
+            /** 设置-客户代码 */
+            set customerCode(value: string);
+            /** 映射的属性名称-客户名称 */
+            static PROPERTY_CUSTOMERNAME_NAME: string;
+            /** 获取-客户名称 */
+            get customerName(): string;
+            /** 设置-客户名称 */
+            set customerName(value: string);
+            /** 映射的属性名称-联系人 */
+            static PROPERTY_CONTACTPERSON_NAME: string;
+            /** 获取-联系人 */
+            get contactPerson(): number;
+            /** 设置-联系人 */
+            set contactPerson(value: number);
+            /** 映射的属性名称-折扣 */
+            static PROPERTY_DISCOUNT_NAME: string;
+            /** 获取-折扣 */
+            get discount(): number;
+            /** 设置-折扣 */
+            set discount(value: number);
+            /** 映射的属性名称-折扣后总计 */
+            static PROPERTY_DISCOUNTTOTAL_NAME: string;
+            /** 获取-折扣后总计 */
+            get discountTotal(): number;
+            /** 设置-折扣后总计 */
+            set discountTotal(value: number);
+            /** 映射的属性名称-单据货币 */
+            static PROPERTY_DOCUMENTCURRENCY_NAME: string;
+            /** 获取-单据货币 */
+            get documentCurrency(): string;
+            /** 设置-单据货币 */
+            set documentCurrency(value: string);
+            /** 映射的属性名称-单据汇率 */
+            static PROPERTY_DOCUMENTRATE_NAME: string;
+            /** 获取-单据汇率 */
+            get documentRate(): number;
+            /** 设置-单据汇率 */
+            set documentRate(value: number);
+            /** 映射的属性名称-单据总计 */
+            static PROPERTY_DOCUMENTTOTAL_NAME: string;
+            /** 获取-单据总计 */
+            get documentTotal(): number;
+            /** 设置-单据总计 */
+            set documentTotal(value: number);
+            /** 映射的属性名称-已付款总计 */
+            static PROPERTY_PAIDTOTAL_NAME: string;
+            /** 获取-已付款总计 */
+            get paidTotal(): number;
+            /** 设置-已付款总计 */
+            set paidTotal(value: number);
+            /** 映射的属性名称-价格清单 */
+            static PROPERTY_PRICELIST_NAME: string;
+            /** 获取-价格清单 */
+            get priceList(): number;
+            /** 设置-价格清单 */
+            set priceList(value: number);
+            /** 映射的属性名称-付款条款代码 */
+            static PROPERTY_PAYMENTCODE_NAME: string;
+            /** 获取-付款条款代码 */
+            get paymentCode(): string;
+            /** 设置-付款条款代码 */
+            set paymentCode(value: string);
+            /** 映射的属性名称-舍入 */
+            static PROPERTY_ROUNDING_NAME: string;
+            /** 获取-舍入 */
+            get rounding(): ibas.emYesNo;
+            /** 设置-舍入 */
+            set rounding(value: ibas.emYesNo);
+            /** 映射的属性名称-舍入差额 */
+            static PROPERTY_DIFFAMOUNT_NAME: string;
+            /** 获取-舍入差额 */
+            get diffAmount(): number;
+            /** 设置-舍入差额 */
+            set diffAmount(value: number);
+            /** 映射的属性名称-项目代码 */
+            static PROPERTY_PROJECT_NAME: string;
+            /** 获取-项目代码 */
+            get project(): string;
+            /** 设置-项目代码 */
+            set project(value: string);
+            /** 映射的属性名称-终端客户 */
+            static PROPERTY_CONSUMER_NAME: string;
+            /** 获取-终端客户 */
+            get consumer(): string;
+            /** 设置-终端客户 */
+            set consumer(value: string);
+            /** 映射的属性名称-单据类型 */
+            static PROPERTY_ORDERTYPE_NAME: string;
+            /** 获取-单据类型 */
+            get orderType(): string;
+            /** 设置-单据类型 */
+            set orderType(value: string);
+            /** 映射的属性名称-销售贷项-行集合 */
+            static PROPERTY_SALESCREDITNOTEITEMS_NAME: string;
+            /** 获取-销售贷项-行集合 */
+            get salesCreditNoteItems(): SalesCreditNoteItems;
+            /** 设置-销售贷项-行集合 */
+            set salesCreditNoteItems(value: SalesCreditNoteItems);
+            /** 映射的属性名称-送货地址集合 */
+            static PROPERTY_SHIPPINGADDRESSS_NAME: string;
+            /** 获取-送货地址集合 */
+            get shippingAddresss(): ShippingAddresss;
+            /** 设置-送货地址集合 */
+            set shippingAddresss(value: ShippingAddresss);
+            /** 初始化数据 */
+            protected init(): void;
+            /** 映射的属性名称-项目的税总计 */
+            static PROPERTY_ITEMSTAXTOTAL_NAME: string;
+            /** 获取-项目的税总计 */
+            get itemsTaxTotal(): number;
+            /** 设置-项目的税总计 */
+            set itemsTaxTotal(value: number);
+            /** 映射的属性名称-项目的行总计 */
+            static PROPERTY_ITEMSLINETOTAL_NAME: string;
+            /** 获取-项目的行总计 */
+            get itemsLineTotal(): number;
+            /** 设置-项目的行总计 */
+            set itemsLineTotal(value: number);
+            /** 映射的属性名称-运送费税总计 */
+            static PROPERTY_SHIPPINGSTAXTOTAL_NAME: string;
+            /** 获取-运送费税总计 */
+            get shippingsTaxTotal(): number;
+            /** 设置-运送费税总计 */
+            set shippingsTaxTotal(value: number);
+            /** 映射的属性名称-运送费用总计 */
+            static PROPERTY_SHIPPINGSEXPENSETOTAL_NAME: string;
+            /** 获取-运送费用总计 */
+            get shippingsExpenseTotal(): number;
+            /** 设置-运送费用总计 */
+            set shippingsExpenseTotal(value: number);
+            /** 映射的属性名称-单据税总计 */
+            static PROPERTY_DOCUMENTTAXTOTAL_NAME: string;
+            /** 获取-单据税总计 */
+            get documentTaxTotal(): number;
+            /** 设置-单据税总计 */
+            set documentTaxTotal(value: number);
+            protected registerRules(): ibas.IBusinessRule[];
+            /** 重置 */
+            reset(): void;
+            /** 转换之前 */
+            beforeConvert(): void;
+            /** 数据解析后 */
+            afterParsing(): void;
+            baseDocument(document: ISalesInvoice): void;
+            baseDocument(document: ISalesReturn): void;
+            /** 基于地址 */
+            baseAddress(address: businesspartner.bo.IAddress): void;
+        }
+        /** 销售贷项-行 集合 */
+        class SalesCreditNoteItems extends ibas.BusinessObjects<SalesCreditNoteItem, SalesCreditNote> implements ISalesCreditNoteItems {
+            /** 创建并添加子项 */
+            create(): SalesCreditNoteItem;
+            /** 移出项目之后 */
+            protected afterRemove(item: SalesCreditNoteItem): void;
+            /** 子项属性改变时 */
+            protected onItemPropertyChanged(item: SalesCreditNoteItem, name: string): void;
+        }
+        /** 销售贷项-行 */
+        class SalesCreditNoteItem extends ibas.BODocumentLine<SalesCreditNoteItem> implements ISalesCreditNoteItem {
+            /** 构造函数 */
+            constructor();
+            /** 映射的属性名称-编码 */
+            static PROPERTY_DOCENTRY_NAME: string;
+            /** 获取-编码 */
+            get docEntry(): number;
+            /** 设置-编码 */
+            set docEntry(value: number);
+            /** 映射的属性名称-行号 */
+            static PROPERTY_LINEID_NAME: string;
+            /** 获取-行号 */
+            get lineId(): number;
+            /** 设置-行号 */
+            set lineId(value: number);
+            /** 映射的属性名称-显示顺序 */
+            static PROPERTY_VISORDER_NAME: string;
+            /** 获取-显示顺序 */
+            get visOrder(): number;
+            /** 设置-显示顺序 */
+            set visOrder(value: number);
+            /** 映射的属性名称-类型 */
+            static PROPERTY_OBJECTCODE_NAME: string;
+            /** 获取-类型 */
+            get objectCode(): string;
+            /** 设置-类型 */
+            set objectCode(value: string);
+            /** 映射的属性名称-实例号（版本） */
+            static PROPERTY_LOGINST_NAME: string;
+            /** 获取-实例号（版本） */
+            get logInst(): number;
+            /** 设置-实例号（版本） */
+            set logInst(value: number);
+            /** 映射的属性名称-数据源 */
+            static PROPERTY_DATASOURCE_NAME: string;
+            /** 获取-数据源 */
+            get dataSource(): string;
+            /** 设置-数据源 */
+            set dataSource(value: string);
+            /** 映射的属性名称-取消 */
+            static PROPERTY_CANCELED_NAME: string;
+            /** 获取-取消 */
+            get canceled(): ibas.emYesNo;
+            /** 设置-取消 */
+            set canceled(value: ibas.emYesNo);
+            /** 映射的属性名称-状态 */
+            static PROPERTY_STATUS_NAME: string;
+            /** 获取-状态 */
+            get status(): ibas.emBOStatus;
+            /** 设置-状态 */
+            set status(value: ibas.emBOStatus);
+            /** 映射的属性名称-单据状态 */
+            static PROPERTY_LINESTATUS_NAME: string;
+            /** 获取-单据状态 */
+            get lineStatus(): ibas.emDocumentStatus;
+            /** 设置-单据状态 */
+            set lineStatus(value: ibas.emDocumentStatus);
+            /** 映射的属性名称-创建日期 */
+            static PROPERTY_CREATEDATE_NAME: string;
+            /** 获取-创建日期 */
+            get createDate(): Date;
+            /** 设置-创建日期 */
+            set createDate(value: Date);
+            /** 映射的属性名称-创建时间 */
+            static PROPERTY_CREATETIME_NAME: string;
+            /** 获取-创建时间 */
+            get createTime(): number;
+            /** 设置-创建时间 */
+            set createTime(value: number);
+            /** 映射的属性名称-修改日期 */
+            static PROPERTY_UPDATEDATE_NAME: string;
+            /** 获取-修改日期 */
+            get updateDate(): Date;
+            /** 设置-修改日期 */
+            set updateDate(value: Date);
+            /** 映射的属性名称-修改时间 */
+            static PROPERTY_UPDATETIME_NAME: string;
+            /** 获取-修改时间 */
+            get updateTime(): number;
+            /** 设置-修改时间 */
+            set updateTime(value: number);
+            /** 映射的属性名称-创建用户 */
+            static PROPERTY_CREATEUSERSIGN_NAME: string;
+            /** 获取-创建用户 */
+            get createUserSign(): number;
+            /** 设置-创建用户 */
+            set createUserSign(value: number);
+            /** 映射的属性名称-修改用户 */
+            static PROPERTY_UPDATEUSERSIGN_NAME: string;
+            /** 获取-修改用户 */
+            get updateUserSign(): number;
+            /** 设置-修改用户 */
+            set updateUserSign(value: number);
+            /** 映射的属性名称-创建动作标识 */
+            static PROPERTY_CREATEACTIONID_NAME: string;
+            /** 获取-创建动作标识 */
+            get createActionId(): string;
+            /** 设置-创建动作标识 */
+            set createActionId(value: string);
+            /** 映射的属性名称-更新动作标识 */
+            static PROPERTY_UPDATEACTIONID_NAME: string;
+            /** 获取-更新动作标识 */
+            get updateActionId(): string;
+            /** 设置-更新动作标识 */
+            set updateActionId(value: string);
+            /** 映射的属性名称-参考1 */
+            static PROPERTY_REFERENCE1_NAME: string;
+            /** 获取-参考1 */
+            get reference1(): string;
+            /** 设置-参考1 */
+            set reference1(value: string);
+            /** 映射的属性名称-参考2 */
+            static PROPERTY_REFERENCE2_NAME: string;
+            /** 获取-参考2 */
+            get reference2(): string;
+            /** 设置-参考2 */
+            set reference2(value: string);
+            /** 映射的属性名称-已引用 */
+            static PROPERTY_REFERENCED_NAME: string;
+            /** 获取-已引用 */
+            get referenced(): ibas.emYesNo;
+            /** 设置-已引用 */
+            set referenced(value: ibas.emYesNo);
+            /** 映射的属性名称-已删除 */
+            static PROPERTY_DELETED_NAME: string;
+            /** 获取-已删除 */
+            get deleted(): ibas.emYesNo;
+            /** 设置-已删除 */
+            set deleted(value: ibas.emYesNo);
+            /** 映射的属性名称-基于类型 */
+            static PROPERTY_BASEDOCUMENTTYPE_NAME: string;
+            /** 获取-基于类型 */
+            get baseDocumentType(): string;
+            /** 设置-基于类型 */
+            set baseDocumentType(value: string);
+            /** 映射的属性名称-基于标识 */
+            static PROPERTY_BASEDOCUMENTENTRY_NAME: string;
+            /** 获取-基于标识 */
+            get baseDocumentEntry(): number;
+            /** 设置-基于标识 */
+            set baseDocumentEntry(value: number);
+            /** 映射的属性名称-基于行号 */
+            static PROPERTY_BASEDOCUMENTLINEID_NAME: string;
+            /** 获取-基于行号 */
+            get baseDocumentLineId(): number;
+            /** 设置-基于行号 */
+            set baseDocumentLineId(value: number);
+            /** 映射的属性名称-原始类型 */
+            static PROPERTY_ORIGINALDOCUMENTTYPE_NAME: string;
+            /** 获取-原始类型 */
+            get originalDocumentType(): string;
+            /** 设置-原始类型 */
+            set originalDocumentType(value: string);
+            /** 映射的属性名称-原始标识 */
+            static PROPERTY_ORIGINALDOCUMENTENTRY_NAME: string;
+            /** 获取-原始标识 */
+            get originalDocumentEntry(): number;
+            /** 设置-原始标识 */
+            set originalDocumentEntry(value: number);
+            /** 映射的属性名称-原始行号 */
+            static PROPERTY_ORIGINALDOCUMENTLINEID_NAME: string;
+            /** 获取-原始行号 */
+            get originalDocumentLineId(): number;
+            /** 设置-原始行号 */
+            set originalDocumentLineId(value: number);
+            /** 映射的属性名称-产品编号 */
+            static PROPERTY_ITEMCODE_NAME: string;
+            /** 获取-产品编号 */
+            get itemCode(): string;
+            /** 设置-产品编号 */
+            set itemCode(value: string);
+            /** 映射的属性名称-产品/服务描述 */
+            static PROPERTY_ITEMDESCRIPTION_NAME: string;
+            /** 获取-产品/服务描述 */
+            get itemDescription(): string;
+            /** 设置-产品/服务描述 */
+            set itemDescription(value: string);
+            /** 映射的属性名称-产品标识 */
+            static PROPERTY_ITEMSIGN_NAME: string;
+            /** 获取-产品标识 */
+            get itemSign(): string;
+            /** 设置-产品标识 */
+            set itemSign(value: string);
+            /** 映射的属性名称-序号管理 */
+            static PROPERTY_SERIALMANAGEMENT_NAME: string;
+            /** 获取-序号管理 */
+            get serialManagement(): ibas.emYesNo;
+            /** 设置-序号管理 */
+            set serialManagement(value: ibas.emYesNo);
+            /** 映射的属性名称-批号管理 */
+            static PROPERTY_BATCHMANAGEMENT_NAME: string;
+            /** 获取-批号管理 */
+            get batchManagement(): ibas.emYesNo;
+            /** 设置-批号管理 */
+            set batchManagement(value: ibas.emYesNo);
+            /** 映射的属性名称-数量 */
+            static PROPERTY_QUANTITY_NAME: string;
+            /** 获取-数量 */
+            get quantity(): number;
+            /** 设置-数量 */
+            set quantity(value: number);
+            /** 映射的属性名称-计量单位 */
+            static PROPERTY_UOM_NAME: string;
+            /** 获取-计量单位 */
+            get uom(): string;
+            /** 设置-计量单位 */
+            set uom(value: string);
+            /** 映射的属性名称-仓库 */
+            static PROPERTY_WAREHOUSE_NAME: string;
+            /** 获取-仓库 */
+            get warehouse(): string;
+            /** 设置-仓库 */
+            set warehouse(value: string);
+            /** 映射的属性名称-价格 */
+            static PROPERTY_PRICE_NAME: string;
+            /** 获取-价格 */
+            get price(): number;
+            /** 设置-价格 */
+            set price(value: number);
+            /** 映射的属性名称-货币 */
+            static PROPERTY_CURRENCY_NAME: string;
+            /** 获取-货币 */
+            get currency(): string;
+            /** 设置-货币 */
+            set currency(value: string);
+            /** 映射的属性名称-汇率 */
+            static PROPERTY_RATE_NAME: string;
+            /** 获取-汇率 */
+            get rate(): number;
+            /** 设置-汇率 */
+            set rate(value: number);
+            /** 映射的属性名称-行总计 */
+            static PROPERTY_LINETOTAL_NAME: string;
+            /** 获取-行总计 */
+            get lineTotal(): number;
+            /** 设置-行总计 */
+            set lineTotal(value: number);
+            /** 映射的属性名称-行交货日期 */
+            static PROPERTY_DELIVERYDATE_NAME: string;
+            /** 获取-行交货日期 */
+            get deliveryDate(): Date;
+            /** 设置-行交货日期 */
+            set deliveryDate(value: Date);
+            /** 映射的属性名称-已清数量 */
+            static PROPERTY_CLOSEDQUANTITY_NAME: string;
+            /** 获取-已清数量 */
+            get closedQuantity(): number;
+            /** 设置-已清数量 */
+            set closedQuantity(value: number);
+            /** 映射的属性名称-行折扣 */
+            static PROPERTY_DISCOUNT_NAME: string;
+            /** 获取-行折扣 */
+            get discount(): number;
+            /** 设置-行折扣 */
+            set discount(value: number);
+            /** 映射的属性名称-已清金额 */
+            static PROPERTY_CLOSEDAMOUNT_NAME: string;
+            /** 获取-已清金额 */
+            get closedAmount(): number;
+            /** 设置-已清金额 */
+            set closedAmount(value: number);
+            /** 映射的属性名称-基础数量 */
+            static PROPERTY_BASISQUANTITY_NAME: string;
+            /** 获取-基础数量 */
+            get basisQuantity(): number;
+            /** 设置-基础数量 */
+            set basisQuantity(value: number);
+            /** 映射的属性名称-行标志号 */
+            static PROPERTY_LINESIGN_NAME: string;
+            /** 获取-行标志号 */
+            get lineSign(): string;
+            /** 设置-行标志号 */
+            set lineSign(value: string);
+            /** 映射的属性名称-父项行标志号 */
+            static PROPERTY_PARENTLINESIGN_NAME: string;
+            /** 获取-父项行标志号 */
+            get parentLineSign(): string;
+            /** 设置-父项行标志号 */
+            set parentLineSign(value: string);
+            /** 映射的属性名称-折扣前价格 */
+            static PROPERTY_UNITPRICE_NAME: string;
+            /** 获取-折扣前价格 */
+            get unitPrice(): number;
+            /** 设置-折扣前价格 */
+            set unitPrice(value: number);
+            /** 映射的属性名称-税定义 */
+            static PROPERTY_TAX_NAME: string;
+            /** 获取-税定义 */
+            get tax(): string;
+            /** 设置-税定义 */
+            set tax(value: string);
+            /** 映射的属性名称-税率 */
+            static PROPERTY_TAXRATE_NAME: string;
+            /** 获取-税率 */
+            get taxRate(): number;
+            /** 设置-税率 */
+            set taxRate(value: number);
+            /** 映射的属性名称-税总额 */
+            static PROPERTY_TAXTOTAL_NAME: string;
+            /** 获取-税总额 */
+            get taxTotal(): number;
+            /** 设置-税总额 */
+            set taxTotal(value: number);
+            /** 映射的属性名称-税前价格 */
+            static PROPERTY_PRETAXPRICE_NAME: string;
+            /** 获取-税前价格 */
+            get preTaxPrice(): number;
+            /** 设置-税前价格 */
+            set preTaxPrice(value: number);
+            /** 映射的属性名称-税前行总计 */
+            static PROPERTY_PRETAXLINETOTAL_NAME: string;
+            /** 获取-税前行总计 */
+            get preTaxLineTotal(): number;
+            /** 设置-税前行总计 */
+            set preTaxLineTotal(value: number);
+            /** 映射的属性名称-分配规则1 */
+            static PROPERTY_DISTRIBUTIONRULE1_NAME: string;
+            /** 获取-分配规则1 */
+            get distributionRule1(): string;
+            /** 设置-分配规则1 */
+            set distributionRule1(value: string);
+            /** 映射的属性名称-分配规则2 */
+            static PROPERTY_DISTRIBUTIONRULE2_NAME: string;
+            /** 获取-分配规则2 */
+            get distributionRule2(): string;
+            /** 设置-分配规则2 */
+            set distributionRule2(value: string);
+            /** 映射的属性名称-分配规则3 */
+            static PROPERTY_DISTRIBUTIONRULE3_NAME: string;
+            /** 获取-分配规则3 */
+            get distributionRule3(): string;
+            /** 设置-分配规则3 */
+            set distributionRule3(value: string);
+            /** 映射的属性名称-分配规则4 */
+            static PROPERTY_DISTRIBUTIONRULE4_NAME: string;
+            /** 获取-分配规则4 */
+            get distributionRule4(): string;
+            /** 设置-分配规则4 */
+            set distributionRule4(value: string);
+            /** 映射的属性名称-分配规则5 */
+            static PROPERTY_DISTRIBUTIONRULE5_NAME: string;
+            /** 获取-分配规则5 */
+            get distributionRule5(): string;
+            /** 设置-分配规则5 */
+            set distributionRule5(value: string);
+            /** 映射的属性名称-物料批次集合 */
+            static PROPERTY_MATERIALBATCHES_NAME: string;
+            /** 获取-物料批次集合 */
+            get materialBatches(): materials.bo.MaterialBatchItems;
+            /** 设置-物料批次集合 */
+            set materialBatches(value: materials.bo.MaterialBatchItems);
+            /** 映射的属性名称-物料序列集合 */
+            static PROPERTY_MATERIALSERIALS_NAME: string;
+            /** 获取-物料序列集合 */
+            get materialSerials(): materials.bo.MaterialSerialItems;
+            /** 设置-物料序列集合 */
+            set materialSerials(value: materials.bo.MaterialSerialItems);
+            /** 初始化数据 */
+            protected init(): void;
+            /** 赋值产品 */
+            baseProduct(source: materials.bo.IProduct): void;
+            protected registerRules(): ibas.IBusinessRule[];
+            /** 重置 */
+            reset(): void;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace sales {
+    namespace bo {
+        /** 销售发票 */
+        class SalesInvoice extends ibas.BODocument<SalesInvoice> implements ISalesInvoice, ibas.IConvertedData {
+            /** 业务对象编码 */
+            static BUSINESS_OBJECT_CODE: string;
+            /** 构造函数 */
+            constructor();
+            /** 映射的属性名称-凭证编号 */
+            static PROPERTY_DOCENTRY_NAME: string;
+            /** 获取-凭证编号 */
+            get docEntry(): number;
+            /** 设置-凭证编号 */
+            set docEntry(value: number);
+            /** 映射的属性名称-期间编号 */
+            static PROPERTY_DOCNUM_NAME: string;
+            /** 获取-期间编号 */
+            get docNum(): number;
+            /** 设置-期间编号 */
+            set docNum(value: number);
+            /** 映射的属性名称-期间 */
+            static PROPERTY_PERIOD_NAME: string;
+            /** 获取-期间 */
+            get period(): number;
+            /** 设置-期间 */
+            set period(value: number);
+            /** 映射的属性名称-取消 */
+            static PROPERTY_CANCELED_NAME: string;
+            /** 获取-取消 */
+            get canceled(): ibas.emYesNo;
+            /** 设置-取消 */
+            set canceled(value: ibas.emYesNo);
+            /** 映射的属性名称-状态 */
+            static PROPERTY_STATUS_NAME: string;
+            /** 获取-状态 */
+            get status(): ibas.emBOStatus;
+            /** 设置-状态 */
+            set status(value: ibas.emBOStatus);
+            /** 映射的属性名称-审批状态 */
+            static PROPERTY_APPROVALSTATUS_NAME: string;
+            /** 获取-审批状态 */
+            get approvalStatus(): ibas.emApprovalStatus;
+            /** 设置-审批状态 */
+            set approvalStatus(value: ibas.emApprovalStatus);
+            /** 映射的属性名称-单据状态 */
+            static PROPERTY_DOCUMENTSTATUS_NAME: string;
+            /** 获取-单据状态 */
+            get documentStatus(): ibas.emDocumentStatus;
+            /** 设置-单据状态 */
+            set documentStatus(value: ibas.emDocumentStatus);
+            /** 映射的属性名称-对象类型 */
+            static PROPERTY_OBJECTCODE_NAME: string;
+            /** 获取-对象类型 */
+            get objectCode(): string;
+            /** 设置-对象类型 */
+            set objectCode(value: string);
+            /** 映射的属性名称-创建日期 */
+            static PROPERTY_CREATEDATE_NAME: string;
+            /** 获取-创建日期 */
+            get createDate(): Date;
+            /** 设置-创建日期 */
+            set createDate(value: Date);
+            /** 映射的属性名称-创建时间 */
+            static PROPERTY_CREATETIME_NAME: string;
+            /** 获取-创建时间 */
+            get createTime(): number;
+            /** 设置-创建时间 */
+            set createTime(value: number);
+            /** 映射的属性名称-修改日期 */
+            static PROPERTY_UPDATEDATE_NAME: string;
+            /** 获取-修改日期 */
+            get updateDate(): Date;
+            /** 设置-修改日期 */
+            set updateDate(value: Date);
+            /** 映射的属性名称-修改时间 */
+            static PROPERTY_UPDATETIME_NAME: string;
+            /** 获取-修改时间 */
+            get updateTime(): number;
+            /** 设置-修改时间 */
+            set updateTime(value: number);
+            /** 映射的属性名称-版本 */
+            static PROPERTY_LOGINST_NAME: string;
+            /** 获取-版本 */
+            get logInst(): number;
+            /** 设置-版本 */
+            set logInst(value: number);
+            /** 映射的属性名称-服务系列 */
+            static PROPERTY_SERIES_NAME: string;
+            /** 获取-服务系列 */
+            get series(): number;
+            /** 设置-服务系列 */
+            set series(value: number);
+            /** 映射的属性名称-数据源 */
+            static PROPERTY_DATASOURCE_NAME: string;
+            /** 获取-数据源 */
+            get dataSource(): string;
+            /** 设置-数据源 */
+            set dataSource(value: string);
+            /** 映射的属性名称-创建用户 */
+            static PROPERTY_CREATEUSERSIGN_NAME: string;
+            /** 获取-创建用户 */
+            get createUserSign(): number;
+            /** 设置-创建用户 */
+            set createUserSign(value: number);
+            /** 映射的属性名称-修改用户 */
+            static PROPERTY_UPDATEUSERSIGN_NAME: string;
+            /** 获取-修改用户 */
+            get updateUserSign(): number;
+            /** 设置-修改用户 */
+            set updateUserSign(value: number);
+            /** 映射的属性名称-创建动作标识 */
+            static PROPERTY_CREATEACTIONID_NAME: string;
+            /** 获取-创建动作标识 */
+            get createActionId(): string;
+            /** 设置-创建动作标识 */
+            set createActionId(value: string);
+            /** 映射的属性名称-更新动作标识 */
+            static PROPERTY_UPDATEACTIONID_NAME: string;
+            /** 获取-更新动作标识 */
+            get updateActionId(): string;
+            /** 设置-更新动作标识 */
+            set updateActionId(value: string);
+            /** 映射的属性名称-数据所有者 */
+            static PROPERTY_DATAOWNER_NAME: string;
+            /** 获取-数据所有者 */
+            get dataOwner(): number;
+            /** 设置-数据所有者 */
+            set dataOwner(value: number);
+            /** 映射的属性名称-团队成员 */
+            static PROPERTY_TEAMMEMBERS_NAME: string;
+            /** 获取-团队成员 */
+            get teamMembers(): string;
+            /** 设置-团队成员 */
+            set teamMembers(value: string);
+            /** 映射的属性名称-数据所属组织 */
+            static PROPERTY_ORGANIZATION_NAME: string;
+            /** 获取-数据所属组织 */
+            get organization(): string;
+            /** 设置-数据所属组织 */
+            set organization(value: string);
+            /** 映射的属性名称-过账日期 */
+            static PROPERTY_POSTINGDATE_NAME: string;
+            /** 获取-过账日期 */
+            get postingDate(): Date;
+            /** 设置-过账日期 */
+            set postingDate(value: Date);
+            /** 映射的属性名称-到期日 */
+            static PROPERTY_DELIVERYDATE_NAME: string;
+            /** 获取-到期日 */
+            get deliveryDate(): Date;
+            /** 设置-到期日 */
+            set deliveryDate(value: Date);
+            /** 映射的属性名称-凭证日期 */
+            static PROPERTY_DOCUMENTDATE_NAME: string;
+            /** 获取-凭证日期 */
+            get documentDate(): Date;
+            /** 设置-凭证日期 */
+            set documentDate(value: Date);
+            /** 映射的属性名称-参考1 */
+            static PROPERTY_REFERENCE1_NAME: string;
+            /** 获取-参考1 */
+            get reference1(): string;
+            /** 设置-参考1 */
+            set reference1(value: string);
+            /** 映射的属性名称-参考2 */
+            static PROPERTY_REFERENCE2_NAME: string;
+            /** 获取-参考2 */
+            get reference2(): string;
+            /** 设置-参考2 */
+            set reference2(value: string);
+            /** 映射的属性名称-备注 */
+            static PROPERTY_REMARKS_NAME: string;
+            /** 获取-备注 */
+            get remarks(): string;
+            /** 设置-备注 */
+            set remarks(value: string);
+            /** 映射的属性名称-已引用 */
+            static PROPERTY_REFERENCED_NAME: string;
+            /** 获取-已引用 */
+            get referenced(): ibas.emYesNo;
+            /** 设置-已引用 */
+            set referenced(value: ibas.emYesNo);
+            /** 映射的属性名称-已删除 */
+            static PROPERTY_DELETED_NAME: string;
+            /** 获取-已删除 */
+            get deleted(): ibas.emYesNo;
+            /** 设置-已删除 */
+            set deleted(value: ibas.emYesNo);
+            /** 映射的属性名称-客户代码 */
+            static PROPERTY_CUSTOMERCODE_NAME: string;
+            /** 获取-客户代码 */
+            get customerCode(): string;
+            /** 设置-客户代码 */
+            set customerCode(value: string);
+            /** 映射的属性名称-客户名称 */
+            static PROPERTY_CUSTOMERNAME_NAME: string;
+            /** 获取-客户名称 */
+            get customerName(): string;
+            /** 设置-客户名称 */
+            set customerName(value: string);
+            /** 映射的属性名称-联系人 */
+            static PROPERTY_CONTACTPERSON_NAME: string;
+            /** 获取-联系人 */
+            get contactPerson(): number;
+            /** 设置-联系人 */
+            set contactPerson(value: number);
+            /** 映射的属性名称-折扣 */
+            static PROPERTY_DISCOUNT_NAME: string;
+            /** 获取-折扣 */
+            get discount(): number;
+            /** 设置-折扣 */
+            set discount(value: number);
+            /** 映射的属性名称-折扣后总计 */
+            static PROPERTY_DISCOUNTTOTAL_NAME: string;
+            /** 获取-折扣后总计 */
+            get discountTotal(): number;
+            /** 设置-折扣后总计 */
+            set discountTotal(value: number);
+            /** 映射的属性名称-单据货币 */
+            static PROPERTY_DOCUMENTCURRENCY_NAME: string;
+            /** 获取-单据货币 */
+            get documentCurrency(): string;
+            /** 设置-单据货币 */
+            set documentCurrency(value: string);
+            /** 映射的属性名称-单据汇率 */
+            static PROPERTY_DOCUMENTRATE_NAME: string;
+            /** 获取-单据汇率 */
+            get documentRate(): number;
+            /** 设置-单据汇率 */
+            set documentRate(value: number);
+            /** 映射的属性名称-单据总计 */
+            static PROPERTY_DOCUMENTTOTAL_NAME: string;
+            /** 获取-单据总计 */
+            get documentTotal(): number;
+            /** 设置-单据总计 */
+            set documentTotal(value: number);
+            /** 映射的属性名称-已付款总计 */
+            static PROPERTY_PAIDTOTAL_NAME: string;
+            /** 获取-已付款总计 */
+            get paidTotal(): number;
+            /** 设置-已付款总计 */
+            set paidTotal(value: number);
+            /** 映射的属性名称-价格清单 */
+            static PROPERTY_PRICELIST_NAME: string;
+            /** 获取-价格清单 */
+            get priceList(): number;
+            /** 设置-价格清单 */
+            set priceList(value: number);
+            /** 映射的属性名称-付款条款代码 */
+            static PROPERTY_PAYMENTCODE_NAME: string;
+            /** 获取-付款条款代码 */
+            get paymentCode(): string;
+            /** 设置-付款条款代码 */
+            set paymentCode(value: string);
+            /** 映射的属性名称-舍入 */
+            static PROPERTY_ROUNDING_NAME: string;
+            /** 获取-舍入 */
+            get rounding(): ibas.emYesNo;
+            /** 设置-舍入 */
+            set rounding(value: ibas.emYesNo);
+            /** 映射的属性名称-舍入差额 */
+            static PROPERTY_DIFFAMOUNT_NAME: string;
+            /** 获取-舍入差额 */
+            get diffAmount(): number;
+            /** 设置-舍入差额 */
+            set diffAmount(value: number);
+            /** 映射的属性名称-项目代码 */
+            static PROPERTY_PROJECT_NAME: string;
+            /** 获取-项目代码 */
+            get project(): string;
+            /** 设置-项目代码 */
+            set project(value: string);
+            /** 映射的属性名称-终端客户 */
+            static PROPERTY_CONSUMER_NAME: string;
+            /** 获取-终端客户 */
+            get consumer(): string;
+            /** 设置-终端客户 */
+            set consumer(value: string);
+            /** 映射的属性名称-单据类型 */
+            static PROPERTY_ORDERTYPE_NAME: string;
+            /** 获取-单据类型 */
+            get orderType(): string;
+            /** 设置-单据类型 */
+            set orderType(value: string);
+            /** 映射的属性名称-销售发票-行集合 */
+            static PROPERTY_SALESDELIVERYITEMS_NAME: string;
+            /** 获取-销售发票-行集合 */
+            get salesInvoiceItems(): SalesInvoiceItems;
+            /** 设置-销售发票-行集合 */
+            set salesInvoiceItems(value: SalesInvoiceItems);
+            /** 映射的属性名称-送货地址集合 */
+            static PROPERTY_SHIPPINGADDRESSS_NAME: string;
+            /** 获取-送货地址集合 */
+            get shippingAddresss(): ShippingAddresss;
+            /** 设置-送货地址集合 */
+            set shippingAddresss(value: ShippingAddresss);
+            /** 初始化数据 */
+            protected init(): void;
+            /** 映射的属性名称-项目的税总计 */
+            static PROPERTY_ITEMSTAXTOTAL_NAME: string;
+            /** 获取-项目的税总计 */
+            get itemsTaxTotal(): number;
+            /** 设置-项目的税总计 */
+            set itemsTaxTotal(value: number);
+            /** 映射的属性名称-项目的行总计 */
+            static PROPERTY_ITEMSLINETOTAL_NAME: string;
+            /** 获取-项目的行总计 */
+            get itemsLineTotal(): number;
+            /** 设置-项目的行总计 */
+            set itemsLineTotal(value: number);
+            /** 映射的属性名称-运送费税总计 */
+            static PROPERTY_SHIPPINGSTAXTOTAL_NAME: string;
+            /** 获取-运送费税总计 */
+            get shippingsTaxTotal(): number;
+            /** 设置-运送费税总计 */
+            set shippingsTaxTotal(value: number);
+            /** 映射的属性名称-运送费用总计 */
+            static PROPERTY_SHIPPINGSEXPENSETOTAL_NAME: string;
+            /** 获取-运送费用总计 */
+            get shippingsExpenseTotal(): number;
+            /** 设置-运送费用总计 */
+            set shippingsExpenseTotal(value: number);
+            /** 映射的属性名称-单据税总计 */
+            static PROPERTY_DOCUMENTTAXTOTAL_NAME: string;
+            /** 获取-单据税总计 */
+            get documentTaxTotal(): number;
+            /** 设置-单据税总计 */
+            set documentTaxTotal(value: number);
+            protected registerRules(): ibas.IBusinessRule[];
+            /** 重置 */
+            reset(): void;
+            /** 转换之前 */
+            beforeConvert(): void;
+            /** 数据解析后 */
+            afterParsing(): void;
+            baseDocument(document: ISalesOrder): void;
+            baseDocument(document: ISalesDelivery): void;
+            /** 基于地址 */
+            baseAddress(address: businesspartner.bo.IAddress): void;
+        }
+        /** 销售发票-行 集合 */
+        class SalesInvoiceItems extends ibas.BusinessObjects<SalesInvoiceItem, SalesInvoice> implements ISalesInvoiceItems {
+            /** 创建并添加子项 */
+            create(): SalesInvoiceItem;
+            /** 移出项目之后 */
+            protected afterRemove(item: SalesInvoiceItem): void;
+            /** 子项属性改变时 */
+            protected onItemPropertyChanged(item: SalesInvoiceItem, name: string): void;
+        }
+        /** 销售发票-行 */
+        class SalesInvoiceItem extends ibas.BODocumentLine<SalesInvoiceItem> implements ISalesInvoiceItem {
+            /** 构造函数 */
+            constructor();
+            /** 映射的属性名称-编码 */
+            static PROPERTY_DOCENTRY_NAME: string;
+            /** 获取-编码 */
+            get docEntry(): number;
+            /** 设置-编码 */
+            set docEntry(value: number);
+            /** 映射的属性名称-行号 */
+            static PROPERTY_LINEID_NAME: string;
+            /** 获取-行号 */
+            get lineId(): number;
+            /** 设置-行号 */
+            set lineId(value: number);
+            /** 映射的属性名称-显示顺序 */
+            static PROPERTY_VISORDER_NAME: string;
+            /** 获取-显示顺序 */
+            get visOrder(): number;
+            /** 设置-显示顺序 */
+            set visOrder(value: number);
+            /** 映射的属性名称-类型 */
+            static PROPERTY_OBJECTCODE_NAME: string;
+            /** 获取-类型 */
+            get objectCode(): string;
+            /** 设置-类型 */
+            set objectCode(value: string);
+            /** 映射的属性名称-实例号（版本） */
+            static PROPERTY_LOGINST_NAME: string;
+            /** 获取-实例号（版本） */
+            get logInst(): number;
+            /** 设置-实例号（版本） */
+            set logInst(value: number);
+            /** 映射的属性名称-数据源 */
+            static PROPERTY_DATASOURCE_NAME: string;
+            /** 获取-数据源 */
+            get dataSource(): string;
+            /** 设置-数据源 */
+            set dataSource(value: string);
+            /** 映射的属性名称-取消 */
+            static PROPERTY_CANCELED_NAME: string;
+            /** 获取-取消 */
+            get canceled(): ibas.emYesNo;
+            /** 设置-取消 */
+            set canceled(value: ibas.emYesNo);
+            /** 映射的属性名称-状态 */
+            static PROPERTY_STATUS_NAME: string;
+            /** 获取-状态 */
+            get status(): ibas.emBOStatus;
+            /** 设置-状态 */
+            set status(value: ibas.emBOStatus);
+            /** 映射的属性名称-单据状态 */
+            static PROPERTY_LINESTATUS_NAME: string;
+            /** 获取-单据状态 */
+            get lineStatus(): ibas.emDocumentStatus;
+            /** 设置-单据状态 */
+            set lineStatus(value: ibas.emDocumentStatus);
+            /** 映射的属性名称-创建日期 */
+            static PROPERTY_CREATEDATE_NAME: string;
+            /** 获取-创建日期 */
+            get createDate(): Date;
+            /** 设置-创建日期 */
+            set createDate(value: Date);
+            /** 映射的属性名称-创建时间 */
+            static PROPERTY_CREATETIME_NAME: string;
+            /** 获取-创建时间 */
+            get createTime(): number;
+            /** 设置-创建时间 */
+            set createTime(value: number);
+            /** 映射的属性名称-修改日期 */
+            static PROPERTY_UPDATEDATE_NAME: string;
+            /** 获取-修改日期 */
+            get updateDate(): Date;
+            /** 设置-修改日期 */
+            set updateDate(value: Date);
+            /** 映射的属性名称-修改时间 */
+            static PROPERTY_UPDATETIME_NAME: string;
+            /** 获取-修改时间 */
+            get updateTime(): number;
+            /** 设置-修改时间 */
+            set updateTime(value: number);
+            /** 映射的属性名称-创建用户 */
+            static PROPERTY_CREATEUSERSIGN_NAME: string;
+            /** 获取-创建用户 */
+            get createUserSign(): number;
+            /** 设置-创建用户 */
+            set createUserSign(value: number);
+            /** 映射的属性名称-修改用户 */
+            static PROPERTY_UPDATEUSERSIGN_NAME: string;
+            /** 获取-修改用户 */
+            get updateUserSign(): number;
+            /** 设置-修改用户 */
+            set updateUserSign(value: number);
+            /** 映射的属性名称-创建动作标识 */
+            static PROPERTY_CREATEACTIONID_NAME: string;
+            /** 获取-创建动作标识 */
+            get createActionId(): string;
+            /** 设置-创建动作标识 */
+            set createActionId(value: string);
+            /** 映射的属性名称-更新动作标识 */
+            static PROPERTY_UPDATEACTIONID_NAME: string;
+            /** 获取-更新动作标识 */
+            get updateActionId(): string;
+            /** 设置-更新动作标识 */
+            set updateActionId(value: string);
+            /** 映射的属性名称-参考1 */
+            static PROPERTY_REFERENCE1_NAME: string;
+            /** 获取-参考1 */
+            get reference1(): string;
+            /** 设置-参考1 */
+            set reference1(value: string);
+            /** 映射的属性名称-参考2 */
+            static PROPERTY_REFERENCE2_NAME: string;
+            /** 获取-参考2 */
+            get reference2(): string;
+            /** 设置-参考2 */
+            set reference2(value: string);
+            /** 映射的属性名称-已引用 */
+            static PROPERTY_REFERENCED_NAME: string;
+            /** 获取-已引用 */
+            get referenced(): ibas.emYesNo;
+            /** 设置-已引用 */
+            set referenced(value: ibas.emYesNo);
+            /** 映射的属性名称-已删除 */
+            static PROPERTY_DELETED_NAME: string;
+            /** 获取-已删除 */
+            get deleted(): ibas.emYesNo;
+            /** 设置-已删除 */
+            set deleted(value: ibas.emYesNo);
+            /** 映射的属性名称-基于类型 */
+            static PROPERTY_BASEDOCUMENTTYPE_NAME: string;
+            /** 获取-基于类型 */
+            get baseDocumentType(): string;
+            /** 设置-基于类型 */
+            set baseDocumentType(value: string);
+            /** 映射的属性名称-基于标识 */
+            static PROPERTY_BASEDOCUMENTENTRY_NAME: string;
+            /** 获取-基于标识 */
+            get baseDocumentEntry(): number;
+            /** 设置-基于标识 */
+            set baseDocumentEntry(value: number);
+            /** 映射的属性名称-基于行号 */
+            static PROPERTY_BASEDOCUMENTLINEID_NAME: string;
+            /** 获取-基于行号 */
+            get baseDocumentLineId(): number;
+            /** 设置-基于行号 */
+            set baseDocumentLineId(value: number);
+            /** 映射的属性名称-原始类型 */
+            static PROPERTY_ORIGINALDOCUMENTTYPE_NAME: string;
+            /** 获取-原始类型 */
+            get originalDocumentType(): string;
+            /** 设置-原始类型 */
+            set originalDocumentType(value: string);
+            /** 映射的属性名称-原始标识 */
+            static PROPERTY_ORIGINALDOCUMENTENTRY_NAME: string;
+            /** 获取-原始标识 */
+            get originalDocumentEntry(): number;
+            /** 设置-原始标识 */
+            set originalDocumentEntry(value: number);
+            /** 映射的属性名称-原始行号 */
+            static PROPERTY_ORIGINALDOCUMENTLINEID_NAME: string;
+            /** 获取-原始行号 */
+            get originalDocumentLineId(): number;
+            /** 设置-原始行号 */
+            set originalDocumentLineId(value: number);
+            /** 映射的属性名称-产品编号 */
+            static PROPERTY_ITEMCODE_NAME: string;
+            /** 获取-产品编号 */
+            get itemCode(): string;
+            /** 设置-产品编号 */
+            set itemCode(value: string);
+            /** 映射的属性名称-产品/服务描述 */
+            static PROPERTY_ITEMDESCRIPTION_NAME: string;
+            /** 获取-产品/服务描述 */
+            get itemDescription(): string;
+            /** 设置-产品/服务描述 */
+            set itemDescription(value: string);
+            /** 映射的属性名称-产品标识 */
+            static PROPERTY_ITEMSIGN_NAME: string;
+            /** 获取-产品标识 */
+            get itemSign(): string;
+            /** 设置-产品标识 */
+            set itemSign(value: string);
+            /** 映射的属性名称-序号管理 */
+            static PROPERTY_SERIALMANAGEMENT_NAME: string;
+            /** 获取-序号管理 */
+            get serialManagement(): ibas.emYesNo;
+            /** 设置-序号管理 */
+            set serialManagement(value: ibas.emYesNo);
+            /** 映射的属性名称-批号管理 */
+            static PROPERTY_BATCHMANAGEMENT_NAME: string;
+            /** 获取-批号管理 */
+            get batchManagement(): ibas.emYesNo;
+            /** 设置-批号管理 */
+            set batchManagement(value: ibas.emYesNo);
+            /** 映射的属性名称-数量 */
+            static PROPERTY_QUANTITY_NAME: string;
+            /** 获取-数量 */
+            get quantity(): number;
+            /** 设置-数量 */
+            set quantity(value: number);
+            /** 映射的属性名称-计量单位 */
+            static PROPERTY_UOM_NAME: string;
+            /** 获取-计量单位 */
+            get uom(): string;
+            /** 设置-计量单位 */
+            set uom(value: string);
+            /** 映射的属性名称-仓库 */
+            static PROPERTY_WAREHOUSE_NAME: string;
+            /** 获取-仓库 */
+            get warehouse(): string;
+            /** 设置-仓库 */
+            set warehouse(value: string);
+            /** 映射的属性名称-价格 */
+            static PROPERTY_PRICE_NAME: string;
+            /** 获取-价格 */
+            get price(): number;
+            /** 设置-价格 */
+            set price(value: number);
+            /** 映射的属性名称-货币 */
+            static PROPERTY_CURRENCY_NAME: string;
+            /** 获取-货币 */
+            get currency(): string;
+            /** 设置-货币 */
+            set currency(value: string);
+            /** 映射的属性名称-汇率 */
+            static PROPERTY_RATE_NAME: string;
+            /** 获取-汇率 */
+            get rate(): number;
+            /** 设置-汇率 */
+            set rate(value: number);
+            /** 映射的属性名称-行总计 */
+            static PROPERTY_LINETOTAL_NAME: string;
+            /** 获取-行总计 */
+            get lineTotal(): number;
+            /** 设置-行总计 */
+            set lineTotal(value: number);
+            /** 映射的属性名称-行发票日期 */
+            static PROPERTY_DELIVERYDATE_NAME: string;
+            /** 获取-行发票日期 */
+            get deliveryDate(): Date;
+            /** 设置-行发票日期 */
+            set deliveryDate(value: Date);
+            /** 映射的属性名称-已清数量 */
+            static PROPERTY_CLOSEDQUANTITY_NAME: string;
+            /** 获取-已清数量 */
+            get closedQuantity(): number;
+            /** 设置-已清数量 */
+            set closedQuantity(value: number);
+            /** 映射的属性名称-行折扣 */
+            static PROPERTY_DISCOUNT_NAME: string;
+            /** 获取-行折扣 */
+            get discount(): number;
+            /** 设置-行折扣 */
+            set discount(value: number);
+            /** 映射的属性名称-已清金额 */
+            static PROPERTY_CLOSEDAMOUNT_NAME: string;
+            /** 获取-已清金额 */
+            get closedAmount(): number;
+            /** 设置-已清金额 */
+            set closedAmount(value: number);
+            /** 映射的属性名称-基础数量 */
+            static PROPERTY_BASISQUANTITY_NAME: string;
+            /** 获取-基础数量 */
+            get basisQuantity(): number;
+            /** 设置-基础数量 */
+            set basisQuantity(value: number);
+            /** 映射的属性名称-行标志号 */
+            static PROPERTY_LINESIGN_NAME: string;
+            /** 获取-行标志号 */
+            get lineSign(): string;
+            /** 设置-行标志号 */
+            set lineSign(value: string);
+            /** 映射的属性名称-父项行标志号 */
+            static PROPERTY_PARENTLINESIGN_NAME: string;
+            /** 获取-父项行标志号 */
+            get parentLineSign(): string;
+            /** 设置-父项行标志号 */
+            set parentLineSign(value: string);
+            /** 映射的属性名称-折扣前价格 */
+            static PROPERTY_UNITPRICE_NAME: string;
+            /** 获取-折扣前价格 */
+            get unitPrice(): number;
+            /** 设置-折扣前价格 */
+            set unitPrice(value: number);
+            /** 映射的属性名称-税定义 */
+            static PROPERTY_TAX_NAME: string;
+            /** 获取-税定义 */
+            get tax(): string;
+            /** 设置-税定义 */
+            set tax(value: string);
+            /** 映射的属性名称-税率 */
+            static PROPERTY_TAXRATE_NAME: string;
+            /** 获取-税率 */
+            get taxRate(): number;
+            /** 设置-税率 */
+            set taxRate(value: number);
+            /** 映射的属性名称-税总额 */
+            static PROPERTY_TAXTOTAL_NAME: string;
+            /** 获取-税总额 */
+            get taxTotal(): number;
+            /** 设置-税总额 */
+            set taxTotal(value: number);
+            /** 映射的属性名称-税前价格 */
+            static PROPERTY_PRETAXPRICE_NAME: string;
+            /** 获取-税前价格 */
+            get preTaxPrice(): number;
+            /** 设置-税前价格 */
+            set preTaxPrice(value: number);
+            /** 映射的属性名称-税前行总计 */
+            static PROPERTY_PRETAXLINETOTAL_NAME: string;
+            /** 获取-税前行总计 */
+            get preTaxLineTotal(): number;
+            /** 设置-税前行总计 */
+            set preTaxLineTotal(value: number);
+            /** 映射的属性名称-分配规则1 */
+            static PROPERTY_DISTRIBUTIONRULE1_NAME: string;
+            /** 获取-分配规则1 */
+            get distributionRule1(): string;
+            /** 设置-分配规则1 */
+            set distributionRule1(value: string);
+            /** 映射的属性名称-分配规则2 */
+            static PROPERTY_DISTRIBUTIONRULE2_NAME: string;
+            /** 获取-分配规则2 */
+            get distributionRule2(): string;
+            /** 设置-分配规则2 */
+            set distributionRule2(value: string);
+            /** 映射的属性名称-分配规则3 */
+            static PROPERTY_DISTRIBUTIONRULE3_NAME: string;
+            /** 获取-分配规则3 */
+            get distributionRule3(): string;
+            /** 设置-分配规则3 */
+            set distributionRule3(value: string);
+            /** 映射的属性名称-分配规则4 */
+            static PROPERTY_DISTRIBUTIONRULE4_NAME: string;
+            /** 获取-分配规则4 */
+            get distributionRule4(): string;
+            /** 设置-分配规则4 */
+            set distributionRule4(value: string);
+            /** 映射的属性名称-分配规则5 */
+            static PROPERTY_DISTRIBUTIONRULE5_NAME: string;
+            /** 获取-分配规则5 */
+            get distributionRule5(): string;
+            /** 设置-分配规则5 */
+            set distributionRule5(value: string);
+            /** 映射的属性名称-物料批次集合 */
+            static PROPERTY_MATERIALBATCHES_NAME: string;
+            /** 获取-物料批次集合 */
+            get materialBatches(): materials.bo.MaterialBatchItems;
+            /** 设置-物料批次集合 */
+            set materialBatches(value: materials.bo.MaterialBatchItems);
+            /** 映射的属性名称-物料序列集合 */
+            static PROPERTY_MATERIALSERIALS_NAME: string;
+            /** 获取-物料序列集合 */
+            get materialSerials(): materials.bo.MaterialSerialItems;
+            /** 设置-物料序列集合 */
+            set materialSerials(value: materials.bo.MaterialSerialItems);
+            /** 初始化数据 */
+            protected init(): void;
+            /** 赋值产品 */
+            baseProduct(source: materials.bo.IProduct): void;
+            protected registerRules(): ibas.IBusinessRule[];
+            /** 重置 */
+            reset(): void;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace sales {
+    namespace bo {
         /** 送货地址 */
         class ShippingAddress extends ibas.BOSimple<ShippingAddress> implements IShippingAddress {
             /** 业务对象编码 */
@@ -5184,7 +7136,7 @@ declare namespace sales {
             protected registerRules(): ibas.IBusinessRule[];
         }
         /** 送货地址 集合 */
-        class ShippingAddresss extends ibas.BusinessObjects<ShippingAddress, ISalesQuote | ISalesOrder | ISalesDelivery | ISalesReturn> implements IShippingAddresss {
+        class ShippingAddresss extends ibas.BusinessObjects<ShippingAddress, ISalesQuote | ISalesOrder | ISalesDelivery | ISalesReturn | ISalesInvoice | ISalesCreditNote> implements IShippingAddresss {
             /** 创建并添加子项 */
             create(): ShippingAddress;
             /** 添加子项后 子项属性赋值 */
@@ -5215,14 +7167,14 @@ declare namespace sales {
          * @param target 目标
          * @param source 源
          */
-        function baseDocument(target: ISalesOrder | ISalesDelivery | ISalesReturn, source: ISalesQuote | ISalesOrder | ISalesDelivery): void;
+        function baseDocument(target: ISalesOrder | ISalesDelivery | ISalesReturn | ISalesCreditNote | ISalesInvoice, source: ISalesQuote | ISalesOrder | ISalesDelivery | ISalesReturn | ISalesInvoice): void;
         /**
          * 基于单据
          * @param target 目标
          * @param source 源
          */
-        function baseDocumentItem(target: ISalesOrderItem | ISalesDeliveryItem | ISalesReturnItem, source: ISalesQuoteItem | ISalesOrderItem | ISalesDeliveryItem): void;
-        function baseProduct(target: ISalesQuoteItem | ISalesOrderItem | ISalesDeliveryItem | ISalesReturnItem, source: materials.bo.IProduct): void;
+        function baseDocumentItem(target: ISalesOrderItem | ISalesDeliveryItem | ISalesReturnItem | ISalesCreditNoteItem | ISalesInvoiceItem, source: ISalesQuoteItem | ISalesOrderItem | ISalesDeliveryItem): void;
+        function baseProduct(target: ISalesQuoteItem | ISalesOrderItem | ISalesDeliveryItem | ISalesReturnItem | ISalesInvoiceItem | ISalesCreditNoteItem, source: materials.bo.IProduct): void;
         function baseProductSuit(target: ISalesQuoteItems | ISalesOrderItems | ISalesDeliveryItems, source: bo.IProductSuitEx): ISalesQuoteItem[] | ISalesOrderItem[] | ISalesDeliveryItem[];
         /** 业务规则-推导税前税后价格 */
         class BusinessRuleDeductionTaxPrice extends ibas.BusinessRuleCommon {
@@ -5344,6 +7296,26 @@ declare namespace sales {
              * @param fetcher 查询者
              */
             fetchProductSuitEx(fetcher: ibas.IFetchCaller<bo.IProductSuitEx>): void;
+            /**
+             * 查询 销售贷项
+             * @param fetcher 查询者
+             */
+            fetchSalesCreditNote(fetcher: ibas.IFetchCaller<bo.SalesCreditNote>): void;
+            /**
+             * 保存 销售贷项
+             * @param saver 保存者
+             */
+            saveSalesCreditNote(saver: ibas.ISaveCaller<bo.SalesCreditNote>): void;
+            /**
+             * 查询 销售发票
+             * @param fetcher 查询者
+             */
+            fetchSalesInvoice(fetcher: ibas.IFetchCaller<bo.SalesInvoice>): void;
+            /**
+             * 保存 销售发票
+             * @param saver 保存者
+             */
+            saveSalesInvoice(saver: ibas.ISaveCaller<bo.SalesInvoice>): void;
         }
     }
 }
@@ -6705,6 +8677,537 @@ declare namespace sales {
             deleteSalesQuoteItemExtraEvent: Function;
             /** 查看销售报价-行额外 事件 */
             viewSalesQuoteItemExtraEvent: Function;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace sales {
+    namespace app {
+        /** 选择应用-销售发票 */
+        class SalesInvoiceChooseApp extends ibas.BOChooseService<ISalesInvoiceChooseView, bo.SalesInvoice> {
+            /** 应用标识 */
+            static APPLICATION_ID: string;
+            /** 应用名称 */
+            static APPLICATION_NAME: string;
+            /** 业务对象编码 */
+            static BUSINESS_OBJECT_CODE: string;
+            /** 构造函数 */
+            constructor();
+            /** 注册视图 */
+            protected registerView(): void;
+            /** 视图显示后 */
+            protected viewShowed(): void;
+            /** 查询数据 */
+            protected fetchData(criteria: ibas.ICriteria): void;
+            /** 新建数据 */
+            protected newData(): void;
+        }
+        /** 视图-销售发票 */
+        interface ISalesInvoiceChooseView extends ibas.IBOChooseView {
+            /** 显示数据 */
+            showData(datas: bo.SalesInvoice[]): void;
+        }
+        /** 销售发票选择服务映射 */
+        class SalesInvoiceChooseServiceMapping extends ibas.BOChooseServiceMapping {
+            /** 构造函数 */
+            constructor();
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOChooseServiceCaller<bo.SalesInvoice>>;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace sales {
+    namespace app {
+        /** 编辑应用-销售发票 */
+        class SalesInvoiceEditApp extends ibas.BOEditService<ISalesInvoiceEditView, bo.SalesInvoice> {
+            /** 应用标识 */
+            static APPLICATION_ID: string;
+            /** 应用名称 */
+            static APPLICATION_NAME: string;
+            /** 业务对象编码 */
+            static BUSINESS_OBJECT_CODE: string;
+            /** 构造函数 */
+            constructor();
+            /** 注册视图 */
+            protected registerView(): void;
+            /** 视图显示后 */
+            protected viewShowed(): void;
+            /** 运行,覆盖原方法 */
+            run(): void;
+            run(data: bo.SalesInvoice): void;
+            /** 保存数据 */
+            protected saveData(): void;
+            /** 删除数据 */
+            protected deleteData(): void;
+            /** 新建数据，参数1：是否克隆 */
+            protected createData(clone: boolean): void;
+            /** 选择销售发票客户事件 */
+            private chooseSalesInvoiceCustomer;
+            /** 选择销售发票价格清单事件 */
+            private chooseSalesInvoicePriceList;
+            /** 选择销售发票行物料事件 */
+            private chooseSalesInvoiceItemMaterial;
+            /** 选择销售发票行仓库事件 */
+            private chooseSalesInvoiceItemWarehouse;
+            /** 添加销售发票-行事件 */
+            private addSalesInvoiceItem;
+            /** 删除销售发票-行事件 */
+            private removeSalesInvoiceItem;
+            /** 选择销售发票行批次事件 */
+            private chooseSalesInvoiceLineMaterialBatch;
+            /** 选择销售发票序列事件 */
+            private chooseSalesInvoiceLineMaterialSerial;
+            /** 选择销售发票-销售订单事件 */
+            private chooseSalesInvoiceSalesOrder;
+            /** 选择销售发票-销售交货事件 */
+            private chooseSalesInvoiceSalesDelivery;
+            private receiptSalesInvoice;
+            /** 选择联系人 */
+            private chooseSalesInvoiceContactPerson;
+            private editShippingAddresses;
+        }
+        /** 视图-销售发票 */
+        interface ISalesInvoiceEditView extends ibas.IBOEditView {
+            /** 显示数据 */
+            showSalesInvoice(data: bo.SalesInvoice): void;
+            /** 删除数据事件 */
+            deleteDataEvent: Function;
+            /** 新建数据事件，参数1：是否克隆 */
+            createDataEvent: Function;
+            /** 添加销售发票-行事件 */
+            addSalesInvoiceItemEvent: Function;
+            /** 删除销售发票-行事件 */
+            removeSalesInvoiceItemEvent: Function;
+            /** 显示数据 */
+            showSalesInvoiceItems(datas: bo.SalesInvoiceItem[]): void;
+            /** 选择销售发票客户事件 */
+            chooseSalesInvoiceCustomerEvent: Function;
+            /** 选择销售发票联系人信息 */
+            chooseSalesInvoiceContactPersonEvent: Function;
+            /** 选择销售发票价格清单事件 */
+            chooseSalesInvoicePriceListEvent: Function;
+            /** 选择销售发票物料事件 */
+            chooseSalesInvoiceItemMaterialEvent: Function;
+            /** 选择销售发票仓库事件 */
+            chooseSalesInvoiceItemWarehouseEvent: Function;
+            /** 选择销售发票单行物料批次事件 */
+            chooseSalesInvoiceItemMaterialBatchEvent: Function;
+            /** 选择销售发票行物料序列事件 */
+            chooseSalesInvoiceItemMaterialSerialEvent: Function;
+            /** 选择销售发票-销售订单事件 */
+            chooseSalesInvoiceSalesOrderEvent: Function;
+            /** 选择销售发票-销售交货事件 */
+            chooseSalesInvoiceSalesDeliveryEvent: Function;
+            /** 销售发票收款事件 */
+            receiptSalesInvoiceEvent: Function;
+            /** 编辑地址事件 */
+            editShippingAddressesEvent: Function;
+            /** 默认仓库 */
+            defaultWarehouse: string;
+            /** 默认税组 */
+            defaultTaxGroup: string;
+        }
+        /** 销售发票编辑服务映射 */
+        class SalesInvoiceEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor();
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.SalesInvoice>>;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace sales {
+    namespace app {
+        class SalesInvoiceFunc extends ibas.ModuleFunction {
+            /** 功能标识 */
+            static FUNCTION_ID: string;
+            /** 功能名称 */
+            static FUNCTION_NAME: string;
+            /** 构造函数 */
+            constructor();
+            /** 默认功能 */
+            default(): ibas.IApplication<ibas.IView>;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace sales {
+    namespace app {
+        /** 列表应用-销售发票 */
+        class SalesInvoiceListApp extends ibas.BOListApplication<ISalesInvoiceListView, bo.SalesInvoice> {
+            /** 应用标识 */
+            static APPLICATION_ID: string;
+            /** 应用名称 */
+            static APPLICATION_NAME: string;
+            /** 业务对象编码 */
+            static BUSINESS_OBJECT_CODE: string;
+            /** 构造函数 */
+            constructor();
+            /** 注册视图 */
+            protected registerView(): void;
+            /** 视图显示后 */
+            protected viewShowed(): void;
+            /** 查询数据 */
+            protected fetchData(criteria: ibas.ICriteria): void;
+            /** 新建数据 */
+            protected newData(): void;
+            /** 查看数据，参数：目标数据 */
+            protected viewData(data: bo.SalesInvoice): void;
+            /** 编辑数据，参数：目标数据 */
+            protected editData(data: bo.SalesInvoice): void;
+            /** 删除数据，参数：目标数据集合 */
+            protected deleteData(data: bo.SalesInvoice | bo.SalesInvoice[]): void;
+        }
+        /** 视图-销售发票 */
+        interface ISalesInvoiceListView extends ibas.IBOListView {
+            /** 编辑数据事件，参数：编辑对象 */
+            editDataEvent: Function;
+            /** 删除数据事件，参数：删除对象集合 */
+            deleteDataEvent: Function;
+            /** 显示数据 */
+            showData(datas: bo.SalesInvoice[]): void;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace sales {
+    namespace app {
+        /** 查看应用-销售发票 */
+        class SalesInvoiceViewApp extends ibas.BOViewService<ISalesInvoiceViewView, bo.SalesInvoice> {
+            /** 应用标识 */
+            static APPLICATION_ID: string;
+            /** 应用名称 */
+            static APPLICATION_NAME: string;
+            /** 业务对象编码 */
+            static BUSINESS_OBJECT_CODE: string;
+            /** 构造函数 */
+            constructor();
+            /** 注册视图 */
+            protected registerView(): void;
+            /** 视图显示后 */
+            protected viewShowed(): void;
+            /** 编辑数据，参数：目标数据 */
+            protected editData(): void;
+            /** 运行,覆盖原方法 */
+            run(): void;
+            run(data: bo.SalesInvoice): void;
+            /** 查询数据 */
+            protected fetchData(criteria: ibas.ICriteria | string): void;
+        }
+        /** 视图-销售发票 */
+        interface ISalesInvoiceViewView extends ibas.IBOViewView {
+            showSalesInvoice(viewData: bo.SalesInvoice): void;
+            showSalesInvoiceItems(salesInvoiceItem: bo.SalesInvoiceItem[]): void;
+            showShippingAddresses(datas: bo.ShippingAddress[]): void;
+        }
+        /** 销售发票连接服务映射 */
+        class SalesInvoiceLinkServiceMapping extends ibas.BOLinkServiceMapping {
+            /** 构造函数 */
+            constructor();
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOLinkServiceCaller>;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace sales {
+    namespace app {
+        /** 选择应用-销售贷项 */
+        class SalesCreditNoteChooseApp extends ibas.BOChooseService<ISalesCreditNoteChooseView, bo.SalesCreditNote> {
+            /** 应用标识 */
+            static APPLICATION_ID: string;
+            /** 应用名称 */
+            static APPLICATION_NAME: string;
+            /** 业务对象编码 */
+            static BUSINESS_OBJECT_CODE: string;
+            /** 构造函数 */
+            constructor();
+            /** 注册视图 */
+            protected registerView(): void;
+            /** 视图显示后 */
+            protected viewShowed(): void;
+            /** 查询数据 */
+            protected fetchData(criteria: ibas.ICriteria): void;
+            /** 新建数据 */
+            protected newData(): void;
+        }
+        /** 视图-销售贷项 */
+        interface ISalesCreditNoteChooseView extends ibas.IBOChooseView {
+            /** 显示数据 */
+            showData(datas: bo.SalesCreditNote[]): void;
+        }
+        /** 销售贷项选择服务映射 */
+        class SalesCreditNoteChooseServiceMapping extends ibas.BOChooseServiceMapping {
+            /** 构造函数 */
+            constructor();
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOChooseServiceCaller<bo.SalesCreditNote>>;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace sales {
+    namespace app {
+        /** 编辑应用-销售贷项 */
+        class SalesCreditNoteEditApp extends ibas.BOEditService<ISalesCreditNoteEditView, bo.SalesCreditNote> {
+            /** 应用标识 */
+            static APPLICATION_ID: string;
+            /** 应用名称 */
+            static APPLICATION_NAME: string;
+            /** 业务对象编码 */
+            static BUSINESS_OBJECT_CODE: string;
+            /** 构造函数 */
+            constructor();
+            /** 注册视图 */
+            protected registerView(): void;
+            /** 视图显示后 */
+            protected viewShowed(): void;
+            /** 运行,覆盖原方法 */
+            run(): void;
+            run(data: bo.SalesCreditNote): void;
+            /** 保存数据 */
+            protected saveData(): void;
+            /** 删除数据 */
+            protected deleteData(): void;
+            /** 新建数据，参数1：是否克隆 */
+            protected createData(clone: boolean): void;
+            /** 选择销售贷项客户事件 */
+            private chooseSalesCreditNoteCustomer;
+            /** 选择销售贷项价格清单事件 */
+            private chooseSalesCreditNotePriceList;
+            /** 选择销售贷项行物料事件 */
+            private chooseSalesCreditNoteItemMaterial;
+            /** 选择销售贷项行仓库事件 */
+            private chooseSalesCreditNoteItemWarehouse;
+            /** 添加销售贷项-行事件 */
+            private addSalesCreditNoteItem;
+            /** 删除销售贷项-行事件 */
+            private removeSalesCreditNoteItem;
+            /** 选择销售贷项行批次事件 */
+            private chooseSalesCreditNoteLineMaterialBatch;
+            /** 选择销售贷项序列事件 */
+            private chooseSalesCreditNoteLineMaterialSerial;
+            /** 选择销售贷项-销售退货事件 */
+            private chooseSalesCreditNoteSalesReturn;
+            /** 选择销售贷项-销售发票事件 */
+            private chooseSalesCreditNoteSalesInvoice;
+            /** 选择联系人 */
+            private chooseSalesCreditNoteContactPerson;
+            private editShippingAddresses;
+        }
+        /** 视图-销售贷项 */
+        interface ISalesCreditNoteEditView extends ibas.IBOEditView {
+            /** 显示数据 */
+            showSalesCreditNote(data: bo.SalesCreditNote): void;
+            /** 删除数据事件 */
+            deleteDataEvent: Function;
+            /** 新建数据事件，参数1：是否克隆 */
+            createDataEvent: Function;
+            /** 添加销售贷项-行事件 */
+            addSalesCreditNoteItemEvent: Function;
+            /** 删除销售贷项-行事件 */
+            removeSalesCreditNoteItemEvent: Function;
+            /** 显示数据 */
+            showSalesCreditNoteItems(datas: bo.SalesCreditNoteItem[]): void;
+            /** 选择销售贷项客户事件 */
+            chooseSalesCreditNoteCustomerEvent: Function;
+            /** 选择销售贷项联系人信息 */
+            chooseSalesCreditNoteContactPersonEvent: Function;
+            /** 选择销售贷项价格清单事件 */
+            chooseSalesCreditNotePriceListEvent: Function;
+            /** 选择销售贷项物料事件 */
+            chooseSalesCreditNoteItemMaterialEvent: Function;
+            /** 选择销售贷项仓库事件 */
+            chooseSalesCreditNoteItemWarehouseEvent: Function;
+            /** 选择销售贷项单行物料批次事件 */
+            chooseSalesCreditNoteItemMaterialBatchEvent: Function;
+            /** 选择销售贷项行物料序列事件 */
+            chooseSalesCreditNoteItemMaterialSerialEvent: Function;
+            /** 选择销售贷项-销售退货事件 */
+            chooseSalesCreditNoteSalesReturnEvent: Function;
+            /** 选择销售贷项-销售发票事件 */
+            chooseSalesCreditNoteSalesInvoiceEvent: Function;
+            /** 编辑地址事件 */
+            editShippingAddressesEvent: Function;
+            /** 默认仓库 */
+            defaultWarehouse: string;
+        }
+        /** 销售贷项编辑服务映射 */
+        class SalesCreditNoteEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor();
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<bo.SalesCreditNote>>;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace sales {
+    namespace app {
+        class SalesCreditNoteFunc extends ibas.ModuleFunction {
+            /** 功能标识 */
+            static FUNCTION_ID: string;
+            /** 功能名称 */
+            static FUNCTION_NAME: string;
+            /** 构造函数 */
+            constructor();
+            /** 默认功能 */
+            default(): ibas.IApplication<ibas.IView>;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace sales {
+    namespace app {
+        /** 列表应用-销售贷项 */
+        class SalesCreditNoteListApp extends ibas.BOListApplication<ISalesCreditNoteListView, bo.SalesCreditNote> {
+            /** 应用标识 */
+            static APPLICATION_ID: string;
+            /** 应用名称 */
+            static APPLICATION_NAME: string;
+            /** 业务对象编码 */
+            static BUSINESS_OBJECT_CODE: string;
+            /** 构造函数 */
+            constructor();
+            /** 注册视图 */
+            protected registerView(): void;
+            /** 视图显示后 */
+            protected viewShowed(): void;
+            /** 查询数据 */
+            protected fetchData(criteria: ibas.ICriteria): void;
+            /** 新建数据 */
+            protected newData(): void;
+            /** 查看数据，参数：目标数据 */
+            protected viewData(data: bo.SalesCreditNote): void;
+            /** 编辑数据，参数：目标数据 */
+            protected editData(data: bo.SalesCreditNote): void;
+            /** 删除数据，参数：目标数据集合 */
+            protected deleteData(data: bo.SalesCreditNote | bo.SalesCreditNote[]): void;
+        }
+        /** 视图-销售贷项 */
+        interface ISalesCreditNoteListView extends ibas.IBOListView {
+            /** 编辑数据事件，参数：编辑对象 */
+            editDataEvent: Function;
+            /** 删除数据事件，参数：删除对象集合 */
+            deleteDataEvent: Function;
+            /** 显示数据 */
+            showData(datas: bo.SalesCreditNote[]): void;
+        }
+    }
+}
+/**
+ * @license
+ * Copyright Color-Coding Studio. All Rights Reserved.
+ *
+ * Use of this source code is governed by an Apache License, Version 2.0
+ * that can be found in the LICENSE file at http://www.apache.org/licenses/LICENSE-2.0
+ */
+declare namespace sales {
+    namespace app {
+        /** 查看应用-销售贷项 */
+        class SalesCreditNoteViewApp extends ibas.BOViewService<ISalesCreditNoteViewView, bo.SalesCreditNote> {
+            /** 应用标识 */
+            static APPLICATION_ID: string;
+            /** 应用名称 */
+            static APPLICATION_NAME: string;
+            /** 业务对象编码 */
+            static BUSINESS_OBJECT_CODE: string;
+            /** 构造函数 */
+            constructor();
+            /** 注册视图 */
+            protected registerView(): void;
+            /** 视图显示后 */
+            protected viewShowed(): void;
+            /** 编辑数据，参数：目标数据 */
+            protected editData(): void;
+            /** 运行,覆盖原方法 */
+            run(): void;
+            run(data: bo.SalesCreditNote): void;
+            /** 查询数据 */
+            protected fetchData(criteria: ibas.ICriteria | string): void;
+        }
+        /** 视图-销售贷项 */
+        interface ISalesCreditNoteViewView extends ibas.IBOViewView {
+            showSalesCreditNote(viewData: bo.SalesCreditNote): void;
+            showSalesCreditNoteItems(salesCreditNoteItem: bo.SalesCreditNoteItem[]): void;
+            showShippingAddresses(datas: bo.ShippingAddress[]): void;
+        }
+        /** 销售贷项连接服务映射 */
+        class SalesCreditNoteLinkServiceMapping extends ibas.BOLinkServiceMapping {
+            /** 构造函数 */
+            constructor();
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOLinkServiceCaller>;
         }
     }
 }

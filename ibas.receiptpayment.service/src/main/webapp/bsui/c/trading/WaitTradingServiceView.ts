@@ -20,17 +20,17 @@ namespace receiptpayment {
                     this.progress = new sap.m.ProgressIndicator("", {
                         state: sap.ui.core.ValueState.Success
                     });
-                    return new sap.extension.m.Dialog("", {
+                    return new sap.m.Dialog("", {
                         title: this.title,
                         type: sap.m.DialogType.Standard,
                         state: sap.ui.core.ValueState.Warning,
-                        stretchOnPhone: false,
+                        stretch: ibas.config.get(ibas.CONFIG_ITEM_PLANTFORM) === ibas.emPlantform.PHONE ? true : false,
                         horizontalScrolling: false,
                         verticalScrolling: false,
                         content: [
                             this.progress
                         ],
-                    });
+                    }).addStyleClass("sapUiNoContentPadding");
                 }
                 private progress: sap.m.ProgressIndicator;
                 private interval: number;

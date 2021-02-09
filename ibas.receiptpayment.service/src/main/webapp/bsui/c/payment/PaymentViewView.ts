@@ -15,6 +15,7 @@ namespace receiptpayment {
                 draw(): any {
                     let that: this = this;
                     this.tablePaymentItem = new sap.extension.m.DataTable("", {
+                        autoPopinMode: true,
                         dataInfo: {
                             code: bo.Payment.BUSINESS_OBJECT_CODE,
                             name: bo.PaymentItem.name
@@ -22,9 +23,7 @@ namespace receiptpayment {
                         columns: [
                             new sap.extension.m.Column("", {
                                 header: ibas.i18n.prop("bo_paymentitem_lineid"),
-                            }),
-                            new sap.extension.m.Column("", {
-                                header: ibas.i18n.prop("bo_paymentitem_linestatus"),
+                                width: "5rem",
                             }),
                             new sap.extension.m.Column("", {
                                 header: ibas.i18n.prop("bo_paymentitem_mode"),
@@ -50,12 +49,6 @@ namespace receiptpayment {
                                         bindingValue: {
                                             path: "lineId",
                                             type: new sap.extension.data.Numeric(),
-                                        }
-                                    }),
-                                    new sap.extension.m.ObjectDocumentStatus("", {
-                                        text: {
-                                            path: "lineStatus",
-                                            type: new sap.extension.data.DocumentStatus(true),
                                         }
                                     }),
                                     new sap.extension.m.ObjectAttribute("", {

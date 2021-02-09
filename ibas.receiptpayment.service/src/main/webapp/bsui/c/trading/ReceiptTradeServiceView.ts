@@ -17,11 +17,11 @@ namespace receiptpayment {
                     let that: this = this;
                     this.list = new sap.m.List("", {
                     });
-                    return new sap.extension.m.Dialog("", {
+                    return new sap.m.Dialog("", {
                         title: this.title,
                         type: sap.m.DialogType.Standard,
                         state: sap.ui.core.ValueState.None,
-                        stretchOnPhone: false,
+                        stretch: ibas.config.get(ibas.CONFIG_ITEM_PLANTFORM) === ibas.emPlantform.PHONE ? true : false,
                         horizontalScrolling: false,
                         verticalScrolling: true,
                         escapeHandler(): void {
@@ -40,7 +40,7 @@ namespace receiptpayment {
                                 }
                             }),
                         ]
-                    });
+                    }).addStyleClass("sapUiNoContentPadding");
                 }
                 private list: sap.m.List;
                 showTradings(tradings: app.ReceiptTrading[]): void {
