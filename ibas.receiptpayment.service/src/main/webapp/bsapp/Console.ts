@@ -106,16 +106,7 @@ namespace receiptpayment {
         export class ConsolePhone extends Console {
             /** 初始化 */
             protected registers(): void {
-                // 注册服务应用
-                this.register(new ReceiptServiceMapping());
-                this.register(new ReceiptTradeServiceMapping());
-                // 注册收款方式
-                this.register(new ReceiptMethodBPAsset());
-                this.register(new ReceiptMethodCOD());
-                // 注册测试应用
-                if (ibas.config.get(ibas.CONFIG_ITEM_DEBUG_MODE)) {
-                    this.register(new WaitTradingServiceMapping());
-                }
+                super.registers();
             }
         }
     }

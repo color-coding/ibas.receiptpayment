@@ -206,7 +206,10 @@ namespace receiptpayment {
             }
             /** 选择资产充值-交易标识 */
             private chooseAssetRechargeItemModeTradeId(data: bo.AssetRechargeItem): void {
-                if (ibas.objects.isNull(data) || ibas.objects.isNull(this.editData)) {
+                if (ibas.objects.isNull(this.editData) || ibas.strings.isEmpty(this.editData.businessPartnerCode)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                        ibas.i18n.prop("bo_payment_businesspartnercode")
+                    ));
                     return;
                 }
                 // 业务伙伴资产查询
@@ -226,7 +229,10 @@ namespace receiptpayment {
             }
             /** 选择资产充值-业务伙伴资产 */
             private chooseAssetRechargeBusinessPartnerAsset(): void {
-                if (ibas.objects.isNull(this.editData)) {
+                if (ibas.objects.isNull(this.editData) || ibas.strings.isEmpty(this.editData.businessPartnerCode)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                        ibas.i18n.prop("bo_payment_businesspartnercode")
+                    ));
                     return;
                 }
                 // 调用选择服务

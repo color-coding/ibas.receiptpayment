@@ -190,7 +190,7 @@ namespace receiptpayment {
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_assetrechargeitem_mode"),
                                         template: new sap.extension.m.Select("", {
-                                            items: receiptMethods(),
+                                            items: component.receiptMethods(),
                                         }).bindProperty("bindingValue", {
                                             path: "mode",
                                             type: new sap.extension.data.Alphanumeric({

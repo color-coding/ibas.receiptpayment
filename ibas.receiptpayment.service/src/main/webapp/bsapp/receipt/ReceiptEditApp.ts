@@ -469,7 +469,10 @@ namespace receiptpayment {
             }
             /** 选择收款项目-交易标识 */
             private chooseReceiptItemModeTradeId(data: bo.ReceiptItem): void {
-                if (ibas.objects.isNull(data) || ibas.objects.isNull(this.editData)) {
+                if (ibas.objects.isNull(this.editData) || ibas.strings.isEmpty(this.editData.businessPartnerCode)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data",
+                        ibas.i18n.prop("bo_payment_businesspartnercode")
+                    ));
                     return;
                 }
                 // 业务伙伴资产查询
