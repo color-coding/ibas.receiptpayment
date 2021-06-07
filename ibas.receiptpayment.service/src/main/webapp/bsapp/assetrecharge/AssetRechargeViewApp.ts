@@ -52,12 +52,47 @@ namespace receiptpayment {
             run(data: bo.AssetRecharge): void;
             /** 运行 */
             run(): void {
+                let that: this = this;
                 if (ibas.objects.instanceOf(arguments[0], bo.AssetRecharge)) {
-                    this.viewData = arguments[0];
-                    this.show();
-                } else {
-                    super.run.apply(this, arguments);
+                    let data: bo.AssetRecharge = arguments[0];
+                    // 新对象直接编辑
+                    if (data.isNew) {
+                        that.viewData = data;
+                        that.show();
+                        return;
+                    }
+                    // 尝试重新查询编辑对象
+                    let criteria: ibas.ICriteria = data.criteria();
+                    if (!ibas.objects.isNull(criteria) && criteria.conditions.length > 0) {
+                        // 有效的查询对象查询
+                        let boRepository: bo.BORepositoryReceiptPayment = new bo.BORepositoryReceiptPayment();
+                        boRepository.fetchAssetRecharge({
+                            criteria: criteria,
+                            onCompleted(opRslt: ibas.IOperationResult<bo.AssetRecharge>): void {
+                                let data: bo.AssetRecharge;
+                                if (opRslt.resultCode === 0) {
+                                    data = opRslt.resultObjects.firstOrDefault();
+                                }
+                                if (ibas.objects.instanceOf(data, bo.AssetRecharge)) {
+                                    // 查询到了有效数据
+                                    that.viewData = data;
+                                    that.show();
+                                } else {
+                                    // 数据重新检索无效
+                                    that.messages({
+                                        type: ibas.emMessageType.WARNING,
+                                        message: ibas.i18n.prop("shell_data_deleted_and_created"),
+                                        onCompleted(): void {
+                                            that.show();
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                        return; // 退出
+                    }
                 }
+                super.run.apply(this, arguments);
             }
             /** 查询数据 */
             protected fetchData(criteria: ibas.ICriteria | string): void {

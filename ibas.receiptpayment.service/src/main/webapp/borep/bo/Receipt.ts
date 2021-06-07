@@ -468,6 +468,7 @@ namespace receiptpayment {
             reset(): void {
                 super.reset();
                 this.documentStatus = ibas.emDocumentStatus.RELEASED;
+                this.receiptItems.forEach(c => c.lineStatus = ibas.emDocumentStatus.RELEASED);
             }
             protected registerRules(): ibas.IBusinessRule[] {
                 return [

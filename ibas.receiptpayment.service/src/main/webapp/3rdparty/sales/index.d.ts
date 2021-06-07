@@ -13,6 +13,8 @@ declare namespace sales {
     /** 模块-版本 */
     const CONSOLE_VERSION: string;
     namespace config {
+        /** 配置项目-价格清单改变是否强制刷新价格 */
+        const CONFIG_ITEM_FORCE_UPDATE_PRICE_FOR_PRICE_LIST_CHANGED: string;
         /**
          * 获取此模块配置
          * @param key 配置项
@@ -7620,12 +7622,14 @@ declare namespace sales {
             protected saveData(): void;
             /** 删除数据 */
             protected deleteData(): void;
-            /** 新建数据，参数1：是否克隆 */
-            protected createData(clone: boolean): void;
+            /** 新建数据，参数1：是否克隆 or 导入文件 */
+            protected createData(clone: boolean | Blob): void;
             /** 选择销售交货客户事件 */
             private chooseSalesDeliveryCustomer;
             /** 选择销售交货价格清单事件 */
             private chooseSalesDeliveryPriceList;
+            /** 更改行价格 */
+            private changeSalesDeliveryItemPrice;
             /** 选择销售交货行物料事件 */
             private chooseSalesDeliveryItemMaterial;
             /** 选择销售交货行仓库事件 */
@@ -7884,12 +7888,14 @@ declare namespace sales {
             protected saveData(): void;
             /** 删除数据 */
             protected deleteData(): void;
-            /** 新建数据，参数1：是否克隆 */
-            protected createData(clone: boolean): void;
+            /** 新建数据，参数1：是否克隆 or 导入文件 */
+            protected createData(clone: boolean | Blob): void;
             /** 选择销售订单客户事件 */
             private chooseSalesOrderCustomer;
             /** 选择销售订单价格清单事件 */
             private chooseSalesOrderPriceList;
+            /** 更改行价格 */
+            private changeSalesOrderItemPrice;
             /** 选择销售订单物料事件 */
             private chooseSalesOrderItemMaterial;
             /** 添加销售订单-行事件 */
@@ -8200,12 +8206,14 @@ declare namespace sales {
             protected saveData(): void;
             /** 删除数据 */
             protected deleteData(): void;
-            /** 新建数据，参数1：是否克隆 */
-            protected createData(clone: boolean): void;
+            /** 新建数据，参数1：是否克隆 or 导入文件 */
+            protected createData(clone: boolean | Blob): void;
             /** 选择销售退货客户事件 */
             private chooseSalesReturnCustomer;
             /** 选择销售退货价格清单事件 */
             private chooseSalesReturnPriceList;
+            /** 更改行价格 */
+            private changeSalesReturnItemPrice;
             /** 选择销售退货物料事件 */
             private chooseSalesReturnItemMaterial;
             private chooseSalesReturnItemWarehouse;
@@ -8464,12 +8472,14 @@ declare namespace sales {
             protected saveData(): void;
             /** 删除数据 */
             protected deleteData(): void;
-            /** 新建数据，参数1：是否克隆 */
-            protected createData(clone: boolean): void;
+            /** 新建数据，参数1：是否克隆 or 导入文件 */
+            protected createData(clone: boolean | Blob): void;
             /** 选择销售报价客户事件 */
             private chooseSalesQuoteCustomer;
             /** 选择销售报价价格清单事件 */
             private chooseSalesQuotePriceList;
+            /** 更改行价格 */
+            private changeSalesQuoteItemPrice;
             /** 选择销售报价物料事件 */
             private chooseSalesQuoteItemMaterial;
             /** 添加销售报价-行事件 */
@@ -8759,12 +8769,14 @@ declare namespace sales {
             protected saveData(): void;
             /** 删除数据 */
             protected deleteData(): void;
-            /** 新建数据，参数1：是否克隆 */
-            protected createData(clone: boolean): void;
+            /** 新建数据，参数1：是否克隆 or 导入文件 */
+            protected createData(clone: boolean | Blob): void;
             /** 选择销售发票客户事件 */
             private chooseSalesInvoiceCustomer;
             /** 选择销售发票价格清单事件 */
             private chooseSalesInvoicePriceList;
+            /** 更改行价格 */
+            private changeSalesInvoiceItemPrice;
             /** 选择销售发票行物料事件 */
             private chooseSalesInvoiceItemMaterial;
             /** 选择销售发票行仓库事件 */
@@ -9027,12 +9039,14 @@ declare namespace sales {
             protected saveData(): void;
             /** 删除数据 */
             protected deleteData(): void;
-            /** 新建数据，参数1：是否克隆 */
-            protected createData(clone: boolean): void;
+            /** 新建数据，参数1：是否克隆 or 导入文件 */
+            protected createData(clone: boolean | Blob): void;
             /** 选择销售贷项客户事件 */
             private chooseSalesCreditNoteCustomer;
             /** 选择销售贷项价格清单事件 */
             private chooseSalesCreditNotePriceList;
+            /** 更改行价格 */
+            private changeSalesCreditNoteItemPrice;
             /** 选择销售贷项行物料事件 */
             private chooseSalesCreditNoteItemMaterial;
             /** 选择销售贷项行仓库事件 */

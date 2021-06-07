@@ -1402,6 +1402,13 @@ public class Payment extends BusinessObject<Payment> implements IPayment, IDataO
 	}
 
 	@Override
+	public void reset() {
+		super.reset();
+		this.setDocumentStatus(emDocumentStatus.RELEASED);
+		this.getPaymentItems().forEach(c -> c.setLineStatus(emDocumentStatus.RELEASED));
+	}
+
+	@Override
 	public IBusinessLogicContract[] getContracts() {
 		List<IBusinessLogicContract> contracts = new ArrayList<>(1);
 		if (this.getBusinessPartnerType() == emBusinessPartnerType.CUSTOMER) {

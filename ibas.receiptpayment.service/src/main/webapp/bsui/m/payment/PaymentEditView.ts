@@ -115,17 +115,15 @@ namespace receiptpayment {
                                     }
                                 ],
                             },
+                            sideContentButton: new sap.m.Button("", {
+                                text: ibas.i18n.prop("shell_data_save"),
+                                type: sap.m.ButtonType.Transparent,
+                                icon: "sap-icon://save",
+                                press(): void {
+                                    that.fireViewEvents(that.saveDataEvent);
+                                }
+                            }),
                             actions: [
-                                new sap.uxap.ObjectPageHeaderActionButton("", {
-                                    text: ibas.i18n.prop("shell_data_save"),
-                                    type: sap.m.ButtonType.Transparent,
-                                    icon: "sap-icon://save",
-                                    hideText: true,
-                                    importance: sap.uxap.Importance.High,
-                                    press: function (): void {
-                                        that.fireViewEvents(that.saveDataEvent);
-                                    }
-                                }),
                                 new sap.uxap.ObjectPageHeaderActionButton("", {
                                     text: ibas.i18n.prop("shell_data_clone"),
                                     type: sap.m.ButtonType.Transparent,
@@ -144,6 +142,57 @@ namespace receiptpayment {
                                     importance: sap.uxap.Importance.Low,
                                     press: function (): void {
                                         that.fireViewEvents(that.deleteDataEvent);
+                                    }
+                                }),
+                                new sap.uxap.ObjectPageHeaderActionButton("", {
+                                    hideText: true,
+                                    importance: sap.uxap.Importance.Medium,
+                                    text: ibas.i18n.prop("shell_data_services"),
+                                    type: sap.m.ButtonType.Transparent,
+                                    icon: "sap-icon://action",
+                                    press(event: sap.ui.base.Event): void {
+                                        ibas.servicesManager.showServices({
+                                            proxy: new ibas.BOServiceProxy({
+                                                data: that.page.getModel().getData(),
+                                                converter: new bo.DataConverter(),
+                                            }),
+                                            displayServices(services: ibas.IServiceAgent[]): void {
+                                                if (ibas.objects.isNull(services) || services.length === 0) {
+                                                    return;
+                                                }
+                                                let actionSheet: sap.m.ActionSheet = new sap.m.ActionSheet("", {
+                                                    placement: sap.m.PlacementType.Bottom,
+                                                    buttons: {
+                                                        path: "/",
+                                                        template: new sap.m.Button("", {
+                                                            type: sap.m.ButtonType.Transparent,
+                                                            text: {
+                                                                path: "name",
+                                                                type: new sap.extension.data.Alphanumeric(),
+                                                                formatter(data: string): string {
+                                                                    return data ? ibas.i18n.prop(data) : "";
+                                                                }
+                                                            },
+                                                            icon: {
+                                                                path: "icon",
+                                                                type: new sap.extension.data.Alphanumeric(),
+                                                                formatter(data: string): string {
+                                                                    return data ? data : "sap-icon://e-care";
+                                                                }
+                                                            },
+                                                            press(this: sap.m.Button): void {
+                                                                let service: ibas.IServiceAgent = this.getBindingContext().getObject();
+                                                                if (service) {
+                                                                    service.run();
+                                                                }
+                                                            }
+                                                        })
+                                                    }
+                                                });
+                                                actionSheet.setModel(new sap.extension.model.JSONModel(services));
+                                                actionSheet.openBy(event.getSource());
+                                            }
+                                        });
                                     }
                                 }),
                             ],
@@ -304,6 +353,14 @@ namespace receiptpayment {
                                                     }).bindProperty("bindingValue", {
                                                         path: "canceled",
                                                         type: new sap.extension.data.YesNo()
+                                                    }).bindProperty("editable", {
+                                                        path: "approvalStatus",
+                                                        type: new sap.extension.data.ApprovalStatus(),
+                                                        formatter(data: ibas.emApprovalStatus): boolean {
+                                                            if (data === ibas.emApprovalStatus.PROCESSING) {
+                                                                return false;
+                                                            } return true;
+                                                        }
                                                     }),
                                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_documentdate") }),
                                                     new sap.extension.m.DatePicker("", {
@@ -362,7 +419,11 @@ namespace receiptpayment {
                                                 }).addStyleClass("sapUiSmallMarginTop"),
                                                 items: {
                                                     path: "/rows",
-                                                    template: new sap.m.ObjectListItem("", {
+                                                    template: new sap.extension.m.DataObjectListItem("", {
+                                                        dataInfo: {
+                                                            code: bo.Payment.BUSINESS_OBJECT_CODE,
+                                                            name: bo.PaymentItem.name
+                                                        },
                                                         title: "# {lineId}",
                                                         number: {
                                                             path: "lineStatus",
@@ -414,18 +475,21 @@ namespace receiptpayment {
                                                                 }
                                                             }),
                                                             new sap.extension.m.ObjectAttribute("", {
+                                                                title: ibas.i18n.prop("bo_paymentitem_tradeId"),
                                                                 bindingValue: {
                                                                     path: "tradeId",
                                                                     type: new sap.extension.data.Alphanumeric(),
                                                                 }
                                                             }),
                                                             new sap.extension.m.ObjectAttribute("", {
+                                                                title: ibas.i18n.prop("bo_paymentitem_reference1"),
                                                                 bindingValue: {
                                                                     path: "reference1",
                                                                     type: new sap.extension.data.Alphanumeric(),
                                                                 }
                                                             }),
                                                             new sap.extension.m.ObjectAttribute("", {
+                                                                title: ibas.i18n.prop("bo_paymentitem_reference2"),
                                                                 bindingValue: {
                                                                     path: "reference2",
                                                                     type: new sap.extension.data.Alphanumeric(),
@@ -492,7 +556,7 @@ namespace receiptpayment {
                                                         },
                                                         criteria: [
                                                             new ibas.Condition(
-                                                                accounting.bo.Project.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES.toString())
+                                                                accounting.bo.Project.PROPERTY_DELETED_NAME, ibas.emConditionOperation.NOT_EQUAL, ibas.emYesNo.YES.toString())
                                                         ]
                                                     }).bindProperty("bindingValue", {
                                                         path: "project",
@@ -543,13 +607,7 @@ namespace receiptpayment {
                 editPaymentItem(data: bo.PaymentItem): void {
                     let that: this = this;
                     let editForm: sap.m.Dialog = new sap.m.Dialog("", {
-                        title: {
-                            path: "lineId",
-                            type: new sap.extension.data.Numeric(),
-                            formatter(data: string): string {
-                                return ibas.strings.format("{0} - {1}", ibas.i18n.prop("bo_paymentitem"), data);
-                            }
-                        },
+                        title: ibas.strings.format("{0} - {1}", ibas.i18n.prop("bo_paymentitem"), data.lineId),
                         type: sap.m.DialogType.Standard,
                         state: sap.ui.core.ValueState.None,
                         stretch: ibas.config.get(ibas.CONFIG_ITEM_PLANTFORM) === ibas.emPlantform.PHONE ? true : false,
@@ -660,48 +718,67 @@ namespace receiptpayment {
                         ],
                         buttons: [
                             new sap.m.Button("", {
+                                width: "20%",
                                 icon: "sap-icon://arrow-left",
                                 type: sap.m.ButtonType.Transparent,
                                 press: function (): void {
-                                    let model: any = editForm.getModel();
-                                    if (model instanceof sap.extension.model.JSONModel) {
-                                        let data: any = model.getData();
-                                        if (data) {
-                                            let datas: any = that.listPaymentItem.getModel().getData("rows");
-                                            if (datas instanceof Array && datas.length > 0) {
-                                                let index: number = datas.indexOf(data);
-                                                index = index <= 0 ? datas.length - 1 : index - 1;
-                                                editForm.setModel(new sap.extension.model.JSONModel(datas[index]));
-                                            } else {
-                                                that.application.viewShower.messages({
-                                                    title: that.title,
-                                                    type: ibas.emMessageType.WARNING,
-                                                    message: ibas.i18n.prop(["shell_please", "shell_data_add_line"]),
-                                                });
-                                            }
+                                    let form: any = editForm.getContent()[0];
+                                    if (form instanceof sap.extension.layout.SimpleForm) {
+                                        let datas: any = that.listPaymentItem.getModel().getData("rows");
+                                        if (datas instanceof Array && datas.length > 0) {
+                                            let index: number = datas.indexOf(form.getModel().getData());
+                                            index = index <= 0 ? datas.length - 1 : index - 1;
+                                            form.setModel(new sap.extension.model.JSONModel(datas[index]));
+                                            editForm.setTitle(ibas.strings.format("{0} - {1}", ibas.i18n.prop("bo_paymentitem"), datas[index].lineId));
+                                        } else {
+                                            that.application.viewShower.messages({
+                                                title: that.title,
+                                                type: ibas.emMessageType.WARNING,
+                                                message: ibas.i18n.prop(["shell_please", "shell_data_add_line"]),
+                                            });
                                         }
                                     }
                                 }
                             }),
                             new sap.m.Button("", {
+                                width: "20%",
                                 icon: "sap-icon://arrow-right",
                                 type: sap.m.ButtonType.Transparent,
                                 press: function (): void {
-                                    let model: any = editForm.getModel();
-                                    if (model instanceof sap.extension.model.JSONModel) {
-                                        let data: any = model.getData();
-                                        if (data) {
-                                            let datas: any = that.listPaymentItem.getModel().getData("rows");
-                                            if (datas instanceof Array && datas.length > 0) {
-                                                let index: number = datas.indexOf(data);
-                                                index = index >= datas.length - 1 ? 0 : index + 1;
-                                                editForm.setModel(new sap.extension.model.JSONModel(datas[index]));
+                                    let form: any = editForm.getContent()[0];
+                                    if (form instanceof sap.extension.layout.SimpleForm) {
+                                        let datas: any = that.listPaymentItem.getModel().getData("rows");
+                                        if (datas instanceof Array && datas.length > 0) {
+                                            let index: number = datas.indexOf(form.getModel().getData());
+                                            index = index >= datas.length - 1 ? 0 : index + 1;
+                                            form.setModel(new sap.extension.model.JSONModel(datas[index]));
+                                            editForm.setTitle(ibas.strings.format("{0} - {1}", ibas.i18n.prop("bo_paymentitem"), datas[index].lineId));
+                                        } else {
+                                            that.application.viewShower.messages({
+                                                title: that.title,
+                                                type: ibas.emMessageType.WARNING,
+                                                message: ibas.i18n.prop(["shell_please", "shell_data_add_line"]),
+                                            });
+                                        }
+                                    }
+                                }
+                            }),
+                            new sap.m.Button("", {
+                                width: "20%",
+                                text: ibas.i18n.prop("shell_data_remove"),
+                                type: sap.m.ButtonType.Transparent,
+                                press: function (): void {
+                                    let form: any = editForm.getContent()[0];
+                                    if (form instanceof sap.extension.layout.SimpleForm) {
+                                        let datas: any = that.listPaymentItem.getModel().getData("rows");
+                                        if (datas instanceof Array && datas.length > 0) {
+                                            that.fireViewEvents(that.removePaymentItemEvent, form.getModel().getData());
+                                            if (datas.length === 1) {
+                                                // 无数据，退出
+                                                (<any>editForm.getButtons()[3]).firePress({});
                                             } else {
-                                                that.application.viewShower.messages({
-                                                    title: that.title,
-                                                    type: ibas.emMessageType.WARNING,
-                                                    message: ibas.i18n.prop(["shell_please", "shell_data_add_line"]),
-                                                });
+                                                // 下一个
+                                                (<any>editForm.getButtons()[1]).firePress({});
                                             }
                                         }
                                     }
@@ -716,7 +793,7 @@ namespace receiptpayment {
                             }),
                         ]
                     }).addStyleClass("sapUiNoContentPadding");
-                    editForm.bindObject("/").setModel(new sap.extension.model.JSONModel(data));
+                    editForm.getContent()[0].setModel(new sap.extension.model.JSONModel(data));
                     editForm.open();
                 }
             }

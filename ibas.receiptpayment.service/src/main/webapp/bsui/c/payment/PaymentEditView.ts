@@ -136,6 +136,14 @@ namespace receiptpayment {
                             }).bindProperty("bindingValue", {
                                 path: "canceled",
                                 type: new sap.extension.data.YesNo()
+                            }).bindProperty("editable", {
+                                path: "approvalStatus",
+                                type: new sap.extension.data.ApprovalStatus(),
+                                formatter(data: ibas.emApprovalStatus): boolean {
+                                    if (data === ibas.emApprovalStatus.PROCESSING) {
+                                        return false;
+                                    } return true;
+                                }
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_documentdate") }),
                             new sap.extension.m.DatePicker("", {
@@ -337,7 +345,7 @@ namespace receiptpayment {
                                     text: accounting.bo.Project.PROPERTY_NAME_NAME,
                                 },
                                 criteria: [
-                                    new ibas.Condition(accounting.bo.Project.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES.toString())
+                                    new ibas.Condition(accounting.bo.Project.PROPERTY_DELETED_NAME, ibas.emConditionOperation.NOT_EQUAL, ibas.emYesNo.YES.toString())
                                 ]
                             }).bindProperty("bindingValue", {
                                 path: "project",
@@ -427,9 +435,71 @@ namespace receiptpayment {
                                                     that.fireViewEvents(that.createDataEvent, true);
                                                 }
                                             }),
+                                            new sap.m.MenuItem("", {
+                                                text: ibas.i18n.prop("shell_data_read"),
+                                                icon: "sap-icon://excel-attachment",
+                                                press: function (): void {
+                                                    // 读取当前对象
+                                                    ibas.files.open((files) => {
+                                                        that.fireViewEvents(that.createDataEvent, files[0]);
+                                                    }, {
+                                                        accept: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                                        multiple: false
+                                                    });
+                                                }
+                                            }),
                                         ],
                                     })
                                 }),
+                                new sap.m.ToolbarSpacer(""),
+                                new sap.m.Button("", {
+                                    type: sap.m.ButtonType.Transparent,
+                                    icon: "sap-icon://action",
+                                    press: function (event: any): void {
+                                        ibas.servicesManager.showServices({
+                                            proxy: new ibas.BOServiceProxy({
+                                                data: that.page.getModel().getData(),
+                                                converter: new bo.DataConverter(),
+                                            }),
+                                            displayServices(services: ibas.IServiceAgent[]): void {
+                                                if (ibas.objects.isNull(services) || services.length === 0) {
+                                                    return;
+                                                }
+                                                let actionSheet: sap.m.ActionSheet = new sap.m.ActionSheet("", {
+                                                    placement: sap.m.PlacementType.Bottom,
+                                                    buttons: {
+                                                        path: "/",
+                                                        template: new sap.m.Button("", {
+                                                            type: sap.m.ButtonType.Transparent,
+                                                            text: {
+                                                                path: "name",
+                                                                type: new sap.extension.data.Alphanumeric(),
+                                                                formatter(data: string): string {
+                                                                    return data ? ibas.i18n.prop(data) : "";
+                                                                }
+                                                            },
+                                                            icon: {
+                                                                path: "icon",
+                                                                type: new sap.extension.data.Alphanumeric(),
+                                                                formatter(data: string): string {
+                                                                    return data ? data : "sap-icon://e-care";
+                                                                }
+                                                            },
+                                                            press(this: sap.m.Button): void {
+                                                                let service: ibas.IServiceAgent = this.getBindingContext().getObject();
+                                                                if (service) {
+                                                                    service.run();
+                                                                }
+                                                            }
+                                                        })
+                                                    }
+                                                });
+                                                actionSheet.setModel(new sap.extension.model.JSONModel(services));
+                                                actionSheet.openBy(event.getSource());
+                                            }
+                                        });
+                                    }
+                                })
                             ]
                         }),
                         content: [

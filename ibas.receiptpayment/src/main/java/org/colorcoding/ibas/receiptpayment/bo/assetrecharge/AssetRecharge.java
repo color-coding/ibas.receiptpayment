@@ -1346,6 +1346,13 @@ public class AssetRecharge extends BusinessObject<AssetRecharge> implements IAss
 	}
 
 	@Override
+	public void reset() {
+		super.reset();
+		this.setDocumentStatus(emDocumentStatus.RELEASED);
+		this.getAssetRechargeItems().forEach(c -> c.setLineStatus(emDocumentStatus.RELEASED));
+	}
+
+	@Override
 	public IBusinessLogicContract[] getContracts() {
 		List<IBusinessLogicContract> contracts = new ArrayList<>(2);
 		if (this.getBusinessPartnerType() == emBusinessPartnerType.CUSTOMER) {

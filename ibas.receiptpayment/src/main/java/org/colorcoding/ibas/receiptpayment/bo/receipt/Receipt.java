@@ -1402,6 +1402,13 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 	}
 
 	@Override
+	public void reset() {
+		super.reset();
+		this.setDocumentStatus(emDocumentStatus.RELEASED);
+		this.getReceiptItems().forEach(c -> c.setLineStatus(emDocumentStatus.RELEASED));
+	}
+
+	@Override
 	public IBusinessLogicContract[] getContracts() {
 		List<IBusinessLogicContract> contracts = new ArrayList<>(1);
 		if (this.getBusinessPartnerType() == emBusinessPartnerType.CUSTOMER) {

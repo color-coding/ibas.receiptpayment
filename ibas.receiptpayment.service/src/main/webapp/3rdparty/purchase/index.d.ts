@@ -13,6 +13,8 @@ declare namespace purchase {
     /** 模块-版本 */
     const CONSOLE_VERSION: string;
     namespace config {
+        /** 配置项目-价格清单改变是否强制刷新价格 */
+        const CONFIG_ITEM_FORCE_UPDATE_PRICE_FOR_PRICE_LIST_CHANGED: string;
         /**
          * 获取此模块配置
          * @param key 配置项
@@ -5880,12 +5882,14 @@ declare namespace purchase {
             protected saveData(): void;
             /** 删除数据 */
             protected deleteData(): void;
-            /** 新建数据，参数1：是否克隆 */
-            protected createData(clone: boolean): void;
+            /** 新建数据，参数1：是否克隆 or 导入文件 */
+            protected createData(clone: boolean | Blob): void;
             /** 选择供应商信息 */
             private choosePurchaseDeliverySupplier;
             /** 选择价格清单事件 */
             private choosePurchaseDeliveryPriceList;
+            /** 更改行价格 */
+            private changePurchaseDeliveryItemPrice;
             /** 选择物料主数据 */
             private choosePurchaseDeliveryItemMaterial;
             /** 采购收货-行 选择仓库主数据 */
@@ -6143,11 +6147,13 @@ declare namespace purchase {
             protected saveData(): void;
             /** 删除数据 */
             private deleteData;
-            /** 新建数据，参数1：是否克隆 */
-            private createData;
+            /** 新建数据，参数1：是否克隆 or 导入文件 */
+            protected createData(clone: boolean | Blob): void;
             private choosePurchaseOrderSupplier;
             /** 选择价格清单事件 */
             private choosePurchaseOrderPriceList;
+            /** 更改行价格 */
+            private changePurchaseOrderItemPrice;
             private choosePurchaseOrderItemWarehouse;
             private choosePurchaseOrderItemMaterial;
             /** 添加采购订单-行事件 */
@@ -6459,11 +6465,13 @@ declare namespace purchase {
             protected saveData(): void;
             /** 删除数据 */
             protected deleteData(): void;
-            /** 新建数据，参数1：是否克隆 */
-            protected createData(clone: boolean): void;
+            /** 新建数据，参数1：是否克隆 or 导入文件 */
+            protected createData(clone: boolean | Blob): void;
             private choosePurchaseReturnSupplier;
             /** 选择价格清单事件 */
             private choosePurchaseReturnPriceList;
+            /** 更改行价格 */
+            private changePurchaseReturnItemPrice;
             private choosePurchaseReturnItemWarehouse;
             private choosePurchaseReturnItemMaterial;
             /** 添加采购退货-行事件 */
@@ -6719,11 +6727,13 @@ declare namespace purchase {
             protected saveData(): void;
             /** 删除数据 */
             private deleteData;
-            /** 新建数据，参数1：是否克隆 */
-            private createData;
+            /** 新建数据，参数1：是否克隆 or 导入文件 */
+            protected createData(clone: boolean | Blob): void;
             private choosePurchaseQuoteSupplier;
             /** 选择价格清单事件 */
             private choosePurchaseQuotePriceList;
+            /** 更改行价格 */
+            private changePurchaseQuoteItemPrice;
             private choosePurchaseQuoteItemWarehouse;
             private choosePurchaseQuoteItemMaterial;
             /** 添加采购报价-行事件 */
@@ -7126,14 +7136,16 @@ declare namespace purchase {
             protected saveData(): void;
             /** 删除数据 */
             protected deleteData(): void;
-            /** 新建数据，参数1：是否克隆 */
-            protected createData(clone: boolean): void;
+            /** 新建数据，参数1：是否克隆 or 导入文件 */
+            protected createData(clone: boolean | Blob): void;
             /** 添加采购申请-行事件 */
             protected addPurchaseRequestItem(): void;
             /** 删除采购申请-行事件 */
             protected removePurchaseRequestItem(items: bo.PurchaseRequestItem[]): void;
             /** 选择价格清单事件 */
             private choosePurchaseRequestPriceList;
+            /** 更改行价格 */
+            private changePurchaseRequestItemPrice;
             private choosePurchaseRequestItemMaterial;
             private showPurchaseRequestItemExtra;
         }
