@@ -173,5 +173,23 @@ namespace receiptpayment {
 
         }
 
+        /** 单据收款 */
+        export interface IDocumentReceiptContract extends ibas.IServiceContract {
+            /** 收款单 */
+            receipt: bo.Receipt;
+        }
+        /** 单据收款服务代理 */
+        export class DocumentReceiptServiceProxy extends ibas.ServiceProxy<IDocumentReceiptContract> {
+
+        }
+        /** 单据付款 */
+        export interface IDocumentPaymentContract extends ibas.IServiceContract {
+            /** 付款单 */
+            payment: bo.Payment;
+        }
+        /** 单据付款服务代理 */
+        export class DocumentPaymentServiceProxy extends ibas.ServiceProxy<IDocumentPaymentContract> {
+
+        }
     }
 }

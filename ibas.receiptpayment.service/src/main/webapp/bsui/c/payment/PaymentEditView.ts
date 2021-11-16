@@ -24,14 +24,6 @@ namespace receiptpayment {
                 choosePaymentBusinessPartnerEvent: Function;
                 /** 选择付款联系人事件 */
                 choosePaymentContactPersonEvent: Function;
-                /** 选择付款项目-采购订单 */
-                choosePaymentItemPurchaseOrderEvent: Function;
-                /** 选择付款项目-采购收货 */
-                choosePaymentItemPurchaseDeliveryEvent: Function;
-                /** 选择付款项目-销售退货 */
-                choosePaymentItemSalesReturnEvent: Function;
-                /** 选择付款项目-收款 */
-                choosePaymentItemReceiptEvent: Function;
                 /** 选择付款方式项目 */
                 choosePaymentItemModeTradeIdEvent: Function;
 
@@ -182,39 +174,19 @@ namespace receiptpayment {
                                             type: sap.m.ButtonType.Transparent,
                                             icon: "sap-icon://add",
                                             text: ibas.i18n.prop("shell_data_add"),
-                                            menu: new sap.m.Menu("", {
-                                                items: [
-                                                    new sap.m.MenuItem("", {
-                                                        text: ibas.i18n.prop("shell_data_add_line"),
-                                                        press: function (): void {
-                                                            that.fireViewEvents(that.addPaymentItemEvent);
+                                            menu: this.menuDocuments = new sap.m.Menu("", {
+                                                items: {
+                                                    path: "/",
+                                                    template: new sap.m.MenuItem("", {
+                                                        text: {
+                                                            path: "description",
+                                                            type: new sap.extension.data.Alphanumeric(),
+                                                        },
+                                                        press: function (this: sap.m.MenuItem): void {
+                                                            that.fireViewEvents(that.addPaymentItemEvent, this.getBindingContext().getObject());
                                                         }
-                                                    }),
-                                                    new sap.m.MenuItem("", {
-                                                        text: ibas.i18n.prop("receiptpayment_purchase_order"),
-                                                        press: function (): void {
-                                                            that.fireViewEvents(that.choosePaymentItemPurchaseOrderEvent);
-                                                        }
-                                                    }),
-                                                    new sap.m.MenuItem("", {
-                                                        text: ibas.i18n.prop("receiptpayment_purchase_delivery"),
-                                                        press: function (): void {
-                                                            that.fireViewEvents(that.choosePaymentItemPurchaseDeliveryEvent);
-                                                        }
-                                                    }),
-                                                    new sap.m.MenuItem("", {
-                                                        text: ibas.i18n.prop("receiptpayment_sales_return"),
-                                                        press: function (): void {
-                                                            that.fireViewEvents(that.choosePaymentItemSalesReturnEvent);
-                                                        }
-                                                    }),
-                                                    new sap.m.MenuItem("", {
-                                                        text: ibas.i18n.prop("receiptpayment_receipt"),
-                                                        press: function (): void {
-                                                            that.fireViewEvents(that.choosePaymentItemReceiptEvent);
-                                                        }
-                                                    }),
-                                                ]
+                                                    })
+                                                }
                                             })
                                         }),
                                         new sap.m.Button("", {
@@ -511,6 +483,7 @@ namespace receiptpayment {
                 }
                 private page: sap.extension.m.Page;
                 private tablePaymentItem: sap.extension.table.Table;
+                private menuDocuments: sap.m.Menu;
 
                 /** 显示数据 */
                 showPayment(data: bo.Payment): void {
@@ -521,6 +494,10 @@ namespace receiptpayment {
                 /** 显示数据-付款-项目 */
                 showPaymentItems(datas: bo.PaymentItem[]): void {
                     this.tablePaymentItem.setModel(new sap.extension.model.JSONModel({ rows: datas }));
+                }
+                /** 显示付款单据 */
+                showPaymentDocuments(datas: ibas.IServiceAgent[]): void {
+                    this.menuDocuments.setModel(new sap.extension.model.JSONModel(datas));
                 }
             }
         }

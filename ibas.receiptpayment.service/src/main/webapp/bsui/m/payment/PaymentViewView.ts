@@ -476,70 +476,45 @@ namespace receiptpayment {
                                         path: "lineStatus",
                                         type: new sap.extension.data.DocumentStatus(true),
                                     }),
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_itemcode") }),
+                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_basedocumenttype") }),
                                     new sap.extension.m.Text("", {
                                     }).bindProperty("bindingValue", {
-                                        path: "itemCode",
+                                        path: "baseDocumentType",
                                         type: new sap.extension.data.Alphanumeric(),
+                                        formatter(data: string): string {
+                                            return ibas.businessobjects.resource(ibas.businessobjects.name(data));
+                                        }
                                     }),
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_itemdescription") }),
+                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_basedocumententry") }),
                                     new sap.extension.m.Text("", {
                                     }).bindProperty("bindingValue", {
-                                        path: "itemDescription",
+                                        path: "baseDocumentEntry",
+                                        type: new sap.extension.data.Numeric()
+                                    }),
+                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_basedocumentlineid") }),
+                                    new sap.extension.m.Text("", {
+                                    }).bindProperty("bindingValue", {
+                                        path: "baseDocumentLineId",
+                                        type: new sap.extension.data.Numeric()
+                                    }),
+                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_mode") }),
+                                    new sap.extension.m.Text("", {
+                                    }).bindProperty("bindingValue", {
+                                        path: "mode",
                                         type: new sap.extension.data.Alphanumeric()
                                     }),
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_warehouse") }),
-                                    new sap.extension.m.RepositoryText("", {
-                                        repository: materials.bo.BORepositoryMaterials,
-                                        dataInfo: {
-                                            type: materials.bo.Warehouse,
-                                            key: materials.bo.Warehouse.PROPERTY_CODE_NAME,
-                                            text: materials.bo.Warehouse.PROPERTY_NAME_NAME
-                                        },
-                                    }).bindProperty("bindingValue", {
-                                        path: "warehouse",
-                                        type: new sap.extension.data.Alphanumeric()
-                                    }),
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_quantity") }),
+                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_amount") }),
                                     new sap.extension.m.Text("", {
                                     }).bindProperty("bindingValue", {
                                         parts: [
                                             {
-                                                path: "quantity",
-                                                type: new sap.extension.data.Quantity(),
-                                            },
-                                            {
-                                                path: "uom",
-                                                type: new sap.extension.data.Alphanumeric(),
-                                            }
-                                        ]
-                                    }),
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_price") }),
-                                    new sap.extension.m.Text("", {
-                                    }).bindProperty("bindingValue", {
-                                        parts: [
-                                            {
-                                                path: "price",
-                                                type: new sap.extension.data.Price(),
-                                            },
-                                            {
-                                                path: "currency",
-                                                type: new sap.extension.data.Alphanumeric(),
-                                            }
-                                        ]
-                                    }),
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_linetotal") }),
-                                    new sap.extension.m.Text("", {
-                                    }).bindProperty("bindingValue", {
-                                        parts: [
-                                            {
-                                                path: "lineTotal",
+                                                path: "amount",
                                                 type: new sap.extension.data.Sum(),
                                             },
                                             {
                                                 path: "currency",
-                                                type: new sap.extension.data.Alphanumeric(),
-                                            }
+                                                type: new sap.extension.data.Alphanumeric()
+                                            },
                                         ]
                                     }),
                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_reference1") }),

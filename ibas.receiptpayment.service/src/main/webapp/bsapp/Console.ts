@@ -56,11 +56,14 @@ namespace receiptpayment {
                 this.register(new ReceiptMethodCODMapping());
                 this.register(new ReceiptMethodCheckMapping());
                 this.register(new ReceiptMethodMoneyOrderMapping());
+                this.register(new NotBaseOnReceiptServiceMapping());
                 // 注册付款方式
                 this.register(new PaymentMethodCashMapping());
                 this.register(new PaymentMethodBankMapping());
                 this.register(new PaymentMethodCheckMapping());
                 this.register(new PaymentMethodMoneyOrderMapping());
+                this.register(new NotBaseOnPaymentServiceMapping());
+                this.register(new ReceiptPaymentServiceMapping());
                 // 注册测试应用
                 if (ibas.config.get(ibas.CONFIG_ITEM_DEBUG_MODE)) {
                     this.register(new WaitTradingServiceMapping());
