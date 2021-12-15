@@ -182,17 +182,17 @@ namespace receiptpayment {
                             actions: [
                                 new sap.extension.m.ObjectDocumentStatus("", {
                                     title: ibas.i18n.prop("bo_assetrecharge_documentstatus"),
-                                    text: {
+                                    enumValue: {
                                         path: "documentStatus",
-                                        type: new sap.extension.data.DocumentStatus(true),
+                                        type: new sap.extension.data.DocumentStatus(),
                                     },
                                 }),
                                 new sap.extension.m.ObjectYesNoStatus("", {
                                     title: ibas.i18n.prop("bo_assetrecharge_canceled"),
                                     negative: true,
-                                    text: {
+                                    enumValue: {
                                         path: "canceled",
-                                        type: new sap.extension.data.YesNo(true),
+                                        type: new sap.extension.data.YesNo(),
                                     },
                                 }),
                                 new sap.extension.m.ObjectNumber("", {

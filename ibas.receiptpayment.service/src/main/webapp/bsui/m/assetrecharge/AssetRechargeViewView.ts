@@ -110,17 +110,17 @@ namespace receiptpayment {
                         headerContent: [
                             new sap.extension.m.ObjectDocumentStatus("", {
                                 title: ibas.i18n.prop("bo_assetrecharge_documentstatus"),
-                                text: {
+                                enumValue: {
                                     path: "documentStatus",
-                                    type: new sap.extension.data.DocumentStatus(true),
+                                    type: new sap.extension.data.DocumentStatus(),
                                 },
                             }),
                             new sap.extension.m.ObjectYesNoStatus("", {
                                 title: ibas.i18n.prop("bo_assetrecharge_canceled"),
                                 negative: true,
-                                text: {
+                                enumValue: {
                                     path: "canceled",
-                                    type: new sap.extension.data.YesNo(true),
+                                    type: new sap.extension.data.YesNo(),
                                 },
                                 visible: {
                                     path: "canceled",
@@ -411,132 +411,146 @@ namespace receiptpayment {
                 /** 编辑数据行（资产充值-行） */
                 viewAssetRechargeItem(data: bo.AssetRechargeItem): void {
                     let that: this = this;
-                    let editForm: sap.m.Dialog = new sap.m.Dialog("", {
-                        title: ibas.strings.format("{0} - {1}", ibas.i18n.prop("bo_assetrechargeitem"), data.lineId),
-                        type: sap.m.DialogType.Standard,
-                        state: sap.ui.core.ValueState.None,
-                        stretch: ibas.config.get(ibas.CONFIG_ITEM_PLANTFORM) === ibas.emPlantform.PHONE ? true : false,
-                        horizontalScrolling: true,
-                        verticalScrolling: true,
-                        content: [
-                            new sap.extension.layout.DataSimpleForm("", {
-                                editable: false,
-                                userFieldsTitle: "",
-                                userFieldsMode: "text",
-                                dataInfo: {
-                                    code: bo.AssetRecharge.BUSINESS_OBJECT_CODE,
-                                    name: bo.AssetRechargeItem.name,
-                                },
-                                content: [
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrechargeitem_lineid") }),
-                                    new sap.extension.m.Text("", {
-                                    }).bindProperty("bindingValue", {
-                                        path: "lineId",
-                                        type: new sap.extension.data.Numeric(),
-                                    }),
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrechargeitem_linestatus") }),
-                                    new sap.extension.m.Text("", {
-                                    }).bindProperty("bindingValue", {
-                                        path: "lineStatus",
-                                        type: new sap.extension.data.DocumentStatus(true),
-                                    }),
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrechargeitem_mode") }),
-                                    new sap.extension.m.Text("", {
-                                    }).bindProperty("bindingValue", {
-                                        path: "mode",
-                                        type: new sap.extension.data.Alphanumeric(),
-                                    }),
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrechargeitem_amount") }),
-                                    new sap.extension.m.Text("", {
-                                    }).bindProperty("bindingValue", {
-                                        parts: [
-                                            {
-                                                path: "amount",
-                                                type: new sap.extension.data.Sum(),
-                                            },
-                                            {
-                                                path: "currency",
-                                                type: new sap.extension.data.Alphanumeric(),
-                                            },
-                                        ]
-                                    }),
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrechargeitem_tradeid") }),
-                                    new sap.extension.m.Text("", {
-                                    }).bindProperty("bindingValue", {
-                                        path: "tradeId",
-                                        type: new sap.extension.data.Alphanumeric(),
-                                    }),
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrechargeitem_reference1") }),
-                                    new sap.extension.m.Text("", {
-                                    }).bindProperty("bindingValue", {
-                                        path: "reference1",
-                                        type: new sap.extension.data.Alphanumeric(),
-                                    }),
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrechargeitem_reference2") }),
-                                    new sap.extension.m.Text("", {
-                                    }).bindProperty("bindingValue", {
-                                        path: "reference2",
-                                        type: new sap.extension.data.Alphanumeric(),
-                                    }),
-                                ],
-                            }),
-                        ],
-                        buttons: [
-                            new sap.m.Button("", {
-                                icon: "sap-icon://arrow-left",
-                                type: sap.m.ButtonType.Transparent,
-                                press: function (): void {
-                                    let form: any = editForm.getContent()[0];
-                                    if (form instanceof sap.extension.layout.SimpleForm) {
-                                        let datas: any = that.listAssetRechargeItem.getModel().getData("rows");
-                                        if (datas instanceof Array && datas.length > 0) {
-                                            let index: number = datas.indexOf(form.getModel().getData());
-                                            index = index <= 0 ? datas.length - 1 : index - 1;
-                                            form.setModel(new sap.extension.model.JSONModel(datas[index]));
-                                            editForm.setTitle(ibas.strings.format("{0} - {1}", ibas.i18n.prop("bo_assetrechargeitem"), datas[index].lineId));
-                                        } else {
-                                            that.application.viewShower.messages({
-                                                title: that.title,
-                                                type: ibas.emMessageType.WARNING,
-                                                message: ibas.i18n.prop(["shell_please", "shell_data_add_line"]),
-                                            });
+                    let editForm: sap.m.Dialog = <any>sap.ui.getCore().byId(this.id + "_editform");
+                    if (!(editForm instanceof sap.m.Dialog)) {
+                        editForm = new sap.m.Dialog(this.id + "_editform", {
+                            title: ibas.strings.format("{0} - {1}", ibas.i18n.prop("bo_assetrechargeitem"), data.lineId),
+                            type: sap.m.DialogType.Standard,
+                            state: sap.ui.core.ValueState.None,
+                            stretch: ibas.config.get(ibas.CONFIG_ITEM_PLANTFORM) === ibas.emPlantform.PHONE ? true : false,
+                            horizontalScrolling: true,
+                            verticalScrolling: true,
+                            content: [
+                                new sap.extension.layout.DataSimpleForm("", {
+                                    editable: false,
+                                    userFieldsTitle: "",
+                                    userFieldsMode: "text",
+                                    dataInfo: {
+                                        code: bo.AssetRecharge.BUSINESS_OBJECT_CODE,
+                                        name: bo.AssetRechargeItem.name,
+                                    },
+                                    content: [
+                                        new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrechargeitem_lineid") }),
+                                        new sap.extension.m.Text("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "lineId",
+                                            type: new sap.extension.data.Numeric(),
+                                        }),
+                                        new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrechargeitem_linestatus") }),
+                                        new sap.extension.m.Text("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "lineStatus",
+                                            type: new sap.extension.data.DocumentStatus(true),
+                                        }),
+                                        new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrechargeitem_mode") }),
+                                        new sap.extension.m.Text("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "mode",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                        }),
+                                        new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrechargeitem_amount") }),
+                                        new sap.extension.m.Text("", {
+                                        }).bindProperty("bindingValue", {
+                                            parts: [
+                                                {
+                                                    path: "amount",
+                                                    type: new sap.extension.data.Sum(),
+                                                },
+                                                {
+                                                    path: "currency",
+                                                    type: new sap.extension.data.Alphanumeric(),
+                                                },
+                                            ]
+                                        }),
+                                        new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrechargeitem_tradeid") }),
+                                        new sap.extension.m.Text("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "tradeId",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                        }),
+                                        new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrechargeitem_reference1") }),
+                                        new sap.extension.m.Text("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "reference1",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                        }),
+                                        new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrechargeitem_reference2") }),
+                                        new sap.extension.m.Text("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "reference2",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                        }),
+                                    ],
+                                }),
+                            ],
+                            buttons: [
+                                new sap.m.Button("", {
+                                    icon: "sap-icon://arrow-left",
+                                    type: sap.m.ButtonType.Transparent,
+                                    press: function (): void {
+                                        let form: any = editForm.getContent()[0];
+                                        if (form instanceof sap.extension.layout.SimpleForm) {
+                                            let datas: any = that.listAssetRechargeItem.getModel().getData("rows");
+                                            if (datas instanceof Array && datas.length > 0) {
+                                                let index: number = datas.indexOf(form.getModel().getData());
+                                                index = index <= 0 ? datas.length - 1 : index - 1;
+                                                form.setModel(new sap.extension.model.JSONModel(datas[index]));
+                                                editForm.setTitle(ibas.strings.format("{0} - {1}", ibas.i18n.prop("bo_assetrechargeitem"), datas[index].lineId));
+                                            } else {
+                                                that.application.viewShower.messages({
+                                                    title: that.title,
+                                                    type: ibas.emMessageType.WARNING,
+                                                    message: ibas.i18n.prop(["shell_please", "shell_data_add_line"]),
+                                                });
+                                            }
                                         }
                                     }
-                                }
-                            }),
-                            new sap.m.Button("", {
-                                icon: "sap-icon://arrow-right",
-                                type: sap.m.ButtonType.Transparent,
-                                press: function (): void {
-                                    let form: any = editForm.getContent()[0];
-                                    if (form instanceof sap.extension.layout.SimpleForm) {
-                                        let datas: any = that.listAssetRechargeItem.getModel().getData("rows");
-                                        if (datas instanceof Array && datas.length > 0) {
-                                            let index: number = datas.indexOf(form.getModel().getData());
-                                            index = index >= datas.length - 1 ? 0 : index + 1;
-                                            form.setModel(new sap.extension.model.JSONModel(datas[index]));
-                                            editForm.setTitle(ibas.strings.format("{0} - {1}", ibas.i18n.prop("bo_assetrechargeitem"), datas[index].lineId));
-                                        } else {
-                                            that.application.viewShower.messages({
-                                                title: that.title,
-                                                type: ibas.emMessageType.WARNING,
-                                                message: ibas.i18n.prop(["shell_please", "shell_data_add_line"]),
-                                            });
+                                }),
+                                new sap.m.Button("", {
+                                    icon: "sap-icon://arrow-right",
+                                    type: sap.m.ButtonType.Transparent,
+                                    press: function (): void {
+                                        let form: any = editForm.getContent()[0];
+                                        if (form instanceof sap.extension.layout.SimpleForm) {
+                                            let datas: any = that.listAssetRechargeItem.getModel().getData("rows");
+                                            if (datas instanceof Array && datas.length > 0) {
+                                                let index: number = datas.indexOf(form.getModel().getData());
+                                                index = index >= datas.length - 1 ? 0 : index + 1;
+                                                form.setModel(new sap.extension.model.JSONModel(datas[index]));
+                                                editForm.setTitle(ibas.strings.format("{0} - {1}", ibas.i18n.prop("bo_assetrechargeitem"), datas[index].lineId));
+                                            } else {
+                                                that.application.viewShower.messages({
+                                                    title: that.title,
+                                                    type: ibas.emMessageType.WARNING,
+                                                    message: ibas.i18n.prop(["shell_please", "shell_data_add_line"]),
+                                                });
+                                            }
                                         }
                                     }
-                                }
-                            }),
-                            new sap.m.Button("", {
-                                text: ibas.i18n.prop("shell_exit"),
-                                type: sap.m.ButtonType.Transparent,
-                                press(): void {
-                                    editForm.close();
-                                }
-                            }),
-                        ]
-                    }).addStyleClass("sapUiNoContentPadding");
+                                }),
+                                new sap.m.Button("", {
+                                    text: ibas.i18n.prop("shell_exit"),
+                                    type: sap.m.ButtonType.Transparent,
+                                    press(this: sap.m.Button): void {
+                                        if (this.getParent() instanceof sap.m.Dialog) {
+                                            (<sap.m.Dialog>this.getParent()).close();
+                                        } else {
+                                            editForm.close();
+                                        }
+                                    }
+                                }),
+                            ]
+                        }).addStyleClass("sapUiNoContentPadding");
+                    }
                     editForm.getContent()[0].setModel(new sap.extension.model.JSONModel(data));
                     editForm.open();
+                }
+                protected onClosed(): void {
+                    super.onClosed();
+                    let form: any = sap.ui.getCore().byId(this.id + "_editform");
+                    if (form instanceof sap.m.Dialog) {
+                        form.destroy();
+                    }
                 }
             }
         }

@@ -112,16 +112,20 @@ namespace receiptpayment {
                                     path: "documentCurrency",
                                     type: new sap.extension.data.Alphanumeric(),
                                 },
-                                firstStatus: new sap.extension.m.ObjectDocumentStatus("", {
-                                    text: {
+                                firstStatus: new sap.extension.m.ObjectDocumentCanceledStatus("", {
+                                    canceledStatus: {
+                                        path: "canceled",
+                                        type: new sap.extension.data.YesNo(),
+                                    },
+                                    documentStatus: {
                                         path: "documentStatus",
-                                        type: new sap.extension.data.DocumentStatus(true),
+                                        type: new sap.extension.data.DocumentStatus(),
                                     },
                                 }),
                                 secondStatus: new sap.extension.m.ObjectApprovalStatus("", {
-                                    text: {
+                                    enumValue: {
                                         path: "approvalStatus",
-                                        type: new sap.extension.data.ApprovalStatus(true),
+                                        type: new sap.extension.data.ApprovalStatus(),
                                     },
                                     visible: {
                                         path: "approvalStatus",

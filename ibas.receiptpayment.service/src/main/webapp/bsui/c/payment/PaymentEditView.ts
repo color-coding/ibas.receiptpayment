@@ -39,6 +39,28 @@ namespace receiptpayment {
                                 showValueHelp: true,
                                 valueHelpRequest: function (): void {
                                     that.fireViewEvents(that.choosePaymentBusinessPartnerEvent);
+                                },
+                                showValueLink: true,
+                                valueLinkRequest: function (this: sap.extension.m.Input, event: sap.ui.base.Event): void {
+                                    let object: any = this.getBindingContext().getObject();
+                                    if (object instanceof bo.Payment) {
+                                        if (object.businessPartnerType === businesspartner.bo.emBusinessPartnerType.CUSTOMER) {
+                                            ibas.servicesManager.runLinkService({
+                                                boCode: businesspartner.bo.Customer.BUSINESS_OBJECT_CODE,
+                                                linkValue: event.getParameter("value")
+                                            });
+                                        } else if (object.businessPartnerType === businesspartner.bo.emBusinessPartnerType.SUPPLIER) {
+                                            ibas.servicesManager.runLinkService({
+                                                boCode: businesspartner.bo.Supplier.BUSINESS_OBJECT_CODE,
+                                                linkValue: event.getParameter("value")
+                                            });
+                                        } if (object.businessPartnerType === businesspartner.bo.emBusinessPartnerType.LEAD) {
+                                            ibas.servicesManager.runLinkService({
+                                                boCode: businesspartner.bo.Lead.BUSINESS_OBJECT_CODE,
+                                                linkValue: event.getParameter("value")
+                                            });
+                                        }
+                                    }
                                 }
                             }).bindProperty("bindingValue", {
                                 path: "businessPartnerCode",
@@ -258,7 +280,7 @@ namespace receiptpayment {
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_paymentitem_amount"),
                                         template: new sap.extension.m.Input("", {
-                                            type: sap.m.InputType.Number
+
                                         }).bindProperty("bindingValue", {
                                             path: "amount",
                                             type: new sap.extension.data.Sum()
@@ -303,6 +325,12 @@ namespace receiptpayment {
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_dataowner") }),
                             new sap.extension.m.DataOwnerInput("", {
                                 showValueHelp: true,
+                                organization: {
+                                    path: "organization",
+                                    type: new sap.extension.data.Alphanumeric({
+                                        maxLength: 8
+                                    })
+                                }
                             }).bindProperty("bindingValue", {
                                 path: "dataOwner",
                                 type: new sap.extension.data.Numeric()
@@ -345,7 +373,7 @@ namespace receiptpayment {
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_documenttotal") }),
                             new sap.extension.m.Input("", {
                                 editable: false,
-                                type: sap.m.InputType.Number
+
                             }).bindProperty("bindingValue", {
                                 path: "documentTotal",
                                 type: new sap.extension.data.Sum()

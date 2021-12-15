@@ -116,7 +116,7 @@ namespace receiptpayment {
                     });
                     this.paid_input = new sap.m.Input("", {
                         width: "auto",
-                        type: sap.m.InputType.Number,
+
                         textAlign: sap.ui.core.TextAlign.Right,
                         placeholder: ibas.i18n.prop("receiptpaymentt_please_input_paid_amount"),
                     });

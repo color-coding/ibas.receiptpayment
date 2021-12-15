@@ -178,26 +178,29 @@ namespace receiptpayment {
                             ],
                         }).addStyleClass("sapUiNoContentPadding"),
                         headerContent: [
-                            new sap.extension.m.ObjectDocumentStatus("", {
-                                title: ibas.i18n.prop("bo_payment_documentstatus"),
-                                text: {
-                                    path: "documentStatus",
-                                    type: new sap.extension.data.DocumentStatus(true),
-                                },
-                            }),
-                            new sap.extension.m.ObjectYesNoStatus("", {
-                                title: ibas.i18n.prop("bo_payment_canceled"),
-                                negative: true,
-                                text: {
-                                    path: "canceled",
-                                    type: new sap.extension.data.YesNo(true),
+                            new sap.extension.m.ObjectApprovalStatus("", {
+                                title: ibas.i18n.prop("bo_payment_approvalstatus"),
+                                enumValue: {
+                                    path: "approvalStatus",
+                                    type: new sap.extension.data.ApprovalStatus(),
                                 },
                                 visible: {
-                                    path: "canceled",
-                                    formatter(data: ibas.emYesNo): boolean {
-                                        return data === ibas.emYesNo.YES ? true : false;
+                                    path: "approvalStatus",
+                                    formatter(data: ibas.emApprovalStatus): boolean {
+                                        return ibas.objects.isNull(data) || data === ibas.emApprovalStatus.UNAFFECTED ? false : true;
                                     }
                                 }
+                            }),
+                            new sap.extension.m.ObjectDocumentCanceledStatus("", {
+                                title: ibas.i18n.prop("bo_payment_documentstatus"),
+                                canceledStatus: {
+                                    path: "canceled",
+                                    type: new sap.extension.data.YesNo(),
+                                },
+                                documentStatus: {
+                                    path: "documentStatus",
+                                    type: new sap.extension.data.DocumentStatus(),
+                                },
                             }),
                             new sap.extension.m.ObjectAttribute("", {
                                 title: ibas.i18n.prop("bo_payment_documentdate"),
@@ -237,6 +240,28 @@ namespace receiptpayment {
                                                         showValueHelp: true,
                                                         valueHelpRequest: function (): void {
                                                             that.fireViewEvents(that.choosePaymentBusinessPartnerEvent);
+                                                        },
+                                                        showValueLink: true,
+                                                        valueLinkRequest: function (this: sap.extension.m.Input, event: sap.ui.base.Event): void {
+                                                            let object: any = this.getBindingContext().getObject();
+                                                            if (object instanceof bo.AssetRecharge) {
+                                                                if (object.businessPartnerType === businesspartner.bo.emBusinessPartnerType.CUSTOMER) {
+                                                                    ibas.servicesManager.runLinkService({
+                                                                        boCode: businesspartner.bo.Customer.BUSINESS_OBJECT_CODE,
+                                                                        linkValue: event.getParameter("value")
+                                                                    });
+                                                                } else if (object.businessPartnerType === businesspartner.bo.emBusinessPartnerType.SUPPLIER) {
+                                                                    ibas.servicesManager.runLinkService({
+                                                                        boCode: businesspartner.bo.Supplier.BUSINESS_OBJECT_CODE,
+                                                                        linkValue: event.getParameter("value")
+                                                                    });
+                                                                } if (object.businessPartnerType === businesspartner.bo.emBusinessPartnerType.LEAD) {
+                                                                    ibas.servicesManager.runLinkService({
+                                                                        boCode: businesspartner.bo.Lead.BUSINESS_OBJECT_CODE,
+                                                                        linkValue: event.getParameter("value")
+                                                                    });
+                                                                }
+                                                            }
                                                         }
                                                     }).bindProperty("bindingValue", {
                                                         path: "businessPartnerCode",
@@ -490,7 +515,7 @@ namespace receiptpayment {
                                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_documenttotal") }),
                                                     new sap.extension.m.Input("", {
                                                         editable: false,
-                                                        type: sap.m.InputType.Number
+
                                                     }).bindProperty("bindingValue", {
                                                         path: "documentTotal",
                                                         type: new sap.extension.data.Sum()
@@ -521,6 +546,12 @@ namespace receiptpayment {
                                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_dataowner") }),
                                                     new sap.extension.m.DataOwnerInput("", {
                                                         showValueHelp: true,
+                                                        organization: {
+                                                            path: "organization",
+                                                            type: new sap.extension.data.Alphanumeric({
+                                                                maxLength: 8
+                                                            })
+                                                        }
                                                     }).bindProperty("bindingValue", {
                                                         path: "dataOwner",
                                                         type: new sap.extension.data.Numeric()
@@ -591,195 +622,209 @@ namespace receiptpayment {
                 /** 编辑数据（付款单-行） */
                 editPaymentItem(data: bo.PaymentItem): void {
                     let that: this = this;
-                    let editForm: sap.m.Dialog = new sap.m.Dialog("", {
-                        title: ibas.strings.format("{0} - {1}", ibas.i18n.prop("bo_paymentitem"), data.lineId),
-                        type: sap.m.DialogType.Standard,
-                        state: sap.ui.core.ValueState.None,
-                        stretch: ibas.config.get(ibas.CONFIG_ITEM_PLANTFORM) === ibas.emPlantform.PHONE ? true : false,
-                        horizontalScrolling: true,
-                        verticalScrolling: true,
-                        content: [
-                            new sap.extension.layout.DataSimpleForm("", {
-                                editable: true,
-                                userFieldsTitle: "",
-                                userFieldsMode: "input",
-                                dataInfo: {
-                                    code: bo.Payment.BUSINESS_OBJECT_CODE,
-                                    name: bo.PaymentItem.name,
-                                },
-                                content: [
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_lineid") }),
-                                    new sap.extension.m.Input("", {
-                                        editable: false,
-                                        type: sap.m.InputType.Number
-                                    }).bindProperty("bindingValue", {
-                                        path: "lineId",
-                                        type: new sap.extension.data.Numeric(),
-                                    }),
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_linestatus") }),
-                                    new sap.extension.m.EnumSelect("", {
-                                        enumType: ibas.emDocumentStatus
-                                    }).bindProperty("bindingValue", {
-                                        path: "lineStatus",
-                                        type: new sap.extension.data.DocumentStatus(),
-                                    }),
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_basedocumenttype") }),
-                                    new sap.extension.m.Input("", {
-                                        editable: false,
-                                    }).bindProperty("bindingValue", {
-                                        path: "baseDocumentType",
-                                        type: new sap.extension.data.Alphanumeric(),
-                                        formatter(data: string): string {
-                                            return ibas.businessobjects.resource(ibas.businessobjects.name(data));
-                                        }
-                                    }),
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_basedocumententry") }),
-                                    new sap.extension.m.Input("", {
-                                        editable: false,
-                                    }).bindProperty("bindingValue", {
-                                        path: "baseDocumentEntry",
-                                        type: new sap.extension.data.Numeric()
-                                    }),
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_basedocumentlineid") }),
-                                    new sap.extension.m.Input("", {
-                                        editable: false,
-                                    }).bindProperty("bindingValue", {
-                                        path: "baseDocumentLineId",
-                                        type: new sap.extension.data.Numeric()
-                                    }),
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_mode") }),
-                                    new sap.extension.m.Select("", {
-                                        items: component.paymentMethods(),
-                                    }).bindProperty("bindingValue", {
-                                        path: "mode",
-                                        type: new sap.extension.data.Alphanumeric({
-                                            maxLength: 8
-                                        })
-                                    }),
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_amount") }),
-                                    new sap.extension.m.Input("", {
-                                        type: sap.m.InputType.Number
-                                    }).bindProperty("bindingValue", {
-                                        path: "amount",
-                                        type: new sap.extension.data.Sum(),
-                                    }).bindProperty("description", {
-                                        path: "currency",
-                                        type: new sap.extension.data.Alphanumeric(),
-                                    }),
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_tradeid") }),
-                                    new sap.extension.m.Input("", {
-                                        showValueHelp: true,
-                                        valueHelpOnly: false,
-                                        valueHelpRequest: function (): void {
-                                            that.fireViewEvents(that.choosePaymentItemModeTradeIdEvent,
-                                                // 获取当前对象
-                                                this.getBindingContext().getObject()
-                                            );
-                                        }
-                                    }).bindProperty("bindingValue", {
-                                        path: "tradeId",
-                                        type: new sap.extension.data.Alphanumeric({
-                                            maxLength: 140
-                                        })
-                                    }),
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_reference1") }),
-                                    new sap.extension.m.Input("", {
-                                    }).bindProperty("bindingValue", {
-                                        path: "reference1",
-                                        type: new sap.extension.data.Alphanumeric({
-                                            maxLength: 100
+                    let editForm: sap.m.Dialog = <any>sap.ui.getCore().byId(this.id + "_editform");
+                    if (!(editForm instanceof sap.m.Dialog)) {
+                        editForm = new sap.m.Dialog(this.id + "_editform", {
+                            title: ibas.strings.format("{0} - {1}", ibas.i18n.prop("bo_paymentitem"), data.lineId),
+                            type: sap.m.DialogType.Standard,
+                            state: sap.ui.core.ValueState.None,
+                            stretch: ibas.config.get(ibas.CONFIG_ITEM_PLANTFORM) === ibas.emPlantform.PHONE ? true : false,
+                            horizontalScrolling: true,
+                            verticalScrolling: true,
+                            content: [
+                                new sap.extension.layout.DataSimpleForm("", {
+                                    editable: true,
+                                    userFieldsTitle: "",
+                                    userFieldsMode: "input",
+                                    dataInfo: {
+                                        code: bo.Payment.BUSINESS_OBJECT_CODE,
+                                        name: bo.PaymentItem.name,
+                                    },
+                                    content: [
+                                        new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_lineid") }),
+                                        new sap.extension.m.Input("", {
+                                            editable: false,
+
+                                        }).bindProperty("bindingValue", {
+                                            path: "lineId",
+                                            type: new sap.extension.data.Numeric(),
                                         }),
-                                    }),
-                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_reference2") }),
-                                    new sap.extension.m.Input("", {
-                                    }).bindProperty("bindingValue", {
-                                        path: "reference2",
-                                        type: new sap.extension.data.Alphanumeric({
-                                            maxLength: 200
+                                        new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_linestatus") }),
+                                        new sap.extension.m.EnumSelect("", {
+                                            enumType: ibas.emDocumentStatus
+                                        }).bindProperty("bindingValue", {
+                                            path: "lineStatus",
+                                            type: new sap.extension.data.DocumentStatus(),
                                         }),
-                                    }),
-                                ],
-                            }),
-                        ],
-                        buttons: [
-                            new sap.m.Button("", {
-                                width: "20%",
-                                icon: "sap-icon://arrow-left",
-                                type: sap.m.ButtonType.Transparent,
-                                press: function (): void {
-                                    let form: any = editForm.getContent()[0];
-                                    if (form instanceof sap.extension.layout.SimpleForm) {
-                                        let datas: any = that.listPaymentItem.getModel().getData("rows");
-                                        if (datas instanceof Array && datas.length > 0) {
-                                            let index: number = datas.indexOf(form.getModel().getData());
-                                            index = index <= 0 ? datas.length - 1 : index - 1;
-                                            form.setModel(new sap.extension.model.JSONModel(datas[index]));
-                                            editForm.setTitle(ibas.strings.format("{0} - {1}", ibas.i18n.prop("bo_paymentitem"), datas[index].lineId));
-                                        } else {
-                                            that.application.viewShower.messages({
-                                                title: that.title,
-                                                type: ibas.emMessageType.WARNING,
-                                                message: ibas.i18n.prop(["shell_please", "shell_data_add_line"]),
-                                            });
-                                        }
-                                    }
-                                }
-                            }),
-                            new sap.m.Button("", {
-                                width: "20%",
-                                icon: "sap-icon://arrow-right",
-                                type: sap.m.ButtonType.Transparent,
-                                press: function (): void {
-                                    let form: any = editForm.getContent()[0];
-                                    if (form instanceof sap.extension.layout.SimpleForm) {
-                                        let datas: any = that.listPaymentItem.getModel().getData("rows");
-                                        if (datas instanceof Array && datas.length > 0) {
-                                            let index: number = datas.indexOf(form.getModel().getData());
-                                            index = index >= datas.length - 1 ? 0 : index + 1;
-                                            form.setModel(new sap.extension.model.JSONModel(datas[index]));
-                                            editForm.setTitle(ibas.strings.format("{0} - {1}", ibas.i18n.prop("bo_paymentitem"), datas[index].lineId));
-                                        } else {
-                                            that.application.viewShower.messages({
-                                                title: that.title,
-                                                type: ibas.emMessageType.WARNING,
-                                                message: ibas.i18n.prop(["shell_please", "shell_data_add_line"]),
-                                            });
-                                        }
-                                    }
-                                }
-                            }),
-                            new sap.m.Button("", {
-                                width: "20%",
-                                text: ibas.i18n.prop("shell_data_remove"),
-                                type: sap.m.ButtonType.Transparent,
-                                press: function (): void {
-                                    let form: any = editForm.getContent()[0];
-                                    if (form instanceof sap.extension.layout.SimpleForm) {
-                                        let datas: any = that.listPaymentItem.getModel().getData("rows");
-                                        if (datas instanceof Array && datas.length > 0) {
-                                            that.fireViewEvents(that.removePaymentItemEvent, form.getModel().getData());
-                                            if (datas.length === 1) {
-                                                // 无数据，退出
-                                                (<any>editForm.getButtons()[3]).firePress({});
+                                        new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_basedocumenttype") }),
+                                        new sap.extension.m.Input("", {
+                                            editable: false,
+                                        }).bindProperty("bindingValue", {
+                                            path: "baseDocumentType",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                            formatter(data: string): string {
+                                                return ibas.businessobjects.resource(ibas.businessobjects.name(data));
+                                            }
+                                        }),
+                                        new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_basedocumententry") }),
+                                        new sap.extension.m.Input("", {
+                                            editable: false,
+                                        }).bindProperty("bindingValue", {
+                                            path: "baseDocumentEntry",
+                                            type: new sap.extension.data.Numeric()
+                                        }),
+                                        new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_basedocumentlineid") }),
+                                        new sap.extension.m.Input("", {
+                                            editable: false,
+                                        }).bindProperty("bindingValue", {
+                                            path: "baseDocumentLineId",
+                                            type: new sap.extension.data.Numeric()
+                                        }),
+                                        new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_mode") }),
+                                        new sap.extension.m.Select("", {
+                                            items: component.paymentMethods(),
+                                        }).bindProperty("bindingValue", {
+                                            path: "mode",
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 8
+                                            })
+                                        }),
+                                        new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_amount") }),
+                                        new sap.extension.m.Input("", {
+
+                                        }).bindProperty("bindingValue", {
+                                            path: "amount",
+                                            type: new sap.extension.data.Sum(),
+                                        }).bindProperty("description", {
+                                            path: "currency",
+                                            type: new sap.extension.data.Alphanumeric(),
+                                        }),
+                                        new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_tradeid") }),
+                                        new sap.extension.m.Input("", {
+                                            showValueHelp: true,
+                                            valueHelpOnly: false,
+                                            valueHelpRequest: function (): void {
+                                                that.fireViewEvents(that.choosePaymentItemModeTradeIdEvent,
+                                                    // 获取当前对象
+                                                    this.getBindingContext().getObject()
+                                                );
+                                            }
+                                        }).bindProperty("bindingValue", {
+                                            path: "tradeId",
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 140
+                                            })
+                                        }),
+                                        new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_reference1") }),
+                                        new sap.extension.m.Input("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "reference1",
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 100
+                                            }),
+                                        }),
+                                        new sap.m.Label("", { text: ibas.i18n.prop("bo_paymentitem_reference2") }),
+                                        new sap.extension.m.Input("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "reference2",
+                                            type: new sap.extension.data.Alphanumeric({
+                                                maxLength: 200
+                                            }),
+                                        }),
+                                    ],
+                                }),
+                            ],
+                            buttons: [
+                                new sap.m.Button("", {
+                                    width: "20%",
+                                    icon: "sap-icon://arrow-left",
+                                    type: sap.m.ButtonType.Transparent,
+                                    press: function (): void {
+                                        let form: any = editForm.getContent()[0];
+                                        if (form instanceof sap.extension.layout.SimpleForm) {
+                                            let datas: any = that.listPaymentItem.getModel().getData("rows");
+                                            if (datas instanceof Array && datas.length > 0) {
+                                                let index: number = datas.indexOf(form.getModel().getData());
+                                                index = index <= 0 ? datas.length - 1 : index - 1;
+                                                form.setModel(new sap.extension.model.JSONModel(datas[index]));
+                                                editForm.setTitle(ibas.strings.format("{0} - {1}", ibas.i18n.prop("bo_paymentitem"), datas[index].lineId));
                                             } else {
-                                                // 下一个
-                                                (<any>editForm.getButtons()[1]).firePress({});
+                                                that.application.viewShower.messages({
+                                                    title: that.title,
+                                                    type: ibas.emMessageType.WARNING,
+                                                    message: ibas.i18n.prop(["shell_please", "shell_data_add_line"]),
+                                                });
                                             }
                                         }
                                     }
-                                }
-                            }),
-                            new sap.m.Button("", {
-                                text: ibas.i18n.prop("shell_exit"),
-                                type: sap.m.ButtonType.Transparent,
-                                press: function (): void {
-                                    editForm.close();
-                                }
-                            }),
-                        ]
-                    }).addStyleClass("sapUiNoContentPadding");
+                                }),
+                                new sap.m.Button("", {
+                                    width: "20%",
+                                    icon: "sap-icon://arrow-right",
+                                    type: sap.m.ButtonType.Transparent,
+                                    press: function (): void {
+                                        let form: any = editForm.getContent()[0];
+                                        if (form instanceof sap.extension.layout.SimpleForm) {
+                                            let datas: any = that.listPaymentItem.getModel().getData("rows");
+                                            if (datas instanceof Array && datas.length > 0) {
+                                                let index: number = datas.indexOf(form.getModel().getData());
+                                                index = index >= datas.length - 1 ? 0 : index + 1;
+                                                form.setModel(new sap.extension.model.JSONModel(datas[index]));
+                                                editForm.setTitle(ibas.strings.format("{0} - {1}", ibas.i18n.prop("bo_paymentitem"), datas[index].lineId));
+                                            } else {
+                                                that.application.viewShower.messages({
+                                                    title: that.title,
+                                                    type: ibas.emMessageType.WARNING,
+                                                    message: ibas.i18n.prop(["shell_please", "shell_data_add_line"]),
+                                                });
+                                            }
+                                        }
+                                    }
+                                }),
+                                new sap.m.Button("", {
+                                    width: "20%",
+                                    text: ibas.i18n.prop("shell_data_remove"),
+                                    type: sap.m.ButtonType.Transparent,
+                                    press: function (): void {
+                                        let form: any = editForm.getContent()[0];
+                                        if (form instanceof sap.extension.layout.SimpleForm) {
+                                            let datas: any = that.listPaymentItem.getModel().getData("rows");
+                                            if (datas instanceof Array && datas.length > 0) {
+                                                that.fireViewEvents(that.removePaymentItemEvent, form.getModel().getData());
+                                                if (datas.length === 1) {
+                                                    // 无数据，退出
+                                                    (<any>editForm.getButtons()[3]).firePress({});
+                                                } else {
+                                                    // 下一个
+                                                    (<any>editForm.getButtons()[1]).firePress({});
+                                                }
+                                            }
+                                        }
+                                    }
+                                }),
+                                new sap.m.Button("", {
+                                    text: ibas.i18n.prop("shell_exit"),
+                                    type: sap.m.ButtonType.Transparent,
+                                    press(this: sap.m.Button): void {
+                                        if (this.getParent() instanceof sap.m.Dialog) {
+                                            (<sap.m.Dialog>this.getParent()).close();
+                                        } else {
+                                            editForm.close();
+                                        }
+                                    }
+                                }),
+                            ]
+                        }).addStyleClass("sapUiNoContentPadding");
+                    }
                     editForm.getContent()[0].setModel(new sap.extension.model.JSONModel(data));
                     editForm.open();
+                }
+                protected onClosed(): void {
+                    super.onClosed();
+                    let form: any = sap.ui.getCore().byId(this.id + "_editform");
+                    if (form instanceof sap.m.Dialog) {
+                        form.destroy();
+                    }
                 }
             }
         }
