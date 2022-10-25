@@ -519,7 +519,7 @@ namespace receiptpayment {
                                                         path: "documentTotal",
                                                         type: new sap.extension.data.Sum()
                                                     }),
-                                                    new sap.extension.m.Input("", {
+                                                    new sap.extension.m.CurrencySelect("", {
                                                         editable: false,
                                                     }).bindProperty("bindingValue", {
                                                         path: "documentCurrency",

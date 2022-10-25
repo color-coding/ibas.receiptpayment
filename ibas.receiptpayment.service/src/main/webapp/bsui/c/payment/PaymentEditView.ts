@@ -288,13 +288,14 @@ namespace receiptpayment {
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_paymentitem_currency"),
-                                        template: new sap.extension.m.Text("", {
+                                        template: new sap.extension.m.CurrencySelect("", {
+                                            editable: true,
                                         }).bindProperty("bindingValue", {
                                             path: "currency",
                                             type: new sap.extension.data.Alphanumeric({
                                                 maxLength: 8
                                             })
-                                        })
+                                        }),
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_paymentitem_tradeid"),
@@ -378,7 +379,7 @@ namespace receiptpayment {
                                 path: "documentTotal",
                                 type: new sap.extension.data.Sum()
                             }),
-                            new sap.extension.m.Input("", {
+                            new sap.extension.m.CurrencySelect("", {
                                 editable: false,
                             }).bindProperty("bindingValue", {
                                 path: "documentCurrency",
