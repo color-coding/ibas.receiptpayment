@@ -58,9 +58,10 @@ namespace receiptpayment {
                                 trading.method = that;
                                 trading.id = item.code;
                                 trading.description = item.name;
-                                trading.amount = item.amount;
                                 trading.icon = item.picture;
                                 trading.discount = item.discount;
+                                trading.amount = item.amount;
+                                trading.unit = item.unit;
                                 if (ibas.strings.isEmpty(trading.icon)) {
                                     trading.icon = ibas.i18n.prop(ibas.strings.format("{0}_{1}_icon", ReceiptMethod.name, that.name).toLowerCase());
                                 }

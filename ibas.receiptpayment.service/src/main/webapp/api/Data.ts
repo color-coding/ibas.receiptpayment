@@ -85,6 +85,8 @@ namespace receiptpayment {
             icon?: string;
             /** 可用金额 */
             amount: number;
+            /** 单位 */
+            unit?: string;
             /** 折扣 */
             discount?: number;
             /** 交易 */

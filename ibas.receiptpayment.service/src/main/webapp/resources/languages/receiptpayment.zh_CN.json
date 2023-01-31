@@ -74,5 +74,6 @@
   "receiptmethod_tm_check_icon": "sap-icon://sales-order",
   "receiptmethod_tm_meord": "汇票",
   "receiptmethod_tm_meord_icon": "sap-icon://sales-order-item",
+  "receiptmethod_available_amount": "可用值：",
   "receiptpayment_closing_delimiter": "----结束----"
 }

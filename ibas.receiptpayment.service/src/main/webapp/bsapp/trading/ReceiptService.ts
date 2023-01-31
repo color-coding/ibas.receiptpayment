@@ -50,7 +50,6 @@ namespace receiptpayment {
                         that.view.showTradingMethods(opRslt.resultObjects);
                     }
                 });
-                this.view.showMethods(methods);
                 for (let item of methods) {
                     item.run();
                 }
@@ -305,8 +304,6 @@ namespace receiptpayment {
             showBusinessPartner(data: BusinessPartner): void;
             /** 显示收款目标 */
             showTarget(data: ReceiptTarget): void;
-            /** 显示收款方式 */
-            showMethods(methods: ibas.IElement[]): void;
             /** 显示收款交易方式 */
             showTradingMethods(methods: IReceiptTradingMethod[]): void;
             /** 显示收款交易 */

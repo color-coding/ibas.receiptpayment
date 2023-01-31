@@ -26,26 +26,27 @@ namespace receiptpayment {
                             new sap.m.Label("", {
                                 width: "auto",
                             }).bindProperty("text", {
-                                path: "type",
+                                path: "/type",
                                 formatter(data: any): any {
                                     return ibas.enums.describe(businesspartner.bo.emBusinessPartnerType, data);
                                 }
-                            }),
+                            }).addStyleClass("sapUiTinyMarginBegin"),
                             new sap.m.ToolbarSeparator(""),
                             new sap.m.Label("", {
                                 width: "auto",
                             }).bindProperty("text", {
-                                path: "code",
-                            }),
-                            new sap.m.Label("", {
-                                width: "5px",
-                                text: "-",
-                            }),
-                            new sap.m.Label("", {
-                                width: "auto",
-                            }).bindProperty("text", {
-                                path: "name",
-                            }),
+                                parts: [
+                                    {
+                                        path: "/code",
+                                    },
+                                    {
+                                        path: "/name",
+                                    }
+                                ],
+                                formatter(code: string, name: string): string {
+                                    return ibas.strings.format("{0} - {1}", code, name);
+                                }
+                            }).addStyleClass("sapUiTinyMarginEnd"),
                         ]
                     });
                     this.target_bar = new sap.m.Toolbar("", {
@@ -53,7 +54,7 @@ namespace receiptpayment {
                             new sap.m.Label("", {
                                 width: "auto",
                             }).bindProperty("text", {
-                                path: "documentType",
+                                path: "/documentType",
                                 formatter(data: any): any {
                                     try {
                                         let name: string = ibas.objects.nameOf(ibas.boFactory.classOf(data));
@@ -65,17 +66,7 @@ namespace receiptpayment {
                                     }
                                     return data;
                                 }
-                            }),
-                            new sap.m.Label("", {
-                                width: "5px",
-                                text: "-",
-                            }),
-                            new sap.m.Label("", {
-                                width: "auto",
-                                textAlign: sap.ui.core.TextAlign.Right,
-                            }).bindProperty("text", {
-                                path: "documentEntry",
-                            }),
+                            }).addStyleClass("sapUiTinyMarginBegin"),
                             new sap.m.Label("", {
                                 width: "5px",
                                 text: "-",
@@ -84,73 +75,45 @@ namespace receiptpayment {
                                 width: "auto",
                                 textAlign: sap.ui.core.TextAlign.Left,
                             }).bindProperty("text", {
-                                path: "documentLineId",
-                            }),
-                            new sap.m.ToolbarSeparator(""),
-                            new sap.m.Label("", {
-                                width: "auto",
-                                textAlign: sap.ui.core.TextAlign.Right,
-                            }).bindProperty("text", {
-                                path: "documentSummary",
-                            }),
-                            new sap.m.ToolbarSpacer(""),
-                            new sap.m.ToolbarSeparator(""),
-                            new sap.m.Label("", {
-                                width: "auto",
-                                textAlign: sap.ui.core.TextAlign.Right,
-                            }).bindProperty("text", {
-                                path: "total",
-                                type: new sap.extension.data.Sum(),
-                            }),
-                            new sap.m.Label("", {
-                                width: "auto",
-                                textAlign: sap.ui.core.TextAlign.Left,
-                            }).bindProperty("text", {
-                                path: "currency",
-                            }),
-                        ]
-                    });
-                    this.menthod_box = new sap.m.VBox("", {
-                    });
-                    this.trading_box = new sap.m.VBox("", {
-                    });
-                    this.paid_input = new sap.m.Input("", {
-                        width: "auto",
-
-                        textAlign: sap.ui.core.TextAlign.Right,
-                        placeholder: ibas.i18n.prop("receiptpaymentt_please_input_paid_amount"),
-                    });
-                    this.paid_bar = new sap.m.Toolbar("", {
-                        content: [
-                            new sap.m.ToolbarSpacer(""),
-                            new sap.m.Label("", {
-                                width: "auto",
-                                textAlign: sap.ui.core.TextAlign.Left,
-                                text: ibas.i18n.prop("receiptpayment_paid")
-                            }),
-                            this.paid_input,
-                            new sap.m.ToolbarSeparator(""),
-                            new sap.m.Button("", {
-                                icon: "sap-icon://accept",
-                                type: sap.m.ButtonType.Transparent,
-                                press(oControlEvent: sap.ui.base.Event): void {
-                                    for (let bar of that.menthod_bars.values()) {
-                                        let contents: sap.ui.core.Control[] = bar.getContent();
-                                        for (let index: number = 0; index < contents.length; index++) {
-                                            let item: sap.ui.core.Control = contents[index];
-                                            if (item instanceof sap.m.ToggleButton) {
-                                                if (item.getPressed()) {
-                                                    let model: any = item.getModel();
-                                                    that.fireViewEvents(that.applyReceiptTradingEvent, model.getData(), parseFloat(that.paid_input.getValue()));
-                                                    return;
-                                                }
-                                            }
-                                        }
+                                parts: [
+                                    {
+                                        path: "/documentEntry",
+                                    },
+                                    {
+                                        path: "/documentLineId",
                                     }
-                                    // 错误参数调用，用于提示
-                                    that.fireViewEvents(that.applyReceiptTradingEvent);
+                                ],
+                                formatter(entry: number, lineId: number): string {
+                                    let builder: ibas.StringBuilder = new ibas.StringBuilder();
+                                    builder.map(undefined, "");
+                                    builder.map(null, "");
+                                    builder.append(entry);
+                                    if (lineId > 0) {
+                                        builder.append(" - ");
+                                        builder.append(lineId);
+                                    }
+                                    return builder.toString();
                                 }
                             }),
+                            new sap.m.ToolbarSeparator(""),
+                            new sap.m.Label("", {
+                                width: "auto",
+                                textAlign: sap.ui.core.TextAlign.Right,
+                            }).bindProperty("text", {
+                                path: "/documentSummary",
+                            }),
+                            new sap.m.ToolbarSpacer(""),
+                            new sap.m.ToolbarSeparator(""),
+                            new sap.m.ObjectNumber("", {
+                                number: {
+                                    path: "/total",
+                                    type: new sap.extension.data.Sum(),
+                                },
+                                numberUnit: {
+                                    path: "/currency",
+                                    type: new sap.extension.data.Alphanumeric(),
+                                },
+                            }).addStyleClass("sapUiTinyMarginEnd"),
                         ]
                     });
                     return new sap.m.Dialog("", {
@@ -170,12 +133,59 @@ namespace receiptpayment {
                                         content: [
                                             new sap.m.Label("", {
                                                 text: ibas.i18n.prop("receiptpaymentt_choosable_paid_method"),
-                                            })
+                                            }).addStyleClass("sapUiTinyMarginBegin"),
                                         ]
                                     }),
-                                    this.menthod_box,
-                                    this.trading_box,
-                                    this.paid_bar,
+                                    this.menthod_box = new sap.extension.f.GridList("", {
+                                        growingThreshold: ibas.config.get(ibas.CONFIG_ITEM_CRITERIA_RESULT_COUNT, 30),
+                                        growingScrollToLoad: true,
+                                        mode: sap.m.ListMode.None,
+                                        showNoData: false,
+                                        customLayout: new sap.ui.layout.cssgrid.GridBasicLayout("", {
+                                            gridTemplateColumns: "repeat(auto-fill, minmax(6rem,6rem))",
+                                            gridGap: "0.5rem 0.5rem",
+                                        }),
+                                    }).addStyleClass("sapUiContentPadding"),
+                                    this.trading_box = new sap.m.VBox("", {
+                                    }),
+                                    new sap.m.Toolbar("", {
+                                        content: [
+                                            new sap.m.ToolbarSpacer(""),
+                                            new sap.m.Label("", {
+                                                width: "auto",
+                                                textAlign: sap.ui.core.TextAlign.Left,
+                                                text: ibas.i18n.prop("receiptpayment_paid")
+                                            }),
+                                            this.paid_input = new sap.m.Input("", {
+                                                width: "12rem",
+                                                textAlign: sap.ui.core.TextAlign.Right,
+                                                placeholder: ibas.i18n.prop("receiptpaymentt_please_input_paid_amount"),
+                                            }),
+                                            new sap.m.ToolbarSeparator(""),
+                                            new sap.m.Button("", {
+                                                icon: "sap-icon://accept",
+                                                type: sap.m.ButtonType.Transparent,
+                                                press(oControlEvent: sap.ui.base.Event): void {
+                                                    for (let item of that.menthod_box.getItems()) {
+                                                        if (item instanceof sap.f.GridListItem) {
+                                                            for (let sItem of item.getContent()) {
+                                                                if (sItem instanceof sap.m.RadioButton) {
+                                                                    if (sItem.getSelected()) {
+                                                                        let model: any = item.getModel();
+                                                                        that.fireViewEvents(that.applyReceiptTradingEvent, model.getData(), ibas.numbers.valueOf(that.paid_input.getValue()));
+                                                                        return;
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    // 错误参数调用，用于提示
+                                                    that.fireViewEvents(that.applyReceiptTradingEvent);
+                                                }
+
+                                            }).addStyleClass("sapUiTinyMarginEnd"),
+                                        ]
+                                    })
                                 ]
                             })
                         ],
@@ -199,82 +209,89 @@ namespace receiptpayment {
                 }
                 private bp_bar: sap.m.Toolbar;
                 private target_bar: sap.m.Toolbar;
-                private paid_bar: sap.m.Toolbar;
                 private paid_input: sap.m.Input;
-                private menthod_bars: Map<String, sap.m.Toolbar>;
-                private menthod_box: sap.m.VBox;
+                private menthod_box: sap.extension.f.GridList;
                 private trading_box: sap.m.VBox;
                 /** 显示业务伙伴 */
                 showBusinessPartner(data: app.BusinessPartner): void {
                     this.bp_bar.setModel(new sap.ui.model.json.JSONModel(data));
-                    this.bp_bar.bindObject("/");
                 }
                 /** 显示收款目标 */
                 showTarget(data: app.ReceiptTarget): void {
                     this.target_bar.setModel(new sap.ui.model.json.JSONModel(data));
-                    this.target_bar.bindObject("/");
-                }
-                /** 显示收款方式 */
-                showMethods(methods: ibas.IElement[]): void {
-                    if (ibas.objects.isNull(this.menthod_bars)) {
-                        this.menthod_bars = new Map<String, sap.m.Toolbar>();
-                    }
-                    for (let item of methods) {
-                        let bar: sap.m.Toolbar = new sap.m.Toolbar("", {
-                            visible: false,
-                            content: [
-                                new sap.m.Label("", {
-                                    width: "auto",
-                                    text: item.description
-                                }),
-                                new sap.m.ToolbarSeparator(""),
-                            ]
-                        });
-                        this.menthod_bars.set(item.name, bar);
-                        this.menthod_box.addItem(bar);
-                    }
                 }
                 /** 显示收款交易方式 */
                 showTradingMethods(methods: app.IReceiptTradingMethod[]): void {
-                    if (ibas.objects.isNull(this.menthod_bars)) {
-                        return;
-                    }
-                    let that: this = this;
-                    let index: number = 2;
                     for (let item of methods) {
-                        let bar: sap.m.Toolbar = this.menthod_bars.get(item.method.name);
-                        if (ibas.objects.isNull(bar)) {
-                            continue;
-                        }
-                        if (bar.getVisible() === false) {
-                            bar.setVisible(true);
-                        }
-                        let button: sap.m.ToggleButton = new sap.m.ToggleButton("", {
-                            text: item.description,
-                            icon: item.icon,
-                            type: sap.m.ButtonType.Transparent,
-                            press(oControlEvent: sap.ui.base.Event): void {
-                                for (let item of that.menthod_bars.values()) {
-                                    let contents: sap.ui.core.Control[] = item.getContent();
-                                    for (let index: number = 2; index < contents.length; index++) {
-                                        let item: sap.ui.core.Control = contents[index];
-                                        if (item !== oControlEvent.getSource()) {
-                                            if (item instanceof sap.m.ToggleButton) {
-                                                item.setPressed(false);
-                                            }
+                        this.menthod_box.addItem(new sap.f.GridListItem("", {
+                            type: sap.m.ListType.Active,
+                            content: [
+                                new sap.m.VBox("", {
+                                    alignItems: sap.m.FlexAlignItems.Center,
+                                    items: [
+                                        new sap.m.Avatar("", {
+                                            src: {
+                                                path: "/icon"
+                                            },
+                                            customDisplaySize: "6rem",
+                                            backgroundColor: sap.m.AvatarColor.Random,
+                                            displayShape: sap.m.AvatarShape.Square,
+                                            showBorder: false,
+                                        }),
+                                    ]
+                                }).addStyleClass("sapUiTinyMarginTop"),
+                                new sap.m.RadioButton("", {
+                                    width: "auto",
+                                    text: {
+                                        path: "/description"
+                                    },
+                                })
+                            ],
+                            press(event: sap.ui.base.Event): void {
+                                let source: any = event.getSource();
+                                if (source instanceof sap.f.GridListItem) {
+                                    for (let item of source.getContent()) {
+                                        if (item instanceof sap.m.RadioButton) {
+                                            item.setSelected(!item.getSelected());
                                         }
                                     }
                                 }
-                            }
-                        });
-                        button.setModel(new sap.ui.model.json.JSONModel(item));
-                        bar.insertContent(button, index);
-                        index++;
+                            },
+                            tooltip: {
+                                parts: [
+                                    {
+                                        path: "/description"
+                                    },
+                                    {
+                                        path: "/amount"
+                                    },
+                                    {
+                                        path: "/unit"
+                                    }
+                                ],
+                                formatter(description: string, amount: number, unit: string): string {
+                                    let builder: ibas.StringBuilder = new ibas.StringBuilder();
+                                    builder.map(undefined, "");
+                                    builder.map(null, "");
+                                    builder.append(description);
+                                    if (amount >= 0) {
+                                        builder.append("\n");
+                                        builder.append(ibas.i18n.prop("receiptmethod_available_amount"));
+                                        builder.append(sap.extension.data.formatValue(sap.extension.data.Sum, amount, "string"));
+                                        if (!ibas.strings.isEmpty(unit)) {
+                                            builder.append(" ");
+                                            builder.append(unit);
+                                        }
+                                    }
+                                    return builder.toString();
+                                }
+                            },
+                        }).setModel(new sap.extension.model.JSONModel(item)));
                     }
                 }
                 /** 显示收款交易 */
                 showReceiptTradings(tradings: app.ReceiptTrading[], paid: number): void {
-                    this.paid_input.setValue(paid.toString());
+                    this.paid_input.setValue(sap.extension.data.formatValue(sap.extension.data.Sum, paid, "string"));
                     this.trading_box.destroyItems();
                     if (tradings.length === 0) {
                         return;
@@ -283,25 +300,25 @@ namespace receiptpayment {
                         content: [
                             new sap.m.Label("", {
                                 text: ibas.i18n.prop("receiptpaymentt_choosed_paid_method"),
-                            })
+                            }).addStyleClass("sapUiTinyMarginBegin"),
                         ]
                     }));
                     let that: this = this;
                     for (let item of tradings) {
                         let bar: sap.m.Toolbar = new sap.m.Toolbar("", {
                             content: [
+                                new sap.m.ToolbarSpacer(""),
                                 new sap.m.Label("", {
-                                    width: "100%",
+                                    width: "auto",
                                     text: item instanceof app.ReceiptTradingDiscount ?
                                         ibas.strings.format(ibas.i18n.prop("receiptpayment_discount"), item.trading.description) :
                                         item.trading.description,
                                     textAlign: sap.ui.core.TextAlign.Right,
-                                }),
+                                }).addStyleClass("sapUiTinyMarginEnd"),
                                 new sap.m.Label("", {
-                                    width: "10rem",
+                                    width: "auto",
                                     textAlign: sap.ui.core.TextAlign.Right,
-                                    text: item.amount,
-                                }),
+                                }).setText(sap.extension.data.formatValue(sap.extension.data.Sum, item.amount, "string")),
                                 new sap.m.ToolbarSeparator(""),
                                 new sap.m.Button("", {
                                     icon: "sap-icon://decline",
@@ -309,7 +326,7 @@ namespace receiptpayment {
                                     press(oControlEvent: sap.ui.base.Event): void {
                                         that.fireViewEvents(that.removeReceiptTradingEvent, item);
                                     }
-                                })
+                                }).addStyleClass("sapUiTinyMarginEnd"),
                             ]
                         });
                         this.trading_box.addItem(bar);
