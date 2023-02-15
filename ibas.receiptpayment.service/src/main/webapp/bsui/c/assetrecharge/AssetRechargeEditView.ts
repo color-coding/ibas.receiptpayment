@@ -264,7 +264,8 @@ namespace receiptpayment {
                                             })
                                         }),
                                     }),
-                                ]
+                                ],
+                                sortProperty: "visOrder",
                             })]
                     });
                     let formBottom: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {

@@ -315,7 +315,8 @@ namespace receiptpayment {
                                             })
                                         }),
                                     }),
-                                ]
+                                ],
+                                sortProperty: "visOrder",
                             })
                         ]
                     });
