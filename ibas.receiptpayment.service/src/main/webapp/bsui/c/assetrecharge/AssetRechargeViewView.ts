@@ -257,7 +257,7 @@ namespace receiptpayment {
                         ],
                         sections: [
                             new sap.uxap.ObjectPageSection("", {
-                                title: ibas.i18n.prop("bo_assetrecharge_assetrechargeitems"),
+                                title: ibas.i18n.prop("bo_assetrechargeitem"),
                                 subSections: [
                                     new sap.uxap.ObjectPageSubSection("", {
                                         blocks: [

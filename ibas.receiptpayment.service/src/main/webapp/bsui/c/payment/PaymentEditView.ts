@@ -315,6 +315,24 @@ namespace receiptpayment {
                                             })
                                         }),
                                     }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_paymentitem_reference1"),
+                                        template: new sap.extension.m.Input("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "reference1",
+                                            type: new sap.extension.data.Alphanumeric()
+                                        }),
+                                        width: "12rem",
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_paymentitem_reference2"),
+                                        template: new sap.extension.m.Input("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "reference2",
+                                            type: new sap.extension.data.Alphanumeric()
+                                        }),
+                                        width: "16rem",
+                                    }),
                                 ],
                                 sortProperty: "visOrder",
                             })

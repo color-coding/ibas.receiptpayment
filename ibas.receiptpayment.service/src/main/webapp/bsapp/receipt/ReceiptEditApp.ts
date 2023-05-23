@@ -34,6 +34,7 @@ namespace receiptpayment {
                 this.view.chooseReceiptBusinessPartnerEvent = this.chooseReceiptBusinessPartner;
                 this.view.chooseReceiptContactPersonEvent = this.chooseReceiptContactPerson;
                 this.view.chooseReceiptItemModeTradeIdEvent = this.chooseReceiptItemModeTradeId;
+                this.view.turnToPaymentEvent = this.turnToPayment;
             }
             /** 视图显示后 */
             protected viewShowed(): void {
@@ -355,6 +356,29 @@ namespace receiptpayment {
                     }
                 });
             }
+            /** 转为付款事件 */
+            private turnToPayment(): void {
+                if (ibas.objects.isNull(this.editData) || this.editData.isDirty) {
+                    throw new Error(ibas.i18n.prop("shell_data_saved_first"));
+                }
+                let payment: bo.Payment = new bo.Payment();
+                payment.businessPartnerType = this.editData.businessPartnerType;
+                payment.businessPartnerCode = this.editData.businessPartnerCode;
+                payment.businessPartnerName = this.editData.businessPartnerName;
+                for (let item of this.editData.receiptItems) {
+                    let payItem: bo.IPaymentItem = payment.paymentItems.create();
+                    payItem.baseDocumentType = item.objectCode;
+                    payItem.baseDocumentEntry = item.docEntry;
+                    payItem.baseDocumentLineId = item.lineId;
+                    payItem.amount = item.amount;
+                    payItem.currency = item.currency;
+                    payItem.mode = item.mode;
+                }
+                let app: PaymentEditApp = new PaymentEditApp();
+                app.navigation = this.navigation;
+                app.viewShower = this.viewShower;
+                app.run(payment);
+            }
         }
         /** 视图-收款 */
         export interface IReceiptEditView extends ibas.IBOEditView {
@@ -378,6 +402,8 @@ namespace receiptpayment {
             chooseReceiptItemModeTradeIdEvent: Function;
             /** 显示显示收款单据 */
             showReceiptDocuments(datas: ibas.IServiceAgent[]): void;
+            /** 转为付款事件 */
+            turnToPaymentEvent: Function;
         }
         /** 收款编辑服务映射 */
         export class ReceiptEditServiceMapping extends ibas.BOEditServiceMapping {

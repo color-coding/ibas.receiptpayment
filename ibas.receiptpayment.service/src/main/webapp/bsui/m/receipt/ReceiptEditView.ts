@@ -24,6 +24,8 @@ namespace receiptpayment {
                 chooseReceiptContactPersonEvent: Function;
                 /** 选择收款方式项目 */
                 chooseReceiptItemModeTradeIdEvent: Function;
+                /** 转为付款事件 */
+                turnToPaymentEvent: Function;
                 draw(): any {
                     let that: this = this;
                     return this.page = new sap.extension.uxap.DataObjectPageLayout("", {

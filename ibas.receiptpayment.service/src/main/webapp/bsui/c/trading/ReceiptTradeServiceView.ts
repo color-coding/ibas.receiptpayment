@@ -49,8 +49,10 @@ namespace receiptpayment {
                         this.list.addItem(
                             new sap.m.FeedListItem("", {
                                 icon: item.trading.icon,
-                                text: ibas.strings.format("{0} {1}", item.trading.description, item.trading.id),
-                                info: ibas.strings.format("{0} {1}", item.amount, item.currency),
+                                text: ibas.strings.format("{0} {1}",
+                                    item.trading.description, item.trading.id),
+                                info: ibas.strings.format("{0} {1}",
+                                    sap.extension.data.formatValue(sap.extension.data.Sum, item.amount, "string"), item.currency),
                             })
                         );
                     }

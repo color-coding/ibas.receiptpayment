@@ -43,7 +43,7 @@
     <Property Name="OrderType" Description="单据类型" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrderType"/>
   </Model>
   <Model Name="ReceiptItem" Description="收款-项目" ModelType="DocumentLine" Mapped="${Company}_RP_RPT1">
-    <Property Name="DocEntry" Description="编码" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="DocEntry" PrimaryKey="Yes"/>
+    <Property Name="DocEntry" Description="凭证编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="DocEntry" PrimaryKey="Yes"/>
     <Property Name="LineId" Description="行号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="LineId" PrimaryKey="Yes"/>
     <Property Name="VisOrder" Description="显示顺序" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="VisOrder"/>
     <Property Name="ObjectCode" Description="类型" DataType="Alphanumeric" DataSubType="Default" EditSize="30" Mapped="Object"/>

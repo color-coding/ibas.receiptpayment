@@ -134,6 +134,20 @@ namespace receiptpayment {
                                             new sap.m.Label("", {
                                                 text: ibas.i18n.prop("receiptpaymentt_choosable_paid_method"),
                                             }).addStyleClass("sapUiTinyMarginBegin"),
+                                            new sap.m.ToolbarSpacer(),
+                                            new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_ordertype") }),
+                                            this.type_select = new sap.extension.m.PropertySelect("", {
+                                                dataInfo: {
+                                                    code: bo.Receipt.BUSINESS_OBJECT_CODE,
+                                                },
+                                                propertyName: "orderType",
+                                                width: "8rem",
+                                            }).bindProperty("bindingValue", {
+                                                path: "orderType",
+                                                type: new sap.extension.data.Alphanumeric({
+                                                    maxLength: 8
+                                                })
+                                            }).addStyleClass("sapUiSmallMarginBegin"),
                                         ]
                                     }),
                                     this.menthod_box = new sap.extension.f.GridList("", {
@@ -194,7 +208,7 @@ namespace receiptpayment {
                                 text: ibas.i18n.prop("shell_confirm"),
                                 type: sap.m.ButtonType.Transparent,
                                 press: function (): void {
-                                    that.fireViewEvents(that.confirmEvent);
+                                    that.fireViewEvents(that.confirmEvent, that.type_select.getSelectedKey());
                                 }
                             }),
                             new sap.m.Button("", {
@@ -212,6 +226,7 @@ namespace receiptpayment {
                 private paid_input: sap.m.Input;
                 private menthod_box: sap.extension.f.GridList;
                 private trading_box: sap.m.VBox;
+                private type_select: sap.m.Select;
                 /** 显示业务伙伴 */
                 showBusinessPartner(data: app.BusinessPartner): void {
                     this.bp_bar.setModel(new sap.ui.model.json.JSONModel(data));

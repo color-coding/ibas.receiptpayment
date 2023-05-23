@@ -229,7 +229,7 @@ namespace receiptpayment {
                 this.view.showReceiptTradings(this.receiptTradings, paid);
             }
             /** 确定 */
-            private confirm(): void {
+            private confirm(orderType?: string): void {
                 if (ibas.objects.isNull(this.receiptTradings) || this.receiptTradings.length === 0) {
                     throw new Error(ibas.i18n.prop("receiptpaymentt_please_paid"));
                 }
@@ -239,6 +239,9 @@ namespace receiptpayment {
                 receipt.businessPartnerName = this.businessPartner.name;
                 if (!ibas.strings.isEmpty(this.target.documentSummary)) {
                     receipt.remarks = this.target.documentSummary;
+                }
+                if (!ibas.strings.isEmpty(orderType)) {
+                    receipt.orderType = orderType;
                 }
                 for (let item of this.receiptTradings) {
                     let receiptItem: bo.ReceiptItem = receipt.receiptItems.create();

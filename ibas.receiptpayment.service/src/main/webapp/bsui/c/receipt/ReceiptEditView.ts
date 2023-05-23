@@ -26,6 +26,8 @@ namespace receiptpayment {
                 chooseReceiptContactPersonEvent: Function;
                 /** 选择收款方式项目 */
                 chooseReceiptItemModeTradeIdEvent: Function;
+                /** 转为付款事件 */
+                turnToPaymentEvent: Function;
 
                 /** 绘制视图 */
                 draw(): any {
@@ -315,6 +317,24 @@ namespace receiptpayment {
                                             })
                                         }),
                                     }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_receiptitem_reference1"),
+                                        template: new sap.extension.m.Input("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "reference1",
+                                            type: new sap.extension.data.Alphanumeric()
+                                        }),
+                                        width: "12rem",
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_receiptitem_reference2"),
+                                        template: new sap.extension.m.Input("", {
+                                        }).bindProperty("bindingValue", {
+                                            path: "reference2",
+                                            type: new sap.extension.data.Alphanumeric()
+                                        }),
+                                        width: "16rem",
+                                    }),
                                 ],
                                 sortProperty: "visOrder",
                             })
@@ -449,6 +469,29 @@ namespace receiptpayment {
                                                         multiple: false
                                                     });
                                                 }
+                                            }),
+                                        ],
+                                    })
+                                }),
+                                new sap.m.ToolbarSeparator(),
+                                new sap.extension.m.MenuButton("", {
+                                    autoHide: true,
+                                    text: ibas.i18n.prop("shell_quick_to"),
+                                    icon: "sap-icon://generate-shortcut",
+                                    type: sap.m.ButtonType.Transparent,
+                                    menuPosition: sap.ui.core.Popup.Dock.EndBottom,
+                                    menu: new sap.m.Menu("", {
+                                        items: [
+                                            new sap.m.MenuItem("", {
+                                                text: ibas.i18n.prop("bo_payment"),
+                                                icon: "sap-icon://doc-attachment",
+                                                press: function (): void {
+                                                    that.fireViewEvents(that.turnToPaymentEvent);
+                                                },
+                                                visible: shell.app.privileges.canRun({
+                                                    id: app.PaymentFunc.FUNCTION_ID,
+                                                    name: app.PaymentFunc.FUNCTION_NAME,
+                                                })
                                             }),
                                         ],
                                     })

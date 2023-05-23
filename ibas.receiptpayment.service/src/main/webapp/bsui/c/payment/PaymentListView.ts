@@ -32,7 +32,11 @@ namespace receiptpayment {
                         columns: [
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_payment_docentry"),
-                                template: new sap.extension.m.Text("", {
+                                template: new sap.extension.m.DataLink("", {
+                                    objectCode: {
+                                        path: "objectCode",
+                                        type: new sap.extension.data.Alphanumeric(),
+                                    }
                                 }).bindProperty("bindingValue", {
                                     path: "docEntry",
                                     type: new sap.extension.data.Numeric()
@@ -75,7 +79,28 @@ namespace receiptpayment {
                             }),
                             new sap.extension.table.DataColumn("", {
                                 label: ibas.i18n.prop("bo_payment_businesspartnercode"),
-                                template: new sap.extension.m.Text("", {
+                                template: new sap.extension.m.Link("", {
+                                    press(): void {
+                                        let data: any = this.getBindingContext().getObject();
+                                        if (data instanceof bo.Payment && !ibas.strings.isEmpty(data.businessPartnerCode)) {
+                                            if (data.businessPartnerType === businesspartner.bo.emBusinessPartnerType.CUSTOMER) {
+                                                ibas.servicesManager.runLinkService({
+                                                    boCode: businesspartner.bo.Customer.BUSINESS_OBJECT_CODE,
+                                                    linkValue: data.businessPartnerCode,
+                                                });
+                                            } else if (data.businessPartnerType === businesspartner.bo.emBusinessPartnerType.SUPPLIER) {
+                                                ibas.servicesManager.runLinkService({
+                                                    boCode: businesspartner.bo.Supplier.BUSINESS_OBJECT_CODE,
+                                                    linkValue: data.businessPartnerCode,
+                                                });
+                                            } else if (data.businessPartnerType === businesspartner.bo.emBusinessPartnerType.LEAD) {
+                                                ibas.servicesManager.runLinkService({
+                                                    boCode: businesspartner.bo.Lead.BUSINESS_OBJECT_CODE,
+                                                    linkValue: data.businessPartnerCode,
+                                                });
+                                            }
+                                        }
+                                    }
                                 }).bindProperty("bindingValue", {
                                     path: "businessPartnerCode",
                                     type: new sap.extension.data.Alphanumeric()

@@ -254,7 +254,7 @@ namespace receiptpayment {
                         ],
                         sections: [
                             new sap.uxap.ObjectPageSection("", {
-                                title: ibas.i18n.prop("bo_payment_paymentitems"),
+                                title: ibas.i18n.prop("bo_paymentitem"),
                                 subSections: [
                                     new sap.uxap.ObjectPageSubSection("", {
                                         blocks: [
@@ -302,13 +302,6 @@ namespace receiptpayment {
                                                             type: new sap.extension.data.Alphanumeric(),
                                                         }
                                                     }),
-                                                    new sap.extension.m.OrganizationObjectAttribute("", {
-                                                        title: ibas.i18n.prop("bo_payment_organization"),
-                                                        bindingValue: {
-                                                            path: "organization",
-                                                            type: new sap.extension.data.Alphanumeric(),
-                                                        }
-                                                    }),
                                                     new sap.extension.m.RepositoryObjectAttribute("", {
                                                         title: ibas.i18n.prop("bo_payment_project"),
                                                         bindingValue: {
@@ -321,6 +314,13 @@ namespace receiptpayment {
                                                             key: accounting.bo.Project.PROPERTY_CODE_NAME,
                                                             text: accounting.bo.Project.PROPERTY_NAME_NAME,
                                                         },
+                                                    }),
+                                                    new sap.extension.m.OrganizationObjectAttribute("", {
+                                                        title: ibas.i18n.prop("bo_payment_organization"),
+                                                        bindingValue: {
+                                                            path: "organization",
+                                                            type: new sap.extension.data.Alphanumeric(),
+                                                        }
                                                     }),
                                                 ]
                                             }),
