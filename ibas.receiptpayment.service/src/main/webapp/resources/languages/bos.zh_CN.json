@@ -2,7 +2,7 @@
     {
         "bo_payment": "付款",
         "bo_payment_docentry": "凭证编号",
-        "bo_payment_docnum": "期间编号",
+        "bo_payment_docnum": "单据编码",
         "bo_payment_period": "期间",
         "bo_payment_canceled": "取消",
         "bo_payment_status": "状态",
@@ -86,7 +86,7 @@
     {
         "bo_receipt": "收款",
         "bo_receipt_docentry": "凭证编号",
-        "bo_receipt_docnum": "期间编号",
+        "bo_receipt_docnum": "单据编码",
         "bo_receipt_period": "期间",
         "bo_receipt_canceled": "取消",
         "bo_receipt_status": "状态",
@@ -170,7 +170,7 @@
     {
         "bo_assetrecharge": "资产充值",
         "bo_assetrecharge_docentry": "凭证编号",
-        "bo_assetrecharge_docnum": "期间编号",
+        "bo_assetrecharge_docnum": "单据编码",
         "bo_assetrecharge_period": "期间",
         "bo_assetrecharge_canceled": "取消",
         "bo_assetrecharge_status": "状态",

@@ -14,8 +14,8 @@ namespace receiptpayment {
             /** 凭证编号 */
             docEntry: number;
 
-            /** 期间编号 */
-            docNum: number;
+            /** 单据编码 */
+            docNum: string;
 
             /** 期间 */
             period: number;
