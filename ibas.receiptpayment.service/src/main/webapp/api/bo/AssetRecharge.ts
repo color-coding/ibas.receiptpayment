@@ -85,6 +85,8 @@ namespace receiptpayment {
             times: number;
             /** 单据类型 */
             orderType: string;
+            /** 分支 */
+            branch: string;
             /** 资产充值-项目集合 */
             assetRechargeItems: IAssetRechargeItems;
         }

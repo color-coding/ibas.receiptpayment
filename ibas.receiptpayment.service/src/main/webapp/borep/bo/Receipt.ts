@@ -427,23 +427,35 @@ namespace receiptpayment {
             static PROPERTY_PROJECT_NAME: string = "Project";
             /** 获取-项目代码 */
             get project(): string {
-                return this.getProperty<string>(Payment.PROPERTY_PROJECT_NAME);
+                return this.getProperty<string>(Receipt.PROPERTY_PROJECT_NAME);
             }
             /** 设置-项目代码 */
             set project(value: string) {
-                this.setProperty(Payment.PROPERTY_PROJECT_NAME, value);
+                this.setProperty(Receipt.PROPERTY_PROJECT_NAME, value);
             }
 
             /** 映射的属性名称-单据类型 */
             static PROPERTY_ORDERTYPE_NAME: string = "OrderType";
             /** 获取-单据类型 */
             get orderType(): string {
-                return this.getProperty<string>(Payment.PROPERTY_ORDERTYPE_NAME);
+                return this.getProperty<string>(Receipt.PROPERTY_ORDERTYPE_NAME);
             }
             /** 设置-单据类型 */
             set orderType(value: string) {
-                this.setProperty(Payment.PROPERTY_ORDERTYPE_NAME, value);
+                this.setProperty(Receipt.PROPERTY_ORDERTYPE_NAME, value);
             }
+
+            /** 映射的属性名称-分支 */
+            static PROPERTY_BRANCH_NAME: string = "Branch";
+            /** 获取-分支 */
+            get branch(): string {
+                return this.getProperty<string>(Receipt.PROPERTY_BRANCH_NAME);
+            }
+            /** 设置-分支 */
+            set branch(value: string) {
+                this.setProperty(Receipt.PROPERTY_BRANCH_NAME, value);
+            }
+
 
             /** 映射的属性名称-收款-项目集合 */
             static PROPERTY_RECEIPTITEMS_NAME: string = "ReceiptItems";

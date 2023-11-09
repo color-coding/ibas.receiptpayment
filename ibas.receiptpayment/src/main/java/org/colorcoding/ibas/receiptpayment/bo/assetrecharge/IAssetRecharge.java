@@ -570,6 +570,20 @@ public interface IAssetRecharge extends IBODocument {
 	void setOrderType(String value);
 
 	/**
+	 * 获取-分支
+	 * 
+	 * @return 值
+	 */
+	String getBranch();
+
+	/**
+	 * 设置-分支
+	 * 
+	 * @param value 值
+	 */
+	void setBranch(String value);
+
+	/**
 	 * 获取-资产充值-项目集合
 	 * 
 	 * @return 值

@@ -605,6 +605,20 @@ public interface IPayment extends IBODocument {
 	void setOrderType(String value);
 
 	/**
+	 * 获取-分支
+	 * 
+	 * @return 值
+	 */
+	String getBranch();
+
+	/**
+	 * 设置-分支
+	 * 
+	 * @param value 值
+	 */
+	void setBranch(String value);
+
+	/**
 	 * 获取-付款-项目集合
 	 * 
 	 * @return 值

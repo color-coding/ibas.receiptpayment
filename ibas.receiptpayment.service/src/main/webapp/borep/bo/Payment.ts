@@ -445,6 +445,17 @@ namespace receiptpayment {
                 this.setProperty(Payment.PROPERTY_ORDERTYPE_NAME, value);
             }
 
+            /** 映射的属性名称-分支 */
+            static PROPERTY_BRANCH_NAME: string = "Branch";
+            /** 获取-分支 */
+            get branch(): string {
+                return this.getProperty<string>(Payment.PROPERTY_BRANCH_NAME);
+            }
+            /** 设置-分支 */
+            set branch(value: string) {
+                this.setProperty(Payment.PROPERTY_BRANCH_NAME, value);
+            }
+
             /** 映射的属性名称-付款-项目集合 */
             static PROPERTY_PAYMENTITEMS_NAME: string = "PaymentItems";
             /** 获取-付款-项目集合 */

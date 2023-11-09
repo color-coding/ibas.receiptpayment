@@ -128,6 +128,9 @@ namespace receiptpayment {
             /** 单据类型 */
             orderType: string;
 
+            /** 分支 */
+            branch: string;
+
             /** 付款-项目集合 */
             paymentItems: IPaymentItems;
 
