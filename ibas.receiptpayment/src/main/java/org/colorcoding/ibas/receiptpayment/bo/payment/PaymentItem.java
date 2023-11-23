@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.colorcoding.ibas.accounting.logic.IPropertyValueGetter;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
@@ -25,8 +26,10 @@ import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
+import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
 import org.colorcoding.ibas.businesspartner.logic.IBusinessPartnerAssetIncreasesContract;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
+import org.colorcoding.ibas.receiptpayment.data.Ledgers;
 import org.colorcoding.ibas.receiptpayment.logic.IPaymentPaidTotalContract;
 
 /**
@@ -35,8 +38,8 @@ import org.colorcoding.ibas.receiptpayment.logic.IPaymentPaidTotalContract;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(name = PaymentItem.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
-public class PaymentItem extends BusinessObject<PaymentItem>
-		implements IPaymentItem, IBusinessLogicsHost, IBOTagDeleted, IBOTagCanceled, IBOUserFields {
+public class PaymentItem extends BusinessObject<PaymentItem> implements IPaymentItem, IBusinessLogicsHost,
+		IBOTagDeleted, IBOTagCanceled, IBOUserFields, IPropertyValueGetter {
 	/**
 	 * 序列化版本标记
 	 */
@@ -1237,5 +1240,37 @@ public class PaymentItem extends BusinessObject<PaymentItem>
 			});
 		}
 		return contracts.toArray(new IBusinessLogicContract[] {});
+	}
+
+	@Override
+	public Object getValue(String property) {
+		switch (property) {
+		case Ledgers.CONDITION_PROPERTY_OBJECTCODE:
+			return this.parent.getObjectCode();
+		case Ledgers.CONDITION_PROPERTY_DATAOWNER:
+			return this.parent.getDataOwner();
+		case Ledgers.CONDITION_PROPERTY_ORGANIZATION:
+			return this.parent.getOrganization();
+		case Ledgers.CONDITION_PROPERTY_ORDERTYPE:
+			return this.parent.getOrderType();
+		case Ledgers.CONDITION_PROPERTY_PROJECT:
+			return this.parent.getProject();
+		case Ledgers.CONDITION_PROPERTY_BRANCH:
+			return this.parent.getBranch();
+		case Ledgers.CONDITION_PROPERTY_CUSTOMER:
+			return this.parent.getBusinessPartnerType() == emBusinessPartnerType.CUSTOMER
+					? this.parent.getBusinessPartnerCode()
+					: null;
+		case Ledgers.CONDITION_PROPERTY_SUPPLIER:
+			return this.parent.getBusinessPartnerType() == emBusinessPartnerType.SUPPLIER
+					? this.parent.getBusinessPartnerCode()
+					: null;
+		case Ledgers.CONDITION_PROPERTY_PAYMENTMETHOD:
+			return this.getMode();
+		case Ledgers.CONDITION_PROPERTY_TRADEID:
+			return this.getTradeId();
+		default:
+			return null;
+		}
 	}
 }
