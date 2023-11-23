@@ -131,6 +131,9 @@ namespace receiptpayment {
             /** 分支 */
             branch: string;
 
+            /** 预收款 */
+            downPayment: ibas.emYesNo;
+
             /** 收款-项目集合 */
             receiptItems: IReceiptItems;
 

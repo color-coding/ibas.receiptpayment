@@ -10,6 +10,9 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.colorcoding.ibas.accounting.logic.IJournalEntryCreationContract;
+import org.colorcoding.ibas.accounting.logic.JournalEntryContent;
+import org.colorcoding.ibas.accounting.logic.JournalEntryContent.Category;
 import org.colorcoding.ibas.bobas.approval.IApprovalData;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOSeriesKey;
@@ -40,6 +43,8 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSumElements;
 import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
 import org.colorcoding.ibas.businesspartner.logic.ICustomerCheckContract;
 import org.colorcoding.ibas.businesspartner.logic.ISupplierCheckContract;
+import org.colorcoding.ibas.materials.data.Ledgers;
+import org.colorcoding.ibas.purchase.bo.downpaymentrequest.DownPaymentRequest;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
 
 /**
@@ -1373,6 +1378,37 @@ public class Payment extends BusinessObject<Payment> implements IPayment, IDataO
 	}
 
 	/**
+	 * 属性名称-预付款
+	 */
+	private static final String PROPERTY_DOWNPAYMENT_NAME = "DownPayment";
+
+	/**
+	 * 预付款 属性
+	 */
+	@DbField(name = "DownPayment", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<emYesNo> PROPERTY_DOWNPAYMENT = registerProperty(PROPERTY_DOWNPAYMENT_NAME,
+			emYesNo.class, MY_CLASS);
+
+	/**
+	 * 获取-预付款
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_DOWNPAYMENT_NAME)
+	public final emYesNo getDownPayment() {
+		return this.getProperty(PROPERTY_DOWNPAYMENT);
+	}
+
+	/**
+	 * 设置-预付款
+	 * 
+	 * @param value 值
+	 */
+	public final void setDownPayment(emYesNo value) {
+		this.setProperty(PROPERTY_DOWNPAYMENT, value);
+	}
+
+	/**
 	 * 属性名称-付款-项目
 	 */
 	private static final String PROPERTY_PAYMENTITEMS_NAME = "PaymentItems";
@@ -1447,7 +1483,7 @@ public class Payment extends BusinessObject<Payment> implements IPayment, IDataO
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-		List<IBusinessLogicContract> contracts = new ArrayList<>(1);
+		List<IBusinessLogicContract> contracts = new ArrayList<>(2);
 		if (this.getBusinessPartnerType() == emBusinessPartnerType.CUSTOMER) {
 			contracts.add(new ICustomerCheckContract() {
 				@Override
@@ -1473,6 +1509,89 @@ public class Payment extends BusinessObject<Payment> implements IPayment, IDataO
 				}
 			});
 		}
+		// 创建分录
+		contracts.add(new IJournalEntryCreationContract() {
+
+			@Override
+			public String getIdentifiers() {
+				return Payment.this.toString();
+			}
+
+			@Override
+			public String getBranch() {
+				return Payment.this.getBranch();
+			}
+
+			@Override
+			public String getBaseDocumentType() {
+				return Payment.this.getObjectCode();
+			}
+
+			@Override
+			public Integer getBaseDocumentEntry() {
+				return Payment.this.getDocEntry();
+			}
+
+			@Override
+			public DateTime getDocumentDate() {
+				return Payment.this.getDocumentDate();
+			}
+
+			@Override
+			public String getReference1() {
+				return Payment.this.getReference1();
+			}
+
+			@Override
+			public String getReference2() {
+				return Payment.this.getReference2();
+			}
+
+			@Override
+			public JournalEntryContent[] getContents() {
+				JournalEntryContent jeContent;
+				List<JournalEntryContent> jeContents = new ArrayList<>();
+				String DownPaymentRequestCode = MyConfiguration.applyVariables(DownPaymentRequest.BUSINESS_OBJECT_CODE);
+				for (IPaymentItem line : Payment.this.getPaymentItems()) {
+					if (DownPaymentRequestCode.equals(line.getBaseDocumentType())
+							|| Payment.this.getDownPayment() == emYesNo.YES) {
+						/** 基于收款申请 或 预付款 **/
+						// 应收预付款科目
+						jeContent = new JournalEntryContent(line);
+						jeContent.setCategory(Category.Debit);
+						jeContent.setLedger(Ledgers.LEDGER_PURCHASE_DOWN_PAYMENT_PAYABLES);
+						jeContent.setAmount(line.getAmount());// 总计
+						jeContent.setCurrency(line.getCurrency());
+						jeContents.add(jeContent);
+						// 收款方式科目
+						jeContent = new JournalEntryContent(line);
+						jeContent.setCategory(Category.Credit);
+						jeContent.setLedger(Ledgers.LEDGER_PAYMENT_PAYMENT_METHOD_ACCOUNT);
+						jeContent.setAmount(line.getAmount());// 总计
+						jeContent.setCurrency(line.getCurrency());
+						jeContents.add(jeContent);
+					} else {
+						/** 不基于单据 **/
+						// 应收款科目
+						jeContent = new JournalEntryContent(line);
+						jeContent.setCategory(Category.Debit);
+						jeContent.setLedger(Ledgers.LEDGER_PURCHASE_DOMESTIC_ACCOUNTS_PAYABLE);
+						jeContent.setAmount(line.getAmount());// 总计
+						jeContent.setCurrency(line.getCurrency());
+						jeContents.add(jeContent);
+						// 收款方式科目
+						jeContent = new JournalEntryContent(line);
+						jeContent.setCategory(Category.Credit);
+						jeContent.setLedger(Ledgers.LEDGER_PAYMENT_PAYMENT_METHOD_ACCOUNT);
+						jeContent.setAmount(line.getAmount());// 总计
+						jeContent.setCurrency(line.getCurrency());
+						jeContents.add(jeContent);
+					}
+				}
+				return jeContents.toArray(new JournalEntryContent[] {});
+			}
+		});
+
 		return contracts.toArray(new IBusinessLogicContract[] {});
 	}
 }

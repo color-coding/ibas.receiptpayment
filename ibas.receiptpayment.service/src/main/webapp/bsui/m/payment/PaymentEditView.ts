@@ -379,11 +379,12 @@ namespace receiptpayment {
                                                         path: "deliveryDate",
                                                         type: new sap.extension.data.Date()
                                                     }),
-                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_postingdate") }),
-                                                    new sap.extension.m.DatePicker("", {
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_downpayment") }),
+                                                    new sap.extension.m.EnumSelect("", {
+                                                        enumType: ibas.emYesNo
                                                     }).bindProperty("bindingValue", {
-                                                        path: "postingDate",
-                                                        type: new sap.extension.data.Date()
+                                                        path: "downPayment",
+                                                        type: new sap.extension.data.YesNo(),
                                                     }),
                                                 ]
                                             }).addStyleClass("sapUxAPObjectPageSubSectionAlignContent"),

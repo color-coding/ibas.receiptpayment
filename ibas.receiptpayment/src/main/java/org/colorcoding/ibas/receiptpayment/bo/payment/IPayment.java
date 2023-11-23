@@ -619,6 +619,20 @@ public interface IPayment extends IBODocument {
 	void setBranch(String value);
 
 	/**
+	 * 获取-预付款
+	 * 
+	 * @return 值
+	 */
+	emYesNo getDownPayment();
+
+	/**
+	 * 设置-预付款
+	 * 
+	 * @param value 值
+	 */
+	void setDownPayment(emYesNo value);
+
+	/**
 	 * 获取-付款-项目集合
 	 * 
 	 * @return 值

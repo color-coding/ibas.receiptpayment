@@ -619,6 +619,20 @@ public interface IReceipt extends IBODocument {
 	void setBranch(String value);
 
 	/**
+	 * 获取-预收款
+	 * 
+	 * @return 值
+	 */
+	emYesNo getDownPayment();
+
+	/**
+	 * 设置-预收款
+	 * 
+	 * @param value 值
+	 */
+	void setDownPayment(emYesNo value);
+
+	/**
 	 * 获取-收款-项目集合
 	 * 
 	 * @return 值

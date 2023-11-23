@@ -45,10 +45,14 @@ namespace receiptpayment {
                 if (boName === bo.Receipt.name) {
                     if (property === bo.Receipt.PROPERTY_BUSINESSPARTNERTYPE_NAME) {
                         return ibas.enums.toString(businesspartner.bo.emBusinessPartnerType, value);
+                    } else if (property === bo.Receipt.PROPERTY_DOWNPAYMENT_NAME) {
+                        return ibas.enums.toString(ibas.emYesNo, value);
                     }
                 } else if (boName === bo.Payment.name) {
                     if (property === bo.Payment.PROPERTY_BUSINESSPARTNERTYPE_NAME) {
                         return ibas.enums.toString(businesspartner.bo.emBusinessPartnerType, value);
+                    } else if (property === bo.Payment.PROPERTY_DOWNPAYMENT_NAME) {
+                        return ibas.enums.toString(ibas.emYesNo, value);
                     }
                 } else if (boName === bo.AssetRecharge.name) {
                     if (property === bo.AssetRecharge.PROPERTY_BUSINESSPARTNERTYPE_NAME) {
@@ -69,10 +73,14 @@ namespace receiptpayment {
                 if (boName === bo.Receipt.name) {
                     if (property === bo.Receipt.PROPERTY_BUSINESSPARTNERTYPE_NAME) {
                         return ibas.enums.valueOf(businesspartner.bo.emBusinessPartnerType, value);
+                    } else if (property === bo.Receipt.PROPERTY_DOWNPAYMENT_NAME) {
+                        return ibas.enums.valueOf(ibas.emYesNo, value);
                     }
                 } else if (boName === bo.Payment.name) {
                     if (property === bo.Payment.PROPERTY_BUSINESSPARTNERTYPE_NAME) {
                         return ibas.enums.valueOf(businesspartner.bo.emBusinessPartnerType, value);
+                    } else if (property === bo.Payment.PROPERTY_DOWNPAYMENT_NAME) {
+                        return ibas.enums.valueOf(ibas.emYesNo, value);
                     }
                 } else if (boName === bo.AssetRecharge.name) {
                     if (property === bo.AssetRecharge.PROPERTY_BUSINESSPARTNERTYPE_NAME) {

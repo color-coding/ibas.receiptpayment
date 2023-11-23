@@ -228,12 +228,6 @@ namespace receiptpayment {
                                                         path: "deliveryDate",
                                                         type: new sap.extension.data.Date()
                                                     }),
-                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_postingdate") }),
-                                                    new sap.extension.m.Text("", {
-                                                    }).bindProperty("bindingValue", {
-                                                        path: "postingDate",
-                                                        type: new sap.extension.data.Date()
-                                                    }),
                                                 ]
                                             }).addStyleClass("sapUxAPObjectPageSubSectionAlignContent"),
                                         ]

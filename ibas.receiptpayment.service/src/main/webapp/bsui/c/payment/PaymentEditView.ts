@@ -26,6 +26,8 @@ namespace receiptpayment {
                 choosePaymentContactPersonEvent: Function;
                 /** 选择付款方式项目 */
                 choosePaymentItemModeTradeIdEvent: Function;
+                /** 选择合同 */
+                chooseAgreementsEvent: Function;
 
                 /** 绘制视图 */
                 draw(): any {
@@ -171,11 +173,12 @@ namespace receiptpayment {
                                 path: "deliveryDate",
                                 type: new sap.extension.data.Date()
                             }),
-                            new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_postingdate") }),
-                            new sap.extension.m.DatePicker("", {
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_payment_downpayment") }),
+                            new sap.extension.m.EnumSelect("", {
+                                enumType: ibas.emYesNo
                             }).bindProperty("bindingValue", {
-                                path: "postingDate",
-                                type: new sap.extension.data.Date()
+                                path: "downPayment",
+                                type: new sap.extension.data.YesNo(),
                             }),
                         ]
                     });
@@ -241,30 +244,43 @@ namespace receiptpayment {
                                         }),
                                     }),
                                     new sap.extension.table.DataColumn("", {
-                                        label: ibas.i18n.prop("bo_paymentitem_basedocumenttype"),
-                                        template: new sap.extension.m.Text("", {
+                                        label: ibas.i18n.prop("bo_paymentitem_basedocument"),
+                                        template: new sap.extension.m.DataLink("", {
+                                            press(this: sap.f.cards.Header): void {
+                                                let data: any = this.getBindingContext().getObject();
+                                                if (data instanceof bo.PaymentItem && data.baseDocumentEntry > 0) {
+                                                    ibas.servicesManager.runLinkService({
+                                                        boCode: data.baseDocumentType,
+                                                        linkValue: data.baseDocumentEntry.toString()
+                                                    });
+                                                }
+                                            }
                                         }).bindProperty("bindingValue", {
-                                            path: "baseDocumentType",
-                                            formatter(data: any): any {
-                                                return ibas.businessobjects.describe(data);
+                                            parts: [
+                                                {
+                                                    path: "baseDocumentType",
+                                                    type: new sap.extension.data.Alphanumeric({
+                                                        maxLength: 30
+                                                    }),
+                                                },
+                                                {
+                                                    path: "baseDocumentEntry",
+                                                    type: new sap.extension.data.Numeric(),
+                                                },
+                                                {
+                                                    path: "baseDocumentLineId",
+                                                    type: new sap.extension.data.Numeric(),
+                                                }
+                                            ],
+                                            formatter(type: string, entry: number, lineId: number): string {
+                                                if (ibas.objects.isNull(type) || ibas.objects.isNull(entry)) {
+                                                    return "";
+                                                }
+                                                return ibas.businessobjects.describe(ibas.strings.format("{[{0}].[DocEntry = {1}]}", type, entry))
+                                                    + (lineId > 0 ? ibas.strings.format(", {0}-{1}", ibas.i18n.prop("bo_paymentitem_lineid"), lineId) : "");
                                             }
                                         }),
-                                    }),
-                                    new sap.extension.table.DataColumn("", {
-                                        label: ibas.i18n.prop("bo_paymentitem_basedocumententry"),
-                                        template: new sap.extension.m.Text("", {
-                                        }).bindProperty("bindingValue", {
-                                            path: "baseDocumentEntry",
-                                            type: new sap.extension.data.Numeric()
-                                        }),
-                                    }),
-                                    new sap.extension.table.DataColumn("", {
-                                        label: ibas.i18n.prop("bo_paymentitem_basedocumentlineid"),
-                                        template: new sap.extension.m.Text("", {
-                                        }).bindProperty("bindingValue", {
-                                            path: "baseDocumentLineId",
-                                            type: new sap.extension.data.Numeric()
-                                        }),
+                                        width: "16rem",
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_paymentitem_mode"),
@@ -276,6 +292,7 @@ namespace receiptpayment {
                                                 maxLength: 8
                                             })
                                         }),
+                                        width: "12rem",
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_paymentitem_amount"),

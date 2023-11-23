@@ -26,6 +26,10 @@ namespace receiptpayment {
                                 width: "5rem",
                             }),
                             new sap.extension.m.Column("", {
+                                header: ibas.i18n.prop("bo_receiptitem_basedocument"),
+                                width: "16rem",
+                            }),
+                            new sap.extension.m.Column("", {
                                 header: ibas.i18n.prop("bo_receiptitem_mode"),
                             }),
                             new sap.extension.m.Column("", {
@@ -49,6 +53,41 @@ namespace receiptpayment {
                                         bindingValue: {
                                             path: "lineId",
                                             type: new sap.extension.data.Numeric(),
+                                        }
+                                    }),
+                                    new sap.extension.m.ObjectAttribute("", {
+                                        bindingValue: {
+                                            parts: [
+                                                {
+                                                    path: "baseDocumentType",
+                                                    type: new sap.extension.data.Alphanumeric(),
+                                                },
+                                                {
+                                                    path: "baseDocumentEntry",
+                                                    type: new sap.extension.data.Numeric(),
+                                                },
+                                                {
+                                                    path: "baseDocumentLineId",
+                                                    type: new sap.extension.data.Numeric(),
+                                                }
+                                            ],
+                                            formatter(type: string, entry: number, lineId: number): string {
+                                                if (ibas.objects.isNull(type) || ibas.objects.isNull(entry)) {
+                                                    return "";
+                                                }
+                                                return ibas.businessobjects.describe(ibas.strings.format("{[{0}].[DocEntry = {1}]}", type, entry))
+                                                    + (lineId > 0 ? ibas.strings.format(", {0}-{1}", ibas.i18n.prop("bo_receiptitem_lineid"), lineId) : "");
+                                            }
+                                        },
+                                        showValueLink: true,
+                                        valueLinkRequest: function (event: sap.ui.base.Event): void {
+                                            let data: any = this.getBindingContext().getObject();
+                                            if (data instanceof bo.ReceiptItem && data.baseDocumentEntry > 0) {
+                                                ibas.servicesManager.runLinkService({
+                                                    boCode: data.baseDocumentType,
+                                                    linkValue: data.baseDocumentEntry.toString()
+                                                });
+                                            }
                                         }
                                     }),
                                     new sap.extension.m.ObjectAttribute("", {
@@ -212,6 +251,13 @@ namespace receiptpayment {
                             new sap.ui.layout.VerticalLayout("", {
                                 width: "30%",
                                 content: [
+                                    new sap.extension.m.ObjectAttribute("", {
+                                        title: ibas.i18n.prop("bo_receipt_downpayment"),
+                                        bindingValue: {
+                                            path: "downPayment",
+                                            type: new sap.extension.data.YesNo(true),
+                                        }
+                                    }),
                                     new sap.extension.m.PropertyObjectAttribute("", {
                                         title: ibas.i18n.prop("bo_receipt_ordertype"),
                                         bindingValue: {
@@ -239,13 +285,6 @@ namespace receiptpayment {
                                         title: ibas.i18n.prop("bo_receipt_deliverydate"),
                                         bindingValue: {
                                             path: "deliveryDate",
-                                            type: new sap.extension.data.Date(),
-                                        }
-                                    }),
-                                    new sap.extension.m.ObjectAttribute("", {
-                                        title: ibas.i18n.prop("bo_receipt_postingdate"),
-                                        bindingValue: {
-                                            path: "postingDate",
                                             type: new sap.extension.data.Date(),
                                         }
                                     }),

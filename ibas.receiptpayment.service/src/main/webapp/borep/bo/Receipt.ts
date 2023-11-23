@@ -456,6 +456,17 @@ namespace receiptpayment {
                 this.setProperty(Receipt.PROPERTY_BRANCH_NAME, value);
             }
 
+            /** 映射的属性名称-预收款 */
+            static PROPERTY_DOWNPAYMENT_NAME: string = "DownPayment";
+            /** 获取-预收款 */
+            get downPayment(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(Receipt.PROPERTY_DOWNPAYMENT_NAME);
+            }
+            /** 设置-预收款 */
+            set downPayment(value: ibas.emYesNo) {
+                this.setProperty(Receipt.PROPERTY_DOWNPAYMENT_NAME, value);
+            }
+
 
             /** 映射的属性名称-收款-项目集合 */
             static PROPERTY_RECEIPTITEMS_NAME: string = "ReceiptItems";
