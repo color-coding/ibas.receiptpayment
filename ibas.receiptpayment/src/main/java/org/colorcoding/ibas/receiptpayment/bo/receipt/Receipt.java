@@ -44,6 +44,7 @@ import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
 import org.colorcoding.ibas.businesspartner.logic.ICustomerCheckContract;
 import org.colorcoding.ibas.businesspartner.logic.ISupplierCheckContract;
 import org.colorcoding.ibas.materials.data.Ledgers;
+import org.colorcoding.ibas.materials.logic.journalentry.JournalEntrySmartContent;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
 import org.colorcoding.ibas.sales.bo.downpaymentrequest.DownPaymentRequest;
 
@@ -1557,14 +1558,14 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 							|| Receipt.this.getDownPayment() == emYesNo.YES) {
 						/** 基于收款申请 或 预收款 **/
 						// 收款方式科目
-						jeContent = new JournalEntryContent(line);
+						jeContent = new JournalEntrySmartContent(line);
 						jeContent.setCategory(Category.Debit);
 						jeContent.setLedger(Ledgers.LEDGER_PAYMENT_RECEIPT_METHOD_ACCOUNT);
 						jeContent.setAmount(line.getAmount());// 总计
 						jeContent.setCurrency(line.getCurrency());
 						jeContents.add(jeContent);
 						// 应收预付款科目
-						jeContent = new JournalEntryContent(line);
+						jeContent = new JournalEntrySmartContent(line);
 						jeContent.setCategory(Category.Credit);
 						jeContent.setLedger(Ledgers.LEDGER_SALES_DOWN_PAYMENT_RECEIVABLES);
 						jeContent.setAmount(line.getAmount());// 总计
@@ -1573,14 +1574,14 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 					} else {
 						/** 不基于单据 **/
 						// 收款方式科目
-						jeContent = new JournalEntryContent(line);
+						jeContent = new JournalEntrySmartContent(line);
 						jeContent.setCategory(Category.Debit);
 						jeContent.setLedger(Ledgers.LEDGER_PAYMENT_RECEIPT_METHOD_ACCOUNT);
 						jeContent.setAmount(line.getAmount());// 总计
 						jeContent.setCurrency(line.getCurrency());
 						jeContents.add(jeContent);
 						// 应收款科目
-						jeContent = new JournalEntryContent(line);
+						jeContent = new JournalEntrySmartContent(line);
 						jeContent.setCategory(Category.Credit);
 						jeContent.setLedger(Ledgers.LEDGER_SALES_DOMESTIC_ACCOUNTS_RECEIVABLE);
 						jeContent.setAmount(line.getAmount());// 总计

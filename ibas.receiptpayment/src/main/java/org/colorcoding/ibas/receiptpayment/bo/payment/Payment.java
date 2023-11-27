@@ -44,6 +44,7 @@ import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
 import org.colorcoding.ibas.businesspartner.logic.ICustomerCheckContract;
 import org.colorcoding.ibas.businesspartner.logic.ISupplierCheckContract;
 import org.colorcoding.ibas.materials.data.Ledgers;
+import org.colorcoding.ibas.materials.logic.journalentry.JournalEntrySmartContent;
 import org.colorcoding.ibas.purchase.bo.downpaymentrequest.DownPaymentRequest;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
 
@@ -1557,14 +1558,14 @@ public class Payment extends BusinessObject<Payment> implements IPayment, IDataO
 							|| Payment.this.getDownPayment() == emYesNo.YES) {
 						/** 基于收款申请 或 预付款 **/
 						// 应收预付款科目
-						jeContent = new JournalEntryContent(line);
+						jeContent = new JournalEntrySmartContent(line);
 						jeContent.setCategory(Category.Debit);
 						jeContent.setLedger(Ledgers.LEDGER_PURCHASE_DOWN_PAYMENT_PAYABLES);
 						jeContent.setAmount(line.getAmount());// 总计
 						jeContent.setCurrency(line.getCurrency());
 						jeContents.add(jeContent);
 						// 收款方式科目
-						jeContent = new JournalEntryContent(line);
+						jeContent = new JournalEntrySmartContent(line);
 						jeContent.setCategory(Category.Credit);
 						jeContent.setLedger(Ledgers.LEDGER_PAYMENT_PAYMENT_METHOD_ACCOUNT);
 						jeContent.setAmount(line.getAmount());// 总计
@@ -1573,14 +1574,14 @@ public class Payment extends BusinessObject<Payment> implements IPayment, IDataO
 					} else {
 						/** 不基于单据 **/
 						// 应收款科目
-						jeContent = new JournalEntryContent(line);
+						jeContent = new JournalEntrySmartContent(line);
 						jeContent.setCategory(Category.Debit);
 						jeContent.setLedger(Ledgers.LEDGER_PURCHASE_DOMESTIC_ACCOUNTS_PAYABLE);
 						jeContent.setAmount(line.getAmount());// 总计
 						jeContent.setCurrency(line.getCurrency());
 						jeContents.add(jeContent);
 						// 收款方式科目
-						jeContent = new JournalEntryContent(line);
+						jeContent = new JournalEntrySmartContent(line);
 						jeContent.setCategory(Category.Credit);
 						jeContent.setLedger(Ledgers.LEDGER_PAYMENT_PAYMENT_METHOD_ACCOUNT);
 						jeContent.setAmount(line.getAmount());// 总计

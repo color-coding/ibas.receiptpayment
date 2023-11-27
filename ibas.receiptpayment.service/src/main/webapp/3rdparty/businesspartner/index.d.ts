@@ -1023,7 +1023,7 @@ declare namespace businesspartner {
 declare namespace businesspartner {
     namespace bo {
         /** 协议/合同 */
-        interface IAgreement extends ibas.IBOMasterData {
+        interface IAgreement extends ibas.IBOMasterData, ibas.IBOUserFields {
             /** 编码 */
             code: string;
             /** 名称 */
@@ -1076,6 +1076,8 @@ declare namespace businesspartner {
             organization: string;
             /** 备注 */
             remarks: string;
+            /** 分支 */
+            branch: string;
         }
     }
 }
@@ -3637,6 +3639,12 @@ declare namespace businesspartner {
             get remarks(): string;
             /** 设置-备注 */
             set remarks(value: string);
+            /** 映射的属性名称-分支 */
+            static PROPERTY_BRANCH_NAME: string;
+            /** 获取-分支 */
+            get branch(): string;
+            /** 设置-分支 */
+            set branch(value: string);
             /** 初始化数据 */
             protected init(): void;
         }
