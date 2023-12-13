@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.colorcoding.ibas.accounting.logic.IBranchCheckContract;
 import org.colorcoding.ibas.accounting.logic.IJournalEntryCreationContract;
 import org.colorcoding.ibas.accounting.logic.JournalEntryContent;
 import org.colorcoding.ibas.accounting.logic.JournalEntryContent.Category;
@@ -1484,7 +1485,7 @@ public class Payment extends BusinessObject<Payment> implements IPayment, IDataO
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-		List<IBusinessLogicContract> contracts = new ArrayList<>(2);
+		List<IBusinessLogicContract> contracts = new ArrayList<>(4);
 		if (this.getBusinessPartnerType() == emBusinessPartnerType.CUSTOMER) {
 			contracts.add(new ICustomerCheckContract() {
 				@Override
@@ -1510,6 +1511,19 @@ public class Payment extends BusinessObject<Payment> implements IPayment, IDataO
 				}
 			});
 		}
+		// 分支检查
+		contracts.add(new IBranchCheckContract() {
+
+			@Override
+			public String getIdentifiers() {
+				return Payment.this.toString();
+			}
+
+			@Override
+			public String getBranch() {
+				return Payment.this.getBranch();
+			}
+		});
 		// 创建分录
 		contracts.add(new IJournalEntryCreationContract() {
 

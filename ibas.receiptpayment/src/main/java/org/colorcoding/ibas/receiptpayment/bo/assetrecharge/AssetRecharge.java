@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.colorcoding.ibas.accounting.logic.IBranchCheckContract;
 import org.colorcoding.ibas.bobas.approval.IApprovalData;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOSeriesKey;
@@ -1391,7 +1392,7 @@ public class AssetRecharge extends BusinessObject<AssetRecharge> implements IAss
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-		List<IBusinessLogicContract> contracts = new ArrayList<>(2);
+		List<IBusinessLogicContract> contracts = new ArrayList<>(4);
 		if (this.getBusinessPartnerType() == emBusinessPartnerType.CUSTOMER) {
 			contracts.add(new ICustomerCheckContract() {
 				@Override
@@ -1417,6 +1418,19 @@ public class AssetRecharge extends BusinessObject<AssetRecharge> implements IAss
 				}
 			});
 		}
+		// 分支检查
+		contracts.add(new IBranchCheckContract() {
+
+			@Override
+			public String getIdentifiers() {
+				return AssetRecharge.this.toString();
+			}
+
+			@Override
+			public String getBranch() {
+				return AssetRecharge.this.getBranch();
+			}
+		});
 		contracts.add(new IBusinessPartnerAssetIncreasesContract() {
 
 			@Override

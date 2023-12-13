@@ -1,6 +1,5 @@
 package org.colorcoding.ibas.receiptpayment.test;
 
-import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.organization.OrganizationFactory;
 import org.colorcoding.ibas.purchase.bo.purchaseorder.IPurchaseOrderItem;
@@ -44,7 +43,6 @@ public class TestPurchaseOrder extends TestCase {
 		orderItem.setWarehouse("WH0001");
 		// 测试对象的保存和查询
 		IOperationResult<?> operationResult = null;
-		ICriteria criteria = null;
 		IBORepositoryPurchaseApp boRepository = new BORepositoryPurchase();
 		// 设置用户口令
 		boRepository.setUserToken(this.getToken());
@@ -52,7 +50,6 @@ public class TestPurchaseOrder extends TestCase {
 		// 测试保存
 		operationResult = boRepository.savePurchaseOrder(order);
 		assertEquals(operationResult.getMessage(), operationResult.getResultCode(), 0);
-		PurchaseOrder boSaved = (PurchaseOrder) operationResult.getResultObjects().firstOrDefault();
 	}
 
 }
