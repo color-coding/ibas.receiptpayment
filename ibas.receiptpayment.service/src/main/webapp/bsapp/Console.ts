@@ -58,6 +58,7 @@ namespace receiptpayment {
                 this.register(new ReceiptMethodMoneyOrderMapping());
                 this.register(new NotBaseOnReceiptServiceMapping());
                 // 注册付款方式
+                this.register(new PaymentMethodBPAssetMapping());
                 this.register(new PaymentMethodCashMapping());
                 this.register(new PaymentMethodBankMapping());
                 this.register(new PaymentMethodCheckMapping());

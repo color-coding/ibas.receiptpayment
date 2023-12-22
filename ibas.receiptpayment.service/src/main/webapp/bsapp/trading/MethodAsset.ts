@@ -35,25 +35,18 @@ namespace receiptpayment {
                 if (ibas.objects.isNull(caller.proxy.contract)) {
                     throw new Error(ibas.i18n.prop("sys_invalid_parameter", "caller.proxy.contract"));
                 }
-                let contract: IReceiptMethodContract = caller.proxy.contract;
                 let that: this = this;
-                let boRepository: businesspartner.bo.IBORepositoryBusinessPartner = ibas.boFactory.create(businesspartner.bo.BO_REPOSITORY_BUSINESSPARTNER);
-                boRepository.fetchCustomerAsset({
-                    request: {
-                        businessPartner: contract.businessPartnerCode,
-                        documentType: contract.documentType,
-                        documentEntry: contract.documentEntry,
-                        documentLineId: contract.documentLineId,
-                        total: contract.documentTotal,
-                        currency: contract.documentCurrency
-                    },
-                    onCompleted(opRsltAsset: ibas.IOperationResult<businesspartner.bo.ICustomerAsset>): void {
-                        let opRslt: ibas.IOperationResult<IReceiptTradingMethod> = new ibas.OperationResult<IReceiptTradingMethod>();
-                        if (opRsltAsset.resultCode !== 0) {
-                            opRslt.resultCode = -1;
-                            opRslt.message = opRsltAsset.message;
-                        } else {
-                            for (let item of opRsltAsset.resultObjects) {
+                let contract: IReceiptMethodContract = caller.proxy.contract;
+                if (contract.selective === true) {
+                    ibas.servicesManager.runChooseService<businesspartner.bo.ICustomerAsset>({
+                        boCode: businesspartner.bo.BO_CODE_CUSTOMERASSET,
+                        chooseType: ibas.emChooseType.SINGLE,
+                        criteria: [
+                            new ibas.Condition(businesspartner.bo.BusinessPartnerAsset.PROPERTY_BUSINESSPARTNERCODE_NAME, ibas.emConditionOperation.EQUAL, contract.businessPartnerCode),
+                        ],
+                        onCompleted(selecteds: ibas.IList<businesspartner.bo.ICustomerAsset>): void {
+                            let opRslt: ibas.IOperationResult<IReceiptTradingMethod> = new ibas.OperationResult<IReceiptTradingMethod>();
+                            for (let item of selecteds) {
                                 let trading: IReceiptTradingMethod = new ReceiptTradingMethod();
                                 trading.method = that;
                                 trading.id = item.code;
@@ -67,12 +60,49 @@ namespace receiptpayment {
                                 }
                                 opRslt.resultObjects.add(trading);
                             }
+                            if (caller.onCompleted instanceof Function) {
+                                caller.onCompleted(opRslt);
+                            }
                         }
-                        if (caller.onCompleted instanceof Function) {
-                            caller.onCompleted(opRslt);
+                    });
+                } else {
+                    let boRepository: businesspartner.bo.IBORepositoryBusinessPartner = ibas.boFactory.create(businesspartner.bo.BO_REPOSITORY_BUSINESSPARTNER);
+                    boRepository.fetchCustomerAsset({
+                        request: {
+                            businessPartner: contract.businessPartnerCode,
+                            documentType: contract.documentType,
+                            documentEntry: contract.documentEntry,
+                            documentLineId: contract.documentLineId,
+                            total: contract.documentTotal,
+                            currency: contract.documentCurrency
+                        },
+                        onCompleted(opRsltAsset: ibas.IOperationResult<businesspartner.bo.ICustomerAsset>): void {
+                            let opRslt: ibas.IOperationResult<IReceiptTradingMethod> = new ibas.OperationResult<IReceiptTradingMethod>();
+                            if (opRsltAsset.resultCode !== 0) {
+                                opRslt.resultCode = -1;
+                                opRslt.message = opRsltAsset.message;
+                            } else {
+                                for (let item of opRsltAsset.resultObjects) {
+                                    let trading: IReceiptTradingMethod = new ReceiptTradingMethod();
+                                    trading.method = that;
+                                    trading.id = item.code;
+                                    trading.description = item.name;
+                                    trading.icon = item.picture;
+                                    trading.discount = item.discount;
+                                    trading.amount = item.amount;
+                                    trading.unit = item.unit;
+                                    if (ibas.strings.isEmpty(trading.icon)) {
+                                        trading.icon = ibas.i18n.prop(ibas.strings.format("{0}_{1}_icon", ReceiptMethod.name, that.name).toLowerCase());
+                                    }
+                                    opRslt.resultObjects.add(trading);
+                                }
+                            }
+                            if (caller.onCompleted instanceof Function) {
+                                caller.onCompleted(opRslt);
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         }
         /** 收款方式映射-业务伙伴资产 */
@@ -87,6 +117,115 @@ namespace receiptpayment {
             /** 创建服务实例 */
             create(): ibas.IService<ibas.IServiceContract> {
                 return new ReceiptMethodBPAsset();
+            }
+        }
+
+
+        /** 交易标记-付款-业务伙伴资产 */
+        export const TRADING_ID_PAYMENT_BP_ASSSET: string = "2fc1a68f-355c-41c2-8a1e-e23c27cc4af1";
+        /**
+         * 付款方式-业务伙伴资产
+         */
+        export class PaymentMethodBPAsset extends PaymentMethod {
+            constructor() {
+                super();
+                this.id = TRADING_ID_PAYMENT_BP_ASSSET;
+                this.name = TRADING_MODE_BP_ASSSET;
+                this.description = ibas.i18n.prop(ibas.strings.format("{0}_{1}", PaymentMethod.name, this.name).toLowerCase());
+                this.enabled = !ibas.config.get(ibas.strings.format(CONFIG_ITEM_TEMPLATE_TRADING_MODE_DISABLED, this.name), false);
+                this.noTrade = true;
+            }
+            /** 获取可用交易类型 */
+            run(caller: ibas.IServiceWithResultCaller<IPaymentMethodContract, ibas.IOperationResult<IPaymentTradingMethod>>): void {
+                if (ibas.objects.isNull(caller)) {
+                    throw new Error(ibas.i18n.prop("sys_invalid_parameter", "caller"));
+                }
+                if (!ibas.objects.instanceOf(caller.proxy, ibas.ServiceProxy)) {
+                    throw new Error(ibas.i18n.prop("sys_invalid_parameter", "caller.proxy"));
+                }
+                if (ibas.objects.isNull(caller.proxy.contract)) {
+                    throw new Error(ibas.i18n.prop("sys_invalid_parameter", "caller.proxy.contract"));
+                }
+                let that: this = this;
+                let contract: IPaymentMethodContract = caller.proxy.contract;
+                if (contract.selective === true) {
+                    ibas.servicesManager.runChooseService<businesspartner.bo.ISupplierAsset>({
+                        boCode: businesspartner.bo.BO_CODE_SUPPLIERASSET,
+                        chooseType: ibas.emChooseType.SINGLE,
+                        criteria: [
+                            new ibas.Condition(businesspartner.bo.BusinessPartnerAsset.PROPERTY_BUSINESSPARTNERCODE_NAME, ibas.emConditionOperation.EQUAL, contract.businessPartnerCode),
+                        ],
+                        onCompleted(selecteds: ibas.IList<businesspartner.bo.ISupplierAsset>): void {
+                            let opRslt: ibas.IOperationResult<IPaymentTradingMethod> = new ibas.OperationResult<IPaymentTradingMethod>();
+                            for (let item of selecteds) {
+                                let trading: IPaymentTradingMethod = new PaymentTradingMethod();
+                                trading.method = that;
+                                trading.id = item.code;
+                                trading.description = item.name;
+                                trading.icon = item.picture;
+                                trading.amount = item.amount;
+                                trading.unit = item.unit;
+                                if (ibas.strings.isEmpty(trading.icon)) {
+                                    trading.icon = ibas.i18n.prop(ibas.strings.format("{0}_{1}_icon", PaymentMethod.name, that.name).toLowerCase());
+                                }
+                                opRslt.resultObjects.add(trading);
+                            }
+                            if (caller.onCompleted instanceof Function) {
+                                caller.onCompleted(opRslt);
+                            }
+                        }
+                    });
+                } else {
+                    let boRepository: businesspartner.bo.IBORepositoryBusinessPartner = ibas.boFactory.create(businesspartner.bo.BO_REPOSITORY_BUSINESSPARTNER);
+                    boRepository.fetchSupplierAsset({
+                        request: {
+                            businessPartner: contract.businessPartnerCode,
+                            documentType: contract.documentType,
+                            documentEntry: contract.documentEntry,
+                            documentLineId: contract.documentLineId,
+                            total: contract.documentTotal,
+                            currency: contract.documentCurrency
+                        },
+                        onCompleted(opRsltAsset: ibas.IOperationResult<businesspartner.bo.ISupplierAsset>): void {
+                            let opRslt: ibas.IOperationResult<IPaymentTradingMethod> = new ibas.OperationResult<IPaymentTradingMethod>();
+                            if (opRsltAsset.resultCode !== 0) {
+                                opRslt.resultCode = -1;
+                                opRslt.message = opRsltAsset.message;
+                            } else {
+                                for (let item of opRsltAsset.resultObjects) {
+                                    let trading: IPaymentTradingMethod = new PaymentTradingMethod();
+                                    trading.method = that;
+                                    trading.id = item.code;
+                                    trading.description = item.name;
+                                    trading.icon = item.picture;
+                                    trading.amount = item.amount;
+                                    trading.unit = item.unit;
+                                    if (ibas.strings.isEmpty(trading.icon)) {
+                                        trading.icon = ibas.i18n.prop(ibas.strings.format("{0}_{1}_icon", PaymentMethod.name, that.name).toLowerCase());
+                                    }
+                                    opRslt.resultObjects.add(trading);
+                                }
+                            }
+                            if (caller.onCompleted instanceof Function) {
+                                caller.onCompleted(opRslt);
+                            }
+                        }
+                    });
+                }
+            }
+        }
+        /** 付款方式映射-业务伙伴资产 */
+        export class PaymentMethodBPAssetMapping extends PaymentMethodServiceMapping {
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = TRADING_ID_PAYMENT_BP_ASSSET;
+                this.name = TRADING_MODE_BP_ASSSET;
+                this.description = ibas.i18n.prop(ibas.strings.format("{0}_{1}", PaymentMethod.name, this.name).toLowerCase());
+            }
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IServiceContract> {
+                return new PaymentMethodBPAsset();
             }
         }
     }

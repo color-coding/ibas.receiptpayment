@@ -20,6 +20,7 @@ namespace receiptpayment {
                 confirmEvent: Function;
                 /** 绘制视图 */
                 draw(): any {
+                    jQuery.sap.require("sap.ui.layout.cssgrid.GridBasicLayout");
                     let that: this = this;
                     this.bp_bar = new sap.m.Toolbar("", {
                         content: [

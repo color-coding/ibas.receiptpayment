@@ -55,6 +55,8 @@ namespace receiptpayment {
             documentCurrency: string;
             /** 单据摘要 */
             documentSummary?: string;
+            /** 选择的 */
+            selective?: boolean;
         }
         /** 收款方式代理 */
         export class ReceiptMethodProxy extends ibas.ServiceProxy<IReceiptMethodContract> {
@@ -122,6 +124,8 @@ namespace receiptpayment {
             documentCurrency: string;
             /** 单据摘要 */
             documentSummary?: string;
+            /** 选择的 */
+            selective?: boolean;
         }
         /** 付款方式代理 */
         export class PaymentMethodProxy extends ibas.ServiceProxy<IPaymentMethodContract> {
@@ -152,6 +156,8 @@ namespace receiptpayment {
             icon?: string;
             /** 可用金额 */
             amount: number;
+            /** 单位 */
+            unit?: string;
         }
         /** 付款方式 */
         export abstract class PaymentMethod extends ibas.Element
