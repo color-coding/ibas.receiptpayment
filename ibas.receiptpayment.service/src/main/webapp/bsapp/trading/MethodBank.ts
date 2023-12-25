@@ -25,15 +25,69 @@ namespace receiptpayment {
             }
             /** 获取可用交易类型 */
             run(caller: ibas.IServiceWithResultCaller<IReceiptMethodContract, ibas.IOperationResult<IReceiptTradingMethod>>): void {
-                if (caller.onCompleted instanceof Function) {
-                    let opRslt: ibas.IOperationResult<ReceiptTradingMethod> = new ibas.OperationResult<ReceiptTradingMethod>();
-                    let trading: ReceiptTradingMethod = new ReceiptTradingMethod();
-                    trading.method = this;
-                    trading.id = "";
-                    trading.description = this.description;
-                    trading.icon = ibas.i18n.prop(ibas.strings.format("{0}_{1}_icon", ReceiptMethod.name, this.name).toLowerCase());
-                    opRslt.resultObjects.add(trading);
-                    caller.onCompleted(opRslt);
+                if (ibas.objects.isNull(caller)) {
+                    throw new Error(ibas.i18n.prop("sys_invalid_parameter", "caller"));
+                }
+                if (!ibas.objects.instanceOf(caller.proxy, ibas.ServiceProxy)) {
+                    throw new Error(ibas.i18n.prop("sys_invalid_parameter", "caller.proxy"));
+                }
+                if (ibas.objects.isNull(caller.proxy.contract)) {
+                    throw new Error(ibas.i18n.prop("sys_invalid_parameter", "caller.proxy.contract"));
+                }
+                let that: this = this;
+                let contract: IReceiptMethodContract = caller.proxy.contract;
+                if (contract.selective === true) {
+                    ibas.servicesManager.runChooseService<accounting.bo.IBankAccount>({
+                        boCode: accounting.bo.BO_CODE_BANKACCOUNT,
+                        chooseType: ibas.emChooseType.SINGLE,
+                        criteria: [
+                            new ibas.Condition(accounting.bo.BankAccount.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES),
+                        ],
+                        onCompleted(selecteds: ibas.IList<accounting.bo.IBankAccount>): void {
+                            let opRslt: ibas.IOperationResult<IReceiptTradingMethod> = new ibas.OperationResult<IReceiptTradingMethod>();
+                            for (let item of selecteds) {
+                                let trading: IReceiptTradingMethod = new ReceiptTradingMethod();
+                                trading.method = that;
+                                trading.id = item.code;
+                                trading.description = item.name;
+                                if (ibas.strings.isEmpty(trading.icon)) {
+                                    trading.icon = ibas.i18n.prop(ibas.strings.format("{0}_{1}_icon", ReceiptMethod.name, that.name).toLowerCase());
+                                }
+                                opRslt.resultObjects.add(trading);
+                            }
+                            if (caller.onCompleted instanceof Function) {
+                                caller.onCompleted(opRslt);
+                            }
+                        }
+                    });
+                } else {
+                    let boRepository: accounting.bo.BORepositoryAccounting = new accounting.bo.BORepositoryAccounting();
+                    boRepository.fetchBankAccount({
+                        criteria: [
+                            new ibas.Condition(accounting.bo.BankAccount.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES),
+                        ],
+                        onCompleted(opRsltAsset: ibas.IOperationResult<accounting.bo.IBankAccount>): void {
+                            let opRslt: ibas.IOperationResult<IReceiptTradingMethod> = new ibas.OperationResult<IReceiptTradingMethod>();
+                            if (opRsltAsset.resultCode !== 0) {
+                                opRslt.resultCode = -1;
+                                opRslt.message = opRsltAsset.message;
+                            } else {
+                                for (let item of opRsltAsset.resultObjects) {
+                                    let trading: IReceiptTradingMethod = new ReceiptTradingMethod();
+                                    trading.method = that;
+                                    trading.id = item.code;
+                                    trading.description = item.name;
+                                    if (ibas.strings.isEmpty(trading.icon)) {
+                                        trading.icon = ibas.i18n.prop(ibas.strings.format("{0}_{1}_icon", ReceiptMethod.name, that.name).toLowerCase());
+                                    }
+                                    opRslt.resultObjects.add(trading);
+                                }
+                            }
+                            if (caller.onCompleted instanceof Function) {
+                                caller.onCompleted(opRslt);
+                            }
+                        }
+                    });
                 }
             }
         }
@@ -66,15 +120,69 @@ namespace receiptpayment {
             }
             /** 获取可用交易类型 */
             run(caller: ibas.IServiceWithResultCaller<IPaymentMethodContract, ibas.IOperationResult<IPaymentTradingMethod>>): void {
-                if (caller.onCompleted instanceof Function) {
-                    let opRslt: ibas.IOperationResult<PaymentTradingMethod> = new ibas.OperationResult<PaymentTradingMethod>();
-                    let trading: IPaymentTradingMethod = new PaymentTradingMethod();
-                    trading.method = this;
-                    trading.id = "";
-                    trading.description = this.description;
-                    trading.icon = ibas.i18n.prop(ibas.strings.format("{0}_{1}_icon", PaymentMethod.name, this.name).toLowerCase());
-                    opRslt.resultObjects.add(trading);
-                    caller.onCompleted(opRslt);
+                if (ibas.objects.isNull(caller)) {
+                    throw new Error(ibas.i18n.prop("sys_invalid_parameter", "caller"));
+                }
+                if (!ibas.objects.instanceOf(caller.proxy, ibas.ServiceProxy)) {
+                    throw new Error(ibas.i18n.prop("sys_invalid_parameter", "caller.proxy"));
+                }
+                if (ibas.objects.isNull(caller.proxy.contract)) {
+                    throw new Error(ibas.i18n.prop("sys_invalid_parameter", "caller.proxy.contract"));
+                }
+                let that: this = this;
+                let contract: IPaymentMethodContract = caller.proxy.contract;
+                if (contract.selective === true) {
+                    ibas.servicesManager.runChooseService<accounting.bo.IBankAccount>({
+                        boCode: accounting.bo.BO_CODE_BANKACCOUNT,
+                        chooseType: ibas.emChooseType.SINGLE,
+                        criteria: [
+                            new ibas.Condition(accounting.bo.BankAccount.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES),
+                        ],
+                        onCompleted(selecteds: ibas.IList<accounting.bo.IBankAccount>): void {
+                            let opRslt: ibas.IOperationResult<IPaymentTradingMethod> = new ibas.OperationResult<IPaymentTradingMethod>();
+                            for (let item of selecteds) {
+                                let trading: IPaymentTradingMethod = new PaymentTradingMethod();
+                                trading.method = that;
+                                trading.id = item.code;
+                                trading.description = item.name;
+                                if (ibas.strings.isEmpty(trading.icon)) {
+                                    trading.icon = ibas.i18n.prop(ibas.strings.format("{0}_{1}_icon", PaymentMethod.name, that.name).toLowerCase());
+                                }
+                                opRslt.resultObjects.add(trading);
+                            }
+                            if (caller.onCompleted instanceof Function) {
+                                caller.onCompleted(opRslt);
+                            }
+                        }
+                    });
+                } else {
+                    let boRepository: accounting.bo.BORepositoryAccounting = new accounting.bo.BORepositoryAccounting();
+                    boRepository.fetchBankAccount({
+                        criteria: [
+                            new ibas.Condition(accounting.bo.BankAccount.PROPERTY_ACTIVATED_NAME, ibas.emConditionOperation.EQUAL, ibas.emYesNo.YES),
+                        ],
+                        onCompleted(opRsltAsset: ibas.IOperationResult<accounting.bo.IBankAccount>): void {
+                            let opRslt: ibas.IOperationResult<IPaymentTradingMethod> = new ibas.OperationResult<IPaymentTradingMethod>();
+                            if (opRsltAsset.resultCode !== 0) {
+                                opRslt.resultCode = -1;
+                                opRslt.message = opRsltAsset.message;
+                            } else {
+                                for (let item of opRsltAsset.resultObjects) {
+                                    let trading: IPaymentTradingMethod = new PaymentTradingMethod();
+                                    trading.method = that;
+                                    trading.id = item.code;
+                                    trading.description = item.name;
+                                    if (ibas.strings.isEmpty(trading.icon)) {
+                                        trading.icon = ibas.i18n.prop(ibas.strings.format("{0}_{1}_icon", PaymentMethod.name, that.name).toLowerCase());
+                                    }
+                                    opRslt.resultObjects.add(trading);
+                                }
+                            }
+                            if (caller.onCompleted instanceof Function) {
+                                caller.onCompleted(opRslt);
+                            }
+                        }
+                    });
                 }
             }
         }

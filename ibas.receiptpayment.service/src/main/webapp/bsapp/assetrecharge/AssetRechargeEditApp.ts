@@ -235,19 +235,35 @@ namespace receiptpayment {
                     ));
                     return;
                 }
-                // 业务伙伴资产查询
-                if (data.mode === TRADING_MODE_BP_ASSSET) {
-                    // 调用选择服务
-                    ibas.servicesManager.runChooseService<businesspartner.bo.IBusinessPartnerAsset>({
-                        boCode: businesspartner.bo.BO_CODE_BUSINESSPARTNERASSET,
-                        chooseType: ibas.emChooseType.SINGLE,
-                        criteria: businesspartner.app.conditions.businesspartnerasset.create(this.editData.businessPartnerType, this.editData.businessPartnerCode),
-                        onCompleted(selecteds: ibas.IList<businesspartner.bo.IBusinessPartnerAsset>): void {
-                            let selected: businesspartner.bo.IBusinessPartnerAsset = selecteds.firstOrDefault();
-                            data.tradeId = selected.code;
-                            data.currency = selected.tradingCurrency;
+                if (ibas.objects.isNull(data)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("shell_please_chooose_data"));
+                    return;
+                }
+                if (ibas.strings.isEmpty(data.mode)) {
+                    this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("receiptpaymentt_please_choose_paid_method"));
+                    return;
+                }
+                for (let srvAgent of ibas.servicesManager.getServices(<ibas.IServiceCaller<ibas.IServiceContract>>{
+                    proxy: new app.PaymentMethodProxy({
+                        businessPartnerType: this.editData.businessPartnerType,
+                        businessPartnerCode: this.editData.businessPartnerCode,
+                        documentType: undefined,
+                        documentEntry: undefined,
+                        documentLineId: undefined,
+                        documentTotal: data.amount,
+                        documentCurrency: data.currency,
+                        selective: true,
+                    }),
+                    onCompleted(opRslt: ibas.IOperationResult<IPaymentTradingMethod>): void {
+                        for (let item of opRslt.resultObjects) {
+                            data.tradeId = item.id;
                         }
-                    });
+                    }
+                })) {
+                    if (srvAgent.name === data.mode) {
+                        srvAgent.run();
+                        break;
+                    }
                 }
             }
             /** 选择资产充值-业务伙伴资产 */
