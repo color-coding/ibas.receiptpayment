@@ -81,6 +81,8 @@ namespace receiptpayment {
             serviceCode: string;
             /** 充值量 */
             amount: number;
+            /** 货币 */
+            currency: string;
             /** 充值次数 */
             times: number;
             /** 单据类型 */

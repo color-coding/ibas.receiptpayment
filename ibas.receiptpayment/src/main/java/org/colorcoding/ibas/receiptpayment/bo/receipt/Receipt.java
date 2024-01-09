@@ -1577,13 +1577,16 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 						jeContent.setLedger(Ledgers.LEDGER_PAYMENT_RECEIPT_METHOD_ACCOUNT);
 						jeContent.setAmount(line.getAmount());// 总计
 						jeContent.setCurrency(line.getCurrency());
+						jeContent.setRate(line.getRate());
 						jeContents.add(jeContent);
 						// 应收预付款科目
 						jeContent = new JournalEntrySmartContent(line);
 						jeContent.setCategory(Category.Credit);
 						jeContent.setLedger(Ledgers.LEDGER_SALES_DOWN_PAYMENT_RECEIVABLES);
+						jeContent.setShortName(Receipt.this.getBusinessPartnerCode());
 						jeContent.setAmount(line.getAmount());// 总计
 						jeContent.setCurrency(line.getCurrency());
+						jeContent.setRate(line.getRate());
 						jeContents.add(jeContent);
 					} else {
 						/** 不基于单据 **/
@@ -1593,13 +1596,16 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 						jeContent.setLedger(Ledgers.LEDGER_PAYMENT_RECEIPT_METHOD_ACCOUNT);
 						jeContent.setAmount(line.getAmount());// 总计
 						jeContent.setCurrency(line.getCurrency());
+						jeContent.setRate(line.getRate());
 						jeContents.add(jeContent);
 						// 应收款科目
 						jeContent = new JournalEntrySmartContent(line);
 						jeContent.setCategory(Category.Credit);
 						jeContent.setLedger(Ledgers.LEDGER_SALES_DOMESTIC_ACCOUNTS_RECEIVABLE);
+						jeContent.setShortName(Receipt.this.getBusinessPartnerCode());
 						jeContent.setAmount(line.getAmount());// 总计
 						jeContent.setCurrency(line.getCurrency());
+						jeContent.setRate(line.getRate());
 						jeContents.add(jeContent);
 					}
 				}

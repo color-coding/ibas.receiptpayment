@@ -197,9 +197,14 @@ namespace receiptpayment {
                                     },
                                 }),
                                 new sap.extension.m.ObjectNumber("", {
+                                    textAlign: sap.ui.core.TextAlign.Right,
                                     number: {
                                         path: "amount",
                                         type: new sap.extension.data.Sum()
+                                    },
+                                    unit: {
+                                        path: "currency",
+                                        type: new sap.extension.data.Alphanumeric()
                                     },
                                 }).addStyleClass("sapMObjectNumberLarge"),
                             ]

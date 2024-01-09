@@ -483,7 +483,9 @@ namespace receiptpayment {
                 this.objectCode = ibas.config.applyVariables(Payment.BUSINESS_OBJECT_CODE);
                 this.businessPartnerType = businesspartner.bo.emBusinessPartnerType.SUPPLIER;
                 this.documentStatus = ibas.emDocumentStatus.RELEASED;
-                this.documentCurrency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
+                this.documentCurrency = accounting.config.currency("LOCAL");
+                this.documentDate = ibas.dates.today();
+                this.deliveryDate = ibas.dates.today();
             }
             /** 重置 */
             reset(): void {
@@ -521,6 +523,31 @@ namespace receiptpayment {
             /** 主表属性发生变化后 子项属性赋值  */
             protected onParentPropertyChanged(name: string): void {
                 super.onParentPropertyChanged(name);
+                if (!this.parent.isLoading) {
+                    if (ibas.strings.equalsIgnoreCase(name, Payment.PROPERTY_DOCUMENTRATE_NAME)) {
+                        let rate: number = this.parent.documentRate;
+                        for (let item of this) {
+                            if (item.isLoading) {
+                                continue;
+                            }
+                            if (!ibas.strings.isEmpty(item.baseDocumentType) && ibas.numbers.valueOf(item.rate) > 0) {
+                                continue;
+                            }
+                            item.rate = rate;
+                        }
+                    } else if (ibas.strings.equalsIgnoreCase(name, Payment.PROPERTY_DOCUMENTCURRENCY_NAME)) {
+                        let currency: string = this.parent.documentCurrency;
+                        for (let item of this) {
+                            if (item.isLoading) {
+                                continue;
+                            }
+                            if (!ibas.strings.isEmpty(item.baseDocumentType) && !ibas.strings.isEmpty(item.currency)) {
+                                continue;
+                            }
+                            item.currency = currency;
+                        }
+                    }
+                }
             }
             /** 子项属性改变时 */
             protected onItemPropertyChanged(item: PaymentItem, name: string): void {
@@ -905,7 +932,7 @@ namespace receiptpayment {
 
             /** 初始化数据 */
             protected init(): void {
-                this.currency = ibas.config.get(ibas.CONFIG_ITEM_DEFAULT_CURRENCY);
+                this.currency = accounting.config.currency("LOCAL");
             }
         }
 

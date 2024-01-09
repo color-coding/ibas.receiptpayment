@@ -515,20 +515,36 @@ namespace receiptpayment {
                                                 width: "auto",
                                                 content: [
                                                     new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_documenttotal") }),
-                                                    new sap.extension.m.Input("", {
-                                                        editable: false,
-
-                                                    }).bindProperty("bindingValue", {
-                                                        path: "documentTotal",
-                                                        type: new sap.extension.data.Sum()
-                                                    }),
-                                                    new sap.extension.m.CurrencySelect("", {
-                                                        editable: false,
-                                                    }).bindProperty("bindingValue", {
-                                                        path: "documentCurrency",
-                                                        type: new sap.extension.data.Alphanumeric({
-                                                            maxLength: 8
-                                                        })
+                                                    new sap.m.FlexBox("", {
+                                                        width: "100%",
+                                                        justifyContent: sap.m.FlexJustifyContent.Start,
+                                                        renderType: sap.m.FlexRendertype.Bare,
+                                                        alignContent: sap.m.FlexAlignContent.Center,
+                                                        alignItems: sap.m.FlexAlignItems.Center,
+                                                        items: [
+                                                            new sap.extension.m.Input("", {
+                                                                width: "70%",
+                                                                editable: false,
+                                                            }).bindProperty("bindingValue", {
+                                                                path: "documentTotal",
+                                                                type: new sap.extension.data.Sum()
+                                                            }).addStyleClass("sapUiTinyMarginEnd"),
+                                                            new sap.extension.m.CurrencyRateSelect("", {
+                                                                baseCurrency: accounting.config.currency("LOCAL"),
+                                                                currency: {
+                                                                    path: "documentCurrency",
+                                                                    type: new sap.extension.data.Alphanumeric()
+                                                                },
+                                                                rate: {
+                                                                    path: "documentRate",
+                                                                    type: new sap.extension.data.Rate()
+                                                                },
+                                                                date: {
+                                                                    path: "documentDate",
+                                                                    type: new sap.extension.data.Date()
+                                                                }
+                                                            }),
+                                                        ]
                                                     }),
                                                 ]
                                             }).addStyleClass("sapUxAPObjectPageSubSectionAlignContent"),

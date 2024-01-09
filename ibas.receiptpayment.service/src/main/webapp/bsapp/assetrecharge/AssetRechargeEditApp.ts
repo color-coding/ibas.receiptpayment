@@ -293,6 +293,22 @@ namespace receiptpayment {
                         that.editData.businessPartnerType = selected.businessPartnerType;
                         that.editData.businessPartnerCode = selected.businessPartnerCode;
                         that.editData.serviceCode = selected.code;
+                        if (!ibas.strings.isEmpty(selected.assetCode)) {
+                            // 加载资产货币
+                            criteria = new ibas.Criteria();
+                            condition = criteria.conditions.create();
+                            condition.alias = businesspartner.bo.AssetItem.PROPERTY_CODE_NAME;
+                            condition.value = selected.assetCode;
+                            let boRepository: businesspartner.bo.BORepositoryBusinessPartner = new businesspartner.bo.BORepositoryBusinessPartner();
+                            boRepository.fetchAssetItem({
+                                criteria: criteria,
+                                onCompleted: (opRslt) => {
+                                    for (let item of opRslt.resultObjects) {
+                                        that.editData.currency = item.amountUnit;
+                                    }
+                                }
+                            });
+                        }
                     }
                 });
             }

@@ -1575,8 +1575,10 @@ public class Payment extends BusinessObject<Payment> implements IPayment, IDataO
 						jeContent = new JournalEntrySmartContent(line);
 						jeContent.setCategory(Category.Debit);
 						jeContent.setLedger(Ledgers.LEDGER_PURCHASE_DOWN_PAYMENT_PAYABLES);
+						jeContent.setShortName(Payment.this.getBusinessPartnerCode());
 						jeContent.setAmount(line.getAmount());// 总计
 						jeContent.setCurrency(line.getCurrency());
+						jeContent.setRate(line.getRate());
 						jeContents.add(jeContent);
 						// 收款方式科目
 						jeContent = new JournalEntrySmartContent(line);
@@ -1584,6 +1586,7 @@ public class Payment extends BusinessObject<Payment> implements IPayment, IDataO
 						jeContent.setLedger(Ledgers.LEDGER_PAYMENT_PAYMENT_METHOD_ACCOUNT);
 						jeContent.setAmount(line.getAmount());// 总计
 						jeContent.setCurrency(line.getCurrency());
+						jeContent.setRate(line.getRate());
 						jeContents.add(jeContent);
 					} else {
 						/** 不基于单据 **/
@@ -1591,8 +1594,10 @@ public class Payment extends BusinessObject<Payment> implements IPayment, IDataO
 						jeContent = new JournalEntrySmartContent(line);
 						jeContent.setCategory(Category.Debit);
 						jeContent.setLedger(Ledgers.LEDGER_PURCHASE_DOMESTIC_ACCOUNTS_PAYABLE);
+						jeContent.setShortName(Payment.this.getBusinessPartnerCode());
 						jeContent.setAmount(line.getAmount());// 总计
 						jeContent.setCurrency(line.getCurrency());
+						jeContent.setRate(line.getRate());
 						jeContents.add(jeContent);
 						// 收款方式科目
 						jeContent = new JournalEntrySmartContent(line);
@@ -1600,6 +1605,7 @@ public class Payment extends BusinessObject<Payment> implements IPayment, IDataO
 						jeContent.setLedger(Ledgers.LEDGER_PAYMENT_PAYMENT_METHOD_ACCOUNT);
 						jeContent.setAmount(line.getAmount());// 总计
 						jeContent.setCurrency(line.getCurrency());
+						jeContent.setRate(line.getRate());
 						jeContents.add(jeContent);
 					}
 				}

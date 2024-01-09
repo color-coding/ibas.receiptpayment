@@ -334,11 +334,26 @@ namespace receiptpayment {
                             }),
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("receiptpayment_title_total") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrecharge_amount") }),
-                            new sap.extension.m.Input("", {
-
-                            }).bindProperty("bindingValue", {
-                                path: "amount",
-                                type: new sap.extension.data.Sum()
+                            new sap.m.FlexBox("", {
+                                width: "100%",
+                                justifyContent: sap.m.FlexJustifyContent.Start,
+                                renderType: sap.m.FlexRendertype.Bare,
+                                alignContent: sap.m.FlexAlignContent.Center,
+                                alignItems: sap.m.FlexAlignItems.Center,
+                                items: [
+                                    new sap.extension.m.Input("", {
+                                        width: "70%",
+                                    }).bindProperty("bindingValue", {
+                                        path: "amount",
+                                        type: new sap.extension.data.Sum()
+                                    }).addStyleClass("sapUiTinyMarginEnd"),
+                                    new sap.extension.m.CurrencySelect("", {
+                                        editable: false,
+                                    }).bindProperty("bindingValue", {
+                                        path: "currency",
+                                        type: new sap.extension.data.Alphanumeric()
+                                    }),
+                                ]
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrecharge_times") }),
                             new sap.extension.m.Input("", {

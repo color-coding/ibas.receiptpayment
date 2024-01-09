@@ -411,6 +411,17 @@ namespace receiptpayment {
                 this.setProperty(AssetRecharge.PROPERTY_AMOUNT_NAME, value);
             }
 
+            /** 映射的属性名称-货币 */
+            static PROPERTY_CURRENCY_NAME: string = "Currency";
+            /** 获取-货币 */
+            get currency(): string {
+                return this.getProperty<string>(AssetRecharge.PROPERTY_CURRENCY_NAME);
+            }
+            /** 设置-货币 */
+            set currency(value: string) {
+                this.setProperty(AssetRecharge.PROPERTY_CURRENCY_NAME, value);
+            }
+
             /** 映射的属性名称-充值次数 */
             static PROPERTY_TIMES_NAME: string = "Times";
             /** 获取-充值次数 */

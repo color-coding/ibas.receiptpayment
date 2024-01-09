@@ -521,6 +521,20 @@ public interface IAssetRecharge extends IBODocument {
 	void setAmount(BigDecimal value);
 
 	/**
+	 * 获取-货币
+	 * 
+	 * @return 值
+	 */
+	String getCurrency();
+
+	/**
+	 * 设置-货币
+	 * 
+	 * @param value 值
+	 */
+	void setCurrency(String value);
+
+	/**
 	 * 设置-充值量
 	 * 
 	 * @param value 值

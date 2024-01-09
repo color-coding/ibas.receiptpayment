@@ -38,6 +38,7 @@
     <Property Name="ContactPerson" Description="联系人" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="CntctCode"/>
     <Property Name="ServiceCode" Description="业务伙伴资产码" DataType="Alphanumeric" DataSubType="Default" EditSize="36" Mapped="ServiceCode"/>
     <Property Name="Amount" Description="充值量" DataType="Decimal" DataSubType="Sum" EditSize="8" Mapped="Amount"/>
+    <Property Name="Currency" Description="货币" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Currency"/>
     <Property Name="Times" Description="充值次数" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="Times"/>
     <Property Name="OrderType" Description="单据类型" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrderType"/>
     <Property Name="Branch" Description="分支" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Branch"/>
