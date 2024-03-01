@@ -1528,6 +1528,23 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 		contracts.add(new IJournalEntryCreationContract() {
 
 			@Override
+			public boolean isOffsetting() {
+				if (Receipt.this instanceof IBOTagCanceled) {
+					IBOTagCanceled boTag = (IBOTagCanceled) Receipt.this;
+					if (boTag.getCanceled() == emYesNo.YES) {
+						return true;
+					}
+				}
+				if (Receipt.this instanceof IBOTagDeleted) {
+					IBOTagDeleted boTag = (IBOTagDeleted) Receipt.this;
+					if (boTag.getDeleted() == emYesNo.YES) {
+						return true;
+					}
+				}
+				return false;
+			}
+
+			@Override
 			public String getIdentifiers() {
 				return Receipt.this.toString();
 			}
@@ -1568,6 +1585,15 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 				List<JournalEntryContent> jeContents = new ArrayList<>();
 				String DownPaymentRequestCode = MyConfiguration.applyVariables(DownPaymentRequest.BUSINESS_OBJECT_CODE);
 				for (IReceiptItem line : Receipt.this.getReceiptItems()) {
+					if (line.getDeleted() == emYesNo.YES) {
+						continue;
+					}
+					if (line.getCanceled() == emYesNo.YES) {
+						continue;
+					}
+					if (line.getLineStatus() == emDocumentStatus.PLANNED) {
+						continue;
+					}
 					if (DownPaymentRequestCode.equals(line.getBaseDocumentType())
 							|| Receipt.this.getDownPayment() == emYesNo.YES) {
 						/** 基于收款申请 或 预收款 **/
