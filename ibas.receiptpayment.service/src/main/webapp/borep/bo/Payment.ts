@@ -930,6 +930,18 @@ namespace receiptpayment {
                 this.setProperty(PaymentItem.PROPERTY_TRADEID_NAME, value);
             }
 
+            /** 映射的属性名称-已清金额 */
+            static PROPERTY_CLOSEDAMOUNT_NAME: string = "ClosedAmount";
+            /** 获取-已清金额 */
+            get closedAmount(): number {
+                return this.getProperty<number>(PaymentItem.PROPERTY_CLOSEDAMOUNT_NAME);
+            }
+            /** 设置-已清金额 */
+            set closedAmount(value: number) {
+                this.setProperty(PaymentItem.PROPERTY_CLOSEDAMOUNT_NAME, value);
+            }
+
+
             /** 初始化数据 */
             protected init(): void {
                 this.currency = accounting.config.currency("LOCAL");

@@ -78,6 +78,7 @@
     <Property Name="Currency" Description="货币" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Currency"/>
     <Property Name="Rate" Description="汇率" DataType="Decimal" DataSubType="Rate" EditSize="8" Mapped="Rate"/>
     <Property Name="TradeId" Description="交易识别码" DataType="Alphanumeric" DataSubType="Default" EditSize="140" Mapped="TradeId"/>
+    <Property Name="ClosedAmount" Description="已清金额" DataType="Decimal" DataSubType="Sum" EditSize="8" Mapped="ClosedAmt"/>
   </Model>
   <BusinessObject MappedModel="Payment" ShortName="${Company}_RP_PAYMENT">
     <RelatedBO Relation="OneToMany" MappedModel="PaymentItem"/>

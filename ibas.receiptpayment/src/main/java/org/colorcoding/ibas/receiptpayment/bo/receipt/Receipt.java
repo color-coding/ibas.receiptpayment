@@ -1476,6 +1476,7 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 		super.reset();
 		this.setDocumentStatus(emDocumentStatus.RELEASED);
 		this.getReceiptItems().forEach(c -> c.setLineStatus(emDocumentStatus.RELEASED));
+		this.getReceiptItems().forEach(c -> c.setClosedAmount(Decimal.ZERO));
 	}
 
 	@Override

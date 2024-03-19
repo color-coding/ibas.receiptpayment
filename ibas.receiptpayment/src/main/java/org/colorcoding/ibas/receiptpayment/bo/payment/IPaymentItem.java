@@ -518,4 +518,17 @@ public interface IPaymentItem extends IBODocumentLine {
 	 */
 	void setTradeId(String value);
 
+	/**
+	 * 获取-已清金额
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getClosedAmount();
+
+	/**
+	 * 设置-已清金额
+	 * 
+	 * @param value 值
+	 */
+	void setClosedAmount(BigDecimal value);
 }

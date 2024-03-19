@@ -10,6 +10,7 @@ import org.colorcoding.ibas.bobas.logic.BusinessLogic;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.document.DocumentFetcherManager;
+import org.colorcoding.ibas.document.IDocumentFetcher;
 import org.colorcoding.ibas.document.IDocumentPaidTotalOperator;
 
 public abstract class DocumentPaidTotalService<L extends IBusinessLogicContract>
@@ -30,15 +31,18 @@ public abstract class DocumentPaidTotalService<L extends IBusinessLogicContract>
 			condition.setValue(docEntry);
 			IDocumentPaidTotalOperator document = this.fetchBeAffected(criteria, IDocumentPaidTotalOperator.class);
 			if (document == null) {
-				document = DocumentFetcherManager.create().newFetcher(documentType).fetch(docEntry);
-			}
-			if (document == null) {
-				throw new BusinessLogicException(I18N.prop("msg_rp_not_found_document", documentType, docEntry));
+				IDocumentFetcher<IDocumentPaidTotalOperator> fetcher = DocumentFetcherManager.create()
+						.newFetcher(documentType);
+				if (fetcher == null) {
+					throw new BusinessLogicException(I18N.prop("msg_rp_not_found_document_fether", documentType));
+				}
+				fetcher.setRepository(this.getRepository());
+				document = fetcher.fetch(docEntry);
 			}
 			if (document instanceof IDocumentPaidTotalOperator) {
 				return (IDocumentPaidTotalOperator) document;
 			}
-			throw new BusinessLogicException(I18N.prop("msg_rp_wrong_type", document));
+			throw new BusinessLogicException(I18N.prop("msg_rp_not_found_document", documentType, docEntry));
 		} catch (BusinessLogicException e) {
 			throw e;
 		} catch (Exception e) {

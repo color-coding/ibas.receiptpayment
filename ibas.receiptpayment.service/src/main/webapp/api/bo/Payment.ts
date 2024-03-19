@@ -249,6 +249,10 @@ namespace receiptpayment {
             /** 交易识别码 */
             tradeId: string;
 
+            /** 已清金额 */
+            closedAmount: number;
+
+
 
         }
     }

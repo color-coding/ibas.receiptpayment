@@ -1476,6 +1476,7 @@ public class Payment extends BusinessObject<Payment> implements IPayment, IDataO
 		super.reset();
 		this.setDocumentStatus(emDocumentStatus.RELEASED);
 		this.getPaymentItems().forEach(c -> c.setLineStatus(emDocumentStatus.RELEASED));
+		this.getPaymentItems().forEach(c -> c.setClosedAmount(Decimal.ZERO));
 	}
 
 	@Override
