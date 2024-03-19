@@ -133,10 +133,14 @@ namespace receiptpayment {
                                     new sap.m.Toolbar("", {
                                         content: [
                                             new sap.m.Label("", {
+                                                showColon: true,
                                                 text: ibas.i18n.prop("receiptpaymentt_choosable_paid_method"),
                                             }).addStyleClass("sapUiTinyMarginBegin"),
                                             new sap.m.ToolbarSpacer(),
-                                            new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_ordertype") }),
+                                            new sap.m.Label("", {
+                                                showColon: true,
+                                                text: ibas.i18n.prop("bo_receipt_ordertype"),
+                                            }),
                                             this.type_select = new sap.extension.m.PropertySelect("", {
                                                 dataInfo: {
                                                     code: bo.Receipt.BUSINESS_OBJECT_CODE,
@@ -168,6 +172,7 @@ namespace receiptpayment {
                                             new sap.m.ToolbarSpacer(""),
                                             new sap.m.Label("", {
                                                 width: "auto",
+                                                showColon: true,
                                                 textAlign: sap.ui.core.TextAlign.Left,
                                                 text: ibas.i18n.prop("receiptpayment_paid")
                                             }),
@@ -177,7 +182,7 @@ namespace receiptpayment {
                                                 placeholder: ibas.i18n.prop("receiptpaymentt_please_input_paid_amount"),
                                             }),
                                             new sap.m.ToolbarSeparator(""),
-                                            new sap.m.Button("", {
+                                            this.applyButton = new sap.m.Button("", {
                                                 icon: "sap-icon://accept",
                                                 type: sap.m.ButtonType.Transparent,
                                                 press(oControlEvent: sap.ui.base.Event): void {
@@ -197,7 +202,6 @@ namespace receiptpayment {
                                                     // 错误参数调用，用于提示
                                                     that.fireViewEvents(that.applyReceiptTradingEvent);
                                                 }
-
                                             }).addStyleClass("sapUiTinyMarginEnd"),
                                         ]
                                     })
@@ -228,6 +232,7 @@ namespace receiptpayment {
                 private menthod_box: sap.extension.f.GridList;
                 private trading_box: sap.m.VBox;
                 private type_select: sap.m.Select;
+                private applyButton: sap.m.Button;
                 /** 显示业务伙伴 */
                 showBusinessPartner(data: app.BusinessPartner): void {
                     this.bp_bar.setModel(new sap.ui.model.json.JSONModel(data));
@@ -238,6 +243,7 @@ namespace receiptpayment {
                 }
                 /** 显示收款交易方式 */
                 showTradingMethods(methods: app.IReceiptTradingMethod[]): void {
+                    let that: this = this;
                     for (let item of methods) {
                         this.menthod_box.addItem(new sap.f.GridListItem("", {
                             type: sap.m.ListType.Active,
@@ -258,9 +264,23 @@ namespace receiptpayment {
                                 }).addStyleClass("sapUiTinyMarginTop"),
                                 new sap.m.RadioButton("", {
                                     width: "auto",
+                                    groupName: that.id,
                                     text: {
                                         path: "/description"
                                     },
+                                    select(event: sap.ui.base.Event): void {
+                                        let source: any = event.getSource();
+                                        if (source instanceof sap.m.RadioButton) {
+                                            if (event.getParameter("selected") === true) {
+                                                setTimeout(() => {
+                                                    let amount: number = ibas.numbers.valueOf(that.paid_input.getValue());
+                                                    if (amount > 0) {
+                                                        (<any>that.applyButton).firePress({});
+                                                    }
+                                                }, 100);
+                                            }
+                                        }
+                                    }
                                 })
                             ],
                             press(event: sap.ui.base.Event): void {
@@ -268,7 +288,9 @@ namespace receiptpayment {
                                 if (source instanceof sap.f.GridListItem) {
                                     for (let item of source.getContent()) {
                                         if (item instanceof sap.m.RadioButton) {
-                                            item.setSelected(!item.getSelected());
+                                            if (item.getSelected() === false) {
+                                                (<any>item).ontap();
+                                            }
                                         }
                                     }
                                 }
@@ -315,6 +337,7 @@ namespace receiptpayment {
                     this.trading_box.addItem(new sap.m.Toolbar("", {
                         content: [
                             new sap.m.Label("", {
+                                showColon: true,
                                 text: ibas.i18n.prop("receiptpaymentt_choosed_paid_method"),
                             }).addStyleClass("sapUiTinyMarginBegin"),
                         ]
@@ -326,12 +349,13 @@ namespace receiptpayment {
                                 new sap.m.ToolbarSpacer(""),
                                 new sap.m.Label("", {
                                     width: "auto",
+                                    showColon: true,
                                     text: item instanceof app.ReceiptTradingDiscount ?
                                         ibas.strings.format(ibas.i18n.prop("receiptpayment_discount"), item.trading.description) :
                                         item.trading.description,
                                     textAlign: sap.ui.core.TextAlign.Right,
                                 }).addStyleClass("sapUiTinyMarginEnd"),
-                                new sap.m.Label("", {
+                                new sap.m.Text("", {
                                     width: "auto",
                                     textAlign: sap.ui.core.TextAlign.Right,
                                 }).setText(sap.extension.data.formatValue(sap.extension.data.Sum, item.amount, "string")),
