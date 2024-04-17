@@ -239,7 +239,7 @@ namespace receiptpayment {
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_assetrechargeitem_currency"),
-                                        template: new sap.extension.m.Text("", {
+                                        template: new sap.extension.m.CurrencySelect("", {
                                         }).bindProperty("bindingValue", {
                                             path: "currency",
                                             type: new sap.extension.data.Alphanumeric({

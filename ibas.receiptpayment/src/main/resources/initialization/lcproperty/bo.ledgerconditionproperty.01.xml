@@ -3,6 +3,6 @@
 <ns:LedgerConditionProperty xmlns:ns="http://colorcoding.org/ibas/accounting/bo">
 	<Name>PaymentMethod</Name>
 	<Description>收付款方式</Description>
-	<Filters>GL-BP-M1;GL-BP-M2;</Filters>
+	<Filters>GL-BP-M1;GL-BP-M2;GL-BP-M3;</Filters>
 	<Remarks></Remarks>
 </ns:LedgerConditionProperty>

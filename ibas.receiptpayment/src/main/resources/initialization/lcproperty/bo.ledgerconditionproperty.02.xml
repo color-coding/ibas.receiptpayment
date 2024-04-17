@@ -3,6 +3,6 @@
 <ns:LedgerConditionProperty xmlns:ns="http://colorcoding.org/ibas/accounting/bo">
 	<Name>TradeId</Name>
 	<Description>交易识别码</Description>
-	<Filters>GL-BP-M1;GL-BP-M2;</Filters>
+	<Filters>GL-BP-M1;GL-BP-M2;GL-BP-M3;</Filters>
 	<Remarks></Remarks>
 </ns:LedgerConditionProperty>

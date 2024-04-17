@@ -11,6 +11,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.colorcoding.ibas.accounting.logic.IBranchCheckContract;
+import org.colorcoding.ibas.accounting.logic.IJECPropertyValueGetter;
+import org.colorcoding.ibas.accounting.logic.IJournalEntryCreationContract;
+import org.colorcoding.ibas.accounting.logic.JournalEntryContent;
+import org.colorcoding.ibas.accounting.logic.JournalEntryContent.Category;
 import org.colorcoding.ibas.bobas.approval.IApprovalData;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOSeriesKey;
@@ -42,6 +46,8 @@ import org.colorcoding.ibas.businesspartner.logic.IBusinessPartnerAssetIncreases
 import org.colorcoding.ibas.businesspartner.logic.ICustomerCheckContract;
 import org.colorcoding.ibas.businesspartner.logic.ISupplierCheckContract;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
+import org.colorcoding.ibas.receiptpayment.data.Ledgers;
+import org.colorcoding.ibas.receiptpayment.logic.journalentry.JournalEntrySmartContent;
 
 /**
  * 资产充值
@@ -51,8 +57,9 @@ import org.colorcoding.ibas.receiptpayment.MyConfiguration;
 @XmlType(name = AssetRecharge.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = AssetRecharge.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BusinessObjectUnit(code = AssetRecharge.BUSINESS_OBJECT_CODE)
-public class AssetRecharge extends BusinessObject<AssetRecharge> implements IAssetRecharge, IDataOwnership, IPeriodData,
-		IApprovalData, IBOTagDeleted, IBOTagCanceled, IBusinessLogicsHost, IBOSeriesKey, IBOUserFields {
+public class AssetRecharge extends BusinessObject<AssetRecharge>
+		implements IAssetRecharge, IDataOwnership, IPeriodData, IApprovalData, IBOTagDeleted, IBOTagCanceled,
+		IBusinessLogicsHost, IBOSeriesKey, IBOUserFields, IJECPropertyValueGetter {
 
 	/**
 	 * 序列化版本标记
@@ -1504,7 +1511,123 @@ public class AssetRecharge extends BusinessObject<AssetRecharge> implements IAss
 				return -1;
 			}
 		});
+		// 创建分录
+		contracts.add(new IJournalEntryCreationContract() {
+
+			@Override
+			public boolean isOffsetting() {
+				if (AssetRecharge.this instanceof IBOTagCanceled) {
+					IBOTagCanceled boTag = (IBOTagCanceled) AssetRecharge.this;
+					if (boTag.getCanceled() == emYesNo.YES) {
+						return true;
+					}
+				}
+				if (AssetRecharge.this instanceof IBOTagDeleted) {
+					IBOTagDeleted boTag = (IBOTagDeleted) AssetRecharge.this;
+					if (boTag.getDeleted() == emYesNo.YES) {
+						return true;
+					}
+				}
+				return false;
+			}
+
+			@Override
+			public String getIdentifiers() {
+				return AssetRecharge.this.toString();
+			}
+
+			@Override
+			public String getBranch() {
+				return AssetRecharge.this.getBranch();
+			}
+
+			@Override
+			public String getBaseDocumentType() {
+				return AssetRecharge.this.getObjectCode();
+			}
+
+			@Override
+			public Integer getBaseDocumentEntry() {
+				return AssetRecharge.this.getDocEntry();
+			}
+
+			@Override
+			public DateTime getDocumentDate() {
+				return AssetRecharge.this.getDocumentDate();
+			}
+
+			@Override
+			public String getReference1() {
+				return AssetRecharge.this.getReference1();
+			}
+
+			@Override
+			public String getReference2() {
+				return AssetRecharge.this.getReference2();
+			}
+
+			@Override
+			public JournalEntryContent[] getContents() {
+				JournalEntryContent jeContent;
+				List<JournalEntryContent> jeContents = new ArrayList<>();
+				for (IAssetRechargeItem line : AssetRecharge.this.getAssetRechargeItems()) {
+					if (line.getDeleted() == emYesNo.YES) {
+						continue;
+					}
+					if (line.getCanceled() == emYesNo.YES) {
+						continue;
+					}
+					if (line.getLineStatus() == emDocumentStatus.PLANNED) {
+						continue;
+					}
+					// 收款方式科目
+					jeContent = new JournalEntrySmartContent(line);
+					jeContent.setCategory(Category.Debit);
+					jeContent.setLedger(Ledgers.LEDGER_PAYMENT_RECEIPT_METHOD_ACCOUNT);
+					jeContent.setAmount(line.getAmount());// 总计
+					jeContent.setCurrency(line.getCurrency());
+					jeContent.setRate(line.getRate());
+					jeContents.add(jeContent);
+				}
+				// 资产项目科目
+				jeContent = new JournalEntrySmartContent(AssetRecharge.this);
+				jeContent.setCategory(Category.Credit);
+				jeContent.setLedger(Ledgers.LEDGER_PAYMENT_ASSET_ITEM_ACCOUNT);
+				jeContent.setShortName(AssetRecharge.this.getBusinessPartnerCode());
+				jeContent.setAmount(AssetRecharge.this.getAmount());// 总计
+				jeContent.setCurrency(AssetRecharge.this.getCurrency());
+				jeContents.add(jeContent);
+				return jeContents.toArray(new JournalEntryContent[] {});
+			}
+		});
 		return contracts.toArray(new IBusinessLogicContract[] {});
 	}
 
+	@Override
+	public Object getValue(String property) {
+		switch (property) {
+		case Ledgers.CONDITION_PROPERTY_OBJECTCODE:
+			return this.getObjectCode();
+		case Ledgers.CONDITION_PROPERTY_DATAOWNER:
+			return this.getDataOwner();
+		case Ledgers.CONDITION_PROPERTY_ORGANIZATION:
+			return this.getOrganization();
+		case Ledgers.CONDITION_PROPERTY_ORDERTYPE:
+			return this.getOrderType();
+		case Ledgers.CONDITION_PROPERTY_BRANCH:
+			return this.getBranch();
+		case Ledgers.CONDITION_PROPERTY_CUSTOMER:
+			return this.getBusinessPartnerType() == emBusinessPartnerType.CUSTOMER ? this.getBusinessPartnerCode()
+					: null;
+		case Ledgers.CONDITION_PROPERTY_SUPPLIER:
+			return this.getBusinessPartnerType() == emBusinessPartnerType.SUPPLIER ? this.getBusinessPartnerCode()
+					: null;
+		case Ledgers.CONDITION_PROPERTY_PAYMENTMETHOD:
+			return Ledgers.TRADING_MODE_BP_ASSSET;
+		case Ledgers.CONDITION_PROPERTY_TRADEID:
+			return this.getServiceCode();
+		default:
+			return null;
+		}
+	}
 }
