@@ -37,6 +37,7 @@ import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
 import org.colorcoding.ibas.bobas.period.IPeriodData;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleDocumentStatus;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMaxProperty;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
@@ -44,9 +45,10 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleSumElements;
 import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
 import org.colorcoding.ibas.businesspartner.logic.ICustomerCheckContract;
 import org.colorcoding.ibas.businesspartner.logic.ISupplierCheckContract;
-import org.colorcoding.ibas.materials.data.Ledgers;
-import org.colorcoding.ibas.materials.logic.journalentry.JournalEntrySmartContent;
+import org.colorcoding.ibas.document.IDocumentPaidTotalOperator;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
+import org.colorcoding.ibas.receiptpayment.data.Ledgers;
+import org.colorcoding.ibas.receiptpayment.logic.journalentry.JournalEntrySmartContent;
 import org.colorcoding.ibas.sales.bo.downpaymentrequest.DownPaymentRequest;
 
 /**
@@ -58,7 +60,7 @@ import org.colorcoding.ibas.sales.bo.downpaymentrequest.DownPaymentRequest;
 @XmlRootElement(name = Receipt.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BusinessObjectUnit(code = Receipt.BUSINESS_OBJECT_CODE)
 public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataOwnership, IPeriodData, IApprovalData,
-		IBOTagDeleted, IBOTagCanceled, IBusinessLogicsHost, IBOSeriesKey, IBOUserFields {
+		IBOTagDeleted, IBOTagCanceled, IBusinessLogicsHost, IBOSeriesKey, IBOUserFields, IDocumentPaidTotalOperator {
 
 	/**
 	 * 序列化版本标记
@@ -1411,6 +1413,37 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 	}
 
 	/**
+	 * 属性名称-已清金额
+	 */
+	private static final String PROPERTY_CLOSEDAMOUNT_NAME = "ClosedAmount";
+
+	/**
+	 * 已清金额 属性
+	 */
+	@DbField(name = "ClosedAmt", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_CLOSEDAMOUNT = registerProperty(PROPERTY_CLOSEDAMOUNT_NAME,
+			BigDecimal.class, MY_CLASS);
+
+	/**
+	 * 获取-已清金额
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_CLOSEDAMOUNT_NAME)
+	public final BigDecimal getClosedAmount() {
+		return this.getProperty(PROPERTY_CLOSEDAMOUNT);
+	}
+
+	/**
+	 * 设置-已清金额
+	 * 
+	 * @param value 值
+	 */
+	public final void setClosedAmount(BigDecimal value) {
+		this.setProperty(PROPERTY_CLOSEDAMOUNT, value);
+	}
+
+	/**
 	 * 属性名称-收款-项目
 	 */
 	private static final String PROPERTY_RECEIPTITEMS_NAME = "ReceiptItems";
@@ -1468,6 +1501,7 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 						ReceiptItem.PROPERTY_LINESTATUS), // 使用集合元素状态
 				new BusinessRuleSumElements(PROPERTY_DOCUMENTTOTAL, PROPERTY_RECEIPTITEMS, ReceiptItem.PROPERTY_AMOUNT), // 计算单据总计
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_DOCUMENTTOTAL), // 不能低于0
+				new BusinessRuleMaxProperty<BigDecimal>(PROPERTY_DOCUMENTTOTAL, PROPERTY_CLOSEDAMOUNT), // 已清金额不能大过单据总计
 		};
 	}
 
@@ -1475,8 +1509,8 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 	public void reset() {
 		super.reset();
 		this.setDocumentStatus(emDocumentStatus.RELEASED);
+		this.setClosedAmount(Decimal.ZERO);
 		this.getReceiptItems().forEach(c -> c.setLineStatus(emDocumentStatus.RELEASED));
-		this.getReceiptItems().forEach(c -> c.setClosedAmount(Decimal.ZERO));
 	}
 
 	@Override
@@ -1641,4 +1675,15 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 		});
 		return contracts.toArray(new IBusinessLogicContract[] {});
 	}
+
+	@Override
+	public BigDecimal getPaidTotal() {
+		return this.getClosedAmount();
+	}
+
+	@Override
+	public void setPaidTotal(BigDecimal value) {
+		this.setClosedAmount(value);
+	}
+
 }

@@ -467,6 +467,17 @@ namespace receiptpayment {
                 this.setProperty(Receipt.PROPERTY_DOWNPAYMENT_NAME, value);
             }
 
+            /** 映射的属性名称-已清金额 */
+            static PROPERTY_CLOSEDAMOUNT_NAME: string = "ClosedAmount";
+            /** 获取-已清金额 */
+            get closedAmount(): number {
+                return this.getProperty<number>(Receipt.PROPERTY_CLOSEDAMOUNT_NAME);
+            }
+            /** 设置-已清金额 */
+            set closedAmount(value: number) {
+                this.setProperty(Receipt.PROPERTY_CLOSEDAMOUNT_NAME, value);
+            }
+
 
             /** 映射的属性名称-收款-项目集合 */
             static PROPERTY_RECEIPTITEMS_NAME: string = "ReceiptItems";
@@ -928,17 +939,6 @@ namespace receiptpayment {
             /** 设置-交易识别码 */
             set tradeId(value: string) {
                 this.setProperty(ReceiptItem.PROPERTY_TRADEID_NAME, value);
-            }
-
-            /** 映射的属性名称-已清金额 */
-            static PROPERTY_CLOSEDAMOUNT_NAME: string = "ClosedAmount";
-            /** 获取-已清金额 */
-            get closedAmount(): number {
-                return this.getProperty<number>(ReceiptItem.PROPERTY_CLOSEDAMOUNT_NAME);
-            }
-            /** 设置-已清金额 */
-            set closedAmount(value: number) {
-                this.setProperty(ReceiptItem.PROPERTY_CLOSEDAMOUNT_NAME, value);
             }
 
             /** 初始化数据 */

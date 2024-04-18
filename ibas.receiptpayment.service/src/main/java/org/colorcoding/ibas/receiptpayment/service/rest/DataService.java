@@ -9,6 +9,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.OperationResult;
+import org.colorcoding.ibas.businesspartner.bo.internalreconciliation.InternalReconciliation;
 import org.colorcoding.ibas.receiptpayment.bo.assetrecharge.AssetRecharge;
 import org.colorcoding.ibas.receiptpayment.bo.payment.Payment;
 import org.colorcoding.ibas.receiptpayment.bo.receipt.Receipt;
@@ -24,10 +25,8 @@ public class DataService extends BORepositoryReceiptPayment {
 	/**
 	 * 查询-付款
 	 * 
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -41,10 +40,8 @@ public class DataService extends BORepositoryReceiptPayment {
 	/**
 	 * 保存-付款
 	 * 
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
+	 * @param bo    对象实例
+	 * @param token 口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -59,10 +56,8 @@ public class DataService extends BORepositoryReceiptPayment {
 	/**
 	 * 查询-收款
 	 * 
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -76,10 +71,8 @@ public class DataService extends BORepositoryReceiptPayment {
 	/**
 	 * 保存-收款
 	 * 
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
+	 * @param bo    对象实例
+	 * @param token 口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -94,10 +87,8 @@ public class DataService extends BORepositoryReceiptPayment {
 	/**
 	 * 查询-资产充值
 	 * 
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -111,10 +102,8 @@ public class DataService extends BORepositoryReceiptPayment {
 	/**
 	 * 保存-资产充值
 	 * 
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
+	 * @param bo    对象实例
+	 * @param token 口令
 	 * @return 操作结果
 	 */
 	@POST
@@ -124,6 +113,40 @@ public class DataService extends BORepositoryReceiptPayment {
 	public OperationResult<AssetRecharge> saveAssetRecharge(AssetRecharge bo, @QueryParam("token") String token) {
 		return super.saveAssetRecharge(bo, token);
 	}
+
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-内部对账
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("fetchInternalReconciliation")
+	public OperationResult<InternalReconciliation> fetchInternalReconciliation(Criteria criteria,
+			@QueryParam("token") String token) {
+		return super.fetchInternalReconciliation(criteria, token);
+	}
+
+	/**
+	 * 保存-内部对账
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("saveInternalReconciliation")
+	public OperationResult<InternalReconciliation> saveInternalReconciliation(InternalReconciliation bo,
+			@QueryParam("token") String token) {
+		return super.saveInternalReconciliation(bo, token);
+	}
+
 	// --------------------------------------------------------------------------------------------//
 
 }

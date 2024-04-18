@@ -134,6 +134,9 @@ namespace receiptpayment {
             /** 预收款 */
             downPayment: ibas.emYesNo;
 
+            /** 已清金额 */
+            closedAmount: number;
+
             /** 收款-项目集合 */
             receiptItems: IReceiptItems;
 
@@ -247,10 +250,6 @@ namespace receiptpayment {
 
             /** 交易识别码 */
             tradeId: string;
-
-            /** 已清金额 */
-            closedAmount: number;
-
 
         }
     }

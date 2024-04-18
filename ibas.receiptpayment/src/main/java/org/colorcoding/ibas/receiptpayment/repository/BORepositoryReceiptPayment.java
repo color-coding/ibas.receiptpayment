@@ -4,6 +4,8 @@ import org.colorcoding.ibas.bobas.common.ICriteria;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.common.OperationResult;
 import org.colorcoding.ibas.bobas.repository.BORepositoryServiceApplication;
+import org.colorcoding.ibas.businesspartner.bo.internalreconciliation.IInternalReconciliation;
+import org.colorcoding.ibas.businesspartner.bo.internalreconciliation.InternalReconciliation;
 import org.colorcoding.ibas.receiptpayment.bo.assetrecharge.AssetRecharge;
 import org.colorcoding.ibas.receiptpayment.bo.assetrecharge.IAssetRecharge;
 import org.colorcoding.ibas.receiptpayment.bo.payment.IPayment;
@@ -21,10 +23,8 @@ public class BORepositoryReceiptPayment extends BORepositoryServiceApplication
 	/**
 	 * 查询-付款
 	 * 
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	public OperationResult<Payment> fetchPayment(ICriteria criteria, String token) {
@@ -34,8 +34,7 @@ public class BORepositoryReceiptPayment extends BORepositoryServiceApplication
 	/**
 	 * 查询-付款（提前设置用户口令）
 	 * 
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	public IOperationResult<IPayment> fetchPayment(ICriteria criteria) {
@@ -45,10 +44,8 @@ public class BORepositoryReceiptPayment extends BORepositoryServiceApplication
 	/**
 	 * 保存-付款
 	 * 
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
+	 * @param bo    对象实例
+	 * @param token 口令
 	 * @return 操作结果
 	 */
 	public OperationResult<Payment> savePayment(Payment bo, String token) {
@@ -58,8 +55,7 @@ public class BORepositoryReceiptPayment extends BORepositoryServiceApplication
 	/**
 	 * 保存-付款（提前设置用户口令）
 	 * 
-	 * @param bo
-	 *            对象实例
+	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
 	public IOperationResult<IPayment> savePayment(IPayment bo) {
@@ -70,10 +66,8 @@ public class BORepositoryReceiptPayment extends BORepositoryServiceApplication
 	/**
 	 * 查询-收款
 	 * 
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	public OperationResult<Receipt> fetchReceipt(ICriteria criteria, String token) {
@@ -83,8 +77,7 @@ public class BORepositoryReceiptPayment extends BORepositoryServiceApplication
 	/**
 	 * 查询-收款（提前设置用户口令）
 	 * 
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	public IOperationResult<IReceipt> fetchReceipt(ICriteria criteria) {
@@ -94,10 +87,8 @@ public class BORepositoryReceiptPayment extends BORepositoryServiceApplication
 	/**
 	 * 保存-收款
 	 * 
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
+	 * @param bo    对象实例
+	 * @param token 口令
 	 * @return 操作结果
 	 */
 	public OperationResult<Receipt> saveReceipt(Receipt bo, String token) {
@@ -107,8 +98,7 @@ public class BORepositoryReceiptPayment extends BORepositoryServiceApplication
 	/**
 	 * 保存-收款（提前设置用户口令）
 	 * 
-	 * @param bo
-	 *            对象实例
+	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
 	public IOperationResult<IReceipt> saveReceipt(IReceipt bo) {
@@ -119,10 +109,8 @@ public class BORepositoryReceiptPayment extends BORepositoryServiceApplication
 	/**
 	 * 查询-资产充值
 	 * 
-	 * @param criteria
-	 *            查询
-	 * @param token
-	 *            口令
+	 * @param criteria 查询
+	 * @param token    口令
 	 * @return 操作结果
 	 */
 	public OperationResult<AssetRecharge> fetchAssetRecharge(ICriteria criteria, String token) {
@@ -132,8 +120,7 @@ public class BORepositoryReceiptPayment extends BORepositoryServiceApplication
 	/**
 	 * 查询-资产充值（提前设置用户口令）
 	 * 
-	 * @param criteria
-	 *            查询
+	 * @param criteria 查询
 	 * @return 操作结果
 	 */
 	public IOperationResult<IAssetRecharge> fetchAssetRecharge(ICriteria criteria) {
@@ -143,10 +130,8 @@ public class BORepositoryReceiptPayment extends BORepositoryServiceApplication
 	/**
 	 * 保存-资产充值
 	 * 
-	 * @param bo
-	 *            对象实例
-	 * @param token
-	 *            口令
+	 * @param bo    对象实例
+	 * @param token 口令
 	 * @return 操作结果
 	 */
 	public OperationResult<AssetRecharge> saveAssetRecharge(AssetRecharge bo, String token) {
@@ -156,14 +141,57 @@ public class BORepositoryReceiptPayment extends BORepositoryServiceApplication
 	/**
 	 * 保存-资产充值（提前设置用户口令）
 	 * 
-	 * @param bo
-	 *            对象实例
+	 * @param bo 对象实例
 	 * @return 操作结果
 	 */
 	public IOperationResult<IAssetRecharge> saveAssetRecharge(IAssetRecharge bo) {
 		return new OperationResult<IAssetRecharge>(this.saveAssetRecharge((AssetRecharge) bo, this.getUserToken()));
 	}
 
+	// --------------------------------------------------------------------------------------------//
+	/**
+	 * 查询-内部对账
+	 * 
+	 * @param criteria 查询
+	 * @param token    口令
+	 * @return 操作结果
+	 */
+	public OperationResult<InternalReconciliation> fetchInternalReconciliation(ICriteria criteria, String token) {
+		return super.fetch(criteria, token, InternalReconciliation.class);
+	}
+
+	/**
+	 * 查询-内部对账（提前设置用户口令）
+	 * 
+	 * @param criteria 查询
+	 * @return 操作结果
+	 */
+	public IOperationResult<IInternalReconciliation> fetchInternalReconciliation(ICriteria criteria) {
+		return new OperationResult<IInternalReconciliation>(
+				this.fetchInternalReconciliation(criteria, this.getUserToken()));
+	}
+
+	/**
+	 * 保存-内部对账
+	 * 
+	 * @param bo    对象实例
+	 * @param token 口令
+	 * @return 操作结果
+	 */
+	public OperationResult<InternalReconciliation> saveInternalReconciliation(InternalReconciliation bo, String token) {
+		return super.save(bo, token);
+	}
+
+	/**
+	 * 保存-内部对账（提前设置用户口令）
+	 * 
+	 * @param bo 对象实例
+	 * @return 操作结果
+	 */
+	public IOperationResult<IInternalReconciliation> saveInternalReconciliation(IInternalReconciliation bo) {
+		return new OperationResult<IInternalReconciliation>(
+				this.saveInternalReconciliation((InternalReconciliation) bo, this.getUserToken()));
+	}
 	// --------------------------------------------------------------------------------------------//
 
 }

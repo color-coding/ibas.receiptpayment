@@ -9,6 +9,7 @@ import javax.xml.bind.JAXBException;
 import org.colorcoding.ibas.bobas.bo.UserFieldProxy;
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.OperationResult;
+import org.colorcoding.ibas.businesspartner.bo.internalreconciliation.InternalReconciliation;
 import org.colorcoding.ibas.receiptpayment.bo.assetrecharge.AssetRecharge;
 import org.colorcoding.ibas.receiptpayment.bo.payment.Payment;
 import org.colorcoding.ibas.receiptpayment.bo.receipt.Receipt;
@@ -26,7 +27,7 @@ public class Resolver implements ContextResolver<JAXBContext> {
 		try {
 			if (jaxbContext == null) {
 				jaxbContext = JAXBContext.newInstance(Criteria.class, OperationResult.class, UserFieldProxy.class,
-						Payment.class, Receipt.class, AssetRecharge.class);
+						Payment.class, Receipt.class, AssetRecharge.class, InternalReconciliation.class);
 			}
 		} catch (JAXBException e) {
 			e.printStackTrace();

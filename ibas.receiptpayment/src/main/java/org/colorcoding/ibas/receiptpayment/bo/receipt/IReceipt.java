@@ -633,6 +633,20 @@ public interface IReceipt extends IBODocument {
 	void setDownPayment(emYesNo value);
 
 	/**
+	 * 获取-已清金额
+	 * 
+	 * @return 值
+	 */
+	BigDecimal getClosedAmount();
+
+	/**
+	 * 设置-已清金额
+	 * 
+	 * @param value 值
+	 */
+	void setClosedAmount(BigDecimal value);
+
+	/**
 	 * 获取-收款-项目集合
 	 * 
 	 * @return 值

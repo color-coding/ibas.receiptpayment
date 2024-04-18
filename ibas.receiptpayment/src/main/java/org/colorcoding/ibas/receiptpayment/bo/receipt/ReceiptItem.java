@@ -1144,37 +1144,6 @@ public class ReceiptItem extends BusinessObject<ReceiptItem> implements IReceipt
 	}
 
 	/**
-	 * 属性名称-已清金额
-	 */
-	private static final String PROPERTY_CLOSEDAMOUNT_NAME = "ClosedAmount";
-
-	/**
-	 * 已清金额 属性
-	 */
-	@DbField(name = "ClosedAmt", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
-	public static final IPropertyInfo<BigDecimal> PROPERTY_CLOSEDAMOUNT = registerProperty(PROPERTY_CLOSEDAMOUNT_NAME,
-			BigDecimal.class, MY_CLASS);
-
-	/**
-	 * 获取-已清金额
-	 * 
-	 * @return 值
-	 */
-	@XmlElement(name = PROPERTY_CLOSEDAMOUNT_NAME)
-	public final BigDecimal getClosedAmount() {
-		return this.getProperty(PROPERTY_CLOSEDAMOUNT);
-	}
-
-	/**
-	 * 设置-已清金额
-	 * 
-	 * @param value 值
-	 */
-	public final void setClosedAmount(BigDecimal value) {
-		this.setProperty(PROPERTY_CLOSEDAMOUNT, value);
-	}
-
-	/**
 	 * 初始化数据
 	 */
 	@Override
@@ -1197,7 +1166,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem> implements IReceipt
 
 	@Override
 	public IBusinessLogicContract[] getContracts() {
-		List<IBusinessLogicContract> contracts = new ArrayList<>(4);
+		List<IBusinessLogicContract> contracts = new ArrayList<>(2);
 		contracts.add(new IReceiptPaidTotalContract() {
 
 			@Override
@@ -1304,4 +1273,5 @@ public class ReceiptItem extends BusinessObject<ReceiptItem> implements IReceipt
 			return null;
 		}
 	}
+
 }

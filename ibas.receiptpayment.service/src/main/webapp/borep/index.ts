@@ -20,5 +20,6 @@ namespace receiptpayment {
         boFactory.register(Payment.BUSINESS_OBJECT_CODE, Payment);
         boFactory.register(Receipt.BUSINESS_OBJECT_CODE, Receipt);
         boFactory.register(AssetRecharge.BUSINESS_OBJECT_CODE, AssetRecharge);
+        boFactory.register(businesspartner.bo.InternalReconciliation.BUSINESS_OBJECT_CODE, businesspartner.bo.InternalReconciliation);
     }
 }

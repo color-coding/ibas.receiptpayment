@@ -53,6 +53,17 @@ namespace receiptpayment {
              * @param saver 保存者
              */
             saveAssetRecharge(saver: ibas.ISaveCaller<bo.IAssetRecharge>): void;
+            /**
+             * 查询 内部对账
+             * @param fetcher 查询者
+             */
+            fetchInternalReconciliation(fetcher: ibas.IFetchCaller<businesspartner.bo.IInternalReconciliation>): void;
+            /**
+             * 保存 内部对账
+             * @param saver 保存者
+             */
+            saveInternalReconciliation(saver: ibas.ISaveCaller<businesspartner.bo.IInternalReconciliation>): void;
+
         }
     }
 

@@ -43,6 +43,7 @@
     <Property Name="OrderType" Description="单据类型" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="OrderType"/>
     <Property Name="Branch" Description="分支" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Branch"/>
     <Property Name="DownPayment" Description="预收款" DataType="Alphanumeric" DataSubType="Default" EditSize="1" DeclaredType="emYesNo" Mapped="DownPayment"/>
+    <Property Name="ClosedAmount" Description="已清金额" DataType="Decimal" DataSubType="Sum" EditSize="8" Mapped="ClosedAmt"/>
   </Model>
   <Model Name="ReceiptItem" Description="收款-项目" ModelType="DocumentLine" Mapped="${Company}_RP_RPT1">
     <Property Name="DocEntry" Description="凭证编号" DataType="Numeric" DataSubType="Default" EditSize="8" Mapped="DocEntry" PrimaryKey="Yes"/>
@@ -78,7 +79,6 @@
     <Property Name="Currency" Description="货币" DataType="Alphanumeric" DataSubType="Default" EditSize="8" Mapped="Currency"/>
     <Property Name="Rate" Description="汇率" DataType="Decimal" DataSubType="Rate" EditSize="8" Mapped="Rate"/>
     <Property Name="TradeId" Description="交易识别码" DataType="Alphanumeric" DataSubType="Default" EditSize="140" Mapped="TradeId"/>
-    <Property Name="ClosedAmount" Description="已清金额" DataType="Decimal" DataSubType="Sum" EditSize="8" Mapped="ClosedAmt"/>
   </Model>
   <BusinessObject MappedModel="Receipt" ShortName="${Company}_RP_RECEIPT">
     <RelatedBO Relation="OneToMany" MappedModel="ReceiptItem"/>

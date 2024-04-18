@@ -10,6 +10,7 @@
 /// <reference path="./receipt/index.ts" />
 /// <reference path="./payment/index.ts" />
 /// <reference path="./assetrecharge/index.ts" />
+/// <reference path="./internalreconciliation/index.ts" />
 /// <reference path="./trading/index.ts" />
 namespace receiptpayment {
     export namespace ui {
@@ -69,6 +70,21 @@ namespace receiptpayment {
                         break;
                     case app.WaitTradingService.APPLICATION_ID:
                         view = new c.WaitTradingServiceView();
+                        break;
+                    case app.InternalReconciliationListApp.APPLICATION_ID:
+                        view = new c.InternalReconciliationListView();
+                        break;
+                    case app.InternalReconciliationChooseApp.APPLICATION_ID:
+                        view = new c.InternalReconciliationChooseView();
+                        break;
+                    case app.InternalReconciliationViewApp.APPLICATION_ID:
+                        view = new c.InternalReconciliationViewView();
+                        break;
+                    case app.InternalReconciliationEditApp.APPLICATION_ID:
+                        view = new c.InternalReconciliationEditView();
+                        break;
+                    case app.InternalReconciliationApp.APPLICATION_ID:
+                        view = new c.InternalReconciliationView();
                         break;
                     default:
                         break;

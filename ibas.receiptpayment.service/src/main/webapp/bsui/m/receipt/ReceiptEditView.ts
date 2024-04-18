@@ -546,6 +546,13 @@ namespace receiptpayment {
                                                             }),
                                                         ]
                                                     }),
+                                                    new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_closedamount") }),
+                                                    new sap.extension.m.Input("", {
+                                                        editable: false,
+                                                    }).bindProperty("bindingValue", {
+                                                        path: "closedAmount",
+                                                        type: new sap.extension.data.Sum()
+                                                    }),
                                                 ]
                                             }).addStyleClass("sapUxAPObjectPageSubSectionAlignContent"),
                                         ]
