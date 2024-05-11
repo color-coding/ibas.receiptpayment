@@ -9,17 +9,24 @@ namespace receiptpayment {
     export namespace app {
         const PROPERTY_DRAWNTOTAL: symbol = Symbol("drawnTotal");
         export class InternalReconciliation extends ibas.Bindable {
-            constructor(data: bo.Receipt | bo.Payment
-                | sales.bo.SalesInvoice | sales.bo.SalesCreditNote
-                | purchase.bo.PurchaseInvoice | purchase.bo.PurchaseCreditNote) {
+            /**
+             * 构造
+             * @param data  bo.Receipt | bo.Payment
+             *    | sales.bo.SalesInvoice | sales.bo.SalesCreditNote
+             *    | purchase.bo.PurchaseInvoice | purchase.bo.PurchaseCreditNote
+             */
+            constructor(data: any) {
                 super();
                 this.data = data;
                 this.drawnTotal = this.documentTotal - this.closedAmount;
             }
-
-            data: bo.Receipt | bo.Payment
-                | sales.bo.SalesInvoice | sales.bo.SalesCreditNote
-                | purchase.bo.PurchaseInvoice | purchase.bo.PurchaseCreditNote;
+            /**
+             * 原始数据
+             * 类型：bo.Receipt | bo.Payment
+             *        | sales.bo.SalesInvoice | sales.bo.SalesCreditNote
+             *        | purchase.bo.PurchaseInvoice | purchase.bo.PurchaseCreditNote
+             */
+            data: any;
 
             /** 获取-单据类型 */
             get documentType(): string {
@@ -157,7 +164,7 @@ namespace receiptpayment {
             set drawnTotal(value: number) {
                 this[PROPERTY_DRAWNTOTAL] = value;
             }
-
+            /** 获取业务伙伴信息 */
             get shortName(): string {
                 if (this.data instanceof bo.Receipt || this.data instanceof bo.Payment) {
                     return this.data.businessPartnerCode;
