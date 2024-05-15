@@ -1516,6 +1516,9 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 
 			@Override
 			public boolean isOffsetting() {
+				if (AssetRecharge.this.isDeleted()) {
+					return true;
+				}
 				if (AssetRecharge.this instanceof IBOTagCanceled) {
 					IBOTagCanceled boTag = (IBOTagCanceled) AssetRecharge.this;
 					if (boTag.getCanceled() == emYesNo.YES) {

@@ -1564,6 +1564,9 @@ public class Payment extends BusinessObject<Payment> implements IPayment, IDataO
 
 			@Override
 			public boolean isOffsetting() {
+				if (Payment.this.isDeleted()) {
+					return true;
+				}
 				if (Payment.this instanceof IBOTagCanceled) {
 					IBOTagCanceled boTag = (IBOTagCanceled) Payment.this;
 					if (boTag.getCanceled() == emYesNo.YES) {

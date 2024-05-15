@@ -1564,6 +1564,9 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 
 			@Override
 			public boolean isOffsetting() {
+				if (Receipt.this.isDeleted()) {
+					return true;
+				}
 				if (Receipt.this instanceof IBOTagCanceled) {
 					IBOTagCanceled boTag = (IBOTagCanceled) Receipt.this;
 					if (boTag.getCanceled() == emYesNo.YES) {
