@@ -473,6 +473,9 @@ namespace receiptpayment {
                 this.objectCode = ibas.config.applyVariables(AssetRecharge.BUSINESS_OBJECT_CODE);
                 this.businessPartnerType = businesspartner.bo.emBusinessPartnerType.CUSTOMER;
                 this.documentStatus = ibas.emDocumentStatus.RELEASED;
+                this.currency = accounting.config.currency("LOCAL");
+                this.documentDate = ibas.dates.today();
+                this.deliveryDate = ibas.dates.today();
             }
             /** 重置 */
             reset(): void {
@@ -496,6 +499,33 @@ namespace receiptpayment {
                 let item: AssetRechargeItem = new AssetRechargeItem();
                 this.add(item);
                 return item;
+            }
+            /** 添加子项后 子项属性赋值 */
+            protected afterAdd(item: AssetRechargeItem): void {
+                super.afterAdd(item);
+                if (item.isNew && ibas.objects.isNull(item.createDate)) {
+                    item.createDate = this.parent.documentDate;
+                }
+            }
+            /** 主表属性发生变化后 子项属性赋值  */
+            protected onParentPropertyChanged(name: string): void {
+                super.onParentPropertyChanged(name);
+                if (!this.parent.isLoading) {
+                    if (ibas.strings.equalsIgnoreCase(name, AssetRecharge.PROPERTY_DOCUMENTDATE_NAME)) {
+                        for (let item of this) {
+                            if (item.isLoading) {
+                                continue;
+                            }
+                            if (item.isNew === false) {
+                                continue;
+                            }
+                            if (!ibas.objects.isNull(item.createDate)) {
+                                continue;
+                            }
+                            item.createDate = this.parent.documentDate;
+                        }
+                    }
+                }
             }
         }
 
@@ -791,9 +821,9 @@ namespace receiptpayment {
                 this.setProperty(AssetRechargeItem.PROPERTY_TRADEID_NAME, value);
             }
 
-
             /** 初始化数据 */
             protected init(): void {
+                this.currency = accounting.config.currency("LOCAL");
             }
         }
 

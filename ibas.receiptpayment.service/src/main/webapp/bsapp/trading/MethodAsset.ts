@@ -43,6 +43,7 @@ namespace receiptpayment {
                         chooseType: ibas.emChooseType.SINGLE,
                         criteria: [
                             new ibas.Condition(businesspartner.bo.BusinessPartnerAsset.PROPERTY_BUSINESSPARTNERCODE_NAME, ibas.emConditionOperation.EQUAL, contract.businessPartnerCode),
+                            new ibas.Condition(businesspartner.bo.AssetItem.PROPERTY_AMOUNTUNIT_NAME, ibas.emConditionOperation.EQUAL, contract.documentCurrency),
                         ],
                         onCompleted(selecteds: ibas.IList<businesspartner.bo.ICustomerAsset>): void {
                             let opRslt: ibas.IOperationResult<IReceiptTradingMethod> = new ibas.OperationResult<IReceiptTradingMethod>();
@@ -154,6 +155,7 @@ namespace receiptpayment {
                         chooseType: ibas.emChooseType.SINGLE,
                         criteria: [
                             new ibas.Condition(businesspartner.bo.BusinessPartnerAsset.PROPERTY_BUSINESSPARTNERCODE_NAME, ibas.emConditionOperation.EQUAL, contract.businessPartnerCode),
+                            new ibas.Condition(businesspartner.bo.AssetItem.PROPERTY_AMOUNTUNIT_NAME, ibas.emConditionOperation.EQUAL, contract.documentCurrency),
                         ],
                         onCompleted(selecteds: ibas.IList<businesspartner.bo.ISupplierAsset>): void {
                             let opRslt: ibas.IOperationResult<IPaymentTradingMethod> = new ibas.OperationResult<IPaymentTradingMethod>();

@@ -1261,6 +1261,64 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 	}
 
 	/**
+	 * 属性名称-汇率
+	 */
+	private static final String PROPERTY_RATE_NAME = "Rate";
+
+	/**
+	 * 汇率 属性
+	 */
+	@DbField(name = "Rate", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
+	public static final IPropertyInfo<BigDecimal> PROPERTY_RATE = registerProperty(PROPERTY_RATE_NAME, BigDecimal.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-汇率
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_RATE_NAME)
+	public final BigDecimal getRate() {
+		return this.getProperty(PROPERTY_RATE);
+	}
+
+	/**
+	 * 设置-汇率
+	 * 
+	 * @param value 值
+	 */
+	public final void setRate(BigDecimal value) {
+		this.setProperty(PROPERTY_RATE, value);
+	}
+
+	/**
+	 * 设置-汇率
+	 * 
+	 * @param value 值
+	 */
+	public final void setRate(String value) {
+		this.setRate(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 设置-汇率
+	 * 
+	 * @param value 值
+	 */
+	public final void setRate(int value) {
+		this.setRate(Decimal.valueOf(value));
+	}
+
+	/**
+	 * 设置-汇率
+	 * 
+	 * @param value 值
+	 */
+	public final void setRate(double value) {
+		this.setRate(Decimal.valueOf(value));
+	}
+
+	/**
 	 * 属性名称-充值次数
 	 */
 	private static final String PROPERTY_TIMES_NAME = "Times";
@@ -1599,6 +1657,7 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 				jeContent.setShortName(AssetRecharge.this.getBusinessPartnerCode());
 				jeContent.setAmount(AssetRecharge.this.getAmount());// 总计
 				jeContent.setCurrency(AssetRecharge.this.getCurrency());
+				jeContent.setRate(AssetRecharge.this.getRate());
 				jeContents.add(jeContent);
 				return jeContents.toArray(new JournalEntryContent[] {});
 			}

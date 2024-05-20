@@ -238,14 +238,24 @@ namespace receiptpayment {
                                         }),
                                     }),
                                     new sap.extension.table.DataColumn("", {
-                                        label: ibas.i18n.prop("bo_assetrechargeitem_currency"),
-                                        template: new sap.extension.m.CurrencySelect("", {
-                                        }).bindProperty("bindingValue", {
-                                            path: "currency",
-                                            type: new sap.extension.data.Alphanumeric({
-                                                maxLength: 8
-                                            })
-                                        })
+                                        label: ibas.i18n.prop("bo_assetrechargeitem_rate_currency"),
+                                        template: new sap.extension.m.CurrencyRateSelect("", {
+                                            editable: true,
+                                            baseCurrency: accounting.config.currency("LOCAL"),
+                                            currency: {
+                                                path: "currency",
+                                                type: new sap.extension.data.Alphanumeric()
+                                            },
+                                            rate: {
+                                                path: "rate",
+                                                type: new sap.extension.data.Rate()
+                                            },
+                                            date: {
+                                                path: "createDate",
+                                                type: new sap.extension.data.Date()
+                                            }
+                                        }),
+                                        width: "14rem",
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_assetrechargeitem_tradeid"),
@@ -343,15 +353,26 @@ namespace receiptpayment {
                                 items: [
                                     new sap.extension.m.Input("", {
                                         width: "70%",
+                                        editable: true,
                                     }).bindProperty("bindingValue", {
                                         path: "amount",
                                         type: new sap.extension.data.Sum()
                                     }).addStyleClass("sapUiTinyMarginEnd"),
-                                    new sap.extension.m.CurrencySelect("", {
+                                    new sap.extension.m.CurrencyRateSelect("", {
                                         editable: false,
-                                    }).bindProperty("bindingValue", {
-                                        path: "currency",
-                                        type: new sap.extension.data.Alphanumeric()
+                                        baseCurrency: accounting.config.currency("LOCAL"),
+                                        currency: {
+                                            path: "currency",
+                                            type: new sap.extension.data.Alphanumeric()
+                                        },
+                                        rate: {
+                                            path: "rate",
+                                            type: new sap.extension.data.Rate()
+                                        },
+                                        date: {
+                                            path: "documentDate",
+                                            type: new sap.extension.data.Date()
+                                        }
                                     }),
                                 ]
                             }),

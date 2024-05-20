@@ -249,6 +249,7 @@
         "bo_assetrechargeitem_currency": "货币",
         "bo_assetrechargeitem_rate": "汇率",
         "bo_assetrechargeitem_tradeid": "交易识别码",
+        "bo_assetrechargeitem_rate_currency": "汇率&货币",
         "bo_assetrecharge_closing_delimiter": "----结束----"
     },
     {
