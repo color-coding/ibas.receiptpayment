@@ -27,6 +27,7 @@ import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
+import org.colorcoding.ibas.businesspartner.logic.IBusinessPartnerAssetConsumptionContract;
 import org.colorcoding.ibas.businesspartner.logic.IBusinessPartnerAssetIncreasesContract;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
 import org.colorcoding.ibas.receiptpayment.data.Ledgers;
@@ -1199,44 +1200,86 @@ public class PaymentItem extends BusinessObject<PaymentItem> implements IPayment
 
 		});
 		if (IBusinessPartnerAssetIncreasesContract.ASSET_MODE_SIGN.equals(this.getMode())) {
-			contracts.add(new IBusinessPartnerAssetIncreasesContract() {
+			if (this.parent.getBusinessPartnerType() == emBusinessPartnerType.SUPPLIER) {
+				// 供应商付款
+				contracts.add(new IBusinessPartnerAssetConsumptionContract() {
 
-				@Override
-				public String getIdentifiers() {
-					return PaymentItem.this.getIdentifiers();
-				}
+					@Override
+					public String getIdentifiers() {
+						return PaymentItem.this.getIdentifiers();
+					}
 
-				@Override
-				public String getServiceCode() {
-					return PaymentItem.this.getTradeId();
-				}
+					@Override
+					public String getServiceCode() {
+						return PaymentItem.this.getTradeId();
+					}
 
-				@Override
-				public BigDecimal getAmount() {
-					return PaymentItem.this.getAmount();
-				}
+					@Override
+					public BigDecimal getAmount() {
+						return PaymentItem.this.getAmount();
+					}
 
-				@Override
-				public String getCurrency() {
-					return PaymentItem.this.getCurrency();
-				}
+					@Override
+					public String getCurrency() {
+						return PaymentItem.this.getCurrency();
+					}
 
-				@Override
-				public String getBaseDocumentType() {
-					return PaymentItem.this.getObjectCode();
-				}
+					@Override
+					public String getBaseDocumentType() {
+						return PaymentItem.this.getObjectCode();
+					}
 
-				@Override
-				public Integer getBaseDocumentEntry() {
-					return PaymentItem.this.getDocEntry();
-				}
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return PaymentItem.this.getDocEntry();
+					}
 
-				@Override
-				public Integer getBaseDocumentLineId() {
-					return PaymentItem.this.getLineId();
-				}
+					@Override
+					public Integer getBaseDocumentLineId() {
+						return PaymentItem.this.getLineId();
+					}
 
-			});
+				});
+			} else {
+				contracts.add(new IBusinessPartnerAssetIncreasesContract() {
+
+					@Override
+					public String getIdentifiers() {
+						return PaymentItem.this.getIdentifiers();
+					}
+
+					@Override
+					public String getServiceCode() {
+						return PaymentItem.this.getTradeId();
+					}
+
+					@Override
+					public BigDecimal getAmount() {
+						return PaymentItem.this.getAmount();
+					}
+
+					@Override
+					public String getCurrency() {
+						return PaymentItem.this.getCurrency();
+					}
+
+					@Override
+					public String getBaseDocumentType() {
+						return PaymentItem.this.getObjectCode();
+					}
+
+					@Override
+					public Integer getBaseDocumentEntry() {
+						return PaymentItem.this.getDocEntry();
+					}
+
+					@Override
+					public Integer getBaseDocumentLineId() {
+						return PaymentItem.this.getLineId();
+					}
+
+				});
+			}
 		}
 		return contracts.toArray(new IBusinessLogicContract[] {});
 	}

@@ -1644,7 +1644,7 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 					// 收款方式科目
 					jeContent = new JournalEntrySmartContent(line);
 					jeContent.setCategory(Category.Debit);
-					jeContent.setLedger(Ledgers.LEDGER_PAYMENT_RECEIPT_METHOD_ACCOUNT);
+					jeContent.setLedger(Ledgers.LEDGER_PAYMENT_PAYMENT_METHOD_ACCOUNT);
 					jeContent.setAmount(line.getAmount());// 总计
 					jeContent.setCurrency(line.getCurrency());
 					jeContent.setRate(line.getRate());
