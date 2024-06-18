@@ -20,6 +20,7 @@ namespace receiptpayment {
                     items.push(new sap.ui.core.Item("", {
                         key: item.name,
                         text: item.description,
+                        tooltip: ibas.strings.format("{0} - {1}", item.name, item.description)
                     }));
                 }
                 return items;
@@ -36,6 +37,7 @@ namespace receiptpayment {
                     items.push(new sap.ui.core.Item("", {
                         key: item.name,
                         text: item.description,
+                        tooltip: ibas.strings.format("{0} - {1}", item.name, item.description)
                     }));
                 }
                 return items;

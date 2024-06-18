@@ -1643,7 +1643,7 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 					}
 					// 收款方式科目
 					jeContent = new JournalEntrySmartContent(line);
-					jeContent.setCategory(Category.Debit);
+					jeContent.setCategory(Category.Credit);
 					jeContent.setLedger(Ledgers.LEDGER_PAYMENT_PAYMENT_METHOD_ACCOUNT);
 					jeContent.setAmount(line.getAmount());// 总计
 					jeContent.setCurrency(line.getCurrency());
@@ -1652,9 +1652,9 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 				}
 				// 资产项目科目
 				jeContent = new JournalEntrySmartContent(AssetRecharge.this);
-				jeContent.setCategory(Category.Credit);
+				jeContent.setCategory(Category.Debit);
 				jeContent.setLedger(Ledgers.LEDGER_PAYMENT_ASSET_ITEM_ACCOUNT);
-				jeContent.setShortName(AssetRecharge.this.getBusinessPartnerCode());
+				// jeContent.setShortName(AssetRecharge.this.getBusinessPartnerCode());
 				jeContent.setAmount(AssetRecharge.this.getAmount());// 总计
 				jeContent.setCurrency(AssetRecharge.this.getCurrency());
 				jeContent.setRate(AssetRecharge.this.getRate());
@@ -1687,6 +1687,8 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 		case Ledgers.CONDITION_PROPERTY_PAYMENTMETHOD:
 			return Ledgers.TRADING_MODE_BP_ASSSET;
 		case Ledgers.CONDITION_PROPERTY_TRADEID:
+			return this.getServiceCode();
+		case Ledgers.CONDITION_PROPERTY_BUSINESS_PARTNER_ASSET:
 			return this.getServiceCode();
 		default:
 			return null;

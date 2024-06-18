@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE LedgerAccount>
+<ns:LedgerConditionProperty xmlns:ns="http://colorcoding.org/ibas/accounting/bo">
+	<Name>Bank</Name>
+	<Description>银行</Description>
+	<Filters>GL-BP-M1;GL-BP-M2;GL-BP-M3;</Filters>
+	<Remarks></Remarks>
+</ns:LedgerConditionProperty>

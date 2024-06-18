@@ -1,5 +1,8 @@
 package org.colorcoding.ibas.receiptpayment.logic.journalentry;
 
+import org.colorcoding.ibas.accounting.bo.bank.BankAccount;
+import org.colorcoding.ibas.accounting.bo.bank.IBankAccount;
+import org.colorcoding.ibas.accounting.repository.BORepositoryAccounting;
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
@@ -18,9 +21,12 @@ public class JournalEntrySmartContent
 
 	@Override
 	public Object getSourceDataPropertyValue(String property) {
-		if (Ledgers.CONDITION_PROPERTY_ASSET_ITEM.equals(property)) {
-			if (Ledgers.TRADING_MODE_BP_ASSSET.equalsIgnoreCase(
-					String.valueOf(super.getSourceDataPropertyValue(Ledgers.CONDITION_PROPERTY_PAYMENTMETHOD)))) {
+		if (Ledgers.CONDITION_PROPERTY_ASSET_ITEM.equals(property)
+				|| Ledgers.CONDITION_PROPERTY_BANK_ACCOUNT.equals(property)
+				|| Ledgers.CONDITION_PROPERTY_BANK.equals(property)) {
+			String paymentMethod = String
+					.valueOf(super.getSourceDataPropertyValue(Ledgers.CONDITION_PROPERTY_PAYMENTMETHOD));
+			if (Ledgers.TRADING_MODE_BP_ASSSET.equalsIgnoreCase(paymentMethod)) {
 				String tradeId = String.valueOf(super.getSourceDataPropertyValue(Ledgers.CONDITION_PROPERTY_TRADEID));
 				if (!JournalEntrySmartContent.VALUE_NULL.equalsIgnoreCase(tradeId)) {
 					Criteria criteria = new Criteria();
@@ -36,7 +42,46 @@ public class JournalEntrySmartContent
 						throw new BusinessLogicException(operationResult.getError());
 					}
 					for (IBusinessPartnerAsset item : operationResult.getResultObjects()) {
-						return item.getAssetCode();
+						if (Ledgers.CONDITION_PROPERTY_ASSET_ITEM.equals(property)) {
+							return item.getAssetCode();
+						} else if (Ledgers.CONDITION_PROPERTY_BANK_ACCOUNT.equals(property)) {
+							return item.getBankAccount();
+						} else if (Ledgers.CONDITION_PROPERTY_BANK.equals(property)) {
+							criteria = new Criteria();
+							criteria.setResultCount(1);
+							condition = criteria.getConditions().create();
+							condition.setAlias(BankAccount.PROPERTY_CODE.getName());
+							condition.setValue(item.getBankAccount());
+							BORepositoryAccounting acRepository = new BORepositoryAccounting();
+							acRepository.setRepository(this.getService().getRepository());
+							IOperationResult<IBankAccount> baOpRslt = acRepository.fetchBankAccount(criteria);
+							if (baOpRslt.getError() != null) {
+								throw new BusinessLogicException(baOpRslt.getError());
+							}
+							if (!baOpRslt.getResultObjects().isEmpty()) {
+								return baOpRslt.getResultObjects().firstOrDefault().getBank();
+							}
+						}
+					}
+				}
+			} else if (Ledgers.TRADING_MODE_BANK.equalsIgnoreCase(paymentMethod)) {
+				String tradeId = String.valueOf(super.getSourceDataPropertyValue(Ledgers.CONDITION_PROPERTY_TRADEID));
+				if (Ledgers.CONDITION_PROPERTY_BANK_ACCOUNT.equals(property)) {
+					return tradeId;
+				} else if (Ledgers.CONDITION_PROPERTY_BANK.equals(property)) {
+					Criteria criteria = new Criteria();
+					criteria.setResultCount(1);
+					ICondition condition = criteria.getConditions().create();
+					condition.setAlias(BankAccount.PROPERTY_CODE.getName());
+					condition.setValue(tradeId);
+					BORepositoryAccounting acRepository = new BORepositoryAccounting();
+					acRepository.setRepository(this.getService().getRepository());
+					IOperationResult<IBankAccount> baOpRslt = acRepository.fetchBankAccount(criteria);
+					if (baOpRslt.getError() != null) {
+						throw new BusinessLogicException(baOpRslt.getError());
+					}
+					if (!baOpRslt.getResultObjects().isEmpty()) {
+						return baOpRslt.getResultObjects().firstOrDefault().getBank();
 					}
 				}
 			}
