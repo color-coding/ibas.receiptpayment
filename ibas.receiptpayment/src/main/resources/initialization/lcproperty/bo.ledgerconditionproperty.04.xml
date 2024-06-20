@@ -3,6 +3,6 @@
 <ns:LedgerConditionProperty xmlns:ns="http://colorcoding.org/ibas/accounting/bo">
 	<Name>Bank</Name>
 	<Description>银行</Description>
-	<Filters>GL-BP-M1;GL-BP-M2;GL-BP-M3;</Filters>
+	<Filters>GL-BP-M1;GL-BP-M2;GL-BP-M3;GL-BP-M3;GL-BP-P1;GL-BP-P2;GL-BP-S1;GL-BP-S2;</Filters>
 	<Remarks></Remarks>
 </ns:LedgerConditionProperty>

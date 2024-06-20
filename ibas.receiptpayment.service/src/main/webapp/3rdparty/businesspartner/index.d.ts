@@ -207,6 +207,8 @@ declare namespace businesspartner {
             activated: ibas.emYesNo;
             /** 名称 */
             name: string;
+            /** 组 */
+            group: string;
             /** 街道 */
             street: string;
             /** 县/区 */
@@ -339,6 +341,8 @@ declare namespace businesspartner {
             activated: ibas.emYesNo;
             /** 名称 */
             name: string;
+            /** 组 */
+            group: string;
             /** 性别 */
             gender: emGender;
             /** 职位 */
@@ -1425,6 +1429,12 @@ declare namespace businesspartner {
             get name(): string;
             /** 设置-名称 */
             set name(value: string);
+            /** 映射的属性名称-组 */
+            static PROPERTY_GROUP_NAME: string;
+            /** 获取-组 */
+            get group(): string;
+            /** 设置-组 */
+            set group(value: string);
             /** 映射的属性名称-街道 */
             static PROPERTY_STREET_NAME: string;
             /** 获取-街道 */
@@ -1778,6 +1788,12 @@ declare namespace businesspartner {
             get name(): string;
             /** 设置-名称 */
             set name(value: string);
+            /** 映射的属性名称-组 */
+            static PROPERTY_GROUP_NAME: string;
+            /** 获取-组 */
+            get group(): string;
+            /** 设置-组 */
+            set group(value: string);
             /** 映射的属性名称-性别 */
             static PROPERTY_GENDER_NAME: string;
             /** 获取-性别 */
@@ -5911,6 +5927,8 @@ declare namespace businesspartner {
         }
         /** 视图-业务伙伴资产 */
         interface IBusinessPartnerAssetViewView extends ibas.IBOViewView {
+            /** 显示数据 */
+            showBusinessPartnerAsset(data: bo.BusinessPartnerAsset): void;
         }
         /** 业务伙伴资产连接服务映射 */
         class BusinessPartnerAssetLinkServiceMapping extends ibas.BOLinkServiceMapping {
@@ -6054,6 +6072,8 @@ declare namespace businesspartner {
             /** 显示数据 */
             showBusinessPartnerAssetJournal(data: bo.BusinessPartnerAssetJournal): void;
         }
+        /** 权限元素-业务伙伴资产日记账编辑 */
+        const ELEMENT_BUSINESSPARTNER_ASSET_JOURNAL_EDIT: ibas.IElement;
     }
 }
 /**
