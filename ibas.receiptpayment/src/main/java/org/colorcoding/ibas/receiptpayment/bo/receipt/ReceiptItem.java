@@ -29,7 +29,6 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
 import org.colorcoding.ibas.businesspartner.logic.IBusinessPartnerAssetConsumptionContract;
-import org.colorcoding.ibas.businesspartner.logic.IBusinessPartnerAssetIncreasesContract;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
 import org.colorcoding.ibas.receiptpayment.data.Ledgers;
 import org.colorcoding.ibas.receiptpayment.logic.IReceiptPaidTotalContract;
@@ -1201,84 +1200,43 @@ public class ReceiptItem extends BusinessObject<ReceiptItem> implements IReceipt
 			}
 		});
 		if (IBusinessPartnerAssetConsumptionContract.ASSET_MODE_SIGN.equals(this.getMode())) {
-			if (this.parent.getBusinessPartnerType() == emBusinessPartnerType.SUPPLIER) {
-				// 供应商收款
-				contracts.add(new IBusinessPartnerAssetIncreasesContract() {
+			contracts.add(new IBusinessPartnerAssetConsumptionContract() {
 
-					@Override
-					public String getIdentifiers() {
-						return ReceiptItem.this.getIdentifiers();
-					}
+				@Override
+				public String getIdentifiers() {
+					return ReceiptItem.this.getIdentifiers();
+				}
 
-					@Override
-					public String getServiceCode() {
-						return ReceiptItem.this.getTradeId();
-					}
+				@Override
+				public String getServiceCode() {
+					return ReceiptItem.this.getTradeId();
+				}
 
-					@Override
-					public BigDecimal getAmount() {
-						return ReceiptItem.this.getAmount();
-					}
+				@Override
+				public BigDecimal getAmount() {
+					return ReceiptItem.this.getAmount();
+				}
 
-					@Override
-					public String getCurrency() {
-						return ReceiptItem.this.getCurrency();
-					}
+				@Override
+				public String getCurrency() {
+					return ReceiptItem.this.getCurrency();
+				}
 
-					@Override
-					public String getBaseDocumentType() {
-						return ReceiptItem.this.getObjectCode();
-					}
+				@Override
+				public String getBaseDocumentType() {
+					return ReceiptItem.this.getObjectCode();
+				}
 
-					@Override
-					public Integer getBaseDocumentEntry() {
-						return ReceiptItem.this.getDocEntry();
-					}
+				@Override
+				public Integer getBaseDocumentEntry() {
+					return ReceiptItem.this.getDocEntry();
+				}
 
-					@Override
-					public Integer getBaseDocumentLineId() {
-						return ReceiptItem.this.getLineId();
-					}
-				});
-			} else {
-				contracts.add(new IBusinessPartnerAssetConsumptionContract() {
-
-					@Override
-					public String getIdentifiers() {
-						return ReceiptItem.this.getIdentifiers();
-					}
-
-					@Override
-					public String getServiceCode() {
-						return ReceiptItem.this.getTradeId();
-					}
-
-					@Override
-					public BigDecimal getAmount() {
-						return ReceiptItem.this.getAmount();
-					}
-
-					@Override
-					public String getCurrency() {
-						return ReceiptItem.this.getCurrency();
-					}
-
-					@Override
-					public String getBaseDocumentType() {
-						return ReceiptItem.this.getObjectCode();
-					}
-
-					@Override
-					public Integer getBaseDocumentEntry() {
-						return ReceiptItem.this.getDocEntry();
-					}
-
-					@Override
-					public Integer getBaseDocumentLineId() {
-						return ReceiptItem.this.getLineId();
-					}
-				});
-			}
+				@Override
+				public Integer getBaseDocumentLineId() {
+					return ReceiptItem.this.getLineId();
+				}
+			});
 		}
 		return contracts.toArray(new IBusinessLogicContract[] {});
 	}

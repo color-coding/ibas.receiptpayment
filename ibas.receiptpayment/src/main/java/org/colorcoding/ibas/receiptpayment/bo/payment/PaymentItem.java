@@ -1200,86 +1200,44 @@ public class PaymentItem extends BusinessObject<PaymentItem> implements IPayment
 
 		});
 		if (IBusinessPartnerAssetIncreasesContract.ASSET_MODE_SIGN.equals(this.getMode())) {
-			if (this.parent.getBusinessPartnerType() == emBusinessPartnerType.SUPPLIER) {
-				// 供应商付款
-				contracts.add(new IBusinessPartnerAssetConsumptionContract() {
+			contracts.add(new IBusinessPartnerAssetConsumptionContract() {
 
-					@Override
-					public String getIdentifiers() {
-						return PaymentItem.this.getIdentifiers();
-					}
+				@Override
+				public String getIdentifiers() {
+					return PaymentItem.this.getIdentifiers();
+				}
 
-					@Override
-					public String getServiceCode() {
-						return PaymentItem.this.getTradeId();
-					}
+				@Override
+				public String getServiceCode() {
+					return PaymentItem.this.getTradeId();
+				}
 
-					@Override
-					public BigDecimal getAmount() {
-						return PaymentItem.this.getAmount();
-					}
+				@Override
+				public BigDecimal getAmount() {
+					return PaymentItem.this.getAmount();
+				}
 
-					@Override
-					public String getCurrency() {
-						return PaymentItem.this.getCurrency();
-					}
+				@Override
+				public String getCurrency() {
+					return PaymentItem.this.getCurrency();
+				}
 
-					@Override
-					public String getBaseDocumentType() {
-						return PaymentItem.this.getObjectCode();
-					}
+				@Override
+				public String getBaseDocumentType() {
+					return PaymentItem.this.getObjectCode();
+				}
 
-					@Override
-					public Integer getBaseDocumentEntry() {
-						return PaymentItem.this.getDocEntry();
-					}
+				@Override
+				public Integer getBaseDocumentEntry() {
+					return PaymentItem.this.getDocEntry();
+				}
 
-					@Override
-					public Integer getBaseDocumentLineId() {
-						return PaymentItem.this.getLineId();
-					}
+				@Override
+				public Integer getBaseDocumentLineId() {
+					return PaymentItem.this.getLineId();
+				}
 
-				});
-			} else {
-				contracts.add(new IBusinessPartnerAssetIncreasesContract() {
-
-					@Override
-					public String getIdentifiers() {
-						return PaymentItem.this.getIdentifiers();
-					}
-
-					@Override
-					public String getServiceCode() {
-						return PaymentItem.this.getTradeId();
-					}
-
-					@Override
-					public BigDecimal getAmount() {
-						return PaymentItem.this.getAmount();
-					}
-
-					@Override
-					public String getCurrency() {
-						return PaymentItem.this.getCurrency();
-					}
-
-					@Override
-					public String getBaseDocumentType() {
-						return PaymentItem.this.getObjectCode();
-					}
-
-					@Override
-					public Integer getBaseDocumentEntry() {
-						return PaymentItem.this.getDocEntry();
-					}
-
-					@Override
-					public Integer getBaseDocumentLineId() {
-						return PaymentItem.this.getLineId();
-					}
-
-				});
-			}
+			});
 		}
 		return contracts.toArray(new IBusinessLogicContract[] {});
 	}
