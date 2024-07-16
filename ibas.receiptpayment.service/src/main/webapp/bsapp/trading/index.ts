@@ -14,5 +14,6 @@
 /// <reference path="./MethodCheck.ts" />
 /// <reference path="./MethodMoneyOrder.ts" />
 /// <reference path="./ReceiptService.ts" />
+/// <reference path="./PaymentService.ts" />
 /// <reference path="./ReceiptTradeService.ts" />
 /// <reference path="./WaitTradingService.ts" />

@@ -8,6 +8,7 @@
 /// <reference path="./ReceiptServiceView.ts" />
 /// <reference path="./ReceiptTradeServiceView.ts" />
 /// <reference path="./WaitTradingServiceView.ts" />
+/// <reference path="./PaymentServiceView.ts" />
 
 namespace receiptpayment {
     export namespace ui {

@@ -45,6 +45,7 @@ namespace receiptpayment {
                 this.register(new ReceiptEditServiceMapping());
                 this.register(new ReceiptServiceMapping());
                 this.register(new ReceiptTradeServiceMapping());
+                this.register(new PaymentServiceMapping());
                 this.register(new AssetRechargeChooseServiceMapping());
                 this.register(new AssetRechargeLinkServiceMapping());
                 this.register(new AssetRechargeEditServiceMapping());

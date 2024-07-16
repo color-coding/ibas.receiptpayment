@@ -58,6 +58,7 @@
   "receiptpayment_receipt_trading": "正在进行收款交易[{0} - {1}]",
   "receiptpayment_receipt_traded": "收款交易[{0} - {1}]完成",
   "receiptpayment_wait_trading": "等待交易",
+  "receiptpayment_payment_completed": "付款完成，生成付款单[{0}]",
   "receiptpayment_document_receipt_not_baseon": "不基于单据收款",
   "receiptpayment_document_payment_not_baseon": "不基于单据付款",
   "receiptpayment_document_payment_receipt": "基于收款的付款",

@@ -7,27 +7,25 @@
  */
 namespace receiptpayment {
     export namespace app {
-        /** 系统折扣交易模板 */
-        const TRADING_SYSTEM_DISCOUNT_TEMPLATE: string = "%{0}";
-        /** 收款服务 */
-        export class ReceiptService extends ibas.ServiceWithResultApplication<IReceiptServiceView, businesspartner.app.IReceiptContract, bo.IReceipt> {
+        /** 付款服务 */
+        export class PaymentService extends ibas.ServiceWithResultApplication<IPaymentServiceView, businesspartner.app.IPaymentContract, bo.IPayment> {
             /** 应用标识 */
-            static APPLICATION_ID: string = "0d0f9266-5d7a-4e10-81be-4da982c15e1a";
+            static APPLICATION_ID: string = "5198614b-6759-491d-bf4b-76a8d1bf2ca9";
             /** 应用名称 */
-            static APPLICATION_NAME: string = "receiptpayment_service_receipt";
+            static APPLICATION_NAME: string = "receiptpayment_service_payment";
             /** 构造函数 */
             constructor() {
                 super();
-                this.id = ReceiptService.APPLICATION_ID;
-                this.name = ReceiptService.APPLICATION_NAME;
+                this.id = PaymentService.APPLICATION_ID;
+                this.name = PaymentService.APPLICATION_NAME;
                 this.description = ibas.i18n.prop(this.name);
             }
             /** 注册视图 */
             protected registerView(): void {
                 super.registerView();
                 // 其他事件
-                this.view.applyReceiptTradingEvent = this.applyReceiptTrading;
-                this.view.removeReceiptTradingEvent = this.removeReceiptTrading;
+                this.view.applyPaymentTradingEvent = this.applyPaymentTrading;
+                this.view.removePaymentTradingEvent = this.removePaymentTrading;
                 this.view.confirmEvent = this.confirm;
             }
             /** 视图显示后 */
@@ -37,7 +35,7 @@ namespace receiptpayment {
                 this.view.showTarget(this.target);
                 let that: this = this;
                 let methods: ibas.IServiceAgent[] = ibas.servicesManager.getServices(<ibas.IServiceCaller<ibas.IServiceContract>>{
-                    proxy: new ReceiptMethodProxy({
+                    proxy: new PaymentMethodProxy({
                         businessPartnerType: this.businessPartner.type,
                         businessPartnerCode: this.businessPartner.code,
                         documentType: this.target.documentType,
@@ -46,21 +44,21 @@ namespace receiptpayment {
                         documentTotal: this.target.total,
                         documentCurrency: this.target.currency
                     }),
-                    onCompleted(opRslt: ibas.IOperationResult<IReceiptTradingMethod>): void {
+                    onCompleted(opRslt: ibas.IOperationResult<IPaymentTradingMethod>): void {
                         that.view.showTradingMethods(opRslt.resultObjects);
                     }
                 });
                 for (let item of methods) {
                     item.run();
                 }
-                this.showReceiptTradings();
+                this.showPaymentTradings();
             }
-            private target: ReceiptTarget;
+            private target: PaymentTarget;
             private businessPartner: BusinessPartner;
-            private receiptTradings: ibas.IList<ReceiptTrading>;
+            private paymentTradings: ibas.IList<PaymentTrading>;
             /** 运行服务 */
-            runService(contract: businesspartner.app.IReceiptContract): void {
-                this.target = new ReceiptTarget();
+            runService(contract: businesspartner.app.IPaymentContract): void {
+                this.target = new PaymentTarget();
                 this.target.documentType = contract.documentType;
                 this.target.documentEntry = contract.documentEntry;
                 this.target.documentLineId = contract.documentLineId;
@@ -123,34 +121,24 @@ namespace receiptpayment {
                 // 没有需要处理的数据
                 this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("receiptpayment_no_work_datas_for_receipt"));
             }
-            /** 移出收款交易 */
-            private removeReceiptTrading(trading: ReceiptTrading): void {
+            /** 移出付款交易 */
+            private removePaymentTrading(trading: PaymentTrading): void {
                 if (ibas.objects.isNull(trading)) {
                     return;
                 }
-                if (ibas.objects.isNull(this.receiptTradings)) {
+                if (ibas.objects.isNull(this.paymentTradings)) {
                     return;
                 }
-                for (let index: number = this.receiptTradings.length - 1; index >= 0; index--) {
-                    let item: ReceiptTrading = this.receiptTradings[index];
+                for (let index: number = this.paymentTradings.length - 1; index >= 0; index--) {
+                    let item: PaymentTrading = this.paymentTradings[index];
                     if (item === trading) {
-                        this.receiptTradings.removeAt(index);
-                    }
-                    if (item instanceof ReceiptTradingDiscount) {
-                        if (item.parent === trading) {
-                            this.receiptTradings.removeAt(index);
-                        }
-                    }
-                    if (trading instanceof ReceiptTradingDiscount) {
-                        if (trading.parent === item) {
-                            this.receiptTradings.removeAt(index);
-                        }
+                        this.paymentTradings.removeAt(index);
                     }
                 }
-                this.showReceiptTradings();
+                this.showPaymentTradings();
             }
-            /** 使用收款交易 */
-            private applyReceiptTrading(method: IReceiptTradingMethod, amount: number): void {
+            /** 使用付款交易 */
+            private applyPaymentTrading(method: IPaymentTradingMethod, amount: number): void {
                 if (ibas.objects.isNull(method)) {
                     throw new Error(ibas.i18n.prop("receiptpaymentt_please_choose_paid_method"));
                 }
@@ -160,15 +148,15 @@ namespace receiptpayment {
                 if (amount < 0 || (this.target.total !== 0 && amount === 0)) {
                     throw new Error(ibas.i18n.prop("receiptpaymentt_please_input_paid_amount"));
                 }
-                if (ibas.objects.isNull(this.receiptTradings)) {
-                    this.receiptTradings = new ibas.ArrayList<ReceiptTrading>();
+                if (ibas.objects.isNull(this.paymentTradings)) {
+                    this.paymentTradings = new ibas.ArrayList<PaymentTrading>();
                 }
-                if (!ibas.objects.isNull(this.receiptTradings.firstOrDefault(c => c.trading === method))) {
+                if (!ibas.objects.isNull(this.paymentTradings.firstOrDefault(c => c.trading === method))) {
                     throw new Error(ibas.i18n.prop("receiptpayment_exists_paid_method", method.description));
                 }
                 let paid: number = this.target.total;
-                if (!ibas.objects.isNull(this.receiptTradings)) {
-                    for (let item of this.receiptTradings) {
+                if (!ibas.objects.isNull(this.paymentTradings)) {
+                    for (let item of this.paymentTradings) {
                         paid -= item.amount;
                     }
                 }
@@ -182,58 +170,33 @@ namespace receiptpayment {
                     usingAmount = method.amount;
                     this.proceeding(ibas.emMessageType.WARNING, ibas.i18n.prop("receiptpayment_bp_asset_amount_available", method.description, method.amount));
                 }
-                if (!isNaN(method.discount) && method.discount > 0 && method.discount < 1) {
-                    // 使用折扣
-                    let amountAfter: number = usingAmount * method.discount;
-                    let amountLeft: number = usingAmount - amountAfter;
-                    if (usingAmount < amount) {
-                        let amountTotal: number = usingAmount / method.discount;
-                        if (amountTotal > amount) {
-                            amountTotal = amount;
-                        }
-                        amountAfter = usingAmount;
-                        amountLeft = amountTotal - amountAfter;
-                    }
-                    // 正常交易
-                    let trading: ReceiptTrading = new ReceiptTrading();
-                    trading.trading = method;
-                    trading.amount = ibas.numbers.round(amountAfter);
-                    trading.currency = this.target.currency;
-                    this.receiptTradings.add(trading);
-                    // 折扣交易
-                    let tradingDiscout: ReceiptTradingDiscount = new ReceiptTradingDiscount(trading);
-                    tradingDiscout.amount = ibas.numbers.round(amountLeft);
-                    this.receiptTradings.add(tradingDiscout);
-                    this.showReceiptTradings();
-                } else {
-                    let trading: ReceiptTrading = new ReceiptTrading();
-                    trading.trading = method;
-                    trading.amount = ibas.numbers.round(usingAmount);
-                    trading.currency = this.target.currency;
-                    this.receiptTradings.add(trading);
-                    this.showReceiptTradings();
-                }
+                let trading: PaymentTrading = new PaymentTrading();
+                trading.trading = method;
+                trading.amount = ibas.numbers.round(usingAmount);
+                trading.currency = this.target.currency;
+                this.paymentTradings.add(trading);
+                this.showPaymentTradings();
             }
-            private showReceiptTradings(): void {
+            private showPaymentTradings(): void {
                 let paid: number = this.target.total;
-                if (ibas.objects.isNull(this.receiptTradings)) {
-                    this.receiptTradings = new ibas.ArrayList<ReceiptTrading>();
+                if (ibas.objects.isNull(this.paymentTradings)) {
+                    this.paymentTradings = new ibas.ArrayList<PaymentTrading>();
                 }
-                for (let item of this.receiptTradings) {
+                for (let item of this.paymentTradings) {
                     paid -= item.amount;
                 }
                 if (paid < 0) {
                     paid = 0;
                 }
                 paid = ibas.numbers.round(paid);
-                this.view.showReceiptTradings(this.receiptTradings, paid);
+                this.view.showPaymentTradings(this.paymentTradings, paid);
             }
             /** 确定 */
             private confirm(orderType?: string): void {
-                if (ibas.objects.isNull(this.receiptTradings) || this.receiptTradings.length === 0) {
+                if (ibas.objects.isNull(this.paymentTradings) || this.paymentTradings.length === 0) {
                     throw new Error(ibas.i18n.prop("receiptpaymentt_please_paid"));
                 }
-                let receipt: bo.Receipt = new bo.Receipt();
+                let receipt: bo.Payment = new bo.Payment();
                 receipt.businessPartnerType = this.businessPartner.type;
                 receipt.businessPartnerCode = this.businessPartner.code;
                 receipt.businessPartnerName = this.businessPartner.name;
@@ -243,21 +206,17 @@ namespace receiptpayment {
                 if (!ibas.strings.isEmpty(orderType)) {
                     receipt.orderType = orderType;
                 }
-                for (let item of this.receiptTradings) {
-                    let receiptItem: bo.ReceiptItem = receipt.receiptItems.create();
+                for (let item of this.paymentTradings) {
+                    let receiptItem: bo.PaymentItem = receipt.paymentItems.create();
                     receiptItem.baseDocumentType = this.target.documentType;
                     receiptItem.baseDocumentEntry = this.target.documentEntry;
                     receiptItem.baseDocumentLineId = this.target.documentLineId;
                     receiptItem.mode = item.trading.method.name;
                     receiptItem.tradeId = item.trading.id;
-                    if (item instanceof ReceiptTradingDiscount) {
-                        // 折扣项目，特殊处理id
-                        receiptItem.tradeId = ibas.strings.format(TRADING_SYSTEM_DISCOUNT_TEMPLATE, receiptItem.tradeId);
-                    }
                     receiptItem.amount = item.amount;
                     receiptItem.currency = item.currency;
                     if (!ibas.objects.isNull(item.trading.method.defaultStatus)) {
-                        // 设置收款行项目，状态
+                        // 设置付款行项目，状态
                         receiptItem.lineStatus = item.trading.method.defaultStatus;
                     }
                 }
@@ -270,27 +229,18 @@ namespace receiptpayment {
                 this.busy(true);
                 let that: this = this;
                 let boRepository: bo.BORepositoryReceiptPayment = new bo.BORepositoryReceiptPayment();
-                boRepository.saveReceipt({
+                boRepository.savePayment({
                     beSaved: receipt,
-                    onCompleted(opRslt: ibas.IOperationResult<bo.Receipt>): void {
+                    onCompleted(opRslt: ibas.IOperationResult<bo.Payment>): void {
                         try {
                             that.busy(false);
                             if (opRslt.resultCode !== 0) {
                                 throw new Error(opRslt.message);
                             }
-                            let receipt: bo.Receipt = opRslt.resultObjects.firstOrDefault();
-                            if (!ibas.objects.isNull(receipt)) {
-                                that.proceeding(ibas.emMessageType.SUCCESS, ibas.i18n.prop("receiptpayment_receipt_completed", receipt.docEntry));
-                                ibas.servicesManager.runApplicationService<IReceiptTradeContract, bo.IReceipt>({
-                                    proxy: new ReceiptTradingServiceProxy({
-                                        document: receipt
-                                    }),
-                                    onCompleted(result: bo.IReceipt): void {
-                                        that.fireCompleted(receipt);
-                                    }
-                                });
-                            } else {
-                                that.fireCompleted(receipt);
+                            if (opRslt.resultObjects.length > 0) {
+                                let payment: bo.Payment = opRslt.resultObjects.firstOrDefault();
+                                that.proceeding(ibas.emMessageType.SUCCESS, ibas.i18n.prop("receiptpayment_payment_completed", payment.docEntry));
+                                that.fireCompleted(payment);
                             }
                             that.close();
                         } catch (error) {
@@ -301,25 +251,25 @@ namespace receiptpayment {
                 this.proceeding(ibas.emMessageType.INFORMATION, ibas.i18n.prop("shell_saving_data"));
             }
         }
-        /** 视图-收款服务 */
-        export interface IReceiptServiceView extends ibas.IBOView {
+        /** 视图-付款服务 */
+        export interface IPaymentServiceView extends ibas.IBOView {
             /** 显示业务伙伴 */
             showBusinessPartner(data: BusinessPartner): void;
-            /** 显示收款目标 */
-            showTarget(data: ReceiptTarget): void;
-            /** 显示收款交易方式 */
-            showTradingMethods(methods: IReceiptTradingMethod[]): void;
-            /** 显示收款交易 */
-            showReceiptTradings(tradings: ReceiptTrading[], paid: number): void;
-            /** 移出收款交易 */
-            removeReceiptTradingEvent: Function;
-            /** 使用收款交易 */
-            applyReceiptTradingEvent: Function;
+            /** 显示付款目标 */
+            showTarget(data: PaymentTarget): void;
+            /** 显示付款交易方式 */
+            showTradingMethods(methods: IPaymentTradingMethod[]): void;
+            /** 显示付款交易 */
+            showPaymentTradings(tradings: PaymentTrading[], paid: number): void;
+            /** 移出付款交易 */
+            removePaymentTradingEvent: Function;
+            /** 使用付款交易 */
+            applyPaymentTradingEvent: Function;
             /** 确定 */
             confirmEvent: Function;
         }
-        export class ReceiptTarget {
-            /** 待收总计 */
+        export class PaymentTarget {
+            /** 待付总计 */
             total: number;
             /** 币种 */
             currency: string;
@@ -331,42 +281,32 @@ namespace receiptpayment {
             documentLineId?: number;
             /** 单据摘要 */
             documentSummary?: string;
-            /** 允许部分收款 */
+            /** 允许部分付款 */
             allowPartial?: boolean;
-            /** 允许超出收款 */
+            /** 允许超出付款 */
             allowOver?: boolean;
         }
-        export class ReceiptTrading {
+        export class PaymentTrading {
             /** 交易方式 */
-            trading: IReceiptTradingMethod;
+            trading: IPaymentTradingMethod;
             /** 金额 */
             amount: number;
             /** 货币 */
             currency: string;
         }
-        export class ReceiptTradingDiscount extends ReceiptTrading {
-            constructor(parent: ReceiptTrading) {
-                super();
-                this.parent = parent;
-                this.currency = this.parent.currency;
-                this.trading = this.parent.trading;
-            }
-            /** 父项交易 */
-            parent: ReceiptTrading;
-        }
-        /** 收款服务映射 */
-        export class ReceiptServiceMapping extends ibas.ServiceMapping {
+        /** 付款服务映射 */
+        export class PaymentServiceMapping extends ibas.ServiceMapping {
             /** 构造函数 */
             constructor() {
                 super();
-                this.id = ReceiptService.APPLICATION_ID;
-                this.name = ReceiptService.APPLICATION_NAME;
+                this.id = PaymentService.APPLICATION_ID;
+                this.name = PaymentService.APPLICATION_NAME;
                 this.description = ibas.i18n.prop(this.name);
-                this.proxy = businesspartner.app.ReceiptServiceProxy;
+                this.proxy = businesspartner.app.PaymentServiceProxy;
             }
             /** 创建服务实例 */
             create(): ibas.IService<ibas.IServiceContract> {
-                return new ReceiptService();
+                return new PaymentService();
             }
         }
     }

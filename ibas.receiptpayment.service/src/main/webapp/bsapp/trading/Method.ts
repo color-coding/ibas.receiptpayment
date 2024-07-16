@@ -31,6 +31,19 @@ namespace receiptpayment {
                 }
             }
         }
+        /** 付款交易方式 */
+        export class PaymentTradingMethod implements IPaymentTradingMethod {
+            /** 付款方式 */
+            method: PaymentMethod;
+            /** 标记 */
+            id: string;
+            /** 描述 */
+            description: string;
+            /** 图标 */
+            icon?: string;
+            /** 可用金额 */
+            amount: number;
+        }
         export class Waiter extends ibas.Waiter {
             constructor(title: string) {
                 super();
@@ -49,18 +62,13 @@ namespace receiptpayment {
                 });
             }
         }
-        /** 付款交易方式 */
-        export class PaymentTradingMethod implements IPaymentTradingMethod {
-            /** 付款方式 */
-            method: PaymentMethod;
-            /** 标记 */
-            id: string;
-            /** 描述 */
-            description: string;
-            /** 图标 */
-            icon?: string;
-            /** 可用金额 */
-            amount: number;
+        export class BusinessPartner {
+            /** 类型 */
+            type: businesspartner.bo.emBusinessPartnerType;
+            /** 编码 */
+            code: string;
+            /** 名称 */
+            name: string;
         }
     }
 }

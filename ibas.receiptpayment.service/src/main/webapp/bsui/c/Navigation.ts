@@ -56,6 +56,9 @@ namespace receiptpayment {
                     case app.ReceiptTradeService.APPLICATION_ID:
                         view = new c.ReceiptTradeServiceView();
                         break;
+                    case app.PaymentService.APPLICATION_ID:
+                        view = new c.PaymentServiceView();
+                        break;
                     case app.AssetRechargeListApp.APPLICATION_ID:
                         view = new c.AssetRechargeListView();
                         break;
