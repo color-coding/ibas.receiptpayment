@@ -275,40 +275,57 @@ namespace receiptpayment {
             }
 
             /** 选择付款客户事件 */
-            private choosePaymentBusinessPartner(): void {
+            private choosePaymentBusinessPartner(filterConditions?: ibas.ICondition[]): void {
                 if (!ibas.objects.isNull(this.editData) && this.editData.paymentItems.length > 0) {
                     this.messages(ibas.emMessageType.WARNING, ibas.i18n.prop("receiptpayment_existing_items_not_allowed_operation"));
                     return;
                 }
                 let that: this = this;
                 if (this.editData.businessPartnerType === businesspartner.bo.emBusinessPartnerType.CUSTOMER) {
+                    let conditions: ibas.IList<ibas.ICondition> = businesspartner.app.conditions.customer.create();
+                    // 添加输入条件
+                    if (filterConditions instanceof Array && filterConditions.length > 0) {
+                        if (conditions.length > 1) {
+                            conditions.firstOrDefault().bracketOpen++;
+                            conditions.lastOrDefault().bracketClose++;
+                        }
+                        conditions.add(filterConditions);
+                    }
                     ibas.servicesManager.runChooseService<businesspartner.bo.ICustomer>({
                         boCode: businesspartner.bo.BO_CODE_CUSTOMER,
                         chooseType: ibas.emChooseType.SINGLE,
-                        criteria: businesspartner.app.conditions.customer.create(),
+                        criteria: conditions,
                         onCompleted(selecteds: ibas.IList<businesspartner.bo.ICustomer>): void {
                             let selected: businesspartner.bo.ICustomer = selecteds.firstOrDefault();
                             that.editData.businessPartnerCode = selected.code;
                             that.editData.businessPartnerName = selected.name;
                             that.editData.contactPerson = selected.contactPerson;
-                            that.editData.documentCurrency = selected.currency;
                         }
                     });
                 } else if (this.editData.businessPartnerType === businesspartner.bo.emBusinessPartnerType.SUPPLIER) {
+                    let conditions: ibas.IList<ibas.ICondition> = businesspartner.app.conditions.supplier.create();
+                    // 添加输入条件
+                    if (filterConditions instanceof Array && filterConditions.length > 0) {
+                        if (conditions.length > 1) {
+                            conditions.firstOrDefault().bracketOpen++;
+                            conditions.lastOrDefault().bracketClose++;
+                        }
+                        conditions.add(filterConditions);
+                    }
                     ibas.servicesManager.runChooseService<businesspartner.bo.ISupplier>({
                         boCode: businesspartner.bo.BO_CODE_SUPPLIER,
                         chooseType: ibas.emChooseType.SINGLE,
-                        criteria: businesspartner.app.conditions.supplier.create(),
+                        criteria: conditions,
                         onCompleted(selecteds: ibas.IList<businesspartner.bo.ISupplier>): void {
                             let selected: businesspartner.bo.ISupplier = selecteds.firstOrDefault();
                             that.editData.businessPartnerCode = selected.code;
                             that.editData.businessPartnerName = selected.name;
                             that.editData.contactPerson = selected.contactPerson;
-                            that.editData.documentCurrency = selected.currency;
                         }
                     });
                 }
             }
+
             /** 选择付款项目-交易标识 */
             private choosePaymentItemModeTradeId(data: bo.PaymentItem): void {
                 if (ibas.objects.isNull(this.editData) || ibas.strings.isEmpty(this.editData.businessPartnerCode)) {

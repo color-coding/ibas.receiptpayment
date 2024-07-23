@@ -37,46 +37,105 @@ namespace receiptpayment {
                         content: [
                             new sap.ui.core.Title("", { text: ibas.i18n.prop("receiptpayment_title_general") }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_businesspartnercode") }),
-                            new sap.extension.m.Input("", {
-                                showValueHelp: true,
-                                valueHelpRequest: function (): void {
-                                    that.fireViewEvents(that.chooseReceiptBusinessPartnerEvent);
-                                },
-                                showValueLink: true,
-                                valueLinkRequest: function (this: sap.extension.m.Input, event: sap.ui.base.Event): void {
-                                    let object: any = this.getBindingContext().getObject();
-                                    if (object instanceof bo.Receipt) {
-                                        if (object.businessPartnerType === businesspartner.bo.emBusinessPartnerType.CUSTOMER) {
+                            new sap.m.HBox("", {
+                                width: "100%",
+                                renderType: sap.m.FlexRendertype.Bare,
+                                items: [
+                                    new sap.extension.m.RepositoryInput("", {
+                                        width: "60%",
+                                        showValueHelp: true,
+                                        valueHelpRequest: function (): void {
+                                            that.fireViewEvents(that.chooseReceiptBusinessPartnerEvent);
+                                        },
+                                        showValueLink: true,
+                                        valueLinkRequest: function (event: sap.ui.base.Event): void {
                                             ibas.servicesManager.runLinkService({
                                                 boCode: businesspartner.bo.Customer.BUSINESS_OBJECT_CODE,
                                                 linkValue: event.getParameter("value")
                                             });
-                                        } else if (object.businessPartnerType === businesspartner.bo.emBusinessPartnerType.SUPPLIER) {
+                                        },
+                                        describeValue: false,
+                                        showSuggestion: true,
+                                        repository: businesspartner.bo.BORepositoryBusinessPartner,
+                                        dataInfo: {
+                                            type: businesspartner.bo.Customer,
+                                            key: businesspartner.bo.Customer.PROPERTY_CODE_NAME,
+                                            text: businesspartner.bo.Customer.PROPERTY_NAME_NAME
+                                        },
+                                        suggestionItemSelected: function (this: sap.extension.m.RepositoryInput, event: sap.ui.base.Event): void {
+                                            let selectedItem: any = event.getParameter("selectedItem");
+                                            if (!ibas.objects.isNull(selectedItem)) {
+                                                that.fireViewEvents(that.chooseReceiptBusinessPartnerEvent, this.itemConditions(selectedItem));
+                                            }
+                                        }
+                                    }).bindProperty("bindingValue", {
+                                        path: "businessPartnerCode",
+                                        type: new sap.extension.data.Alphanumeric({
+                                            maxLength: 20
+                                        })
+                                    }).bindProperty("visible", {
+                                        path: "businessPartnerType",
+                                        formatter(data: any): boolean {
+                                            return data === businesspartner.bo.emBusinessPartnerType.CUSTOMER ? true : false;
+                                        }
+                                    }),
+                                    new sap.extension.m.RepositoryInput("", {
+                                        width: "60%",
+                                        showValueHelp: true,
+                                        valueHelpRequest: function (): void {
+                                            that.fireViewEvents(that.chooseReceiptBusinessPartnerEvent);
+                                        },
+                                        showValueLink: true,
+                                        valueLinkRequest: function (event: sap.ui.base.Event): void {
                                             ibas.servicesManager.runLinkService({
                                                 boCode: businesspartner.bo.Supplier.BUSINESS_OBJECT_CODE,
                                                 linkValue: event.getParameter("value")
                                             });
-                                        } if (object.businessPartnerType === businesspartner.bo.emBusinessPartnerType.LEAD) {
-                                            ibas.servicesManager.runLinkService({
-                                                boCode: businesspartner.bo.Lead.BUSINESS_OBJECT_CODE,
-                                                linkValue: event.getParameter("value")
-                                            });
+                                        },
+                                        describeValue: false,
+                                        showSuggestion: true,
+                                        repository: businesspartner.bo.BORepositoryBusinessPartner,
+                                        dataInfo: {
+                                            type: businesspartner.bo.Supplier,
+                                            key: businesspartner.bo.Supplier.PROPERTY_CODE_NAME,
+                                            text: businesspartner.bo.Supplier.PROPERTY_NAME_NAME
+                                        },
+                                        suggestionItemSelected: function (this: sap.extension.m.RepositoryInput, event: sap.ui.base.Event): void {
+                                            let selectedItem: any = event.getParameter("selectedItem");
+                                            if (!ibas.objects.isNull(selectedItem)) {
+                                                that.fireViewEvents(that.chooseReceiptBusinessPartnerEvent, this.itemConditions(selectedItem));
+                                            }
+                                        },
+                                    }).bindProperty("bindingValue", {
+                                        path: "businessPartnerCode",
+                                        type: new sap.extension.data.Alphanumeric({
+                                            maxLength: 20
+                                        })
+                                    }).bindProperty("visible", {
+                                        path: "businessPartnerType",
+                                        formatter(data: any): boolean {
+                                            return data === businesspartner.bo.emBusinessPartnerType.SUPPLIER ? true : false;
                                         }
-                                    }
-                                }
-                            }).bindProperty("bindingValue", {
-                                path: "businessPartnerCode",
-                                type: new sap.extension.data.Alphanumeric({
-                                    maxLength: 20
-                                })
-                            }),
-                            new sap.extension.m.EnumSelect("", {
-                                enumType: businesspartner.bo.emBusinessPartnerType
-                            }).bindProperty("bindingValue", {
-                                path: "businessPartnerType",
-                                type: new sap.extension.data.Enum({
-                                    enumType: businesspartner.bo.emBusinessPartnerType
-                                })
+                                    }),
+                                    new sap.extension.m.EnumSelect("", {
+                                        width: "40%",
+                                        items: [
+                                            new sap.extension.m.SelectItem("", {
+                                                key: businesspartner.bo.emBusinessPartnerType.CUSTOMER,
+                                                text: ibas.enums.describe(businesspartner.bo.emBusinessPartnerType, businesspartner.bo.emBusinessPartnerType.CUSTOMER)
+                                            }),
+                                            new sap.extension.m.SelectItem("", {
+                                                key: businesspartner.bo.emBusinessPartnerType.SUPPLIER,
+                                                text: ibas.enums.describe(businesspartner.bo.emBusinessPartnerType, businesspartner.bo.emBusinessPartnerType.SUPPLIER)
+                                            })
+                                        ]
+                                    }).bindProperty("bindingValue", {
+                                        path: "businessPartnerType",
+                                        type: new sap.extension.data.Enum({
+                                            enumType: businesspartner.bo.emBusinessPartnerType
+                                        })
+                                    }).addStyleClass("sapUiTinyMarginBegin"),
+                                ]
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_businesspartnername") }),
                             new sap.extension.m.Input("", {
