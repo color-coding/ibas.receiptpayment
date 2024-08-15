@@ -69,6 +69,7 @@ namespace receiptpayment {
                 this.target.allowOver = contract.allowOver;
                 this.target.total = ibas.numbers.round(contract.documentTotal);
                 this.target.currency = contract.documentCurrency;
+                this.target.branch = contract.branch;
                 this.businessPartner = new BusinessPartner();
                 this.businessPartner.type = contract.businessPartnerType;
                 this.businessPartner.code = contract.businessPartnerCode;
@@ -237,6 +238,7 @@ namespace receiptpayment {
                 receipt.businessPartnerType = this.businessPartner.type;
                 receipt.businessPartnerCode = this.businessPartner.code;
                 receipt.businessPartnerName = this.businessPartner.name;
+                receipt.branch = this.target.branch;
                 if (!ibas.strings.isEmpty(this.target.documentSummary)) {
                     receipt.remarks = this.target.documentSummary;
                 }
@@ -335,6 +337,8 @@ namespace receiptpayment {
             allowPartial?: boolean;
             /** 允许超出收款 */
             allowOver?: boolean;
+            /** 分支 */
+            branch: string;
         }
         export class ReceiptTrading {
             /** 交易方式 */

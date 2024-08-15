@@ -63,6 +63,19 @@ namespace receiptpayment {
                                             if (!ibas.objects.isNull(selectedItem)) {
                                                 that.fireViewEvents(that.chooseAssetRechargeBusinessPartnerEvent, this.itemConditions(selectedItem));
                                             }
+                                        },
+                                        editable: {
+                                            parts: [
+                                                {
+                                                    path: "isNew",
+                                                },
+                                                {
+                                                    path: "documentStatus",
+                                                }
+                                            ],
+                                            formatter(isNew: boolean, documentStatus: ibas.emDocumentStatus): boolean {
+                                                return isNew === false && documentStatus > ibas.emDocumentStatus.PLANNED ? false : true;
+                                            }
                                         }
                                     }).bindProperty("bindingValue", {
                                         path: "businessPartnerCode",
