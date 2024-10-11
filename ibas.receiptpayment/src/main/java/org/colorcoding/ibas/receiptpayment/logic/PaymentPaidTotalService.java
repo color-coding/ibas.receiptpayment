@@ -3,6 +3,7 @@ package org.colorcoding.ibas.receiptpayment.logic;
 import java.math.BigDecimal;
 
 import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.mapping.LogicContract;
@@ -53,6 +54,13 @@ public class PaymentPaidTotalService extends DocumentPaidTotalService<IPaymentPa
 			total = Decimal.ZERO;
 		}
 		this.getBeAffected().setPaidTotal(total.add(contract.getAmount()));
+		if (this.getBeAffected().isSmartDocumentStatus() == true) {
+			// 处理单据状态
+			if (this.getBeAffected().getDocumentStatus() == emDocumentStatus.RELEASED
+					&& this.getBeAffected().getPaidTotal().compareTo(this.getBeAffected().getDocumentTotal()) >= 0) {
+				this.getBeAffected().setDocumentStatus(emDocumentStatus.FINISHED);
+			}
+		}
 	}
 
 	@Override
@@ -65,7 +73,13 @@ public class PaymentPaidTotalService extends DocumentPaidTotalService<IPaymentPa
 			total = Decimal.ZERO;
 		}
 		this.getBeAffected().setPaidTotal(total.subtract(contract.getAmount()));
-
+		if (this.getBeAffected().isSmartDocumentStatus() == true) {
+			// 处理单据状态
+			if (this.getBeAffected().getDocumentStatus() == emDocumentStatus.FINISHED
+					&& this.getBeAffected().getPaidTotal().compareTo(this.getBeAffected().getDocumentTotal()) < 0) {
+				this.getBeAffected().setDocumentStatus(emDocumentStatus.RELEASED);
+			}
+		}
 	}
 
 }
