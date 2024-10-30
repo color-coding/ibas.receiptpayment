@@ -22,6 +22,18 @@ public class Ledgers extends org.colorcoding.ibas.materials.data.Ledgers {
 	 * 业务伙伴资产
 	 */
 	public static final String CONDITION_PROPERTY_BUSINESS_PARTNER_ASSET = "BPAsset";
+	/**
+	 * 基于的单据类型
+	 */
+	public static final String CONDITION_PROPERTY_BASE_DOCUMENT_TYPE = "BaseDocumentType";
+	/**
+	 * 基于的单据号
+	 */
+	public static final String CONDITION_PROPERTY_BASE_DOCUMENT_ENTRY = "BaseDocumentEntry";
+	/**
+	 * 基于的单据行号
+	 */
+	public static final String CONDITION_PROPERTY_BASE_DOCUMENT_LINE = "BaseDocumentLine";
 
 	/**
 	 * 交易方式-业务伙伴资产

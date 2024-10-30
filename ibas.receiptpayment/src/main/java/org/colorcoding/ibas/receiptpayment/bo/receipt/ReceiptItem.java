@@ -1272,6 +1272,12 @@ public class ReceiptItem extends BusinessObject<ReceiptItem> implements IReceipt
 			return Ledgers.TRADING_MODE_BANK.equals(this.getMode()) ? this.getTradeId() : null;
 		case Ledgers.CONDITION_PROPERTY_BUSINESS_PARTNER_ASSET:
 			return Ledgers.TRADING_MODE_BP_ASSSET.equals(this.getMode()) ? this.getTradeId() : null;
+		case Ledgers.CONDITION_PROPERTY_BASE_DOCUMENT_TYPE:
+			return this.getBaseDocumentType();
+		case Ledgers.CONDITION_PROPERTY_BASE_DOCUMENT_ENTRY:
+			return this.getBaseDocumentEntry();
+		case Ledgers.CONDITION_PROPERTY_BASE_DOCUMENT_LINE:
+			return this.getBaseDocumentLineId();
 		default:
 			return null;
 		}

@@ -2,14 +2,20 @@ package org.colorcoding.ibas.receiptpayment.logic.journalentry;
 
 import org.colorcoding.ibas.accounting.bo.bank.BankAccount;
 import org.colorcoding.ibas.accounting.bo.bank.IBankAccount;
+import org.colorcoding.ibas.accounting.logic.IJECPropertyValueGetter;
 import org.colorcoding.ibas.accounting.repository.BORepositoryAccounting;
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
+import org.colorcoding.ibas.bobas.message.Logger;
+import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.businesspartner.bo.businesspartnerasset.BusinessPartnerAsset;
 import org.colorcoding.ibas.businesspartner.bo.businesspartnerasset.IBusinessPartnerAsset;
 import org.colorcoding.ibas.businesspartner.repository.BORepositoryBusinessPartner;
+import org.colorcoding.ibas.document.DocumentFetcherManager;
+import org.colorcoding.ibas.document.IDocumentFetcher;
+import org.colorcoding.ibas.receiptpayment.data.DataConvert;
 import org.colorcoding.ibas.receiptpayment.data.Ledgers;
 
 public class JournalEntrySmartContent
@@ -25,9 +31,9 @@ public class JournalEntrySmartContent
 				|| Ledgers.CONDITION_PROPERTY_BANK_ACCOUNT.equals(property)
 				|| Ledgers.CONDITION_PROPERTY_BANK.equals(property)) {
 			String paymentMethod = String
-					.valueOf(super.getSourceDataPropertyValue(Ledgers.CONDITION_PROPERTY_PAYMENTMETHOD));
+					.valueOf(this.getSourceDataPropertyValue(Ledgers.CONDITION_PROPERTY_PAYMENTMETHOD));
 			if (Ledgers.TRADING_MODE_BP_ASSSET.equalsIgnoreCase(paymentMethod)) {
-				String tradeId = String.valueOf(super.getSourceDataPropertyValue(Ledgers.CONDITION_PROPERTY_TRADEID));
+				String tradeId = String.valueOf(this.getSourceDataPropertyValue(Ledgers.CONDITION_PROPERTY_TRADEID));
 				if (!JournalEntrySmartContent.VALUE_NULL.equalsIgnoreCase(tradeId)) {
 					Criteria criteria = new Criteria();
 					criteria.setResultCount(1);
@@ -65,7 +71,7 @@ public class JournalEntrySmartContent
 					}
 				}
 			} else if (Ledgers.TRADING_MODE_BANK.equalsIgnoreCase(paymentMethod)) {
-				String tradeId = String.valueOf(super.getSourceDataPropertyValue(Ledgers.CONDITION_PROPERTY_TRADEID));
+				String tradeId = String.valueOf(this.getSourceDataPropertyValue(Ledgers.CONDITION_PROPERTY_TRADEID));
 				if (Ledgers.CONDITION_PROPERTY_BANK_ACCOUNT.equals(property)) {
 					return tradeId;
 				} else if (Ledgers.CONDITION_PROPERTY_BANK.equals(property)) {
@@ -83,6 +89,26 @@ public class JournalEntrySmartContent
 					if (!baOpRslt.getResultObjects().isEmpty()) {
 						return baOpRslt.getResultObjects().firstOrDefault().getBank();
 					}
+				}
+			}
+		} else if (Ledgers.CONDITION_PROPERTY_MATERIAL.equals(property)) {
+			String baseType = String
+					.valueOf(this.getSourceDataPropertyValue(Ledgers.CONDITION_PROPERTY_BASE_DOCUMENT_TYPE));
+			if (!DataConvert.isNullOrEmpty(baseType)) {
+				try {
+					IDocumentFetcher<?> fetcher = DocumentFetcherManager.create().newFetcher(baseType);
+					if (fetcher != null) {
+						Integer baseEntry = (Integer) this
+								.getSourceDataPropertyValue(Ledgers.CONDITION_PROPERTY_BASE_DOCUMENT_ENTRY);
+						if (baseEntry > 0) {
+							Object docment = fetcher.fetch(baseEntry);
+							if (docment instanceof IJECPropertyValueGetter) {
+								return ((IJECPropertyValueGetter) docment).getValue(property);
+							}
+						}
+					}
+				} catch (Exception e) {
+					Logger.log(MessageLevel.WARN, e);
 				}
 			}
 		}
