@@ -31,6 +31,8 @@ declare namespace materials {
         const CONFIG_ITEM_ENABLE_NON_INVENTORY_ITEM_TRANSACTIONS: string;
         /** 配置项目-历史价格的默认单据（; 分割） */
         const CONFIG_ITEM_DEFAULT_HISTORICAL_PRICE_DOCUMENTS: string;
+        /** 配置项目-历史价格的默认应用的价格 */
+        const CONFIG_ITEM_DEFAULT_HISTORICAL_PRICE_WHICH_APPLY: string;
         /**
          * 获取此模块配置
          * @param key 配置项
@@ -615,10 +617,11 @@ declare namespace materials {
             uom: string;
             /**
              * 应用价格
-             * @param price 税前价格
+             * @param type 价格类型
+             * @param price 价格
              * @param currency 货币
              */
-            applyPrice?: (price: number, currency: string) => void;
+            applyPrice?: (type: "PRICE" | "PRETAXPRICE" | "UNITPRICE", price: number, currency: string) => void;
         }
         /** 物料历史价格服务代理 */
         class MaterialHistoricalPricesServiceProxy extends ibas.ServiceProxy<IMaterialHistoricalPricesContract> {
@@ -1565,6 +1568,8 @@ declare namespace materials {
             dataOwner: number;
             /** 数据所属组织 */
             organization: string;
+            /** 质检方案 */
+            qcSchema: string;
             /** 可用量（库存+已订购-已承诺） */
             onAvailable(): number;
         }
@@ -1705,7 +1710,7 @@ declare namespace materials {
 declare namespace materials {
     namespace bo {
         /** 物料批次项目 */
-        interface IMaterialBatchItem extends ibas.IBOSimple {
+        interface IMaterialBatchItem extends ibas.IBOSimple, ibas.IBOUserFields {
             /** 批次编码 */
             batchCode: string;
             /** 数量 */
@@ -2370,7 +2375,7 @@ declare namespace materials {
 declare namespace materials {
     namespace bo {
         /** 物料序列项目 */
-        interface IMaterialSerialItem extends ibas.IBOSimple {
+        interface IMaterialSerialItem extends ibas.IBOSimple, ibas.IBOUserFields {
             /** 序列编码 */
             serialCode: string;
             /** 基于类型 */
@@ -7051,6 +7056,12 @@ declare namespace materials {
             get organization(): string;
             /** 设置-数据所属组织 */
             set organization(value: string);
+            /** 映射的属性名称-质检方案 */
+            static PROPERTY_QCSCHEMA_NAME: string;
+            /** 获取-质检方案 */
+            get qcSchema(): string;
+            /** 设置-质检方案 */
+            set qcSchema(value: string);
             /** 初始化数据 */
             protected init(): void;
             /** 重置 */
@@ -17582,7 +17593,7 @@ declare namespace materials {
             protected runService(contract: IMaterialHistoricalPricesContract): void;
             protected obtainDocumentAgents(bpType: businesspartner.bo.emBusinessPartnerType, resultCount?: number, bpCode?: string): void;
             protected fetchDocumentDatas(agents: ibas.IServiceAgent[]): void;
-            protected apply(data: IDocumentMaterialPriceData): void;
+            protected apply(data: IDocumentMaterialPriceData, type: "PRICE" | "PRETAXPRICE" | "UNITPRICE"): void;
         }
         /** 视图-物料历史价格 */
         interface IMaterialHistoricalPricesView extends ibas.IView {

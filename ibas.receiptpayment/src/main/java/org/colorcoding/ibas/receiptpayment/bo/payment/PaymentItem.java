@@ -1279,6 +1279,10 @@ public class PaymentItem extends BusinessObject<PaymentItem> implements IPayment
 			return this.getBaseDocumentEntry();
 		case Ledgers.CONDITION_PROPERTY_BASE_DOCUMENT_LINE:
 			return this.getBaseDocumentLineId();
+		case Ledgers.CONDITION_PROPERTY_REFERENCE_1:
+			return this.getReference1();
+		case Ledgers.CONDITION_PROPERTY_REFERENCE_2:
+			return this.getReference2();
 		default:
 			return null;
 		}
