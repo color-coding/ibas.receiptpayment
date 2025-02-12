@@ -1690,6 +1690,10 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 			return this.getServiceCode();
 		case Ledgers.CONDITION_PROPERTY_BUSINESS_PARTNER_ASSET:
 			return this.getServiceCode();
+		case Ledgers.CONDITION_PROPERTY_REFERENCE_1:
+			return this.getReference1();
+		case Ledgers.CONDITION_PROPERTY_REFERENCE_2:
+			return this.getReference2();
 		default:
 			return null;
 		}

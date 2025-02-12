@@ -1022,6 +1022,10 @@ public class AssetRechargeItem extends BusinessObject<AssetRechargeItem> impleme
 			return Ledgers.TRADING_MODE_BANK.equals(this.getMode()) ? this.getTradeId() : null;
 		case Ledgers.CONDITION_PROPERTY_BUSINESS_PARTNER_ASSET:
 			return Ledgers.TRADING_MODE_BP_ASSSET.equals(this.getMode()) ? this.getTradeId() : null;
+		case Ledgers.CONDITION_PROPERTY_REFERENCE_1:
+			return this.getReference1();
+		case Ledgers.CONDITION_PROPERTY_REFERENCE_2:
+			return this.getReference2();
 		default:
 			return null;
 		}
