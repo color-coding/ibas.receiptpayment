@@ -29,6 +29,7 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
 import org.colorcoding.ibas.businesspartner.logic.IBusinessPartnerAssetConsumptionContract;
+import org.colorcoding.ibas.materials.rules.BusinessRulePreventCancelDocument;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
 import org.colorcoding.ibas.receiptpayment.data.Ledgers;
 import org.colorcoding.ibas.receiptpayment.logic.IReceiptPaidTotalContract;
@@ -1158,6 +1159,7 @@ public class ReceiptItem extends BusinessObject<ReceiptItem> implements IReceipt
 				new BusinessRuleRequired(PROPERTY_MODE), // 要求有值
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_AMOUNT), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_RATE), // 不能低于0
+				new BusinessRulePreventCancelDocument(PROPERTY_CANCELED, PROPERTY_LINESTATUS), // 阻止取消单据
 
 		};
 	}
@@ -1278,6 +1280,10 @@ public class ReceiptItem extends BusinessObject<ReceiptItem> implements IReceipt
 			return this.getBaseDocumentEntry();
 		case Ledgers.CONDITION_PROPERTY_BASE_DOCUMENT_LINE:
 			return this.getBaseDocumentLineId();
+		case Ledgers.CONDITION_PROPERTY_REFERENCE_1:
+			return this.getReference1();
+		case Ledgers.CONDITION_PROPERTY_REFERENCE_2:
+			return this.getReference2();
 		default:
 			return null;
 		}

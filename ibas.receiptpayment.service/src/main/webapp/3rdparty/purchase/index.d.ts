@@ -29,6 +29,8 @@ declare namespace purchase {
         const CONFIG_ITEM_DISCOUNT_PRESENTATION_METHOD: string;
         /** 配置项目-单据统计标记删除行 */
         const CONFIG_ITEM_DOCUMENT_STATISTICS_TAG_DELETED_LINE: string;
+        /** 配置项目-采购助手显示价格类型 */
+        const CONFIG_ITEM_PURCHASING_ASSISTANT_PRICE_TYPE: string;
         /**
          * 获取此模块配置
          * @param key 配置项
@@ -1452,6 +1454,8 @@ declare namespace purchase {
             uomRate: number;
             /** 库存数量 */
             inventoryQuantity: number;
+            /** 仓库 */
+            warehouse: string;
             /** 供应商 */
             supplier: string;
             /** 价格 */
@@ -7378,6 +7382,12 @@ declare namespace purchase {
             get inventoryQuantity(): number;
             /** 设置-库存数量 */
             set inventoryQuantity(value: number);
+            /** 映射的属性名称-仓库 */
+            static PROPERTY_WAREHOUSE_NAME: string;
+            /** 获取-仓库 */
+            get warehouse(): string;
+            /** 设置-仓库 */
+            set warehouse(value: string);
             /** 映射的属性名称-供应商 */
             static PROPERTY_SUPPLIER_NAME: string;
             /** 获取-供应商 */
@@ -10279,6 +10289,8 @@ declare namespace purchase {
     namespace bo {
         /** 预付款申请 */
         class DownPaymentRequest extends ibas.BODocument<DownPaymentRequest> implements IDownPaymentRequest {
+            /** 资源后缀 */
+            static resource_suffix: string;
             /** 业务对象编码 */
             static BUSINESS_OBJECT_CODE: string;
             /** 构造函数 */
@@ -12685,14 +12697,17 @@ declare namespace purchase {
              * @param docTotal 属性-单据总计
              * @param disTotal   属性-折扣总计
              * @param shipTotal  属性-运费总计
+             * @param diffAmount  属性-舍入
              */
-            constructor(docTotal: string, disTotal: string, shipTotal?: string);
+            constructor(docTotal: string, disTotal: string, shipTotal?: string, diffAmount?: string);
             /** 单据总计 */
             docTotal: string;
             /** 折扣总计 */
             disTotal: string;
             /** 运费总计 */
             shipTotal: string;
+            /** 舍入 */
+            diffAmount: string;
             /** 计算规则 */
             protected compute(context: ibas.BusinessRuleContextCommon): void;
         }
@@ -12778,7 +12793,7 @@ declare namespace purchase {
             protected compute(context: ibas.BusinessRuleContextCommon): void;
         }
         /**
-         * 推导币种金额
+         * 业务规则-推导币种金额
          */
         class BusinessRuleDeductionCurrencyAmount extends ibas.BusinessRuleCommon {
             /**
@@ -12791,6 +12806,20 @@ declare namespace purchase {
             amountLC: string;
             amount: string;
             rate: string;
+            protected compute(context: ibas.BusinessRuleContextCommon): void;
+        }
+        /**
+         * 业务规则-舍入差异
+         */
+        class BusinessRuleRoundingAmount extends ibas.BusinessRuleCommon {
+            /**
+             * 构造
+             * @param rounding 舍入
+             * @param amount 差异金额
+             */
+            constructor(rounding: string, amount: string);
+            rounding: string;
+            amount: string;
             protected compute(context: ibas.BusinessRuleContextCommon): void;
         }
     }
@@ -14577,6 +14606,7 @@ declare namespace purchase {
             private choosePurchaseRequestItemDistributionRule;
             private doneItems;
             private purchaseRequestTo;
+            private choosePurchaseRequestItemWarehouse;
             private choosePurchaseRequestItemMaterialVersion;
             protected measuringMaterials(): void;
             protected viewHistoricalPrices(caller: bo.PurchaseRequestItem): void;
@@ -14599,6 +14629,8 @@ declare namespace purchase {
             choosePurchaseRequestItemMaterialEvent: Function;
             /** 选择采购申请-行物料单位 */
             choosePurchaseRequestItemUnitEvent: Function;
+            /** 选择采购申请-行 仓库 */
+            choosePurchaseRequestItemWarehouseEvent: Function;
             /** 选择供应商合同 */
             chooseSupplierAgreementsEvent: Function;
             /** 显示采购申请额外信息事件 */

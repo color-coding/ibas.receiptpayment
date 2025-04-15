@@ -45,6 +45,7 @@ import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
 import org.colorcoding.ibas.businesspartner.logic.IBusinessPartnerAssetIncreasesContract;
 import org.colorcoding.ibas.businesspartner.logic.ICustomerCheckContract;
 import org.colorcoding.ibas.businesspartner.logic.ISupplierCheckContract;
+import org.colorcoding.ibas.materials.rules.BusinessRulePreventCancelDocument;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
 import org.colorcoding.ibas.receiptpayment.data.Ledgers;
 import org.colorcoding.ibas.receiptpayment.logic.journalentry.JournalEntrySmartContent;
@@ -1468,6 +1469,7 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 				new BusinessRuleRequired(PROPERTY_SERVICECODE), // 要求有值
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_AMOUNT), // 不能低于0
 				new BusinessRuleMinValue<Integer>(0, PROPERTY_TIMES), // 不能低于0
+				new BusinessRulePreventCancelDocument(PROPERTY_CANCELED, PROPERTY_DOCUMENTSTATUS), // 阻止取消单据
 				new BusinessRuleRequiredElements(PROPERTY_ASSETRECHARGEITEMS), // 要求有元素
 				new BusinessRuleDocumentStatus(PROPERTY_DOCUMENTSTATUS, PROPERTY_ASSETRECHARGEITEMS,
 						AssetRechargeItem.PROPERTY_LINESTATUS), // 使用集合元素状态
@@ -1690,6 +1692,10 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 			return this.getServiceCode();
 		case Ledgers.CONDITION_PROPERTY_BUSINESS_PARTNER_ASSET:
 			return this.getServiceCode();
+		case Ledgers.CONDITION_PROPERTY_REFERENCE_1:
+			return this.getReference1();
+		case Ledgers.CONDITION_PROPERTY_REFERENCE_2:
+			return this.getReference2();
 		default:
 			return null;
 		}

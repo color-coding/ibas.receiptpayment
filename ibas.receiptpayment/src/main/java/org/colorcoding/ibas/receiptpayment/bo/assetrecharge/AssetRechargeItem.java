@@ -29,6 +29,7 @@ import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
 import org.colorcoding.ibas.businesspartner.logic.IBusinessPartnerAssetConsumptionContract;
 import org.colorcoding.ibas.businesspartner.logic.IBusinessPartnerAssetIncreasesContract;
+import org.colorcoding.ibas.materials.rules.BusinessRulePreventCancelDocument;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
 import org.colorcoding.ibas.receiptpayment.data.Ledgers;
 
@@ -941,6 +942,7 @@ public class AssetRechargeItem extends BusinessObject<AssetRechargeItem> impleme
 		return new IBusinessRule[] { // 注册的业务规则
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_AMOUNT), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_RATE), // 不能低于0
+				new BusinessRulePreventCancelDocument(PROPERTY_CANCELED, PROPERTY_LINESTATUS), // 阻止取消单据
 
 		};
 	}
@@ -1022,6 +1024,10 @@ public class AssetRechargeItem extends BusinessObject<AssetRechargeItem> impleme
 			return Ledgers.TRADING_MODE_BANK.equals(this.getMode()) ? this.getTradeId() : null;
 		case Ledgers.CONDITION_PROPERTY_BUSINESS_PARTNER_ASSET:
 			return Ledgers.TRADING_MODE_BP_ASSSET.equals(this.getMode()) ? this.getTradeId() : null;
+		case Ledgers.CONDITION_PROPERTY_REFERENCE_1:
+			return this.getReference1();
+		case Ledgers.CONDITION_PROPERTY_REFERENCE_2:
+			return this.getReference2();
 		default:
 			return null;
 		}
