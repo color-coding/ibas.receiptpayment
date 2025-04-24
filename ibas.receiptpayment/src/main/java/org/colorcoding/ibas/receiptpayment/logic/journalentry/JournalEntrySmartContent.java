@@ -7,15 +7,15 @@ import org.colorcoding.ibas.accounting.repository.BORepositoryAccounting;
 import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
-import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
+import org.colorcoding.ibas.bobas.common.Strings;
 import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.message.MessageLevel;
+import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.businesspartner.bo.businesspartnerasset.BusinessPartnerAsset;
 import org.colorcoding.ibas.businesspartner.bo.businesspartnerasset.IBusinessPartnerAsset;
 import org.colorcoding.ibas.businesspartner.repository.BORepositoryBusinessPartner;
 import org.colorcoding.ibas.document.DocumentFetcherManager;
 import org.colorcoding.ibas.document.IDocumentFetcher;
-import org.colorcoding.ibas.receiptpayment.data.DataConvert;
 import org.colorcoding.ibas.receiptpayment.data.Ledgers;
 
 public class JournalEntrySmartContent
@@ -40,32 +40,34 @@ public class JournalEntrySmartContent
 					ICondition condition = criteria.getConditions().create();
 					condition.setAlias(BusinessPartnerAsset.PROPERTY_CODE.getName());
 					condition.setValue(tradeId);
-					BORepositoryBusinessPartner boRepository = new BORepositoryBusinessPartner();
-					boRepository.setRepository(this.getService().getRepository());
-					IOperationResult<IBusinessPartnerAsset> operationResult = boRepository
-							.fetchBusinessPartnerAsset(criteria);
-					if (operationResult.getError() != null) {
-						throw new BusinessLogicException(operationResult.getError());
-					}
-					for (IBusinessPartnerAsset item : operationResult.getResultObjects()) {
-						if (Ledgers.CONDITION_PROPERTY_ASSET_ITEM.equals(property)) {
-							return item.getAssetCode();
-						} else if (Ledgers.CONDITION_PROPERTY_BANK_ACCOUNT.equals(property)) {
-							return item.getBankAccount();
-						} else if (Ledgers.CONDITION_PROPERTY_BANK.equals(property)) {
-							criteria = new Criteria();
-							criteria.setResultCount(1);
-							condition = criteria.getConditions().create();
-							condition.setAlias(BankAccount.PROPERTY_CODE.getName());
-							condition.setValue(item.getBankAccount());
-							BORepositoryAccounting acRepository = new BORepositoryAccounting();
-							acRepository.setRepository(this.getService().getRepository());
-							IOperationResult<IBankAccount> baOpRslt = acRepository.fetchBankAccount(criteria);
-							if (baOpRslt.getError() != null) {
-								throw new BusinessLogicException(baOpRslt.getError());
-							}
-							if (!baOpRslt.getResultObjects().isEmpty()) {
-								return baOpRslt.getResultObjects().firstOrDefault().getBank();
+					try (BORepositoryBusinessPartner boRepository = new BORepositoryBusinessPartner()) {
+						boRepository.setTransaction(this.getService().getTransaction());
+						IOperationResult<IBusinessPartnerAsset> operationResult = boRepository
+								.fetchBusinessPartnerAsset(criteria);
+						if (operationResult.getError() != null) {
+							throw new BusinessLogicException(operationResult.getError());
+						}
+						for (IBusinessPartnerAsset item : operationResult.getResultObjects()) {
+							if (Ledgers.CONDITION_PROPERTY_ASSET_ITEM.equals(property)) {
+								return item.getAssetCode();
+							} else if (Ledgers.CONDITION_PROPERTY_BANK_ACCOUNT.equals(property)) {
+								return item.getBankAccount();
+							} else if (Ledgers.CONDITION_PROPERTY_BANK.equals(property)) {
+								criteria = new Criteria();
+								criteria.setResultCount(1);
+								condition = criteria.getConditions().create();
+								condition.setAlias(BankAccount.PROPERTY_CODE.getName());
+								condition.setValue(item.getBankAccount());
+								try (BORepositoryAccounting acRepository = new BORepositoryAccounting()) {
+									acRepository.setTransaction(this.getService().getTransaction());
+									IOperationResult<IBankAccount> baOpRslt = acRepository.fetchBankAccount(criteria);
+									if (baOpRslt.getError() != null) {
+										throw new BusinessLogicException(baOpRslt.getError());
+									}
+									if (!baOpRslt.getResultObjects().isEmpty()) {
+										return baOpRslt.getResultObjects().firstOrDefault().getBank();
+									}
+								}
 							}
 						}
 					}
@@ -80,21 +82,22 @@ public class JournalEntrySmartContent
 					ICondition condition = criteria.getConditions().create();
 					condition.setAlias(BankAccount.PROPERTY_CODE.getName());
 					condition.setValue(tradeId);
-					BORepositoryAccounting acRepository = new BORepositoryAccounting();
-					acRepository.setRepository(this.getService().getRepository());
-					IOperationResult<IBankAccount> baOpRslt = acRepository.fetchBankAccount(criteria);
-					if (baOpRslt.getError() != null) {
-						throw new BusinessLogicException(baOpRslt.getError());
-					}
-					if (!baOpRslt.getResultObjects().isEmpty()) {
-						return baOpRslt.getResultObjects().firstOrDefault().getBank();
+					try (BORepositoryAccounting acRepository = new BORepositoryAccounting()) {
+						acRepository.setTransaction(this.getService().getTransaction());
+						IOperationResult<IBankAccount> baOpRslt = acRepository.fetchBankAccount(criteria);
+						if (baOpRslt.getError() != null) {
+							throw new BusinessLogicException(baOpRslt.getError());
+						}
+						if (!baOpRslt.getResultObjects().isEmpty()) {
+							return baOpRslt.getResultObjects().firstOrDefault().getBank();
+						}
 					}
 				}
 			}
 		} else if (Ledgers.CONDITION_PROPERTY_MATERIAL.equals(property)) {
 			String baseType = String
 					.valueOf(this.getSourceDataPropertyValue(Ledgers.CONDITION_PROPERTY_BASE_DOCUMENT_TYPE));
-			if (!DataConvert.isNullOrEmpty(baseType)) {
+			if (!Strings.isNullOrEmpty(baseType)) {
 				try {
 					IDocumentFetcher<?> fetcher = DocumentFetcherManager.create().newFetcher(baseType);
 					if (fetcher != null) {

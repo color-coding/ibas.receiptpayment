@@ -28,7 +28,7 @@ public class BORepositoryReceiptPayment extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<Payment> fetchPayment(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, Payment.class);
+		return super.fetch(Payment.class, criteria, token);
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class BORepositoryReceiptPayment extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<Receipt> fetchReceipt(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, Receipt.class);
+		return super.fetch(Receipt.class, criteria, token);
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class BORepositoryReceiptPayment extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<AssetRecharge> fetchAssetRecharge(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, AssetRecharge.class);
+		return super.fetch(AssetRecharge.class, criteria, token);
 	}
 
 	/**
@@ -157,7 +157,7 @@ public class BORepositoryReceiptPayment extends BORepositoryServiceApplication
 	 * @return 操作结果
 	 */
 	public OperationResult<InternalReconciliation> fetchInternalReconciliation(ICriteria criteria, String token) {
-		return super.fetch(criteria, token, InternalReconciliation.class);
+		return super.fetch(InternalReconciliation.class, criteria, token);
 	}
 
 	/**

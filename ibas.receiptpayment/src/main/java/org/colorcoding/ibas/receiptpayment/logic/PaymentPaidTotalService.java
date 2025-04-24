@@ -2,11 +2,11 @@ package org.colorcoding.ibas.receiptpayment.logic;
 
 import java.math.BigDecimal;
 
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
-import org.colorcoding.ibas.bobas.mapping.LogicContract;
+import org.colorcoding.ibas.bobas.logic.LogicContract;
 import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.message.MessageLevel;
 import org.colorcoding.ibas.document.IDocumentPaidTotalOperator;
@@ -46,12 +46,12 @@ public class PaymentPaidTotalService extends DocumentPaidTotalService<IPaymentPa
 				throw new BusinessLogicException(I18N.prop("msg_rp_payment_currency_mismatch", this.getBeAffected()));
 			}
 		}
-		if (contract.getAmount() == null || Decimal.isZero(contract.getAmount())) {
+		if (contract.getAmount() == null || Decimals.isZero(contract.getAmount())) {
 			return;
 		}
 		BigDecimal total = this.getBeAffected().getPaidTotal();
 		if (total == null) {
-			total = Decimal.ZERO;
+			total = Decimals.VALUE_ZERO;
 		}
 		this.getBeAffected().setPaidTotal(total.add(contract.getAmount()));
 		if (this.getBeAffected().isSmartDocumentStatus() == true) {
@@ -65,12 +65,12 @@ public class PaymentPaidTotalService extends DocumentPaidTotalService<IPaymentPa
 
 	@Override
 	protected void revoke(IPaymentPaidTotalContract contract) {
-		if (contract.getAmount() == null || Decimal.isZero(contract.getAmount())) {
+		if (contract.getAmount() == null || Decimals.isZero(contract.getAmount())) {
 			return;
 		}
 		BigDecimal total = this.getBeAffected().getPaidTotal();
 		if (total == null) {
-			total = Decimal.ZERO;
+			total = Decimals.VALUE_ZERO;
 		}
 		this.getBeAffected().setPaidTotal(total.subtract(contract.getAmount()));
 		if (this.getBeAffected().isSmartDocumentStatus() == true) {

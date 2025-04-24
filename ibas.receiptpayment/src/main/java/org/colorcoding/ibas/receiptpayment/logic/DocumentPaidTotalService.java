@@ -29,14 +29,14 @@ public abstract class DocumentPaidTotalService<L extends IBusinessLogicContract>
 			condition.setAlias("DocEntry");
 			condition.setOperation(ConditionOperation.EQUAL);
 			condition.setValue(docEntry);
-			IDocumentPaidTotalOperator document = this.fetchBeAffected(criteria, IDocumentPaidTotalOperator.class);
+			IDocumentPaidTotalOperator document = this.fetchBeAffected(IDocumentPaidTotalOperator.class, criteria);
 			if (document == null) {
 				IDocumentFetcher<IDocumentPaidTotalOperator> fetcher = DocumentFetcherManager.create()
 						.newFetcher(documentType);
 				if (fetcher == null) {
 					throw new BusinessLogicException(I18N.prop("msg_rp_not_found_document_fether", documentType));
 				}
-				fetcher.setRepository(this.getRepository());
+				fetcher.setTransaction(this.getTransaction());
 				document = fetcher.fetch(docEntry);
 			}
 			if (document instanceof IDocumentPaidTotalOperator) {

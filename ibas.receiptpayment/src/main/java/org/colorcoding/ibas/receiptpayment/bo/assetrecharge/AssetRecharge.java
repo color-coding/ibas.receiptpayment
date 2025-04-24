@@ -17,23 +17,24 @@ import org.colorcoding.ibas.accounting.logic.JournalEntryContent;
 import org.colorcoding.ibas.accounting.logic.JournalEntryContent.Category;
 import org.colorcoding.ibas.bobas.approval.IApprovalData;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
+import org.colorcoding.ibas.bobas.bo.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.bo.IBOSeriesKey;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
+import org.colorcoding.ibas.bobas.common.DateTimes;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.db.DbField;
+import org.colorcoding.ibas.bobas.db.DbFieldType;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
-import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
-import org.colorcoding.ibas.bobas.mapping.DbField;
-import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
 import org.colorcoding.ibas.bobas.period.IPeriodData;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
@@ -1209,7 +1210,7 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 	 * @param value 值
 	 */
 	public final void setAmount(String value) {
-		this.setAmount(Decimal.valueOf(value));
+		this.setAmount(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1218,7 +1219,7 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 	 * @param value 值
 	 */
 	public final void setAmount(int value) {
-		this.setAmount(Decimal.valueOf(value));
+		this.setAmount(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1227,7 +1228,7 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 	 * @param value 值
 	 */
 	public final void setAmount(double value) {
-		this.setAmount(Decimal.valueOf(value));
+		this.setAmount(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1298,7 +1299,7 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 	 * @param value 值
 	 */
 	public final void setRate(String value) {
-		this.setRate(Decimal.valueOf(value));
+		this.setRate(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1307,7 +1308,7 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 	 * @param value 值
 	 */
 	public final void setRate(int value) {
-		this.setRate(Decimal.valueOf(value));
+		this.setRate(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1316,7 +1317,7 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 	 * @param value 值
 	 */
 	public final void setRate(double value) {
-		this.setRate(Decimal.valueOf(value));
+		this.setRate(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1452,9 +1453,9 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 		super.initialize();// 基类初始化，不可去除
 		this.setAssetRechargeItems(new AssetRechargeItems(this));
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
-		this.setPostingDate(DateTime.getToday());
-		this.setDocumentDate(DateTime.getToday());
-		this.setDeliveryDate(DateTime.getToday());
+		this.setPostingDate(DateTimes.today());
+		this.setDocumentDate(DateTimes.today());
+		this.setDeliveryDate(DateTimes.today());
 		this.setDocumentStatus(emDocumentStatus.RELEASED);
 		this.setBusinessPartnerType(emBusinessPartnerType.CUSTOMER);
 		this.setTimes(0);
@@ -1467,7 +1468,7 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 				new BusinessRuleRequired(PROPERTY_BUSINESSPARTNERTYPE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_BUSINESSPARTNERCODE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_SERVICECODE), // 要求有值
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_AMOUNT), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_AMOUNT), // 不能低于0
 				new BusinessRuleMinValue<Integer>(0, PROPERTY_TIMES), // 不能低于0
 				new BusinessRulePreventCancelDocument(PROPERTY_CANCELED, PROPERTY_DOCUMENTSTATUS), // 阻止取消单据
 				new BusinessRuleRequiredElements(PROPERTY_ASSETRECHARGEITEMS), // 要求有元素

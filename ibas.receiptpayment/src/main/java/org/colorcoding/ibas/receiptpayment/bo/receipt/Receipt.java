@@ -16,23 +16,24 @@ import org.colorcoding.ibas.accounting.logic.JournalEntryContent;
 import org.colorcoding.ibas.accounting.logic.JournalEntryContent.Category;
 import org.colorcoding.ibas.bobas.approval.IApprovalData;
 import org.colorcoding.ibas.bobas.bo.BusinessObject;
+import org.colorcoding.ibas.bobas.bo.BusinessObjectUnit;
 import org.colorcoding.ibas.bobas.bo.IBOSeriesKey;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
+import org.colorcoding.ibas.bobas.common.DateTimes;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.ArrayList;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
 import org.colorcoding.ibas.bobas.data.emApprovalStatus;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
+import org.colorcoding.ibas.bobas.db.DbField;
+import org.colorcoding.ibas.bobas.db.DbFieldType;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
-import org.colorcoding.ibas.bobas.mapping.BusinessObjectUnit;
-import org.colorcoding.ibas.bobas.mapping.DbField;
-import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
 import org.colorcoding.ibas.bobas.period.IPeriodData;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
@@ -1210,7 +1211,7 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 	 * @param value 值
 	 */
 	public final void setDocumentRate(String value) {
-		this.setDocumentRate(Decimal.valueOf(value));
+		this.setDocumentRate(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1219,7 +1220,7 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 	 * @param value 值
 	 */
 	public final void setDocumentRate(int value) {
-		this.setDocumentRate(Decimal.valueOf(value));
+		this.setDocumentRate(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1228,7 +1229,7 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 	 * @param value 值
 	 */
 	public final void setDocumentRate(double value) {
-		this.setDocumentRate(Decimal.valueOf(value));
+		this.setDocumentRate(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1268,7 +1269,7 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 	 * @param value 值
 	 */
 	public final void setDocumentTotal(String value) {
-		this.setDocumentTotal(Decimal.valueOf(value));
+		this.setDocumentTotal(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1277,7 +1278,7 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 	 * @param value 值
 	 */
 	public final void setDocumentTotal(int value) {
-		this.setDocumentTotal(Decimal.valueOf(value));
+		this.setDocumentTotal(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1286,7 +1287,7 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 	 * @param value 值
 	 */
 	public final void setDocumentTotal(double value) {
-		this.setDocumentTotal(Decimal.valueOf(value));
+		this.setDocumentTotal(Decimals.valueOf(value));
 	}
 
 	/**
@@ -1484,9 +1485,9 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 		super.initialize();// 基类初始化，不可去除
 		this.setReceiptItems(new ReceiptItems(this));
 		this.setObjectCode(MyConfiguration.applyVariables(BUSINESS_OBJECT_CODE));
-		this.setPostingDate(DateTime.getToday());
-		this.setDocumentDate(DateTime.getToday());
-		this.setDeliveryDate(DateTime.getToday());
+		this.setPostingDate(DateTimes.today());
+		this.setDocumentDate(DateTimes.today());
+		this.setDeliveryDate(DateTimes.today());
 		this.setDocumentStatus(emDocumentStatus.RELEASED);
 		this.setBusinessPartnerType(emBusinessPartnerType.CUSTOMER);
 	}
@@ -1496,13 +1497,13 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 		return new IBusinessRule[] { // 注册的业务规则
 				new BusinessRuleRequired(PROPERTY_BUSINESSPARTNERTYPE), // 要求有值
 				new BusinessRuleRequired(PROPERTY_BUSINESSPARTNERCODE), // 要求有值
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_DOCUMENTRATE), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_DOCUMENTRATE), // 不能低于0
 				new BusinessRulePreventCancelDocument(PROPERTY_CANCELED, PROPERTY_DOCUMENTSTATUS), // 阻止取消单据
 				new BusinessRuleRequiredElements(PROPERTY_RECEIPTITEMS), // 要求有元素
 				new BusinessRuleDocumentStatus(PROPERTY_DOCUMENTSTATUS, PROPERTY_RECEIPTITEMS,
 						ReceiptItem.PROPERTY_LINESTATUS), // 使用集合元素状态
 				new BusinessRuleSumElements(PROPERTY_DOCUMENTTOTAL, PROPERTY_RECEIPTITEMS, ReceiptItem.PROPERTY_AMOUNT), // 计算单据总计
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_DOCUMENTTOTAL), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_DOCUMENTTOTAL), // 不能低于0
 				new BusinessRuleMaxProperty<BigDecimal>(PROPERTY_DOCUMENTTOTAL, PROPERTY_CLOSEDAMOUNT), // 已清金额不能大过单据总计
 		};
 	}
@@ -1511,7 +1512,7 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 	public void reset() {
 		super.reset();
 		this.setDocumentStatus(emDocumentStatus.RELEASED);
-		this.setClosedAmount(Decimal.ZERO);
+		this.setClosedAmount(Decimals.VALUE_ZERO);
 		this.getReceiptItems().forEach(c -> c.setLineStatus(emDocumentStatus.RELEASED));
 	}
 
