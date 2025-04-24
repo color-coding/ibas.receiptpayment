@@ -2,13 +2,13 @@ package org.colorcoding.ibas.receiptpayment.logic;
 
 import java.math.BigDecimal;
 
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
-import org.colorcoding.ibas.bobas.mapping.LogicContract;
-import org.colorcoding.ibas.bobas.message.Logger;
-import org.colorcoding.ibas.bobas.message.MessageLevel;
+import org.colorcoding.ibas.bobas.logic.LogicContract;
+import org.colorcoding.ibas.bobas.logging.Logger;
+import org.colorcoding.ibas.bobas.logging.LoggingLevel;
 import org.colorcoding.ibas.document.IDocumentPaidTotalOperator;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
 import org.colorcoding.ibas.receiptpayment.bo.payment.Payment;
@@ -21,12 +21,12 @@ public class ReceiptPaidTotalService extends DocumentPaidTotalService<IReceiptPa
 		if (data instanceof IReceiptPaidTotalContract) {
 			IReceiptPaidTotalContract contract = (IReceiptPaidTotalContract) data;
 			if (contract.getBaseDocumentType() == null || contract.getBaseDocumentType().isEmpty()) {
-				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
+				Logger.log(LoggingLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
 						"BaseDocumentType", "NULL or Empty");
 				return false;
 			}
 			if (contract.getBaseDocumentType().equals(MyConfiguration.applyVariables(Payment.BUSINESS_OBJECT_CODE))) {
-				Logger.log(MessageLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
+				Logger.log(LoggingLevel.DEBUG, MSG_LOGICS_SKIP_LOGIC_EXECUTION, this.getClass().getName(),
 						"BaseDocumentType", "Payment");
 				return false;
 			}
@@ -46,12 +46,12 @@ public class ReceiptPaidTotalService extends DocumentPaidTotalService<IReceiptPa
 				throw new BusinessLogicException(I18N.prop("msg_rp_recepit_currency_mismatch", this.getBeAffected()));
 			}
 		}
-		if (contract.getAmount() == null || Decimal.isZero(contract.getAmount())) {
+		if (contract.getAmount() == null || Decimals.isZero(contract.getAmount())) {
 			return;
 		}
 		BigDecimal total = this.getBeAffected().getPaidTotal();
 		if (total == null) {
-			total = Decimal.ZERO;
+			total = Decimals.VALUE_ZERO;
 		}
 		this.getBeAffected().setPaidTotal(total.add(contract.getAmount()));
 		if (this.getBeAffected().isSmartDocumentStatus() == true) {
@@ -65,12 +65,12 @@ public class ReceiptPaidTotalService extends DocumentPaidTotalService<IReceiptPa
 
 	@Override
 	protected void revoke(IReceiptPaidTotalContract contract) {
-		if (contract.getAmount() == null || Decimal.isZero(contract.getAmount())) {
+		if (contract.getAmount() == null || Decimals.isZero(contract.getAmount())) {
 			return;
 		}
 		BigDecimal total = this.getBeAffected().getPaidTotal();
 		if (total == null) {
-			total = Decimal.ZERO;
+			total = Decimals.VALUE_ZERO;
 		}
 		this.getBeAffected().setPaidTotal(total.subtract(contract.getAmount()));
 		if (this.getBeAffected().isSmartDocumentStatus() == true) {

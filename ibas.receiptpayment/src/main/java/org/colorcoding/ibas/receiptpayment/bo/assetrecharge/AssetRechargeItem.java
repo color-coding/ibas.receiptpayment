@@ -16,14 +16,14 @@ import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.data.Decimal;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
 import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
-import org.colorcoding.ibas.bobas.mapping.DbField;
-import org.colorcoding.ibas.bobas.mapping.DbFieldType;
+import org.colorcoding.ibas.bobas.db.DbField;
+import org.colorcoding.ibas.bobas.db.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
@@ -786,7 +786,7 @@ public class AssetRechargeItem extends BusinessObject<AssetRechargeItem> impleme
 	 * @param value 值
 	 */
 	public final void setAmount(String value) {
-		this.setAmount(Decimal.valueOf(value));
+		this.setAmount(Decimals.valueOf(value));
 	}
 
 	/**
@@ -795,7 +795,7 @@ public class AssetRechargeItem extends BusinessObject<AssetRechargeItem> impleme
 	 * @param value 值
 	 */
 	public final void setAmount(int value) {
-		this.setAmount(Decimal.valueOf(value));
+		this.setAmount(Decimals.valueOf(value));
 	}
 
 	/**
@@ -804,7 +804,7 @@ public class AssetRechargeItem extends BusinessObject<AssetRechargeItem> impleme
 	 * @param value 值
 	 */
 	public final void setAmount(double value) {
-		this.setAmount(Decimal.valueOf(value));
+		this.setAmount(Decimals.valueOf(value));
 	}
 
 	/**
@@ -875,7 +875,7 @@ public class AssetRechargeItem extends BusinessObject<AssetRechargeItem> impleme
 	 * @param value 值
 	 */
 	public final void setRate(String value) {
-		this.setRate(Decimal.valueOf(value));
+		this.setRate(Decimals.valueOf(value));
 	}
 
 	/**
@@ -884,7 +884,7 @@ public class AssetRechargeItem extends BusinessObject<AssetRechargeItem> impleme
 	 * @param value 值
 	 */
 	public final void setRate(int value) {
-		this.setRate(Decimal.valueOf(value));
+		this.setRate(Decimals.valueOf(value));
 	}
 
 	/**
@@ -893,7 +893,7 @@ public class AssetRechargeItem extends BusinessObject<AssetRechargeItem> impleme
 	 * @param value 值
 	 */
 	public final void setRate(double value) {
-		this.setRate(Decimal.valueOf(value));
+		this.setRate(Decimals.valueOf(value));
 	}
 
 	/**
@@ -940,8 +940,8 @@ public class AssetRechargeItem extends BusinessObject<AssetRechargeItem> impleme
 	@Override
 	protected IBusinessRule[] registerRules() {
 		return new IBusinessRule[] { // 注册的业务规则
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_AMOUNT), // 不能低于0
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_RATE), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_AMOUNT), // 不能低于0
+				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_RATE), // 不能低于0
 				new BusinessRulePreventCancelDocument(PROPERTY_CANCELED, PROPERTY_LINESTATUS), // 阻止取消单据
 
 		};
