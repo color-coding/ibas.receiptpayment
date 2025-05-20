@@ -26,6 +26,7 @@ import org.colorcoding.ibas.bobas.mapping.DbField;
 import org.colorcoding.ibas.bobas.mapping.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
 import org.colorcoding.ibas.businesspartner.logic.IBusinessPartnerAssetConsumptionContract;
 import org.colorcoding.ibas.businesspartner.logic.IBusinessPartnerAssetIncreasesContract;
@@ -1155,7 +1156,9 @@ public class PaymentItem extends BusinessObject<PaymentItem> implements IPayment
 
 	@Override
 	protected IBusinessRule[] registerRules() {
-		return new IBusinessRule[] { // 注册的业务规则
+		return new IBusinessRule[] {
+				// 注册的业务规则
+				new BusinessRuleRequired(PROPERTY_MODE), // 要求有值
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_AMOUNT), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_RATE), // 不能低于0
 				new BusinessRulePreventCancelDocument(PROPERTY_CANCELED, PROPERTY_LINESTATUS), // 阻止取消单据
