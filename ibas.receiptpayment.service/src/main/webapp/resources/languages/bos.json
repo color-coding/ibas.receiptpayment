@@ -85,6 +85,7 @@
         "bo_paymentitem_currency": "Currency",
         "bo_paymentitem_rate": "Rate",
         "bo_paymentitem_tradeid": "Trade ID",
+        "bo_paymentitem_cashflow": "Cash Flow",
         "bo_payment_closing_delimiter": "----End----"
     },
     {
@@ -173,6 +174,7 @@
         "bo_receiptitem_currency": "Currency",
         "bo_receiptitem_rate": "Rate",
         "bo_receiptitem_tradeid": "Trade ID",
+        "bo_receiptitem_cashflow": "Cash Flow",
         "bo_receipt_closing_delimiter": "----End----"
     },
     {
@@ -250,6 +252,7 @@
         "bo_assetrechargeitem_rate": "Rate",
         "bo_assetrechargeitem_tradeid": "Trade ID",
         "bo_assetrechargeitem_rate_currency": "Rate & Currency",
+        "bo_assetrechargeitem_cashflow": "Cash Flow",
         "bo_assetrecharge_closing_delimiter": "----End----"
     },
     {

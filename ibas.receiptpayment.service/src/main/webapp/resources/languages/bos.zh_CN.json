@@ -85,6 +85,7 @@
         "bo_paymentitem_currency": "货币",
         "bo_paymentitem_rate": "汇率",
         "bo_paymentitem_tradeid": "交易识别码",
+        "bo_paymentitem_cashflow": "现金流项目",
         "bo_payment_closing_delimiter": "----结束----"
     },
     {
@@ -173,6 +174,7 @@
         "bo_receiptitem_currency": "货币",
         "bo_receiptitem_rate": "汇率",
         "bo_receiptitem_tradeid": "交易识别码",
+        "bo_receiptitem_cashflow": "现金流项目",
         "bo_receipt_closing_delimiter": "----结束----"
     },
     {
@@ -250,6 +252,7 @@
         "bo_assetrechargeitem_rate": "汇率",
         "bo_assetrechargeitem_tradeid": "交易识别码",
         "bo_assetrechargeitem_rate_currency": "汇率&货币",
+        "bo_assetrechargeitem_cashflow": "现金流项目",
         "bo_assetrecharge_closing_delimiter": "----结束----"
     },
     {

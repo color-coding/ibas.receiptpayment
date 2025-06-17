@@ -1644,6 +1644,7 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 						jeContent.setAmount(line.getAmount());// 总计
 						jeContent.setCurrency(line.getCurrency());
 						jeContent.setRate(line.getRate());
+						jeContent.setCashFlow(line.getCashFlow());
 						jeContents.add(jeContent);
 						// 应收预付款科目
 						jeContent = new JournalEntrySmartContent(line);
@@ -1663,6 +1664,7 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 						jeContent.setAmount(line.getAmount());// 总计
 						jeContent.setCurrency(line.getCurrency());
 						jeContent.setRate(line.getRate());
+						jeContent.setCashFlow(line.getCashFlow());
 						jeContents.add(jeContent);
 						// 应收款科目
 						jeContent = new JournalEntrySmartContent(line);

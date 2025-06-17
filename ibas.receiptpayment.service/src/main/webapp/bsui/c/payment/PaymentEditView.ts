@@ -370,6 +370,24 @@ namespace receiptpayment {
                                         label: ibas.i18n.prop("bo_paymentitem_mode"),
                                         template: new sap.extension.m.Select("", {
                                             items: component.paymentMethods(),
+                                            change(event: sap.ui.base.Event): void {
+                                                let item: any = event.getParameter("selectedItem");
+                                                let data: any = this.getBindingContext().getObject();
+                                                if (data instanceof bo.PaymentItem) {
+                                                    let defalut: number = config.defaultCashFlow(bo.Payment.name, item?.getKey());
+                                                    if (defalut >= 0) {
+                                                        // 大于0，支持现金流的项目
+                                                        if (!(data.cashFlow > 0)) {
+                                                            data.cashFlow = defalut;
+                                                        }
+                                                    } else {
+                                                        // 不支持现金流的项目
+                                                        if (data.cashFlow > 0) {
+                                                            data.cashFlow = 0;
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }).bindProperty("bindingValue", {
                                             path: "mode",
                                             type: new sap.extension.data.Alphanumeric({
@@ -415,6 +433,25 @@ namespace receiptpayment {
                                                 maxLength: 140
                                             })
                                         }),
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_paymentitem_cashflow"),
+                                        template: new sap.extension.m.RepositorySelect("", {
+                                            repository: accounting.bo.BORepositoryAccounting,
+                                            dataInfo: {
+                                                type: accounting.bo.CashFlow,
+                                                key: accounting.bo.CashFlow.PROPERTY_SIGN_NAME,
+                                                text: accounting.bo.CashFlow.PROPERTY_NAME_NAME
+                                            },
+                                            criteria: [
+                                                new ibas.Condition(accounting.bo.CashFlow.PROPERTY_POSTABLE_NAME, ibas.emConditionOperation.EQUAL, accounting.bo.emPostableType.ACTIVE)
+                                            ],
+                                        }).bindProperty("bindingValue", {
+                                            path: "cashFlow",
+                                            type: new sap.extension.data.Numeric(),
+                                        }),
+                                        width: "14rem",
+                                        visible: false,
                                     }),
                                     new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_paymentitem_reference1"),

@@ -1650,6 +1650,7 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 					jeContent.setAmount(line.getAmount());// 总计
 					jeContent.setCurrency(line.getCurrency());
 					jeContent.setRate(line.getRate());
+					jeContent.setCashFlow(line.getCashFlow());
 					jeContents.add(jeContent);
 				}
 				// 资产项目科目

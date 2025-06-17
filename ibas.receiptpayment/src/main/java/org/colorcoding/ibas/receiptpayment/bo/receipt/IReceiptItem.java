@@ -517,4 +517,18 @@ public interface IReceiptItem extends IBODocumentLine {
 	 * @param value 值
 	 */
 	void setTradeId(String value);
+
+	/**
+	* 获取-现金流项目
+	* 
+	* @return 值
+	*/
+	Integer getCashFlow();
+
+	/**
+	* 设置-现金流项目
+	* 
+	* @param value 值
+	*/
+	void setCashFlow(Integer value);
 }

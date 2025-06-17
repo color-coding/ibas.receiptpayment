@@ -251,6 +251,9 @@ namespace receiptpayment {
             /** 交易识别码 */
             tradeId: string;
 
+            /** 现金流项目 */
+            cashFlow: number;
+
         }
     }
 }

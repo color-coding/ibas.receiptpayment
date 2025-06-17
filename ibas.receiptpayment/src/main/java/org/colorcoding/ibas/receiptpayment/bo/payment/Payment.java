@@ -1653,6 +1653,7 @@ public class Payment extends BusinessObject<Payment> implements IPayment, IDataO
 						jeContent.setAmount(line.getAmount());// 总计
 						jeContent.setCurrency(line.getCurrency());
 						jeContent.setRate(line.getRate());
+						jeContent.setCashFlow(line.getCashFlow());
 						jeContents.add(jeContent);
 					} else {
 						/** 不基于单据 **/
@@ -1672,6 +1673,7 @@ public class Payment extends BusinessObject<Payment> implements IPayment, IDataO
 						jeContent.setAmount(line.getAmount());// 总计
 						jeContent.setCurrency(line.getCurrency());
 						jeContent.setRate(line.getRate());
+						jeContent.setCashFlow(line.getCashFlow());
 						jeContents.add(jeContent);
 					}
 				}
