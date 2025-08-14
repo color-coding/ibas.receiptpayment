@@ -473,6 +473,7 @@ namespace receiptpayment {
                                     }),
                                 ],
                                 sortProperty: "visOrder",
+                                sortIntervalStep: 1,
                             })
                         ]
                     });
