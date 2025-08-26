@@ -46,6 +46,7 @@ import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
 import org.colorcoding.ibas.businesspartner.logic.ICustomerCheckContract;
 import org.colorcoding.ibas.businesspartner.logic.ISupplierCheckContract;
 import org.colorcoding.ibas.document.IDocumentPaidTotalOperator;
+import org.colorcoding.ibas.document.IDocumentPrintedOperator;
 import org.colorcoding.ibas.materials.rules.BusinessRulePreventCancelDocument;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
 import org.colorcoding.ibas.receiptpayment.data.Ledgers;
@@ -60,8 +61,9 @@ import org.colorcoding.ibas.sales.bo.downpaymentrequest.DownPaymentRequest;
 @XmlType(name = Receipt.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = Receipt.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BusinessObjectUnit(code = Receipt.BUSINESS_OBJECT_CODE)
-public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataOwnership, IPeriodData, IApprovalData,
-		IBOTagDeleted, IBOTagCanceled, IBusinessLogicsHost, IBOSeriesKey, IBOUserFields, IDocumentPaidTotalOperator {
+public class Receipt extends BusinessObject<Receipt>
+		implements IReceipt, IDataOwnership, IPeriodData, IApprovalData, IBOTagDeleted, IBOTagCanceled,
+		IBusinessLogicsHost, IBOSeriesKey, IBOUserFields, IDocumentPaidTotalOperator, IDocumentPrintedOperator {
 
 	/**
 	 * 序列化版本标记
@@ -985,6 +987,37 @@ public class Receipt extends BusinessObject<Receipt> implements IReceipt, IDataO
 	 */
 	public final void setReferenced(emYesNo value) {
 		this.setProperty(PROPERTY_REFERENCED, value);
+	}
+
+	/**
+	* 属性名称-已打印
+	*/
+	private static final String PROPERTY_PRINTED_NAME = "Printed";
+
+	/**
+	* 已打印 属性
+	*/
+	@DbField(name = "Printed", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<emYesNo> PROPERTY_PRINTED = registerProperty(PROPERTY_PRINTED_NAME, emYesNo.class,
+			MY_CLASS);
+
+	/**
+	* 获取-已打印
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_PRINTED_NAME)
+	public final emYesNo getPrinted() {
+		return this.getProperty(PROPERTY_PRINTED);
+	}
+
+	/**
+	* 设置-已打印
+	* 
+	* @param value 值
+	*/
+	public final void setPrinted(emYesNo value) {
+		this.setProperty(PROPERTY_PRINTED, value);
 	}
 
 	/**
