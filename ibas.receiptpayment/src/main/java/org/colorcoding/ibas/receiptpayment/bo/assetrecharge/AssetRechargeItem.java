@@ -26,6 +26,7 @@ import org.colorcoding.ibas.bobas.db.DbField;
 import org.colorcoding.ibas.bobas.db.DbFieldType;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
+import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
 import org.colorcoding.ibas.businesspartner.logic.IBusinessPartnerAssetConsumptionContract;
 import org.colorcoding.ibas.businesspartner.logic.IBusinessPartnerAssetIncreasesContract;
@@ -928,6 +929,37 @@ public class AssetRechargeItem extends BusinessObject<AssetRechargeItem> impleme
 	}
 
 	/**
+	* 属性名称-现金流项目
+	*/
+	private static final String PROPERTY_CASHFLOW_NAME = "CashFlow";
+
+	/**
+	* 现金流项目 属性
+	*/
+	@DbField(name = "CashFlow", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<Integer> PROPERTY_CASHFLOW = registerProperty(PROPERTY_CASHFLOW_NAME,
+			Integer.class, MY_CLASS);
+
+	/**
+	* 获取-现金流项目
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_CASHFLOW_NAME)
+	public final Integer getCashFlow() {
+		return this.getProperty(PROPERTY_CASHFLOW);
+	}
+
+	/**
+	* 设置-现金流项目
+	* 
+	* @param value 值
+	*/
+	public final void setCashFlow(Integer value) {
+		this.setProperty(PROPERTY_CASHFLOW, value);
+	}
+
+	/**
 	 * 初始化数据
 	 */
 	@Override
@@ -939,7 +971,9 @@ public class AssetRechargeItem extends BusinessObject<AssetRechargeItem> impleme
 
 	@Override
 	protected IBusinessRule[] registerRules() {
-		return new IBusinessRule[] { // 注册的业务规则
+		return new IBusinessRule[] {
+				// 注册的业务规则
+				new BusinessRuleRequired(PROPERTY_MODE), // 要求有值
 				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_AMOUNT), // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_RATE), // 不能低于0
 				new BusinessRulePreventCancelDocument(PROPERTY_CANCELED, PROPERTY_LINESTATUS), // 阻止取消单据
@@ -1028,6 +1062,8 @@ public class AssetRechargeItem extends BusinessObject<AssetRechargeItem> impleme
 			return this.getReference1();
 		case Ledgers.CONDITION_PROPERTY_REFERENCE_2:
 			return this.getReference2();
+		case Ledgers.CONDITION_PROPERTY_CASH_FLOW:
+			return this.getCashFlow();
 		default:
 			return null;
 		}

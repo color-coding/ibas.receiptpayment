@@ -30,6 +30,7 @@
         "bo_payment_reference2": "Reference 2",
         "bo_payment_remarks": "Remarks",
         "bo_payment_referenced": "Referenced",
+        "bo_payment_printed": "Printed",
         "bo_payment_deleted": "Deleted",
         "bo_payment_businesspartnertype": "Business Partner Type",
         "bo_payment_businesspartnercode": "Business Partner Code",
@@ -85,6 +86,7 @@
         "bo_paymentitem_currency": "Currency",
         "bo_paymentitem_rate": "Rate",
         "bo_paymentitem_tradeid": "Trade ID",
+        "bo_paymentitem_cashflow": "Cash Flow",
         "bo_payment_closing_delimiter": "----End----"
     },
     {
@@ -118,6 +120,7 @@
         "bo_receipt_reference2": "Reference 2",
         "bo_receipt_remarks": "Remarks",
         "bo_receipt_referenced": "Referenced",
+        "bo_receipt_printed": "Printed",
         "bo_receipt_deleted": "Deleted",
         "bo_receipt_businesspartnertype": "Business Partner Type",
         "bo_receipt_businesspartnercode": "Business Partner Code",
@@ -173,6 +176,7 @@
         "bo_receiptitem_currency": "Currency",
         "bo_receiptitem_rate": "Rate",
         "bo_receiptitem_tradeid": "Trade ID",
+        "bo_receiptitem_cashflow": "Cash Flow",
         "bo_receipt_closing_delimiter": "----End----"
     },
     {
@@ -206,6 +210,7 @@
         "bo_assetrecharge_reference2": "Reference 2",
         "bo_assetrecharge_remarks": "Remarks",
         "bo_assetrecharge_referenced": "Referenced",
+        "bo_assetrecharge_printed": "Printed",
         "bo_assetrecharge_deleted": "Deleted",
         "bo_assetrecharge_businesspartnertype": "Business Partner Type",
         "bo_assetrecharge_businesspartnercode": "Business Partner Code",
@@ -250,6 +255,7 @@
         "bo_assetrechargeitem_rate": "Rate",
         "bo_assetrechargeitem_tradeid": "Trade ID",
         "bo_assetrechargeitem_rate_currency": "Rate & Currency",
+        "bo_assetrechargeitem_cashflow": "Cash Flow",
         "bo_assetrecharge_closing_delimiter": "----End----"
     },
     {

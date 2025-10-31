@@ -47,6 +47,7 @@ import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
 import org.colorcoding.ibas.businesspartner.logic.ICustomerCheckContract;
 import org.colorcoding.ibas.businesspartner.logic.ISupplierCheckContract;
 import org.colorcoding.ibas.document.IDocumentPaidTotalOperator;
+import org.colorcoding.ibas.document.IDocumentPrintedOperator;
 import org.colorcoding.ibas.materials.rules.BusinessRulePreventCancelDocument;
 import org.colorcoding.ibas.purchase.bo.downpaymentrequest.DownPaymentRequest;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
@@ -61,8 +62,9 @@ import org.colorcoding.ibas.receiptpayment.logic.journalentry.JournalEntrySmartC
 @XmlType(name = Payment.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @XmlRootElement(name = Payment.BUSINESS_OBJECT_NAME, namespace = MyConfiguration.NAMESPACE_BO)
 @BusinessObjectUnit(code = Payment.BUSINESS_OBJECT_CODE)
-public class Payment extends BusinessObject<Payment> implements IPayment, IDataOwnership, IPeriodData, IApprovalData,
-		IBOTagDeleted, IBOTagCanceled, IBusinessLogicsHost, IBOSeriesKey, IBOUserFields, IDocumentPaidTotalOperator {
+public class Payment extends BusinessObject<Payment>
+		implements IPayment, IDataOwnership, IPeriodData, IApprovalData, IBOTagDeleted, IBOTagCanceled,
+		IBusinessLogicsHost, IBOSeriesKey, IBOUserFields, IDocumentPaidTotalOperator, IDocumentPrintedOperator {
 
 	/**
 	 * 序列化版本标记
@@ -989,6 +991,37 @@ public class Payment extends BusinessObject<Payment> implements IPayment, IDataO
 	}
 
 	/**
+	* 属性名称-已打印
+	*/
+	private static final String PROPERTY_PRINTED_NAME = "Printed";
+
+	/**
+	* 已打印 属性
+	*/
+	@DbField(name = "Printed", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<emYesNo> PROPERTY_PRINTED = registerProperty(PROPERTY_PRINTED_NAME, emYesNo.class,
+			MY_CLASS);
+
+	/**
+	* 获取-已打印
+	* 
+	* @return 值
+	*/
+	@XmlElement(name = PROPERTY_PRINTED_NAME)
+	public final emYesNo getPrinted() {
+		return this.getProperty(PROPERTY_PRINTED);
+	}
+
+	/**
+	* 设置-已打印
+	* 
+	* @param value 值
+	*/
+	public final void setPrinted(emYesNo value) {
+		this.setProperty(PROPERTY_PRINTED, value);
+	}
+
+	/**
 	 * 属性名称-已删除
 	 */
 	private static final String PROPERTY_DELETED_NAME = "Deleted";
@@ -1654,6 +1687,7 @@ public class Payment extends BusinessObject<Payment> implements IPayment, IDataO
 						jeContent.setAmount(line.getAmount());// 总计
 						jeContent.setCurrency(line.getCurrency());
 						jeContent.setRate(line.getRate());
+						jeContent.setCashFlow(line.getCashFlow());
 						jeContents.add(jeContent);
 					} else {
 						/** 不基于单据 **/
@@ -1673,6 +1707,7 @@ public class Payment extends BusinessObject<Payment> implements IPayment, IDataO
 						jeContent.setAmount(line.getAmount());// 总计
 						jeContent.setCurrency(line.getCurrency());
 						jeContent.setRate(line.getRate());
+						jeContent.setCashFlow(line.getCashFlow());
 						jeContents.add(jeContent);
 					}
 				}
