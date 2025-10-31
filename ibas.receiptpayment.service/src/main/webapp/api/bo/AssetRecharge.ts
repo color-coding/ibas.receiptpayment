@@ -67,6 +67,8 @@ namespace receiptpayment {
             remarks: string;
             /** 已引用 */
             referenced: ibas.emYesNo;
+            /** 已打印 */
+            printed: ibas.emYesNo;
             /** 已删除 */
             deleted: ibas.emYesNo;
             /** 业务伙伴类型 */
@@ -153,6 +155,8 @@ namespace receiptpayment {
             rate: number;
             /** 交易识别码 */
             tradeId: string;
+            /** 现金流项目 */
+            cashFlow: number;
 
         }
 

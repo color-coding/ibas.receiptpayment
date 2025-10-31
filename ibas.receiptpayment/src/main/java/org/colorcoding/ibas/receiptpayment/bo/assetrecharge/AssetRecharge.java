@@ -46,6 +46,7 @@ import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
 import org.colorcoding.ibas.businesspartner.logic.IBusinessPartnerAssetIncreasesContract;
 import org.colorcoding.ibas.businesspartner.logic.ICustomerCheckContract;
 import org.colorcoding.ibas.businesspartner.logic.ISupplierCheckContract;
+import org.colorcoding.ibas.document.IDocumentPrintedOperator;
 import org.colorcoding.ibas.materials.rules.BusinessRulePreventCancelDocument;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
 import org.colorcoding.ibas.receiptpayment.data.Ledgers;
@@ -61,7 +62,7 @@ import org.colorcoding.ibas.receiptpayment.logic.journalentry.JournalEntrySmartC
 @BusinessObjectUnit(code = AssetRecharge.BUSINESS_OBJECT_CODE)
 public class AssetRecharge extends BusinessObject<AssetRecharge>
 		implements IAssetRecharge, IDataOwnership, IPeriodData, IApprovalData, IBOTagDeleted, IBOTagCanceled,
-		IBusinessLogicsHost, IBOSeriesKey, IBOUserFields, IJECPropertyValueGetter {
+		IBusinessLogicsHost, IBOSeriesKey, IBOUserFields, IJECPropertyValueGetter, IDocumentPrintedOperator {
 
 	/**
 	 * 序列化版本标记
@@ -988,6 +989,37 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 	}
 
 	/**
+	 * 属性名称-已打印
+	 */
+	private static final String PROPERTY_PRINTED_NAME = "Printed";
+
+	/**
+	 * 已打印 属性
+	 */
+	@DbField(name = "Printed", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<emYesNo> PROPERTY_PRINTED = registerProperty(PROPERTY_PRINTED_NAME, emYesNo.class,
+			MY_CLASS);
+
+	/**
+	 * 获取-已打印
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_PRINTED_NAME)
+	public final emYesNo getPrinted() {
+		return this.getProperty(PROPERTY_PRINTED);
+	}
+
+	/**
+	 * 设置-已打印
+	 * 
+	 * @param value 值
+	 */
+	public final void setPrinted(emYesNo value) {
+		this.setProperty(PROPERTY_PRINTED, value);
+	}
+
+	/**
 	 * 属性名称-已删除
 	 */
 	private static final String PROPERTY_DELETED_NAME = "Deleted";
@@ -1503,6 +1535,16 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 				public String getCustomerCode() {
 					return AssetRecharge.this.getBusinessPartnerCode();
 				}
+
+				@Override
+				public String getCustomerName() {
+					return AssetRecharge.this.getBusinessPartnerName();
+				}
+
+				@Override
+				public void setCustomerName(String value) {
+					AssetRecharge.this.setBusinessPartnerName(value);
+				}
 			});
 		} else if (this.getBusinessPartnerType() == emBusinessPartnerType.SUPPLIER) {
 			contracts.add(new ISupplierCheckContract() {
@@ -1514,6 +1556,16 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 				@Override
 				public String getSupplierCode() {
 					return AssetRecharge.this.getBusinessPartnerCode();
+				}
+
+				@Override
+				public String getSupplierName() {
+					return AssetRecharge.this.getBusinessPartnerName();
+				}
+
+				@Override
+				public void setSupplierName(String value) {
+					AssetRecharge.this.setBusinessPartnerName(value);
 				}
 			});
 		}
@@ -1651,6 +1703,7 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 					jeContent.setAmount(line.getAmount());// 总计
 					jeContent.setCurrency(line.getCurrency());
 					jeContent.setRate(line.getRate());
+					jeContent.setCashFlow(line.getCashFlow());
 					jeContents.add(jeContent);
 				}
 				// 资产项目科目

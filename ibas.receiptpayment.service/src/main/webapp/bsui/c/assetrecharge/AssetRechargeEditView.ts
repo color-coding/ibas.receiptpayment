@@ -210,38 +210,55 @@ namespace receiptpayment {
                                 type: new sap.extension.data.Numeric()
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrecharge_documentstatus") }),
-                            new sap.extension.m.EnumSelect("", {
-                                enumType: ibas.emDocumentStatus
-                            }).bindProperty("bindingValue", {
-                                path: "documentStatus",
-                                type: new sap.extension.data.DocumentStatus()
-                            }),
-                            new sap.extension.m.TipsCheckBox("", {
-                                text: ibas.i18n.prop("bo_assetrecharge_canceled"),
-                                tipsOnSelection: ibas.i18n.prop(["shell_data_cancel", "shell_data_status"]),
-                            }).bindProperty("bindingValue", {
-                                path: "canceled",
-                                type: new sap.extension.data.YesNo()
-                            }).bindProperty("editable", {
-                                parts: [
-                                    {
-                                        path: "approvalStatus",
-                                        type: new sap.extension.data.ApprovalStatus(),
-                                    },
-                                    {
+                            new sap.m.FlexBox("", {
+                                width: "100%",
+                                justifyContent: sap.m.FlexJustifyContent.Start,
+                                renderType: sap.m.FlexRendertype.Bare,
+                                alignContent: sap.m.FlexAlignContent.Center,
+                                alignItems: sap.m.FlexAlignItems.Center,
+                                items: [
+                                    new sap.extension.m.EnumSelect("", {
+                                        enumType: ibas.emDocumentStatus,
+                                        width: "100%",
+                                    }).bindProperty("bindingValue", {
                                         path: "documentStatus",
-                                        type: new sap.extension.data.DocumentStatus(),
-                                    }
-                                ],
-                                formatter(apStatus: ibas.emApprovalStatus, docStatus: ibas.emDocumentStatus): boolean {
-                                    if (apStatus === ibas.emApprovalStatus.PROCESSING) {
-                                        return false;
-                                    }
-                                    if (docStatus === ibas.emDocumentStatus.PLANNED) {
-                                        return false;
-                                    }
-                                    return true;
-                                }
+                                        type: new sap.extension.data.DocumentStatus()
+                                    }).addStyleClass("sapUiSmallMarginEnd"),
+                                    new sap.extension.m.TipsCheckBox("", {
+                                        text: ibas.i18n.prop("bo_assetrecharge_canceled"),
+                                        tipsOnSelection: ibas.i18n.prop(["shell_data_cancel", "shell_data_status"]),
+                                    }).bindProperty("bindingValue", {
+                                        path: "canceled",
+                                        type: new sap.extension.data.YesNo()
+                                    }).bindProperty("editable", {
+                                        parts: [
+                                            {
+                                                path: "approvalStatus",
+                                                type: new sap.extension.data.ApprovalStatus(),
+                                            },
+                                            {
+                                                path: "documentStatus",
+                                                type: new sap.extension.data.DocumentStatus(),
+                                            }
+                                        ],
+                                        formatter(apStatus: ibas.emApprovalStatus, docStatus: ibas.emDocumentStatus): boolean {
+                                            if (apStatus === ibas.emApprovalStatus.PROCESSING) {
+                                                return false;
+                                            }
+                                            if (docStatus === ibas.emDocumentStatus.PLANNED) {
+                                                return false;
+                                            }
+                                            return true;
+                                        }
+                                    }).addStyleClass("sapUiSmallMarginEnd"),
+                                    new sap.extension.m.CheckBox("", {
+                                        text: ibas.i18n.prop("bo_assetrecharge_printed"),
+                                        editable: false,
+                                    }).bindProperty("bindingValue", {
+                                        path: "printed",
+                                        type: new sap.extension.data.YesNo()
+                                    }),
+                                ]
                             }),
                             new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrecharge_documentdate") }),
                             new sap.extension.m.DatePicker("", {
@@ -305,6 +322,24 @@ namespace receiptpayment {
                                         label: ibas.i18n.prop("bo_assetrechargeitem_mode"),
                                         template: new sap.extension.m.Select("", {
                                             items: component.receiptMethods(),
+                                            change(event: sap.ui.base.Event): void {
+                                                let item: any = event.getParameter("selectedItem");
+                                                let data: any = this.getBindingContext().getObject();
+                                                if (data instanceof bo.AssetRechargeItem) {
+                                                    let defalut: number = config.defaultCashFlow(bo.AssetRecharge.name, item?.getKey());
+                                                    if (defalut >= 0) {
+                                                        // 大于0，支持现金流的项目
+                                                        if (!(data.cashFlow > 0)) {
+                                                            data.cashFlow = defalut;
+                                                        }
+                                                    } else {
+                                                        // 不支持现金流的项目
+                                                        if (data.cashFlow > 0) {
+                                                            data.cashFlow = 0;
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }).bindProperty("bindingValue", {
                                             path: "mode",
                                             type: new sap.extension.data.Alphanumeric({
@@ -359,6 +394,25 @@ namespace receiptpayment {
                                         }),
                                     }),
                                     new sap.extension.table.DataColumn("", {
+                                        label: ibas.i18n.prop("bo_assetrechargeitem_cashflow"),
+                                        template: new sap.extension.m.RepositorySelect("", {
+                                            repository: accounting.bo.BORepositoryAccounting,
+                                            dataInfo: {
+                                                type: accounting.bo.CashFlow,
+                                                key: accounting.bo.CashFlow.PROPERTY_SIGN_NAME,
+                                                text: accounting.bo.CashFlow.PROPERTY_NAME_NAME
+                                            },
+                                            criteria: [
+                                                new ibas.Condition(accounting.bo.CashFlow.PROPERTY_POSTABLE_NAME, ibas.emConditionOperation.EQUAL, accounting.bo.emPostableType.ACTIVE)
+                                            ],
+                                        }).bindProperty("bindingValue", {
+                                            path: "cashFlow",
+                                            type: new sap.extension.data.Numeric(),
+                                        }),
+                                        width: "14rem",
+                                        visible: false,
+                                    }),
+                                    new sap.extension.table.DataColumn("", {
                                         label: ibas.i18n.prop("bo_assetrechargeitem_reference1"),
                                         template: new sap.extension.m.Input("", {
                                         }).bindProperty("bindingValue", {
@@ -378,6 +432,7 @@ namespace receiptpayment {
                                     }),
                                 ],
                                 sortProperty: "visOrder",
+                                sortIntervalStep: 1,
                             })]
                     });
                     let formBottom: sap.ui.layout.form.SimpleForm = new sap.ui.layout.form.SimpleForm("", {

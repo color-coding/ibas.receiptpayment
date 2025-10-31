@@ -335,6 +335,17 @@ namespace receiptpayment {
                 this.setProperty(Receipt.PROPERTY_REFERENCED_NAME, value);
             }
 
+            /** 映射的属性名称-已打印 */
+            static PROPERTY_PRINTED_NAME: string = "Printed";
+            /** 获取-已打印 */
+            get printed(): ibas.emYesNo {
+                return this.getProperty<ibas.emYesNo>(Receipt.PROPERTY_PRINTED_NAME);
+            }
+            /** 设置-已打印 */
+            set printed(value: ibas.emYesNo) {
+                this.setProperty(Receipt.PROPERTY_PRINTED_NAME, value);
+            }
+
             /** 映射的属性名称-已删除 */
             static PROPERTY_DELETED_NAME: string = "Deleted";
             /** 获取-已删除 */
@@ -939,6 +950,17 @@ namespace receiptpayment {
             /** 设置-交易识别码 */
             set tradeId(value: string) {
                 this.setProperty(ReceiptItem.PROPERTY_TRADEID_NAME, value);
+            }
+
+            /** 映射的属性名称-现金流项目 */
+            static PROPERTY_CASHFLOW_NAME: string = "CashFlow";
+            /** 获取-现金流项目 */
+            get cashFlow(): number {
+                return this.getProperty<number>(ReceiptItem.PROPERTY_CASHFLOW_NAME);
+            }
+            /** 设置-现金流项目 */
+            set cashFlow(value: number) {
+                this.setProperty(ReceiptItem.PROPERTY_CASHFLOW_NAME, value);
             }
 
             /** 初始化数据 */

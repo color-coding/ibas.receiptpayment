@@ -14,6 +14,12 @@ namespace receiptpayment {
     export const CONSOLE_VERSION: string = "0.1.0";
 
     export namespace config {
+        /** 配置项目-默认现金流（充值） */
+        export const CONFIG_ITEM_DEFAULT_CASH_FLOW_RECHARGES: string = "defaultCashFlowRecharges";
+        /** 配置项目-默认现金流（付款） */
+        export const CONFIG_ITEM_DEFAULT_CASH_FLOW_PAYMENTS: string = "defaultCashFlowPayments";
+        /** 配置项目-默认现金流（收款） */
+        export const CONFIG_ITEM_DEFAULT_CASH_FLOW_RECEIPTS: string = "defaultCashFlowReceipts";
         /**
          * 获取此模块配置
          * @param key 配置项
@@ -21,6 +27,42 @@ namespace receiptpayment {
          */
         export function get<T>(key: string, defalut?: T): T {
             return ibas.config.get(ibas.strings.format("{0}|{1}", CONSOLE_ID, key), defalut);
+        }
+
+        let CASH_FLOWS: Map<string, number>;
+        /**
+         * 获取默认现金流
+         * @param boName 对象类型
+         * @param method 支付方式
+         */
+        export function defaultCashFlow(boName: string, method: string): number {
+            if (ibas.objects.isNull(CASH_FLOWS)) {
+                CASH_FLOWS = new Map<string, number>();
+                let action: (boCode: string, configValues: string) => void = (bo, values) => {
+                    if (ibas.objects.isNull(values) || ibas.objects.isNull(bo)) {
+                        return;
+                    }
+                    for (let value of values.split(";")) {
+                        if (ibas.strings.isEmpty(value)) {
+                            continue;
+                        }
+                        let tmps: string[] = value.split("=");
+                        if (tmps.length !== 2) {
+                            continue;
+                        }
+                        CASH_FLOWS.set(ibas.strings.format("cashFlow|{0}|{1}", bo, ibas.strings.trim(tmps[0])), ibas.numbers.valueOf(tmps[1]));
+                    }
+
+                };
+                action(bo.Receipt.name, get(CONFIG_ITEM_DEFAULT_CASH_FLOW_RECEIPTS));
+                action(bo.Payment.name, get(CONFIG_ITEM_DEFAULT_CASH_FLOW_PAYMENTS));
+                action(bo.AssetRecharge.name, get(CONFIG_ITEM_DEFAULT_CASH_FLOW_RECHARGES));
+            }
+            let key: string = ibas.strings.format("cashFlow|{0}|{1}", boName, method);
+            if (CASH_FLOWS.has(key)) {
+                CASH_FLOWS.get(key);
+            }
+            return -1;
         }
     }
     export namespace bo {

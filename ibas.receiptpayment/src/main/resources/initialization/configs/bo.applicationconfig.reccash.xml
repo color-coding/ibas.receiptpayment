@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE ApplicationConfig>
+<ns:ApplicationConfig xmlns:ns="http://colorcoding.org/ibas/initialfantasy/bo">
+	<ConfigKey>defaultCashFlowReceipts</ConfigKey>
+	<ConfigDescription>默认现金流（收款）</ConfigDescription>
+	<ConfigGroup>77d894db-e7f7-4fdd-910c-7835612407be</ConfigGroup>
+	<ConfigValue>TM_BANK=3;TM_CASH=3</ConfigValue>
+	<Category>CLIENT</Category>
+	<Activated>YES</Activated>
+</ns:ApplicationConfig>
