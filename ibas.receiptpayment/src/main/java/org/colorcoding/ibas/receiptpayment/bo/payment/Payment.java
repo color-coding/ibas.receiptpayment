@@ -37,7 +37,6 @@ import org.colorcoding.ibas.bobas.ownership.IDataOwnership;
 import org.colorcoding.ibas.bobas.period.IPeriodData;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleDocumentStatus;
-import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMaxProperty;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequiredElements;
@@ -52,6 +51,7 @@ import org.colorcoding.ibas.purchase.bo.downpaymentrequest.DownPaymentRequest;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
 import org.colorcoding.ibas.receiptpayment.data.Ledgers;
 import org.colorcoding.ibas.receiptpayment.logic.journalentry.JournalEntrySmartContent;
+import org.colorcoding.ibas.receiptpayment.rule.BusinessRuleMaxProperty;
 
 /**
  * 获取-付款
@@ -1535,8 +1535,9 @@ public class Payment extends BusinessObject<Payment>
 				new BusinessRuleDocumentStatus(PROPERTY_DOCUMENTSTATUS, PROPERTY_PAYMENTITEMS,
 						PaymentItem.PROPERTY_LINESTATUS), // 使用集合元素状态
 				new BusinessRuleSumElements(PROPERTY_DOCUMENTTOTAL, PROPERTY_PAYMENTITEMS, PaymentItem.PROPERTY_AMOUNT), // 计算单据总计
-				new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_DOCUMENTTOTAL), // 不能低于0
-				new BusinessRuleMaxProperty<BigDecimal>(PROPERTY_DOCUMENTTOTAL, PROPERTY_CLOSEDAMOUNT), // 已清金额不能大过单据总计
+				// new BusinessRuleMinValue<BigDecimal>(Decimal.ZERO, PROPERTY_DOCUMENTTOTAL),//
+				// 不能低于0
+				new BusinessRuleMaxProperty(PROPERTY_DOCUMENTTOTAL, PROPERTY_CLOSEDAMOUNT), // 已清金额不能大过单据总计
 		};
 	}
 
