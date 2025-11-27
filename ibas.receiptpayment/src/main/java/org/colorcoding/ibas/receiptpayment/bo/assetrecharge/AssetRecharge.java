@@ -1510,7 +1510,7 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 	}
 
 	@Override
-	public void reset() {
+	protected void reset() {
 		super.reset();
 		this.setDocumentStatus(emDocumentStatus.RELEASED);
 		this.getAssetRechargeItems().forEach(c -> c.setLineStatus(emDocumentStatus.RELEASED));
@@ -1696,7 +1696,7 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 					if (line.getLineStatus() == emDocumentStatus.PLANNED) {
 						continue;
 					}
-					// 收款方式科目
+					// 付款方式科目
 					jeContent = new JournalEntrySmartContent(line);
 					jeContent.setCategory(Category.Credit);
 					jeContent.setLedger(Ledgers.LEDGER_PAYMENT_PAYMENT_METHOD_ACCOUNT);

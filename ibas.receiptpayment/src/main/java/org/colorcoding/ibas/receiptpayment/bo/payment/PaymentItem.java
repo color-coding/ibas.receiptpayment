@@ -14,16 +14,16 @@ import org.colorcoding.ibas.bobas.bo.BusinessObject;
 import org.colorcoding.ibas.bobas.bo.IBOTagCanceled;
 import org.colorcoding.ibas.bobas.bo.IBOTagDeleted;
 import org.colorcoding.ibas.bobas.bo.IBOUserFields;
+import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.data.DateTime;
-import org.colorcoding.ibas.bobas.common.Decimals;
 import org.colorcoding.ibas.bobas.data.emBOStatus;
 import org.colorcoding.ibas.bobas.data.emDocumentStatus;
 import org.colorcoding.ibas.bobas.data.emYesNo;
-import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
-import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.db.DbField;
 import org.colorcoding.ibas.bobas.db.DbFieldType;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicContract;
+import org.colorcoding.ibas.bobas.logic.IBusinessLogicsHost;
 import org.colorcoding.ibas.bobas.rule.IBusinessRule;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleMinValue;
 import org.colorcoding.ibas.bobas.rule.common.BusinessRuleRequired;
@@ -31,6 +31,7 @@ import org.colorcoding.ibas.businesspartner.data.emBusinessPartnerType;
 import org.colorcoding.ibas.businesspartner.logic.IBusinessPartnerAssetConsumptionContract;
 import org.colorcoding.ibas.businesspartner.logic.IBusinessPartnerAssetIncreasesContract;
 import org.colorcoding.ibas.materials.rules.BusinessRulePreventCancelDocument;
+import org.colorcoding.ibas.purchase.bo.purchasecreditnote.PurchaseCreditNote;
 import org.colorcoding.ibas.receiptpayment.MyConfiguration;
 import org.colorcoding.ibas.receiptpayment.data.Ledgers;
 import org.colorcoding.ibas.receiptpayment.logic.IPaymentPaidTotalContract;
@@ -1146,32 +1147,32 @@ public class PaymentItem extends BusinessObject<PaymentItem> implements IPayment
 	}
 
 	/**
-	* 属性名称-现金流项目
-	*/
+	 * 属性名称-现金流项目
+	 */
 	private static final String PROPERTY_CASHFLOW_NAME = "CashFlow";
 
 	/**
-	* 现金流项目 属性
-	*/
+	 * 现金流项目 属性
+	 */
 	@DbField(name = "CashFlow", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_CASHFLOW = registerProperty(PROPERTY_CASHFLOW_NAME,
 			Integer.class, MY_CLASS);
 
 	/**
-	* 获取-现金流项目
-	* 
-	* @return 值
-	*/
+	 * 获取-现金流项目
+	 * 
+	 * @return 值
+	 */
 	@XmlElement(name = PROPERTY_CASHFLOW_NAME)
 	public final Integer getCashFlow() {
 		return this.getProperty(PROPERTY_CASHFLOW);
 	}
 
 	/**
-	* 设置-现金流项目
-	* 
-	* @param value 值
-	*/
+	 * 设置-现金流项目
+	 * 
+	 * @param value 值
+	 */
 	public final void setCashFlow(Integer value) {
 		this.setProperty(PROPERTY_CASHFLOW, value);
 	}
@@ -1190,7 +1191,8 @@ public class PaymentItem extends BusinessObject<PaymentItem> implements IPayment
 		return new IBusinessRule[] {
 				// 注册的业务规则
 				new BusinessRuleRequired(PROPERTY_MODE), // 要求有值
-				// new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_AMOUNT), // 不能低于0
+				// new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_AMOUNT),
+				// // 不能低于0
 				new BusinessRuleMinValue<BigDecimal>(Decimals.VALUE_ZERO, PROPERTY_RATE), // 不能低于0
 				new BusinessRulePreventCancelDocument(PROPERTY_CANCELED, PROPERTY_LINESTATUS), // 阻止取消单据
 
@@ -1221,6 +1223,10 @@ public class PaymentItem extends BusinessObject<PaymentItem> implements IPayment
 
 			@Override
 			public BigDecimal getAmount() {
+				if (MyConfiguration.applyVariables(PurchaseCreditNote.BUSINESS_OBJECT_CODE)
+						.equalsIgnoreCase(this.getBaseDocumentType())) {
+					return PaymentItem.this.getAmount().abs();
+				}
 				return PaymentItem.this.getAmount();
 			}
 

@@ -3258,7 +3258,7 @@ declare namespace purchase {
              * 上传文件
              * @param caller 调用者
              */
-            upload(caller: ibas.IUploadFileCaller<ibas.FileData>): void;
+            upload(caller: ibas.IUploadFileCaller<ibas.FileItem>): void;
             /**
              * 下载文件
              * @param caller 调用者
@@ -12992,7 +12992,7 @@ declare namespace purchase {
              * 上传文件
              * @param caller 调用者
              */
-            upload(caller: ibas.IUploadFileCaller<ibas.FileData>): void;
+            upload(caller: ibas.IUploadFileCaller<ibas.FileItem>): void;
             /**
              * 下载文件
              * @param caller 调用者
@@ -16789,6 +16789,27 @@ declare namespace purchase {
             /** 创建服务实例 */
             create(): ibas.IService<ibas.IServiceContract>;
         }
+        /** 单据收款-采购贷项 */
+        class PurchaseCreditNotePaymentService extends ibas.ServiceWithResultApplication<ibas.IView, receiptpayment.app.IDocumentPaymentContract, receiptpayment.bo.IReceiptItem[]> {
+            /** 应用标识 */
+            static APPLICATION_ID: string;
+            /** 应用名称 */
+            static APPLICATION_NAME: string;
+            /** 构造函数 */
+            constructor();
+            /** 注册视图 */
+            protected registerView(): void;
+            /** 视图显示后 */
+            protected viewShowed(): void;
+            protected runService(contract: receiptpayment.app.IDocumentPaymentContract): void;
+        }
+        /** 单据收款-采购贷项 */
+        class PurchaseCreditNotePaymentServiceMapping extends ibas.ServiceMapping {
+            /** 构造函数 */
+            constructor();
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IServiceContract>;
+        }
     }
 }
 /**
@@ -17087,8 +17108,6 @@ declare namespace purchase {
         class Console extends ibas.ModuleConsole {
             /** 构造函数 */
             constructor();
-            /** 创建视图导航 */
-            navigation(): ibas.IViewNavigation;
             /** 初始化 */
             protected registers(): void;
             /** 运行 */

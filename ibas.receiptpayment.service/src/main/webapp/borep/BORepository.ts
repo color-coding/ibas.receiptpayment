@@ -18,7 +18,7 @@ namespace receiptpayment {
              * 上传文件
              * @param caller 调用者
              */
-            upload(caller: ibas.IUploadFileCaller<ibas.FileData>): void {
+            upload(caller: ibas.IUploadFileCaller<ibas.FileItem>): void {
                 if (!this.address.endsWith("/")) { this.address += "/"; }
                 let fileRepository: ibas.FileRepositoryUploadAjax = new ibas.FileRepositoryUploadAjax();
                 fileRepository.address = this.address.replace("/services/rest/data/", "/services/rest/file/");
