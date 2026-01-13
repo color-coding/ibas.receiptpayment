@@ -37,8 +37,7 @@ public class AssetRechargeItems extends BusinessObjects<IAssetRechargeItem, IAss
 	/**
 	 * 构造方法
 	 * 
-	 * @param parent
-	 *            父项对象
+	 * @param parent 父项对象
 	 */
 	public AssetRechargeItems(IAssetRecharge parent) {
 		super(parent);
@@ -67,6 +66,9 @@ public class AssetRechargeItems extends BusinessObjects<IAssetRechargeItem, IAss
 	@Override
 	protected void afterAddItem(IAssetRechargeItem item) {
 		super.afterAddItem(item);
+		if (item instanceof AssetRechargeItem) {
+			((AssetRechargeItem) item).parent = this.getParent();
+		}
 	}
 
 	@Override
