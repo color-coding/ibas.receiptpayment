@@ -522,6 +522,19 @@ namespace receiptpayment {
                                 path: "times",
                                 type: new sap.extension.data.Numeric()
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_assetrecharge_mergingmethod"), visible: false }),
+                            new sap.extension.m.PropertySelect("", {
+                                visible: false,
+                                dataInfo: {
+                                    code: bo.AssetRecharge.BUSINESS_OBJECT_CODE,
+                                },
+                                propertyName: "mergingMethod",
+                            }).bindProperty("bindingValue", {
+                                path: "mergingMethod",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 30
+                                }),
+                            }),
                         ],
                     });
                     return this.page = new sap.extension.m.DataPage("", {

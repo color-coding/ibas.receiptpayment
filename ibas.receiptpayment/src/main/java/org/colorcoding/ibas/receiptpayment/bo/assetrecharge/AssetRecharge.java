@@ -1445,6 +1445,37 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 	}
 
 	/**
+	 * 属性名称-分录合并方式
+	 */
+	private static final String PROPERTY_MERGINGMETHOD_NAME = "MergingMethod";
+
+	/**
+	 * 分录合并方式 属性
+	 */
+	@DbField(name = "MergMethod", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_MERGINGMETHOD = registerProperty(PROPERTY_MERGINGMETHOD_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	 * 获取-分录合并方式
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_MERGINGMETHOD_NAME)
+	public final String getMergingMethod() {
+		return this.getProperty(PROPERTY_MERGINGMETHOD);
+	}
+
+	/**
+	 * 设置-分录合并方式
+	 * 
+	 * @param value 值
+	 */
+	public final void setMergingMethod(String value) {
+		this.setProperty(PROPERTY_MERGINGMETHOD, value);
+	}
+
+	/**
 	 * 属性名称-资产充值-项目
 	 */
 	private static final String PROPERTY_ASSETRECHARGEITEMS_NAME = "AssetRechargeItems";
@@ -1659,6 +1690,11 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 			@Override
 			public String getReference2() {
 				return AssetRecharge.this.getReference2();
+			}
+
+			@Override
+			public String getMergingMethod() {
+				return AssetRecharge.this.getMergingMethod();
 			}
 
 			@Override

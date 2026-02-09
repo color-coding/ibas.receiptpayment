@@ -140,6 +140,9 @@ namespace receiptpayment {
             /** 已清金额 */
             closedAmount: number;
 
+            /** 分录合并方式 */
+            mergingMethod: string;
+
             /** 付款-项目集合 */
             paymentItems: IPaymentItems;
 

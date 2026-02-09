@@ -489,6 +489,16 @@ namespace receiptpayment {
                 this.setProperty(Receipt.PROPERTY_CLOSEDAMOUNT_NAME, value);
             }
 
+            /** 映射的属性名称-分录合并方式 */
+            static PROPERTY_MERGINGMETHOD_NAME: string = "MergingMethod";
+            /** 获取-分录合并方式 */
+            get mergingMethod(): string {
+                return this.getProperty<string>(Receipt.PROPERTY_MERGINGMETHOD_NAME);
+            }
+            /** 设置-分录合并方式 */
+            set mergingMethod(value: string) {
+                this.setProperty(Receipt.PROPERTY_MERGINGMETHOD_NAME, value);
+            }
 
             /** 映射的属性名称-收款-项目集合 */
             static PROPERTY_RECEIPTITEMS_NAME: string = "ReceiptItems";

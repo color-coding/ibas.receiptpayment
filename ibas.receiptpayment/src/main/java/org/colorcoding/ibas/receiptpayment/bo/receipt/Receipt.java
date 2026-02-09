@@ -990,32 +990,32 @@ public class Receipt extends BusinessObject<Receipt>
 	}
 
 	/**
-	* 属性名称-已打印
-	*/
+	 * 属性名称-已打印
+	 */
 	private static final String PROPERTY_PRINTED_NAME = "Printed";
 
 	/**
-	* 已打印 属性
-	*/
+	 * 已打印 属性
+	 */
 	@DbField(name = "Printed", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_PRINTED = registerProperty(PROPERTY_PRINTED_NAME, emYesNo.class,
 			MY_CLASS);
 
 	/**
-	* 获取-已打印
-	* 
-	* @return 值
-	*/
+	 * 获取-已打印
+	 * 
+	 * @return 值
+	 */
 	@XmlElement(name = PROPERTY_PRINTED_NAME)
 	public final emYesNo getPrinted() {
 		return this.getProperty(PROPERTY_PRINTED);
 	}
 
 	/**
-	* 设置-已打印
-	* 
-	* @param value 值
-	*/
+	 * 设置-已打印
+	 * 
+	 * @param value 值
+	 */
 	public final void setPrinted(emYesNo value) {
 		this.setProperty(PROPERTY_PRINTED, value);
 	}
@@ -1478,6 +1478,37 @@ public class Receipt extends BusinessObject<Receipt>
 	}
 
 	/**
+	 * 属性名称-分录合并方式
+	 */
+	private static final String PROPERTY_MERGINGMETHOD_NAME = "MergingMethod";
+
+	/**
+	 * 分录合并方式 属性
+	 */
+	@DbField(name = "MergMethod", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_MERGINGMETHOD = registerProperty(PROPERTY_MERGINGMETHOD_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	 * 获取-分录合并方式
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_MERGINGMETHOD_NAME)
+	public final String getMergingMethod() {
+		return this.getProperty(PROPERTY_MERGINGMETHOD);
+	}
+
+	/**
+	 * 设置-分录合并方式
+	 * 
+	 * @param value 值
+	 */
+	public final void setMergingMethod(String value) {
+		this.setProperty(PROPERTY_MERGINGMETHOD, value);
+	}
+
+	/**
 	 * 属性名称-收款-项目
 	 */
 	private static final String PROPERTY_RECEIPTITEMS_NAME = "ReceiptItems";
@@ -1651,6 +1682,11 @@ public class Receipt extends BusinessObject<Receipt>
 			@Override
 			public String getReference2() {
 				return Receipt.this.getReference2();
+			}
+
+			@Override
+			public String getMergingMethod() {
+				return Receipt.this.getMergingMethod();
 			}
 
 			@Override

@@ -598,6 +598,19 @@ namespace receiptpayment {
                                 path: "closedAmount",
                                 type: new sap.extension.data.Sum()
                             }),
+                            new sap.m.Label("", { text: ibas.i18n.prop("bo_receipt_mergingmethod"), visible: false }),
+                            new sap.extension.m.PropertySelect("", {
+                                visible: false,
+                                dataInfo: {
+                                    code: bo.Receipt.BUSINESS_OBJECT_CODE,
+                                },
+                                propertyName: "mergingMethod",
+                            }).bindProperty("bindingValue", {
+                                path: "mergingMethod",
+                                type: new sap.extension.data.Alphanumeric({
+                                    maxLength: 30
+                                }),
+                            }),
                         ],
                     });
                     return this.page = new sap.extension.m.DataPage("", {
