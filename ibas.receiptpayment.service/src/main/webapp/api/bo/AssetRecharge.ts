@@ -91,6 +91,8 @@ namespace receiptpayment {
             orderType: string;
             /** 分支 */
             branch: string;
+            /** 分录合并方式 */
+            mergingMethod: string;
             /** 资产充值-项目集合 */
             assetRechargeItems: IAssetRechargeItems;
         }

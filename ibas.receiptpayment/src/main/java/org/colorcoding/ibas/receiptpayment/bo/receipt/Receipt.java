@@ -130,7 +130,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 期间编号 属性
 	 */
-	@DbField(name = "DocNum", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "DocNum", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_DOCNUM = registerProperty(PROPERTY_DOCNUM_NAME, String.class,
 			MY_CLASS);
 
@@ -161,7 +161,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 期间 属性
 	 */
-	@DbField(name = "Period", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Period", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_PERIOD = registerProperty(PROPERTY_PERIOD_NAME, Integer.class,
 			MY_CLASS);
 
@@ -192,7 +192,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 取消 属性
 	 */
-	@DbField(name = "Canceled", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Canceled", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_CANCELED = registerProperty(PROPERTY_CANCELED_NAME,
 			emYesNo.class, MY_CLASS);
 
@@ -223,7 +223,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 状态 属性
 	 */
-	@DbField(name = "Status", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Status", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emBOStatus> PROPERTY_STATUS = registerProperty(PROPERTY_STATUS_NAME,
 			emBOStatus.class, MY_CLASS);
 
@@ -254,7 +254,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 审批状态 属性
 	 */
-	@DbField(name = "ApvlStatus", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "ApvlStatus", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emApprovalStatus> PROPERTY_APPROVALSTATUS = registerProperty(
 			PROPERTY_APPROVALSTATUS_NAME, emApprovalStatus.class, MY_CLASS);
 
@@ -285,7 +285,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 单据状态 属性
 	 */
-	@DbField(name = "DocStatus", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "DocStatus", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emDocumentStatus> PROPERTY_DOCUMENTSTATUS = registerProperty(
 			PROPERTY_DOCUMENTSTATUS_NAME, emDocumentStatus.class, MY_CLASS);
 
@@ -316,7 +316,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 对象类型 属性
 	 */
-	@DbField(name = "ObjectCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "ObjectCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_OBJECTCODE = registerProperty(PROPERTY_OBJECTCODE_NAME,
 			String.class, MY_CLASS);
 
@@ -347,7 +347,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 创建日期 属性
 	 */
-	@DbField(name = "CreateDate", type = DbFieldType.DATE, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "CreateDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<DateTime> PROPERTY_CREATEDATE = registerProperty(PROPERTY_CREATEDATE_NAME,
 			DateTime.class, MY_CLASS);
 
@@ -378,7 +378,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 创建时间 属性
 	 */
-	@DbField(name = "CreateTime", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "CreateTime", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Short> PROPERTY_CREATETIME = registerProperty(PROPERTY_CREATETIME_NAME,
 			Short.class, MY_CLASS);
 
@@ -409,7 +409,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 修改日期 属性
 	 */
-	@DbField(name = "UpdateDate", type = DbFieldType.DATE, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "UpdateDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<DateTime> PROPERTY_UPDATEDATE = registerProperty(PROPERTY_UPDATEDATE_NAME,
 			DateTime.class, MY_CLASS);
 
@@ -440,7 +440,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 修改时间 属性
 	 */
-	@DbField(name = "UpdateTime", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "UpdateTime", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Short> PROPERTY_UPDATETIME = registerProperty(PROPERTY_UPDATETIME_NAME,
 			Short.class, MY_CLASS);
 
@@ -471,7 +471,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 版本 属性
 	 */
-	@DbField(name = "LogInst", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "LogInst", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_LOGINST = registerProperty(PROPERTY_LOGINST_NAME, Integer.class,
 			MY_CLASS);
 
@@ -502,7 +502,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 服务系列 属性
 	 */
-	@DbField(name = "Series", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Series", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_SERIES = registerProperty(PROPERTY_SERIES_NAME, Integer.class,
 			MY_CLASS);
 
@@ -533,7 +533,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 数据源 属性
 	 */
-	@DbField(name = "DataSource", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "DataSource", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_DATASOURCE = registerProperty(PROPERTY_DATASOURCE_NAME,
 			String.class, MY_CLASS);
 
@@ -564,7 +564,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 创建用户 属性
 	 */
-	@DbField(name = "Creator", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Creator", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_CREATEUSERSIGN = registerProperty(PROPERTY_CREATEUSERSIGN_NAME,
 			Integer.class, MY_CLASS);
 
@@ -595,7 +595,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 修改用户 属性
 	 */
-	@DbField(name = "Updator", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Updator", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_UPDATEUSERSIGN = registerProperty(PROPERTY_UPDATEUSERSIGN_NAME,
 			Integer.class, MY_CLASS);
 
@@ -626,7 +626,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 创建动作标识 属性
 	 */
-	@DbField(name = "CreateActId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "CreateActId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_CREATEACTIONID = registerProperty(PROPERTY_CREATEACTIONID_NAME,
 			String.class, MY_CLASS);
 
@@ -657,7 +657,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 更新动作标识 属性
 	 */
-	@DbField(name = "UpdateActId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "UpdateActId", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_UPDATEACTIONID = registerProperty(PROPERTY_UPDATEACTIONID_NAME,
 			String.class, MY_CLASS);
 
@@ -688,7 +688,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 数据所有者 属性
 	 */
-	@DbField(name = "DataOwner", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "DataOwner", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_DATAOWNER = registerProperty(PROPERTY_DATAOWNER_NAME,
 			Integer.class, MY_CLASS);
 
@@ -719,7 +719,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 团队成员 属性
 	 */
-	@DbField(name = "TeamMembers", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "TeamMembers", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_TEAMMEMBERS = registerProperty(PROPERTY_TEAMMEMBERS_NAME,
 			String.class, MY_CLASS);
 
@@ -750,7 +750,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 数据所属组织 属性
 	 */
-	@DbField(name = "OrgCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "OrgCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_ORGANIZATION = registerProperty(PROPERTY_ORGANIZATION_NAME,
 			String.class, MY_CLASS);
 
@@ -781,7 +781,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 过账日期 属性
 	 */
-	@DbField(name = "DocDate", type = DbFieldType.DATE, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "DocDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<DateTime> PROPERTY_POSTINGDATE = registerProperty(PROPERTY_POSTINGDATE_NAME,
 			DateTime.class, MY_CLASS);
 
@@ -812,7 +812,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 到期日 属性
 	 */
-	@DbField(name = "DocDueDate", type = DbFieldType.DATE, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "DocDueDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<DateTime> PROPERTY_DELIVERYDATE = registerProperty(PROPERTY_DELIVERYDATE_NAME,
 			DateTime.class, MY_CLASS);
 
@@ -843,7 +843,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 凭证日期 属性
 	 */
-	@DbField(name = "TaxDate", type = DbFieldType.DATE, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "TaxDate", type = DbFieldType.DATE, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<DateTime> PROPERTY_DOCUMENTDATE = registerProperty(PROPERTY_DOCUMENTDATE_NAME,
 			DateTime.class, MY_CLASS);
 
@@ -874,7 +874,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 参考1 属性
 	 */
-	@DbField(name = "Ref1", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Ref1", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_REFERENCE1 = registerProperty(PROPERTY_REFERENCE1_NAME,
 			String.class, MY_CLASS);
 
@@ -905,7 +905,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 参考2 属性
 	 */
-	@DbField(name = "Ref2", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Ref2", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_REFERENCE2 = registerProperty(PROPERTY_REFERENCE2_NAME,
 			String.class, MY_CLASS);
 
@@ -936,7 +936,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 备注 属性
 	 */
-	@DbField(name = "Remarks", type = DbFieldType.MEMO, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Remarks", type = DbFieldType.MEMO, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_REMARKS = registerProperty(PROPERTY_REMARKS_NAME, String.class,
 			MY_CLASS);
 
@@ -967,7 +967,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 已引用 属性
 	 */
-	@DbField(name = "Refed", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Refed", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_REFERENCED = registerProperty(PROPERTY_REFERENCED_NAME,
 			emYesNo.class, MY_CLASS);
 
@@ -1029,7 +1029,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 已删除 属性
 	 */
-	@DbField(name = "Deleted", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Deleted", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emYesNo> PROPERTY_DELETED = registerProperty(PROPERTY_DELETED_NAME, emYesNo.class,
 			MY_CLASS);
 
@@ -1060,7 +1060,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 业务伙伴类型 属性
 	 */
-	@DbField(name = "CardType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "CardType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<emBusinessPartnerType> PROPERTY_BUSINESSPARTNERTYPE = registerProperty(
 			PROPERTY_BUSINESSPARTNERTYPE_NAME, emBusinessPartnerType.class, MY_CLASS);
 
@@ -1091,7 +1091,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 业务伙伴代码 属性
 	 */
-	@DbField(name = "CardCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "CardCode", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_BUSINESSPARTNERCODE = registerProperty(
 			PROPERTY_BUSINESSPARTNERCODE_NAME, String.class, MY_CLASS);
 
@@ -1122,7 +1122,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 业务伙伴名称 属性
 	 */
-	@DbField(name = "CardName", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "CardName", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_BUSINESSPARTNERNAME = registerProperty(
 			PROPERTY_BUSINESSPARTNERNAME_NAME, String.class, MY_CLASS);
 
@@ -1153,7 +1153,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 联系人 属性
 	 */
-	@DbField(name = "CntctCode", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "CntctCode", type = DbFieldType.NUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<Integer> PROPERTY_CONTACTPERSON = registerProperty(PROPERTY_CONTACTPERSON_NAME,
 			Integer.class, MY_CLASS);
 
@@ -1184,7 +1184,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 单据货币 属性
 	 */
-	@DbField(name = "DocCur", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "DocCur", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_DOCUMENTCURRENCY = registerProperty(
 			PROPERTY_DOCUMENTCURRENCY_NAME, String.class, MY_CLASS);
 
@@ -1215,7 +1215,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 单据汇率 属性
 	 */
-	@DbField(name = "DocRate", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "DocRate", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_DOCUMENTRATE = registerProperty(PROPERTY_DOCUMENTRATE_NAME,
 			BigDecimal.class, MY_CLASS);
 
@@ -1273,7 +1273,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 单据总计 属性
 	 */
-	@DbField(name = "DocTotal", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "DocTotal", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_DOCUMENTTOTAL = registerProperty(PROPERTY_DOCUMENTTOTAL_NAME,
 			BigDecimal.class, MY_CLASS);
 
@@ -1331,7 +1331,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 项目代码 属性
 	 */
-	@DbField(name = "Project", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "Project", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_PROJECT = registerProperty(PROPERTY_PROJECT_NAME, String.class,
 			MY_CLASS);
 
@@ -1362,7 +1362,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 单据类型 属性
 	 */
-	@DbField(name = "OrderType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "OrderType", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<String> PROPERTY_ORDERTYPE = registerProperty(PROPERTY_ORDERTYPE_NAME,
 			String.class, MY_CLASS);
 
@@ -1455,7 +1455,7 @@ public class Receipt extends BusinessObject<Receipt>
 	/**
 	 * 已清金额 属性
 	 */
-	@DbField(name = "ClosedAmt", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME, primaryKey = false)
+	@DbField(name = "ClosedAmt", type = DbFieldType.DECIMAL, table = DB_TABLE_NAME)
 	public static final IPropertyInfo<BigDecimal> PROPERTY_CLOSEDAMOUNT = registerProperty(PROPERTY_CLOSEDAMOUNT_NAME,
 			BigDecimal.class, MY_CLASS);
 
@@ -1476,6 +1476,37 @@ public class Receipt extends BusinessObject<Receipt>
 	 */
 	public final void setClosedAmount(BigDecimal value) {
 		this.setProperty(PROPERTY_CLOSEDAMOUNT, value);
+	}
+
+	/**
+	 * 属性名称-分录合并方式
+	 */
+	private static final String PROPERTY_MERGINGMETHOD_NAME = "MergingMethod";
+
+	/**
+	 * 分录合并方式 属性
+	 */
+	@DbField(name = "MergMethod", type = DbFieldType.ALPHANUMERIC, table = DB_TABLE_NAME)
+	public static final IPropertyInfo<String> PROPERTY_MERGINGMETHOD = registerProperty(PROPERTY_MERGINGMETHOD_NAME,
+			String.class, MY_CLASS);
+
+	/**
+	 * 获取-分录合并方式
+	 * 
+	 * @return 值
+	 */
+	@XmlElement(name = PROPERTY_MERGINGMETHOD_NAME)
+	public final String getMergingMethod() {
+		return this.getProperty(PROPERTY_MERGINGMETHOD);
+	}
+
+	/**
+	 * 设置-分录合并方式
+	 * 
+	 * @param value 值
+	 */
+	public final void setMergingMethod(String value) {
+		this.setProperty(PROPERTY_MERGINGMETHOD, value);
 	}
 
 	/**
@@ -1672,6 +1703,11 @@ public class Receipt extends BusinessObject<Receipt>
 			@Override
 			public String getReference2() {
 				return Receipt.this.getReference2();
+			}
+
+			@Override
+			public String getMergingMethod() {
+				return Receipt.this.getMergingMethod();
 			}
 
 			@Override

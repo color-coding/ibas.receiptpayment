@@ -423,17 +423,17 @@ public interface IPayment extends IBODocument {
 	void setReferenced(emYesNo value);
 
 	/**
-	* 获取-已打印
-	* 
-	* @return 值
-	*/
+	 * 获取-已打印
+	 * 
+	 * @return 值
+	 */
 	emYesNo getPrinted();
 
 	/**
-	* 设置-已打印
-	* 
-	* @param value 值
-	*/
+	 * 设置-已打印
+	 * 
+	 * @param value 值
+	 */
 	void setPrinted(emYesNo value);
 
 	/**
@@ -659,6 +659,20 @@ public interface IPayment extends IBODocument {
 	 * @param value 值
 	 */
 	void setClosedAmount(BigDecimal value);
+
+	/**
+	 * 获取-分录合并方式
+	 * 
+	 * @return 值
+	 */
+	String getMergingMethod();
+
+	/**
+	 * 设置-分录合并方式
+	 * 
+	 * @param value 值
+	 */
+	void setMergingMethod(String value);
 
 	/**
 	 * 获取-付款-项目集合
