@@ -64,6 +64,7 @@ namespace receiptpayment {
                                                 that.fireViewEvents(that.chooseAssetRechargeBusinessPartnerEvent, this.itemConditions(selectedItem));
                                             }
                                         },
+                                        criteria: businesspartner.app.conditions.customer.create(),
                                         editable: {
                                             parts: [
                                                 {
@@ -115,6 +116,20 @@ namespace receiptpayment {
                                                 that.fireViewEvents(that.chooseAssetRechargeBusinessPartnerEvent, this.itemConditions(selectedItem));
                                             }
                                         },
+                                        criteria: businesspartner.app.conditions.supplier.create(),
+                                        editable: {
+                                            parts: [
+                                                {
+                                                    path: "isNew",
+                                                },
+                                                {
+                                                    path: "documentStatus",
+                                                }
+                                            ],
+                                            formatter(isNew: boolean, documentStatus: ibas.emDocumentStatus): boolean {
+                                                return isNew === false && documentStatus > ibas.emDocumentStatus.PLANNED ? false : true;
+                                            }
+                                        }
                                     }).bindProperty("bindingValue", {
                                         path: "businessPartnerCode",
                                         type: new sap.extension.data.Alphanumeric({
