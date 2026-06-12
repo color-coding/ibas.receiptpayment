@@ -34,7 +34,7 @@ public abstract class DocumentPaidTotalService<L extends IBusinessLogicContract>
 				IDocumentFetcher<IDocumentPaidTotalOperator> fetcher = DocumentFetcherManager.create()
 						.newFetcher(documentType);
 				if (fetcher == null) {
-					throw new BusinessLogicException(I18N.prop("msg_rp_not_found_document_fether", documentType));
+					throw new BusinessLogicException(I18N.prop("msg_rp_not_found_document_fetcher", documentType));
 				}
 				fetcher.setTransaction(this.getTransaction());
 				document = fetcher.fetch(docEntry);

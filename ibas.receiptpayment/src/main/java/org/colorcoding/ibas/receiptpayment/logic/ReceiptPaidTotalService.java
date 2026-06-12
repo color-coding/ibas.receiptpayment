@@ -43,7 +43,7 @@ public class ReceiptPaidTotalService extends DocumentPaidTotalService<IReceiptPa
 	protected void impact(IReceiptPaidTotalContract contract) {
 		if (contract.getCurrency() != null && !contract.getCurrency().isEmpty()) {
 			if (!contract.getCurrency().equals(this.getBeAffected().getDocumentCurrency())) {
-				throw new BusinessLogicException(I18N.prop("msg_rp_recepit_currency_mismatch", this.getBeAffected()));
+				throw new BusinessLogicException(I18N.prop("msg_rp_receipt_currency_mismatch", this.getBeAffected()));
 			}
 		}
 		if (contract.getAmount() == null || Decimals.isZero(contract.getAmount())) {

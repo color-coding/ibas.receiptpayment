@@ -153,13 +153,13 @@ namespace receiptpayment {
             /** 使用收款交易 */
             private applyReceiptTrading(method: IReceiptTradingMethod, amount: number): void {
                 if (ibas.objects.isNull(method)) {
-                    throw new Error(ibas.i18n.prop("receiptpaymentt_please_choose_paid_method"));
+                    throw new Error(ibas.i18n.prop("receiptpayment_please_choose_paid_method"));
                 }
                 if (typeof amount !== "number" || isNaN(amount)) {
-                    throw new Error(ibas.i18n.prop("receiptpaymentt_please_input_paid_amount"));
+                    throw new Error(ibas.i18n.prop("receiptpayment_please_input_paid_amount"));
                 }
                 if (amount < 0 || (this.target.total !== 0 && amount === 0)) {
-                    throw new Error(ibas.i18n.prop("receiptpaymentt_please_input_paid_amount"));
+                    throw new Error(ibas.i18n.prop("receiptpayment_please_input_paid_amount"));
                 }
                 if (ibas.objects.isNull(this.receiptTradings)) {
                     this.receiptTradings = new ibas.ArrayList<ReceiptTrading>();
@@ -232,7 +232,7 @@ namespace receiptpayment {
             /** 确定 */
             private confirm(orderType?: string): void {
                 if (ibas.objects.isNull(this.receiptTradings) || this.receiptTradings.length === 0) {
-                    throw new Error(ibas.i18n.prop("receiptpaymentt_please_paid"));
+                    throw new Error(ibas.i18n.prop("receiptpayment_please_paid"));
                 }
                 let receipt: bo.Receipt = new bo.Receipt();
                 receipt.businessPartnerType = this.businessPartner.type;

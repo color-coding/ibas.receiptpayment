@@ -134,7 +134,7 @@ namespace receiptpayment {
                                         content: [
                                             new sap.m.Label("", {
                                                 showColon: true,
-                                                text: ibas.i18n.prop("receiptpaymentt_choosable_paid_method"),
+                                                text: ibas.i18n.prop("receiptpayment_choosable_paid_method"),
                                             }).addStyleClass("sapUiTinyMarginBegin"),
                                             new sap.m.ToolbarSpacer(),
                                             new sap.m.Label("", {
@@ -179,7 +179,7 @@ namespace receiptpayment {
                                             this.paid_input = new sap.m.Input("", {
                                                 width: "12rem",
                                                 textAlign: sap.ui.core.TextAlign.Right,
-                                                placeholder: ibas.i18n.prop("receiptpaymentt_please_input_paid_amount"),
+                                                placeholder: ibas.i18n.prop("receiptpayment_please_input_paid_amount"),
                                             }),
                                             new sap.m.ToolbarSeparator(""),
                                             this.applyButton = new sap.m.Button("", {
@@ -338,7 +338,7 @@ namespace receiptpayment {
                         content: [
                             new sap.m.Label("", {
                                 showColon: true,
-                                text: ibas.i18n.prop("receiptpaymentt_choosed_paid_method"),
+                                text: ibas.i18n.prop("receiptpayment_choosed_paid_method"),
                             }).addStyleClass("sapUiTinyMarginBegin"),
                         ]
                     }));

@@ -246,7 +246,7 @@ namespace receiptpayment {
                     condition.value = businesspartner.bo.emBusinessPartnerType.CUSTOMER.toString();
                     condition = rpCriteria.conditions.create();
                     condition.alias = bo.Receipt.PROPERTY_DOCUMENTTOTAL_NAME;
-                    condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                    condition.operation = ibas.emConditionOperation.GREATER_THAN;
                     condition.comparedAlias = bo.Receipt.PROPERTY_CLOSEDAMOUNT_NAME;
                     let boRepository: bo.BORepositoryReceiptPayment = new bo.BORepositoryReceiptPayment();
                     boRepository.fetchReceipt({
@@ -270,7 +270,7 @@ namespace receiptpayment {
                                 }
                                 condition = rpCriteria.conditions.create();
                                 condition.alias = sales.bo.SalesInvoice.PROPERTY_DOCUMENTTOTAL_NAME;
-                                condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                                condition.operation = ibas.emConditionOperation.GREATER_THAN;
                                 condition.comparedAlias = sales.bo.SalesInvoice.PROPERTY_PAIDTOTAL_NAME;
                                 let boRepository: sales.bo.BORepositorySales = new sales.bo.BORepositorySales();
                                 boRepository.fetchSalesInvoice({
@@ -335,7 +335,7 @@ namespace receiptpayment {
                     condition.value = businesspartner.bo.emBusinessPartnerType.CUSTOMER.toString();
                     condition = rpCriteria.conditions.create();
                     condition.alias = bo.Receipt.PROPERTY_DOCUMENTTOTAL_NAME;
-                    condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                    condition.operation = ibas.emConditionOperation.GREATER_THAN;
                     condition.comparedAlias = bo.Receipt.PROPERTY_CLOSEDAMOUNT_NAME;
                     this.busy(true);
                     let boRepository: bo.BORepositoryReceiptPayment = new bo.BORepositoryReceiptPayment();
@@ -360,7 +360,7 @@ namespace receiptpayment {
                                 }
                                 condition = rpCriteria.conditions.create();
                                 condition.alias = purchase.bo.PurchaseInvoice.PROPERTY_DOCUMENTTOTAL_NAME;
-                                condition.operation = ibas.emConditionOperation.GRATER_THAN;
+                                condition.operation = ibas.emConditionOperation.GREATER_THAN;
                                 condition.comparedAlias = purchase.bo.PurchaseInvoice.PROPERTY_PAIDTOTAL_NAME;
                                 let boRepository: purchase.bo.BORepositoryPurchase = new purchase.bo.BORepositoryPurchase();
                                 boRepository.fetchPurchaseInvoice({
@@ -468,7 +468,7 @@ namespace receiptpayment {
                                 throw new Error(opRslt.message);
                             }
                             this.messages(ibas.emMessageType.SUCCESS,
-                                ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_sucessful"));
+                                ibas.i18n.prop("shell_data_save") + ibas.i18n.prop("shell_successful"));
                             this.view.showResults(opRslt.resultObjects);
                         } catch (error) {
                             this.messages(error);

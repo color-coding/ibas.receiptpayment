@@ -157,7 +157,7 @@ namespace receiptpayment {
                                     }
                                     that.viewData = opRslt.resultObjects.firstOrDefault();
                                     that.messages(ibas.emMessageType.SUCCESS,
-                                        ibas.i18n.prop("shell_data_cancel") + ibas.i18n.prop("shell_sucessful"));
+                                        ibas.i18n.prop("shell_data_cancel") + ibas.i18n.prop("shell_successful"));
                                     that.viewShowed();
                                 } catch (error) {
                                     that.messages(ibas.emMessageType.ERROR, error.message);

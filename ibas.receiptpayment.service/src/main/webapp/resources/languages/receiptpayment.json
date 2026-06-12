@@ -42,12 +42,12 @@
     "receiptpayment_unknown_supplier": "Unknown supplier [{0}]",
     "receiptpayment_paid": "Paid",
     "receiptpayment_discount": "Discount ~{0}",
-    "receiptpaymentt_please_choose_paid_method": "Please choose payment method",
-    "receiptpaymentt_not_found_paid_method": "Payment method not found",
-    "receiptpaymentt_please_input_paid_amount": "Please input payment amount",
-    "receiptpaymentt_please_paid": "Please proceed with payment",
-    "receiptpaymentt_choosable_paid_method": "Selectable payment methods",
-    "receiptpaymentt_choosed_paid_method": "Selected payment method",
+    "receiptpayment_please_choose_paid_method": "Please choose payment method",
+    "receiptpayment_not_found_paid_method": "Payment method not found",
+    "receiptpayment_please_input_paid_amount": "Please input payment amount",
+    "receiptpayment_please_paid": "Please proceed with payment",
+    "receiptpayment_choosable_paid_method": "Selectable payment methods",
+    "receiptpayment_choosed_paid_method": "Selected payment method",
     "receiptpayment_unpaid_amount": "Still need to pay [{0}]",
     "receiptpayment_more_paid_amount": "Overpaid by [{0}]",
     "receiptpayment_exists_paid_method": "Payment method already exists [{0}]",
@@ -75,5 +75,5 @@
     "receiptpayment_guide_reconciled": "Reconciled",
     "receiptpayment_guide_exceeding_available_range": "{0}, amount exceeds available range",
     "receiptpayment_guide_reconciliation_amount_not_zero": "Total reconciliation amount is not zero",
-    "receiptpayment_closing_delimiter": "---- End ----"
+    "receiptpayment_payment_completed": "Payment completed, payment document [{0}] generated"
 }
