@@ -8,9 +8,9 @@ import org.colorcoding.ibas.bobas.common.Criteria;
 import org.colorcoding.ibas.bobas.common.ICondition;
 import org.colorcoding.ibas.bobas.common.IOperationResult;
 import org.colorcoding.ibas.bobas.common.Strings;
+import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.bobas.message.Logger;
 import org.colorcoding.ibas.bobas.message.MessageLevel;
-import org.colorcoding.ibas.bobas.logic.BusinessLogicException;
 import org.colorcoding.ibas.businesspartner.bo.businesspartnerasset.BusinessPartnerAsset;
 import org.colorcoding.ibas.businesspartner.bo.businesspartnerasset.IBusinessPartnerAsset;
 import org.colorcoding.ibas.businesspartner.repository.BORepositoryBusinessPartner;
@@ -41,7 +41,7 @@ public class JournalEntrySmartContent
 					condition.setAlias(BusinessPartnerAsset.PROPERTY_CODE.getName());
 					condition.setValue(tradeId);
 					try (BORepositoryBusinessPartner boRepository = new BORepositoryBusinessPartner()) {
-						boRepository.setTransaction(this.getService().getTransaction());
+						boRepository.setTransaction(this.getTransaction());
 						IOperationResult<IBusinessPartnerAsset> operationResult = boRepository
 								.fetchBusinessPartnerAsset(criteria);
 						if (operationResult.getError() != null) {
@@ -59,7 +59,7 @@ public class JournalEntrySmartContent
 								condition.setAlias(BankAccount.PROPERTY_CODE.getName());
 								condition.setValue(item.getBankAccount());
 								try (BORepositoryAccounting acRepository = new BORepositoryAccounting()) {
-									acRepository.setTransaction(this.getService().getTransaction());
+									acRepository.setTransaction(this.getTransaction());
 									IOperationResult<IBankAccount> baOpRslt = acRepository.fetchBankAccount(criteria);
 									if (baOpRslt.getError() != null) {
 										throw new BusinessLogicException(baOpRslt.getError());
@@ -83,7 +83,7 @@ public class JournalEntrySmartContent
 					condition.setAlias(BankAccount.PROPERTY_CODE.getName());
 					condition.setValue(tradeId);
 					try (BORepositoryAccounting acRepository = new BORepositoryAccounting()) {
-						acRepository.setTransaction(this.getService().getTransaction());
+						acRepository.setTransaction(this.getTransaction());
 						IOperationResult<IBankAccount> baOpRslt = acRepository.fetchBankAccount(criteria);
 						if (baOpRslt.getError() != null) {
 							throw new BusinessLogicException(baOpRslt.getError());
