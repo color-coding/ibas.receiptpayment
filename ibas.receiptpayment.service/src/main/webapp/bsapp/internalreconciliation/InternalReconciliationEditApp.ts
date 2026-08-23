@@ -8,7 +8,7 @@
 namespace receiptpayment {
     export namespace app {
         /** 编辑应用-内部对账 */
-        export class InternalReconciliationEditApp extends ibas.BOEditApplication<IInternalReconciliationEditView, businesspartner.bo.InternalReconciliation> {
+        export class InternalReconciliationEditApp extends ibas.BOEditService<IInternalReconciliationEditView, businesspartner.bo.InternalReconciliation> {
             /** 应用标识 */
             static APPLICATION_ID: string = "902a1e5f-3298-4c26-8dcb-e7739f6a948c";
             /** 应用名称 */
@@ -217,6 +217,21 @@ namespace receiptpayment {
             removeInternalReconciliationLineEvent: Function;
             /** 显示数据-内部对账-行 */
             showInternalReconciliationLines(datas: businesspartner.bo.InternalReconciliationLine[]): void;
+        }
+        /** InternalReconciliation编辑服务映射 */
+        export class InternalReconciliationEditServiceMapping extends ibas.BOEditServiceMapping {
+            /** 构造函数 */
+            constructor() {
+                super();
+                this.id = InternalReconciliationEditApp.APPLICATION_ID;
+                this.name = InternalReconciliationEditApp.APPLICATION_NAME;
+                this.boCode = InternalReconciliationEditApp.BUSINESS_OBJECT_CODE;
+                this.description = ibas.i18n.prop(this.name);
+            }
+            /** 创建服务实例 */
+            create(): ibas.IService<ibas.IBOEditServiceCaller<businesspartner.bo.InternalReconciliation>> {
+                return new InternalReconciliationEditApp();
+            }
         }
     }
 }

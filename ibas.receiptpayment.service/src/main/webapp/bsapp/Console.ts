@@ -31,6 +31,7 @@ namespace receiptpayment {
                 this.register(new AssetRechargeFunc());
                 this.register(new InternalReconciliationFunc());
                 // 注册服务应用
+                this.register(new InternalReconciliationEditServiceMapping());
                 this.register(new PaymentChooseServiceMapping());
                 this.register(new PaymentLinkServiceMapping());
                 this.register(new PaymentEditServiceMapping());
