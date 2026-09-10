@@ -3,6 +3,7 @@ package org.colorcoding.ibas.receiptpayment.rule;
 import java.math.BigDecimal;
 import java.util.Map;
 
+import org.colorcoding.ibas.bobas.bo.BOIdentifierBuilder;
 import org.colorcoding.ibas.bobas.core.IPropertyInfo;
 import org.colorcoding.ibas.bobas.i18n.I18N;
 
@@ -33,13 +34,15 @@ public class BusinessRuleMaxProperty
 				continue;
 			}
 			if (entry.getValue() == null) {
-				throw new Exception(I18N.prop("msg_bobas_business_rule_required_error", entry.getKey().getName()));
+				throw new Exception(I18N.prop("msg_bobas_business_rule_required_error",
+						BOIdentifierBuilder.create(context.getSource()).property(entry.getKey()).build()));
 			}
 			value = (BigDecimal) entry.getValue();
 			value = value.abs();
 			if (maxValue.compareTo(value) < 0) {
-				throw new Exception(I18N.prop("msg_bobas_business_rule_max_property_error", entry.getKey().getName(),
-						this.getMaxProperty().getName()));
+				throw new Exception(I18N.prop("msg_bobas_business_rule_max_property_error",
+						BOIdentifierBuilder.create(context.getSource()).property(entry.getKey()).build(),
+						BOIdentifierBuilder.create(context.getSource()).property(this.getMaxProperty()).build()));
 			}
 		}
 	}
