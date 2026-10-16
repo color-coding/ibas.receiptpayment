@@ -1717,6 +1717,9 @@ public class Receipt extends BusinessObject<Receipt>
 				List<JournalEntryContent> jeContents = new ArrayList<>();
 				String DownPaymentRequestCode = MyConfiguration.applyVariables(DownPaymentRequest.BUSINESS_OBJECT_CODE);
 				for (IReceiptItem line : Receipt.this.getReceiptItems()) {
+					if (line.isDeleted()) {
+						continue;
+					}
 					if (line.getDeleted() == emYesNo.YES) {
 						continue;
 					}

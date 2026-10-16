@@ -1724,6 +1724,9 @@ public class AssetRecharge extends BusinessObject<AssetRecharge>
 				JournalEntryContent jeContent;
 				List<JournalEntryContent> jeContents = new ArrayList<>();
 				for (IAssetRechargeItem line : AssetRecharge.this.getAssetRechargeItems()) {
+					if (line.isDeleted()) {
+						continue;
+					}
 					if (line.getDeleted() == emYesNo.YES) {
 						continue;
 					}

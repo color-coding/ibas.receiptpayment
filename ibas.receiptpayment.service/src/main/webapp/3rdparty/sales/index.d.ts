@@ -14399,7 +14399,9 @@ declare namespace sales {
             chooseSalesQuoteItemMaterialCatalogEvent: Function;
             /** 选择销售报价单位事件 */
             chooseSalesQuoteItemUnitEvent: Function;
+            /** 选择销售报价-行物料批次事件 */
             chooseSalesQuoteItemMaterialBatchEvent: Function;
+            /** 选择销售报价-行物料序列事件 */
             chooseSalesQuoteItemMaterialSerialEvent: Function;
             /** 选择客户合同 */
             chooseCustomerAgreementsEvent: Function;
