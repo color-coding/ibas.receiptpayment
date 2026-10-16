@@ -1717,6 +1717,9 @@ public class Payment extends BusinessObject<Payment>
 				List<JournalEntryContent> jeContents = new ArrayList<>();
 				String DownPaymentRequestCode = MyConfiguration.applyVariables(DownPaymentRequest.BUSINESS_OBJECT_CODE);
 				for (IPaymentItem line : Payment.this.getPaymentItems()) {
+					if (line.isDeleted()) {
+						continue;
+					}
 					if (line.getDeleted() == emYesNo.YES) {
 						continue;
 					}
